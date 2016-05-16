@@ -18,6 +18,10 @@ which is inferior to the current one. BION 0.5 is licensed by
 the GNU General Public License version 3, but we discourage its 
 use. The current one will soon be available at http://bionsoftware.com
 
+#### Reference data
+
+RDP version 11.1 and Silva version 115 were used. 
+
 #### Results 
 
 The path to side-by-side comparison of PCR and RT species are,
