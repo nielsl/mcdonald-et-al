@@ -1,0 +1,65 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+
+use Registry::Check;
+
+my ( $prog_name, $usage, @msgs, $signature, $reg_dir );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2008.
+
+Perform checks that all registry items are okay.
+The registry is a collection of files located in 
+
+$Common::Config::conf_dir/*
+
+Usage:
+
+$prog_name all 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> RUN CHECK <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo_bold( "\nChecking registry:\n" );
+
+@msgs = Registry::Check->check_all();
+
+&echo_bold( "Finished\n\n" );
+
+if ( @msgs )
+{
+    $reg_dir = $Common::Config::conf_dir;
+    
+    unshift @msgs, &echo_bold( "REGISTRY PROBLEMS" );
+    push @msgs, "", [ "Help", "Please correct the registry files in" ];
+    push @msgs, [ "", "$reg_dir" ];
+
+    &echo_messages( \@msgs );
+    &echo( "\n" );
+}
+else
+{
+    &echo_messages( 
+         [["OK", "No registry problems"]],
+         { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+__END__

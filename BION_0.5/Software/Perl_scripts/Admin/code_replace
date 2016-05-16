@@ -1,0 +1,174 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use English;
+use File::Find;
+use Getopt::Long;
+
+use Common::Config;
+use Common::Tables;
+use Common::Names;
+use Common::File;
+use Common::Messages;
+
+my ( $prog_name, $usage, @dirs, $cl_old, $cl_new, $cl_readonly, 
+     $output, $signature );
+
+our ( @output );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+Substitutes a given string with another throughout code files
+in the directories listed in Config/code_dirs. Command line 
+options are,
+
+       --old    [ string to be replaced ]
+       --new    [ new string to replace the old ]
+  --readonly    [ D = on; no replacement, just messages ]
+
+Usage examples,
+
+$prog_name --old 'Network::' --new 'Remote::' 
+$prog_name --old 'Network::' --new 'Remote::' --noreadonly
+
+The first example prints the lines that would be substituted
+with indication of what would be changed to what. The second 
+example does the substitution; one must explicitly ask for it.
+
+It is of course a good idea not to do the substitution until
+you have seen what and where the changes would be. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+$cl_old = "";
+$cl_new = "";
+$cl_readonly = 1;
+
+if ( not GetOptions(
+                    "old=s" => \$cl_old,
+                    "new=s" => \$cl_new,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;   # Do better handling
+}
+
+if ( not $cl_old )
+{
+    &user_error( qq (Please specify a string to be replaced.), "MISSING INPUT", 1 );
+    exit 0;
+}
+
+if ( not $cl_new )
+{
+    &user_error( qq (Please specify a string to replace the old.), "MISSING INPUT", 1 );
+    exit 0;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$cl_old = quotemeta $cl_old;
+
+@dirs = &Common::Config::get_code_dirs();
+
+&File::Find::find( \&for_each_file, @dirs );
+
+if ( @output )
+{
+    $output = &Common::Tables::render_ascii( \@output );
+    &echo( "$output\n" );
+}
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<
+
+sub for_each_file
+{
+    my ( $name, $path, @old_lines, @new_lines, $line, $line_num, $match, 
+         $display, $count, $status, $q_new );
+
+    $name = $_;
+    $path = $File::Find::name;
+    
+    return if -l $path or not -f $path;
+
+    $line_num = 0;
+    
+    @old_lines = split "\n", ${ &Common::File::read_file( $path ) };
+    @new_lines = ();
+
+    $count = 0;
+    
+    foreach $line ( @old_lines )
+    {
+        $line_num++;
+        
+        if ( $line =~ /$cl_old/ )
+        {
+            $match = $MATCH;
+            
+            if ( $line =~ s/$cl_old/$cl_new/g )
+            {
+                $count++;
+                
+                $q_new = quotemeta $cl_new;
+                
+                if ( $line =~ /$q_new/ ) 
+                {
+                    $display = $PREMATCH
+                        . &echo_bold( "/ " )
+                        . &echo_info( $match ) 
+                        . " -> "
+                        . &echo_info( $MATCH )
+                        . &echo_bold( " /" )
+                        . $POSTMATCH;
+                    
+                    chomp $display;
+                    
+                    if ( $cl_readonly ) {
+                        $status = {        "value" => "Not done", "color" => "bold yellow" };
+                    } else {
+                        $status = { "value" => "Done", "color" => "bold green" };
+                    }
+                    
+                    my $filepos = { 
+                        "value" => "$name, $line_num: ",
+                        "align" => "right",
+                    };
+                    
+                    my $match = {
+                        "value" => $display,
+                        "align" => "left",
+                    };
+                    
+                    push @output, [ $status, $filepos, $match ];
+                }
+            }
+        }
+        
+        push @new_lines, "$line\n" if not $cl_readonly;
+    }
+    
+    if ( not $cl_readonly and $count > 0 )
+    {
+        &Common::File::delete_file( $path );
+        &Common::File::write_file( $path, \@new_lines );
+    }
+}
+
+__END__

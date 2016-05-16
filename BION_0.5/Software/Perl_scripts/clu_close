@@ -1,0 +1,60 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Cluster;
+
+my ( $prog_name, $usage, $signature, $acctfile, $acctpath, $args );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$acctpath = &Common::Cluster::accts_file;
+$acctfile = File::Basename::basename( $acctpath );
+
+$usage = qq (
+Program $prog_name, January 2009.
+
+Closes each slave account for password-less SSH access. This is done
+by removing the public SSH keys on the slave nodes and updating their
+status on the master side.
+
+  [ --slaves name ]   Slave configuration file - OPTIONAL ($acctfile)
+  [ --filter expr ]   Slave name filter expression - OPTIONAL (none)
+ [ --timeout secs ]   Connection timeouts - OPTIONAL (5 seconds)
+       [ --silent ]   Suppress progress messages - OPTIONAL (off)
+
+$signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "slaves=s" => $acctpath,
+        "filter=s" => undef,
+        "timeout=i" => 5,
+        "silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> CLOSE SLAVES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Cluster::close_slaves(
+    undef,
+    {
+        "acctfile" => $args->slaves,
+        "acctexpr" => $args->filter,
+        "timeout" => $args->timeout,
+        "silent" => $args->silent,
+    });
+
+&echo( "\n" );
+
+__END__

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xTableCursor'>
+
+<sources>
+  <src><sym>xTableCursor</sym><file>xtablecursor.js</file><note><![CDATA[The default implementation.]]></note></src>
+</sources>
+
+<copyright>Copyright 2004-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Table</grp>
+</groups>
+<type>Object</type>
+
+<description><![CDATA[Mouseover highlight on rows and cells.]]></description>
+
+<syntax>new xTableCursor(tblId, rowStyle, cellStyle)</syntax>
+
+<parameters>
+  <par>
+    <name>tblId</name>
+    <note><![CDATA[string, table id]]></note>
+  </par>
+  <par>
+    <name>rowStyle</name>
+    <note><![CDATA[string, row style]]></note>
+  </par>
+  <par>
+    <name>cellStyle</name>
+    <note><![CDATA[string, cell style]]></note>
+  </par>
+</parameters>
+
+<properties>
+</properties>
+
+<dependencies>
+  <dep>xTableIterate</dep>
+  <dep>xAddClass</dep>
+  <dep>xRemoveClass</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/x/examples/xtablecursor.html</url>
+    <note><![CDATA[Demo for this object.]]></note>
+  </demo>
+</demos>
+
+<revisions>
+  <rev>
+    <num>3</num><date>21Feb07</date><author>mf</author>
+    <note><![CDATA[Re-implemented to support Stephen Hulme's idea using xAddClass and xRemoveClass. xTableCursor2 has been removed from X.]]></note>
+  </rev>
+  <rev>
+    <num>2</num><date>6Apr05</date><author>mf</author>
+    <note><![CDATA[Added missing semicolon to support XC compression]]></note>
+  </rev>
+  <rev>
+    <num>1</num><date>30Jul04</date><author>mf</author>
+    <note><![CDATA[Initial release]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

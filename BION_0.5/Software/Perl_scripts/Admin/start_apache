@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Admin;
+
+my ( $prog_name, $args, $usage, $signature, $note, $port );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$note = &echo_info("NOTE");
+$port = $Common::Config::http_port;
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Starts in either CGI or mod_perl mode, and optionally on a 
+given port. Command line options (defaults in parantheses),
+
+      --mode   CGI or modperl mode (cgi)
+      --port   Port number ($port)
+      --home   Home directory ($Common::Config::www_dir)
+      --dirs   Directory listings or not (off)
+
+Examples,
+
+1\) $prog_name --mode=cgi --port=$port
+2\) $prog_name --mode=modperl --home ~/data
+
+Example 1 starts Apache in CGI mode on port $port, and 2 starts
+it in modperl mode on the default port but a special home 
+directory.
+
+$note: port numbers less than 1024 require administrator rights
+and will not work at present. And please do not start Apache 
+multiple times on different ports, as there is only one 
+configuration file at present. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>> GET COMMAND LINE <<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "mode=s" => "cgi",
+        "port=s" => $port,
+        "home=s" => undef,
+        "dirs!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>> START <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" );
+&Common::Admin::start_apache( $args );
+&echo( "\n" );

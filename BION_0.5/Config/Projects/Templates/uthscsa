@@ -1,0 +1,75 @@
+
+<description>
+    title = RNP Databases at Univ. Texas San Antonio
+    keywords = RNP, Bioinformatics, SRP, tmRNP, free download
+</description>
+
+<header>
+    title = RNP Databases at Univ. Texas San Antonio
+    header_style = header_bar_blue
+    footer_style = footer_bar_blue
+    logo_image = rnplogo.gif
+    logo_text = UTHSCSA
+    logo_link = http://rnp.uthscsa.edu
+    home_link = 1
+</header>
+
+<style>
+</style>
+
+projpath = UTHSCSA
+
+datasets = rna_ali_srpdb
+datasets = prot_ali_srpdb
+datasets = rna_ali_tmrdb
+datasets = prot_ali_tmrdb
+datasets = rna_ali_telomdb
+datasets = rna_ali_rfam
+# datasets = rna_pat_mirna
+# datasets = orgs_taxa_ncbi
+datasets = rna_seq_mirbase
+
+datasets_other = dna_seq_genbank
+datasets_other = dna_seq_embl_local
+datasets_other = prot_seq_ncbi
+datasets_other = prot_seq_refseq
+
+# hide_methods = mir_blast
+# hide_methods = simrank
+
+<defaults>
+    def_menu_1 = srp
+    def_menu_2 = srprna
+    def_menu_3 = 
+    def_request = 
+    def_viewer = array_viewer
+    def_input = rna_ali_srpdb:srprna
+</defaults>
+
+<navigation>
+    name = orgs
+    label = Organisms
+    dbnames = orgs_taxa_ncbi
+</navigation>
+<navigation>
+    name = srp
+    label = SRP
+    dbnames = rna_ali_srpdb
+    dbnames = prot_ali_srpdb
+</navigation>
+<navigation>
+    name = tmrnp
+    label = tmRNP
+    dbnames = rna_ali_tmrdb
+    dbnames = prot_ali_tmrdb
+</navigation>
+<navigation>
+    name = telom
+    label = Telomerase
+    dbnames = rna_ali_telomdb
+</navigation>
+<navigation>
+    name = rfam
+    label = Rfam
+    dbnames = rna_ali_rfam
+</navigation>

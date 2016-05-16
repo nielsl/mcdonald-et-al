@@ -1,0 +1,107 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Config;
+
+use Registry::Args;
+use Registry::Get;
+
+use DNA::Download;
+use DNA::Import;
+
+my ( $prog_name, $signature, $usage, $db, $cl_args, $args, $msgs );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, June 2007.
+
+Downloads and/or installs the EMBL nucleotide library as a 
+space efficient collection of small compressed files and 
+directories. The data being compressed, access is slower than 
+database but much faster than network. The script can be run 
+repeatedly, perhaps as batch job, and will keep a local 
+installation current. Options:
+
+   --download   [ D = on; activates the download part ]
+     --import   [ D = on; activates the import part ]
+
+    --inplace   [ D = off; deletes old version before new is built ]
+    --keepsrc   [ D = on; avoids deleting downloaded sources ]
+   --readonly   [ D = off; messages, but no download ]
+
+With --nokeepsrc the existing install is deleted before a new 
+version is downloaded, to save space. Analyses will then fetch
+sequences remotely and thus work slower while the update is in
+progress.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+$cl_args = {
+    "download" => 1,
+    "import" => 1,
+    "inplace" => 0,
+    "keepsrc" => 1,
+    "readonly" => 0,
+    "headers" => 1,
+};
+
+if ( not GetOptions(
+         "download!" => \$cl_args->{"download"},
+         "import!" => \$cl_args->{"import"},
+         "inplace!" => \$cl_args->{"inplace"},
+         "keepsrc!" => \$cl_args->{"keepsrc"},
+         "headers!" => \$cl_args->{"headers"},
+         "readonly!" => \$cl_args->{"readonly"},
+     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+$db = Registry::Get->dataset("dna_seq_embl_local");
+
+&echo_bold( "Installing ". $db->label .":\n" ) if $cl_args->{"headers"};
+
+if ( $cl_args->{"download"} )
+{
+    DNA::Download->download_embl({
+        "inplace" => $cl_args->{"inplace"},
+    });
+}
+
+if ( $cl_args->{"import"} )
+{
+    DNA::Import->import_embl_split({
+        "inplace" => $cl_args->{"inplace"},
+        "keepsrc" => $cl_args->{"keepsrc"},
+    });
+}
+
+&echo_bold( "Done\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+# >>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

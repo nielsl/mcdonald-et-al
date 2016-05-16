@@ -1,0 +1,166 @@
+
+KYOTO CABINET FILE HASH TUNING, author description
+--------------------------------------------------
+
+Tuning the File Hash Database
+
+The file hash database (HashDB) is file database of hash table. The 
+following tuning methods are provided.
+
+    * tune_alignment : sets the power of the alignment of record size.
+    * tune_fbp : sets the power of the capacity of the free block pool.
+    * tune_options : sets the optional features.
+    * tune_buckets : sets the number of buckets of the hash table.
+    * tune_map : sets the size of the internal memory-mapped region.
+    * tune_defrag : sets the unit step number of auto defragmentation.
+    * tune_compressor : set the data compressor.
+
+The default alignment power is 3, which means the address of each
+record is aligned to a multiple of 8 (1<<3) bytes. If you trust that
+the database is constructed at a time and not updated often, call
+`tune_alignment' to set the alignment power 0, which means 1 (1<<0)
+byte. If the typical size of each record is expected to be larger than
+1KB, tune the alignment 8 or more.
+
+The tuning of the free block pool by `tune_fbp' does not have to be
+modified in most cases. The default is 10, which means the capacity of
+the free block pool is 1024 (1<<10).
+
+The optional features by `tune_options' is useful to reduce the size
+of the database file at the expense of scalability or time
+efficiency. If `HashDB::TSMALL' is specified, the width of record
+addressing is reduced from 6 bytes to 4 bytes. As the result, the
+footprint for each record is reduced from 16 bytes to 12
+bytes. However, it limits the maximum size of the database file up to
+16GB (2GB multiplied by the alignment). If `HashDB::TLINEAR' is
+specified, the data structure of the collision chain of hash table is
+changed from binary tree to linear linked list. In that case, the
+footprint of each record is reduced from 16 bytes to 10 bytes although
+the time efficiency becomes sensitive to the number of the hash
+buckets. If `HashDB::TCOMPRESS' is specified, the value of each record
+is compressed implicitly when stored in the file. If the value is
+bigger than 1KB or more, compression is effective.
+
+The default tuning of the bucket number is about one million. If you
+intend to store more records, call `tune_buckets' to set the bucket
+number. The suggested ratio of the bucket number is the twice of the
+total number of records and it is okay from 100% to 400%. If the ratio
+decreases smaller than 100%, the time efficiency will decrease
+gradually. If you set the bucket number, setting the `HashDB::TLINEAR'
+option is recommended to improve time and space efficiency.
+
+The default tuning of the size of the internal memory-mapped region is
+64MB. If the database size is expected to be larger than 64MB, call
+`tune_map to set the map size larger than the expected size of the
+database. Although the capacity of the RAM on the machine limits the
+map size, increasing the map size is effective to improve performance.
+
+By default, auto defragmentation is disabled. If the existing records
+in the database are modified (removed or modified with varying the
+size), fragmentation of available regions proceeds gradually. In that
+case, call `tune_defrag' to enable auto defragmentation and set the
+unit step number. The suggested unit step number is 8, which means
+that a set of defragmentation operations is performed each 8 updating
+operations. The more the unit is, space efficiency becomes higher but
+time efficiency becomes lower.
+
+The default compression algorithm of the `HashDB::TCOMPRESS' option is
+"Deflate" by ZLIB. If you want to use another algorithm, call
+`tune_compressor' to set a functor which implements compression and
+decompression functions.
+
+If you intend to store ten thousands of records and reduce the
+database size as possible, the following tuning is suggested for
+example.
+
+db.tune_alignment(0);
+db.tune_options(HashDB::TSMALL | HashDB::TLINEAR);
+db.tune_buckets(10LL * 1000);
+db.tune_defrag(8);
+db.open(...);
+
+If you have a monster machine with 512GB RAM and intend to store ten
+billion records and improve time efficiency as possible, the following
+tuning is suggested for example.
+
+db.tune_options(HashDB::TLINEAR);
+db.tune_buckets(20LL * 1000 * 1000 * 1000);
+db.tune_map(300LL << 30);
+db.open(...);
+
+All tuning methods must be called before the database is
+opened. Because the settings of `tune_alignment', `tune_fbp',
+`tune_options', and `tune_buckets' are recorded as the meta data of
+the database, the methods must be called before the database is
+created and they can not be modified afterward. Because other tuning
+parameters are not recorded in the database, they should be specified
+before every time opening the database.
+
+
+KYOTO CABINET FILE BTREE TUNING, author description
+---------------------------------------------------
+
+Tuning the File Tree Database
+
+The file tree database (TreeDB) is file database of B+ tree. Because
+each node of B+ tree is serialized as a page buffer and stored as a
+record in the file hash database, all tuning methods of the file hash
+database are inherited to the file tree database. Moreover, the
+following tuning methods are added.
+
+    * tune_page : sets the size of each page.
+    * tune_page_cache : sets the capacity size of the page cache.
+    * tune_comparator : sets the record comparator.
+
+The tuning of the page size by `tune_page' does not have to be
+modified in most cases. The default is 8192, which is the twice of the
+typical page size of popular environments. If the size of each node
+exceeds the parameter, the node is divided into two.
+
+The default tuning of the capacity size of the page cache is 64MB. If
+your machine has abundant RAM, call `tune_page_cache' to load all
+nodes on the page cache. If the RAM is not abundant, it is better to
+keep the default page cache size and assign the RAM for the internal
+memory-mapped region by `tune_map'.
+
+The default record comparator is the lexical ordering function. That
+is, records in the B+ tree database are placed in the lexical order of
+each key. If you want to use another ordering, call `tune_comparator'
+to set a functor which implements the ordering function.
+
+The default alignment of the file tree database is 256 (1<<8). The
+default bucket number of the file tree database is about 65536. Other
+default tuning parameters are the same to the file hash database. Note
+that the bucket number should be calculated by the number of
+pages. The suggested ratio of the bucket number is about 10% of the
+number of records. If the compression option is specified, all records
+in each page are compressed at once. Therefore, compression is more
+effective for the file tree database rather than for the file hash
+database.
+
+If you intend to store ten thousands of records and reduce the
+database size as possible, the following tuning is suggested for
+example.
+
+db.tune_options(TreeDB::TLINEAR | TreeDB::TCCOMPESS);
+db.tune_buckets(1LL * 1000);
+db.tune_defrag(8);
+db.tune_page(32768);
+db.open(...);
+
+If you have a monster machine with 512GB RAM and intend to store ten
+billion records and improve time efficiency as possible, the following
+tuning is suggested for example.
+
+db.tune_options(TreeDB::TLINEAR);
+db.tune_buckets(1LL * 1000 * 1000 * 1000);
+db.tune_map(300LL << 30);
+db.tune_page_cache(8LL << 30);
+db.open(...);
+
+All tuning methods must be called before the database is
+opened. Because the setting of `tune_page' is recorded as the meta
+data of the database, the methods must be called before the database
+is created and it can not be modified afterward. Because other tuning
+parameters are not recorded in the database, they should be specified
+before every time opening the database.

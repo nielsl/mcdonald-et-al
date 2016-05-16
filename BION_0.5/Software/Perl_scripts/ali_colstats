@@ -1,0 +1,72 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::IO;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, August 2010.
+
+Writes column statistics from a file with one or more alignments.
+Only three input formats are supported, but more to come. Command 
+line arguments are (defaults in parantheses),
+
+     --type   rna, dna, nuc or protein
+  --iformat   Input alignment format (uclust)
+    --ofile   Output alignment file path (stdout)
+  --oformat   Input alignment format (coltab)
+
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+
+Input formats: pdl, uclust, stockholm
+Output formats: coltab, reltab
+
+Examples,
+
+1\) $prog_name mirna.cluali --type rna --if uclust --of mirna.stats
+2\) $prog_name srp.ali --type protein --iformat fasta --oformat reltab
+
+Example 1 writes concatenated statistics from uclust alignments to
+a given file, in the most human-readable column format. Example 2 
+writes a fasta formatted protein alignment to stdout in relational
+format \(well suited for database\).
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+{
+        "ifiles" => undef,
+        "type=s" => undef,
+	"iformat:s" => "uclust",
+        "ofile:s" => undef,
+	"oformat:s" => undef,
+	"silent!" => 0,
+	"verbose!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Ali::Import->ali_stats( $args );
+
+__END__

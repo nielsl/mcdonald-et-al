@@ -1,0 +1,94 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Consensus;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, November 2011.
+
+Pools multiple files with consenses and creates a non-redundant set from 
+those. If the inputs include original read-counts, then these are summed
+up. There are two methods: normal clustering, which allows non-identity 
+and different lengths, and simple de-replication where pooling only 
+happens for identical sequences of same length. Command line arguments,
+
+    --recipe   Recipe file (none)
+   --iminsiz   Input sequence minimum read count (1)
+   --iminlen   Input sequence minimum length (20)
+
+    --method   Pooling method, "similar" or "derep" (derep)
+
+   --ominsiz   Output minimum cluster size (as --iminsiz + 1)
+   --ominlen   Output minimum consensus length (same as --iminlen)
+   --ominsim   Output minimum cluster similarity percent (100)
+   --ominres   Output minimum non-gap percentage in columns (5)
+    --ofasta   Output fasta file (none)
+    --otable   Output table file (none)
+
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+
+      --help   Explains the above options and methods and examples (off)
+
+where --ominsim and --ominres only applies to the cluster method. Usage
+examples,
+
+1\) $prog_name 'seqdir/*.confa' --ofasta cons_pool.fasta
+2\) $prog_name 'seqdir/*.confa' --otable cons_pool.table --method cluster
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifiles=s" => undef,
+        "iminsiz=i" => undef,
+        "iminlen=i" => undef,
+        "method=s" => undef,
+        "ominsiz=i" => undef,
+        "ominlen=i" => undef,
+        "ominsim=i" => undef,
+        "ominres=i" => undef,
+        "ofasta=s" => undef,
+        "otable=s" => undef,
+        "clobber!" => 0,
+        "silent!" => 0,
+        "help:s" => undef,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> POOL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Consensus::create_pool( $args );
+}
+
+__END__

@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>XC: X Library Compiler</title>
+<meta name='author' content='Mike Foster (Cross-Browser.com)'>
+<meta name='description' content='Cross-Browser Javascript Libraries and Applications'>
+<meta name='keywords' content='javascript,dhtml,crossbrowser,animation,tooltips,menu,collapsible,dhtml drag drop,downgradeable layout,dynamic select,image rollover,dhtml layout,css,dom,api,library,dhtml demos,lgpl code,unobtrusive dhtml,dom2 events,dynamic forms,animation,ellipse,parametric equation,object-oriented javascript'>
+<meta name='license' content='Distributed under the terms of the GNU LGPL (gnu.org)'>
+<link rel='stylesheet' type='text/css' href='../../css/v3.css'>
+</head>
+<body><div id='topLinkCon'><a name='topofpg'>&nbsp;</a></div>
+
+<div id='leftColumn' class='column'> <!-- Begin left column -->
+
+<div class='leftContent'> <!-- Begin left content -->
+
+<script type='text/javascript' src='../../menu.js'></script>
+<script type='text/javascript'>insert_header(2, '../..');</script>
+
+<h2>The X Library Compiler</h2>
+
+<h3>Summary</h3>
+<div>
+  <p><b>XC</b> is a Javascript compression and library creation tool.</p>
+  <p>XC is a Win32 console (command-line) program written in C. XC is distributed under the terms of the GNU LGPL. The source code and VC++ project files are included in the X Library <a href='http://cross-browser.com/downloads/'>distribution file</a>.</p>
+  <p>I welcome any <a href='http://cross-browser.com/forums/'>comments/suggestions/bug-reports</a> you may have about XC.</p>
+  <p>The <a href='#revs'>XC revision history</a> is at the end of this document.</p>
+</div>
+
+<h3>Features</h3>
+<div>
+<h4>Optimized Libraries</h4>
+<div>
+  <p>XC scans your application files and creates a custom <b>X</b> library file (with optional compression) which contains only those <b>X</b> variables, functions and objects (X symbols) used in your application.</p>
+  <p>XC also allows you to create a general-purpose library file containing only the <b>X</b> symbols you specify in a list.</p>
+</div>
+<h4>Compiled Application Code</h4>
+<div>
+  <p>XC optionally compiles all your application '*.js' files into the output file. The compiled app files will follow the compiled library files, so your app code has access to X functions while being loaded (for example <a href='../lib/view.php?s=xAddEventListener'>xAddEventListener</a>).</p>
+  <p>For "*.htm*" files, only the contents of SCRIPT elements are searched for <b>X</b> symbols. Javascript in HTML files is not compiled to the output file and function name obfuscation is not performed. So if you want to use function name obfuscation, all your Javascript should be in "*.js" files and not in the HTML files.</p>
+</div>
+<h4>Compression</h4>
+<div>
+  <p>XC uses several different techniques to achieve optimal compression of the output file.</p>
+  <ul>
+  <li>Removes newlines.</li>
+  <li>Replaces tabs with spaces.</li>
+  <li>Removes leading whitespace.</li>
+  <li>Removes sequential spaces when not in a string or RegExp literal.</li>
+  <li>Removes spaces that have a delimiter on one side of them, when not in a string or RegExp literal.</li>
+  <li>Removes single-line ("//") and multiple-line ("/* */") comments. JScript conditional compilation comments are not removed.</li>
+  <li>Optionally obfuscates library function names with a single character prefix followed by an uppercase base 36 number and also changes those names in your application code.</li>
+  </ul>
+</div>
+<h4>Object Prefix</h4>
+<div>
+  <p><b>X</b> symbols of type 'function' can be prefixed with an object name you specify, so that they become methods of the object. By default the object name is 'X'. The symbol's 'x' is removed and the next character is made lower case. For example xLeft() becomes X.left(), xWidth() becomes X.width(), etc. The XC output file will have the code for the creation of the object: <code>objprefix={};</code>.</p>
+</div>
+<h4>Standalone Mode</h4>
+<div>
+  <p>XC's Javascript compression feature can be used without the X Library files. This is called <a href='#samode'>Standalone Mode</a>. It is supported starting with XC v1.05.</p>
+</div>
+</div> <!-- end Features h3 -->
+
+<h2>Using XC In "X Library Mode"</h2>
+
+<h3>XC Invocation</h3>
+<div>
+<p>XC is invoked in <em>X Library Mode</em> as follows:
+<pre>xc prj_name[.ext]</pre>
+<p>You can use any extension for your project file. If you don't supply an extension on the command line, '.xcp' will be assumed. XC will open the file 'prj_name.ext' in the current directory and create the output files, 'prj_name.js' and 'prj_name.log', also in the current directory.</p>
+<p>You can associate 'xc.exe' with all '.xcp' files and then simply double-click on a project file to compile the project.</p>
+</div>
+
+<h3>XC Project File</h3>
+<div>
+<h4>Format</h4>
+<div>
+<p>XC looks for five directives in the project file: <code>options</code>, <code>libpath</code>, <code>obfprefix</code>, <code>objprefix</code> and <code>appfiles</code>. The general format of the project file is as follows.</p>
+<pre>
+; Comments are from ';' to the end of the line.
+
+options cmp app obf  ; See option descriptions below.
+                     ; This directive is optional.
+
+obfprefix X          ; This character is used as the obfuscation prefix.
+                     ; This directive is optional. The default is 'X'.
+                     ; It can only be a single character.
+
+objprefix X          ; This string is used as the object prefix.
+                     ; This directive is optional. The default is 'X'.
+                     ; It can be any legal Javascript identifier.
+
+libpath ..\          ; X library files directory (requires trailing backslash).
+                     ; This directive is required.
+
+appfiles             ; Application file pathnames from next line to end of file.
+                     ; This directive is required.
+
+App file pathname 1
+App file pathname 2
+...
+App file pathname n
+</pre>
+</div>
+<h4>Options</h4>
+<div>
+<p>Following the 'options' directive is a space-delimited list of zero or more of the following. Prefix with '-' for false or '+' (or no prefix) for true.</p>
+  <p><span class='h5i'>lib</span> Generate output file. Default = true.</p>
+  <p><span class='h5i'>cmp</span> Compression applied to output file. Default = true.</p>
+  <p><span class='h5i'>app</span> Compiles application js files to output file. Default = false.</p>
+  <p><span class='h5i'>obf</span> Obfuscate symbol identifiers. The obfuscation prefix is given by the <code>obfprefix</code> directive. Forces -obj. Default = false.</p>
+  <p><span class='h5i'>obj</span> Make functions methods of an object. The object name is given by the <code>objprefix</code> directive. Default = false.</p>
+  <p><span class='h5i'>dep</span> Symbol dependents included in output. Default = true. When false it is useful for creating a general-purpose lib file from a list of X symbols. I use -dep to create x_core.js, x_event.js, etc. The list of symbols is put in the xcp file (commented with ';') and the only app file is the xcp file itself. See '/x/x_core.xcp' for an example.</p>
+  <p><span class='h5i'>log</span> Generate log file. Default = false.</p>
+  <p><span class='h5i'>dbg</span> Write debug info to log file. Forces +log. Default = false.</p>
+</div>
+<h4>Building Application Libraries</h4>
+<div>
+<p>The following project file builds a library that I use for two demos, <em>floater bar</em> and <em>floater box</em>. In these demos all application Javascript is in the html (php) files. The compiled library is compressed, application js is not compiled, symbols are not obfuscated, and symbol dependents are included.</p>
+<pre>
+; XC Project: floater_xlib
+options +lib +cmp -app -obf -obj +dep -log -dbg
+libpath ..\lib\
+appfiles
+floater.php
+floater_bar.php
+</pre>
+<p>The above options correspond to the default option settings of XC, so the project file could also look like the following.</p>
+<pre>
+; XC Project: floater_xlib
+libpath ..\lib\
+appfiles
+floater.php
+floater_bar.php
+</pre>
+<p>Here's another application example. In this example all application js is in the js file, not in the html file. The compiled library is compressed, application js is compiled, symbols are obfuscated, and symbol dependents are included.</p>
+<pre>
+; XC Project: v3site
+options +lib +cmp +app +obf -obj +dep -log -dbg
+libpath x\lib\
+appfiles
+v3site_src.js
+</pre>
+</div>
+<h4>Building General-Purpose Libraries</h4>
+<div>
+<p>By setting the 'dep' option to false (symbol dependents <em>not</em> included), XC will create a general-purpose library file. You simply provide XC with a list of symbol identifiers and a library consisting of those symbols (optionally compressed) is created.</p>
+<p>All <b>X</b> variables, functions and objects (symbols) are in separate files, but initially they were categorized into x_core.js, x_event.js, etc. For backwards-compatibility I still provide those files, but now I generate those files with XC. In the <code>/x/</code> directory you will find these files, along with the .xcp file for each. In that directory is also a batch file, build_all.bat, which will run XC on all .xcp files in that directory.</p>
+</div>
+</div> <!-- end h3 -->
+
+<h3>Symbols of Type 'P' or 'M'</h3>
+<div>
+<p>As of XC 1.03, symbols of type 'property' or 'method' are supported - but with a slight limitation. For a symbol's source to be included in the output library the symbol's <code>id</code> must be found in your application code. For symbols of type 'P' or 'M' their <code>id</code>s are <code>objectName.propertyName</code> and <code>objectName.methodName</code>. So for example if you want to use the <code>rgb</code> animation method of the <code>xAnimation</code> object then XC must find <code>xAnimation.rgb</code> in your code. So the solution (for now) is to put <code>xAnimation.rgb</code> <em>in a comment</em> in your application code.</p>
+</div>
+
+<h3>Adding Your Own Functions to the X Library</h3>
+<div>
+<p>Adding your own functions to the library is easy once you understand the <a href='x_structure.php'>X library structure</a>.</p>
+</div>
+
+<h2 id='samode'>Using XC In "Standalone Mode"</h2>
+
+<h3>XC 'Standalone' Invocation</h3>
+<div>
+<p>XC is invoked in <em>Standalone Mode</em> as follows:
+<pre>xc output_file input_file1 input_file2 input_file3 ...</pre>
+<p>At least two file names are required: the output file name and at least one input file name.</p>
+<p>The input files are expected to be Javascript source files. All of the input files will be compressed and written to the output file.</p>
+<p>That's it! XC Standalone is extremely easy to use.</p>
+</div>
+<h3>XC 'Standalone' Options</h3>
+<div>
+<p>Currently (v1.05) there are no options. I may add some later.</p>
+</div>
+
+<h2 id='revs'>XC Revision History</h2>
+<div>
+<h3>XC 1.06 (23Jun07)</h3>
+<ul>
+<li>This version of XC will be released in the X 4.16 distribution file.</li>
+<li>I found a problem with my previous update to the REL (regular expression literal) detection logic. Now I assume that the only characters that could be to the left of a REL are '=', '(' or ','. A '/' found with one of those characters to its left could <em>not</em> be a division operator. Am I missing anything? Please <a href='http://cross-browser.com/forums/viewforum.php?id=1'>let me know</a> if you think this is not complete.</li>
+<li>Now if the <code>app</code> option is true then the application code will be <em>appended</em> to the library code. Previously it was <em>pre</em>pended. This makes X functions available to the application code as it is loaded. Typically at this point you want access to xAddEventListener.</li>
+</ul>
+
+<h3>XC 1.05 (1Jun07)</h3>
+<ul>
+<li>This version of XC will be released in the X 4.15 distribution file.</li>
+<li>XC has a great new feature - <a href='#samode'>Standalone Mode</a>! You can now use XC's compression feature without needing the X Library files. </li>
+<li>Previously, if you chose the "-cmp" option then XC would not fully compress but would still remove blank lines and single-line comments that started at the beginning of a line. Now when you choose "-cmp" XC will remove nothing at all.</li>
+<li>Big changes! I've been doing some rigorous testing on XC and discovered a few problems: (1) The compressor was too agressive in removing sequential spaces - that is now fixed. (2) The compressor did not recognize RegExp literals and removed spaces from them - that is now fixed (but needs more testing). It also properly recognizes escaped foreslashes in RegExp literals. (3) The compressor would sometimes append the first char of one line onto the last char of the previous line, even tho sometimes a space should have been inserted - that is now fixed. This problem was showing itself in the way JScript conditional compilation sections were compressed - but XC now handles them properly.</li>
+</ul>
+<h3>XC 1.04 (21May07)</h3>
+<ul>
+<li>get_symbol_dependents no longer excludes symbols found in "//" comments. In certain situations it was doing it incorrectly. Thanks very much to Cyrillus for the bug report.</li>
+<li>Rewrote processing of start and end of strings. This fixed a problem with detecting escaped backslashes.</li>
+<li>Fixed a problem with ignoring single-line comments inside multi-line comments.</li>
+</ul>
+<h3>XC 1.03 (26Apr07)</h3>
+<ul><li>I caused problems by trying to have xAnimation methods as separate symbols. Now those methods will have symbols like this: "xAnimation.methodName". I modified get_symbol_index and wrote str_tok. This is not a solution, but just a quick bandaid because to get, for example, "xAnimation.css" included in the output library XC must find the symbol "xAnimation.css" somewhere in the source. It can be put in a comment for this purpose. After this I saw that methods could possibly be ouput before their object. I used qsort and wrote compare_fn. Symbols are sorted by type and then by id. The type precedence is: V, O, P, M, F.</li></ul>
+<h3>XC 1.02 (20Jan07)</h3>
+<ul><li>When removing comments, JScript conditional compilation comments are not removed.</li></ul>
+<h3>XC 1.01 (31Oct06)</h3>
+<ul>
+<li>New option: obj - objectify function names. will prefix all X functions with an object name you specify. The xSplitter demo is now using this feature.</li>
+<li>Now +cmp is not required for +obf.</li>
+<li>Wrote stricmp and uitoa to remove some non-ansi functions. Current non-ansi usage (all from io.h): struct _finddata_t, _findfirst, _findnext, _findclose. It should be relatively easy to port to some *nix now.</li>
+<li>Fixed a bug that was in XC 1.0 which prevented a symbol file from being included if there was an app file with the same name and option +app was set.</li>
+</ul>
+<h3>XC 1.0 (24Oct06)</h3>
+<ul><li>Release.</li></ul>
+<h3>XC 0.34b (5Oct06)</h3>
+<ul>
+<li>Replaces tabs with spaces.</li>
+<li>Now gets version from xLibrary object in xlibrary.js.</li>
+<li>During compression it now checks if a comment directive is in a string.</li>
+<li>Now compression also skips multi-line comments.</li>
+<li>Removed support for these options: lws, nln, and bln.</li>
+<li>For *.htm* app files, only the script elements are parsed for X symbols.</li>
+<li>Now compression also skips sequential spaces, when not in a string.</li>
+<li>Cmp now removes spaces that have a delimiter on one side of it.</li>
+<li>New option: obf - obfuscate function names.</li>
+<li>New option: app - compresses and adds app js files to output.</li>
+<li>Support for the glb option is disabled.</li>
+<li>Now X symbols are not required to have an 'x' prefix.</li>
+</ul>
+<h3>XC 0.29b (21Sep06)</h3>
+<ul><li>Allow .xcp extension on command line arg. Thanks to gagenellina for code.</li></ul>
+<h3>XC 0.28b (8Aug05)</h3>
+<ul><li>Now parses x symbols in quotes. Thanks for bug report from Miguel Angel Alvarez.</li></ul>
+<h3>XC 0.24b (25May05)</h3>
+<ul><li>Removed all txt doc support for now.</li></ul>
+</div>
+
+</div> <!-- end leftContent -->
+
+<div id='footer' class='leftContent'>
+Copyright &copy; 2001-2007 Michael Foster<br>
+Javascript distributed under the terms of the <a href='../../license.html'>GNU LGPL</a>
+</div> <!-- end leftContent -->
+
+</div> <!-- end leftColumn -->
+
+<div id='rightColumn' class='column'>
+<div class='rightContent'>
+
+<h3>Related Documents</h3>
+<div class='collapsible'>
+<p><a href='x_index.html'>X Index</a> - X Library Index.</p>
+<p><a href='x_quickstart.html'>X Quick-Start</a> - Getting Started with the X Library.</p>
+<p><a href='x_structure.html'>X Structure</a> - X Library Structure.</p>
+</div>
+
+<h3>Developer Support</h3>
+<div class='collapsible'>
+<p><a href='http://cross-browser.com/forums/'>X Library Support Forums</a></p>
+</div>
+
+<h3>License</h3>
+<div class='collapsible'>
+<p>By your use of <b>X</b> and/or CBE and/or any Javascript from this site you consent to the <a href='http://www.gnu.org/licenses/licenses.html#LGPL'>GNU LGPL</a> - please <a href='../../talk/license.html'>read it</a>. If you have any questions about the license, read the <a href='../../talk/license_faq.php'>FAQ</a> and/or come to the forums.</p>
+</div> <!-- end collapsible -->
+
+</div> <!-- end rightContent -->
+</div> <!-- end rightColumn -->
+
+</body>
+</html>

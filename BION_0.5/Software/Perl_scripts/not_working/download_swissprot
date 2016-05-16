@@ -1,0 +1,89 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Protein::Swissprot::Download;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+This program downloads the Swissprot distribution files
+from which to build a non-redundant protein database. 
+Command line options are,
+
+   --readonly    [ D = on; messages, but no download ]
+ --noreadonly    [ D = off; starts the download ]
+
+Messages are written to the console, but only if the
+program is run from the console. You can run it from a 
+scheduler to keep the local copy up to date. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_readonly = 1;
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "headers!" => \$cl_headers,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( &Protein::Swissprot::Download::is_locked )
+{
+    &user_error( qq (Downloading Swissprot release is already in progress.) );
+    exit;
+}
+else
+{
+    if ( $cl_readonly ) {
+        &echo_bold( "Download Swissprot (readonly) : \n" ) if $cl_headers;
+    }
+    else 
+    {
+        &echo_bold( "Download Swissprot : \n" ) if $cl_headers;
+        &Protein::Swissprot::Download::create_lock;
+    }
+
+    &Protein::Swissprot::Download::download_release( $cl_readonly );
+
+    if ( not $cl_readonly ) {
+        &Protein::Swissprot::Download::remove_lock;
+    }
+
+    &echo_bold( "Finished Swissprot\n" ) if $cl_headers;
+}
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

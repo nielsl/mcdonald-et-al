@@ -1,0 +1,18 @@
+
+Directory and subdirectories with scripts. To see how to use a 
+script, type its name. That works for all scripts except those 
+whose names begin with "start_" or "stop_".
+
+Almost all scripts simply handle command line arguments and then
+merely invoke a library function. 
+
+Admin directory
+---------------
+Scripts for starting/stopping servers, creating users, and such 
+administrative tasks that all have to do with the basic system.
+
+Install directory
+-----------------
+
+Scripts for installing data and software. 
+

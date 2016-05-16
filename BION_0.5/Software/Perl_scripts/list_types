@@ -1,0 +1,76 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, $fields, $args, @table );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$fields = join ", ", sort Registry::Get->type_fields();
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Lists all types as a table with selectable columns. Command 
+line options are (defaults in parantheses),
+
+      --fields    Fields ("name,schema,title")
+        --sort    Field to sort on ("owner")
+
+Accepted fields are,
+
+$fields
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "fields:s" => "name,schema,title",
+        "sort:s" => "name",
+        "installed!" => 0,
+        "uninstalled!" => 0,
+        "header!" => 1,
+        "colsep:s" => "   ",
+        "indent:s" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@table = Registry::List->list_types( 
+    {
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+    });
+
+if ( not @table ) {
+    &error( qq (No types) );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+print "\n";
+    
+Common::Tables->render_list(
+    \@table,
+    {
+        "fields" => $args->fields,
+        "header" => $args->header,
+        "colsep" => $args->colsep,
+        "indent" => $args->indent,
+    });
+
+print "\n\n";
+
+__END__

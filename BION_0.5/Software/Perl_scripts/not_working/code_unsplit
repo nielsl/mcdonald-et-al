@@ -1,0 +1,87 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use File::Find;
+use File::Path;
+use Getopt::Long;
+use English;
+
+use Common::Config;
+use Common::File;
+use Common::Admin;
+use Common::Names;
+use Common::Messages;
+
+my ( $prog_name, $usage, $signature, $cl_args, $count );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2007.
+
+Removes individual autoload files if any, and comments out lines
+in the perl module files that invoke the autoloader. This is 
+useful for turning "production" code into modules where edits 
+have immediate effect. 
+
+Files that end with ".pm" are edited if they contain these two 
+kinds of lines,
+
+use AutoLoader 'AUTOLOAD';
+
+1;
+__END__   # AUTOLOAD
+
+For "safety" a copy of the source tree is made; if all all files 
+edited without error, then that copy is put in place of the 
+original. Options are,
+
+     --keep    Does not delete original source tree
+---readonly    Does nothing but print affected files 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+$cl_args = {
+    "keep" => 0,
+    "readonly" => 0,
+    "headers" => 1,
+};
+
+if ( not GetOptions(
+         "keep!" => \$cl_args->{"keep"},
+         "readonly!" => \$cl_args->{"readonly"},
+         "headers!" => \$cl_args->{"headers"},
+     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>> CREATE SHADOW FILES <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+&echo_bold( "Un-splitting perl modules:\n" ) if $cl_args->{"headers"};
+
+$count = &Common::Admin::code_unsplit({
+    "keep" => $cl_args->{"keep"},
+    "readonly" => $cl_args->{"readonly"},
+});
+
+&echo_bold( "Done\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+__END__

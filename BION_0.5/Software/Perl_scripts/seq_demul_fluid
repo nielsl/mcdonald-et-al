@@ -1,0 +1,93 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Help;
+use Seq::Fluid;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2013.
+
+Creates new sequence files in primer sub-directories. Reads sequence 
+files, matches primer patterns against these, and writes a copy of each
+matching sequence to a sub-directory named after the primer it matches.
+If there are 10 input files and 20 primers, then the result is 10 files
+in each of 20 directories. All output sequences have "fwd_primer" and 
+"rev_primer" fields added to their info field. Input primers, their 
+range and orientations are defined in a given table. Command line 
+arguments are (defaults in parantheses),
+
+   --recipe   Recipe file (none)
+  --prifile   Input table file with phylogenetic primers 
+  --pridist   Max. primer distance from start (any)
+  --forward   Write forward matches (on)
+  --reverse   Write reverse matches (on)
+    --pairs   Write paired matches (on)
+   --outdir   Output directory (current directory)
+   --outpre   Output file name prefix (taken from file names)
+   --outsuf   Output file name suffix (.primap)
+    --stats   Statistics output file (primap.stats)
+
+  --readbuf   Sequences read-buffer size (10,000)
+  --clobber   Overwrites output files (off)
+   --silent   Prints no progress messages (off)
+    
+Example,
+
+1\) $prog_name seqs*.fq --prifile primers.tab
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifiles=s" => undef,
+        "prifile=s" => undef,
+        "pridist=i" => undef,
+        "forward!" => undef,
+        "reverse!" => undef,
+        "pairs!" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "outsuf=s" => undef,
+        "stats=s" => undef,
+        "readbuf=i" => undef,
+        "clobber!" => undef,
+	"silent!" => undef,
+        "help:s" => undef,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Fluid::demul_primers( $args );
+}
+
+__END__

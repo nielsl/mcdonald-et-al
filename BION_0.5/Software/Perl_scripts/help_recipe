@@ -1,0 +1,69 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Recipe::Help;
+
+my ( $usage, $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = &usage_text( ( split "/", $0 )[-1] );
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DISPATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline({ "help!" => 0 });
+
+&Recipe::Help::dispatch({ "key" => $ARGV[0], "help" => $args->help });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage_text
+{
+    # Niels Larsen, May 2012.
+
+    # Formats and returns a usage text string.
+    
+    my ( $prog_name,       # Program name
+         ) = @_;
+    
+    # Returns a string.
+    
+    my ( $text, @opts );
+
+    $text = &echo_bold( "\nHelp with recipes\n" );
+
+    @opts = &Recipe::Help::options();
+
+    $text .= qq (
+Explains how to run, modify or build recipes. A recipe is a text 
+file with steps that together form an analysis flow. For general 
+help with recipes, give one of these words as argument to this 
+script (e.g. "$prog_name intro"),
+
+);
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [ @opts ],
+        { "highlights" => [ map { $_->[0] } @opts ], "highch" => " ", "indent" => 2 },
+        );
+
+    $text .= qq (
+Step names are also accepted as arguments. To see a list of all
+steps type "$prog_name steps" (minus the quotes as always). To
+get help with the keys of the step also, add --help.
+);
+    
+    $text .= &Recipe::Help::about();
+
+    return $text;
+}
+
+__END__

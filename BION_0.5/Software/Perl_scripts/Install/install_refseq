@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Config;
+
+use Registry::Get;
+
+use Protein::Download;
+use Seq::Import;
+
+my ( $prog_name, $signature, $usage, $db, $args, $msgs, $db_name );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Updates a local copy of the protein part of the Refseq library. 
+It is stored in one of two ways,
+
+1. If --split is off (the default), as a speed efficient store, 
+   with fasta-formatted files and annotations in header and table 
+   files. 
+2. If --split is on, as a space efficient collection of small 
+   compressed files and directories. Access is then slow, but 
+   of course faster than over the network. Use this if disk
+   space is tight and only few sequences are to be retrieved.
+
+The script will install from scratch but can also be used to keep
+an installed version up to date. Command line arguments,
+
+   --download   [ D = on; activates downloading ]
+     --import   [ D = on; activates import ]
+      --split   [ D = off; space / speed switch ]
+
+    --inplace   [ D = off; deletes old version before new is built ]
+    --keepsrc   [ D = on; keeps download-sources, else deletes ]
+   --readonly   [ D = off; messages, but no download ]
+
+With --nokeepsrc the existing install is deleted before a new 
+version is downloaded, to save space. Analyses will then fetch
+sequences remotely and thus work slower while the update is in
+progress.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "download!" => 1,
+        "import!" => 1,
+        "split!" => 0,
+        "inplace!" => 0,
+        "keepsrc!" => 1,
+        "readonly!" => 0,
+        "headers!" => 1,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$db_name = "prot_seq_refseq";
+
+&echo( "\n" ) if $args->headers;
+
+$db = Registry::Get->dataset( $db_name );
+
+&echo_bold( "Installing ". $db->label .":\n" ) if $args->headers;
+
+if ( $args->download )
+{
+    Protein::Download->download_databank({
+        "dbname" => $db_name,
+        "inplace" => $args->inplace,
+    });
+}
+ 
+if ( $args->{"import"} )
+{
+    &Seq::Import::import_dbflat(
+         $db_name,
+         {
+             "inplace" => $args->inplace,
+             "keepsrc" => $args->keepsrc,
+             "split" => $args->split,
+         });
+}
+
+&echo_bold( "Done\n" ) if $args->headers;
+
+&echo( "\n" ) if $args->headers;
+
+# >>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

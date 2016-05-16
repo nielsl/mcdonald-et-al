@@ -1,0 +1,146 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Data::Dumper;
+use Getopt::Long;
+
+use Common::DB;
+use Common::Accounts;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2005.
+
+Adds a user to the user database. The following mandatory and 
+optional command line options are recognized,
+
+  first_name, last_name, username, password, project   
+
+  title, department, institution, company, street, city,
+  postal_code, state, country, web_home, e_mail, telephone,
+  telefax, username, password, credit
+
+Please surround values with spaces with single quotes. Example,
+
+$prog_name --first_name=Harry --last_name=Potter \
+           --username=hpotter --password=57cxhgr5 \
+           --institution='Danish Genome Institute'
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<
+
+my ( %options, @errors, %mandatory, $field, $error, $str );
+
+if ( not &GetOptions (
+         "first_name=s" => \$options{"first_name"},
+         "last_name=s" => \$options{"last_name"},
+         "title=s" => \$options{"title"},
+         "department=s" => \$options{"department"},
+         "institution=s" => \$options{"institution"},
+         "company=s" => \$options{"company"},
+         "street=s" => \$options{"street"},
+         "city=s" => \$options{"city"},
+         "postal_code=s" => \$options{"postal_code"},
+         "state=s" => \$options{"state"},
+         "country=s" => \$options{"country"},
+         "web_home=s" => \$options{"web_home"},
+         "e_mail=s" => \$options{"e_mail"},
+         "telephone=s" => \$options{"telephone"},
+         "telefax=s" => \$options{"telefax"},
+         "username=s" => \$options{"username"},
+         "password=s" => \$options{"password"},
+         "project=s" => \$options{"project"},
+         "credit=s" => \$options{"credit"},
+     ) )
+{
+    exit;
+}
+
+foreach $field ( &Common::Accounts::all_fields() )
+{
+    next if $field eq "session_id";
+    next if $field eq "user_id";
+
+    if ( not exists $options{ $field } ) 
+    {
+        &error( qq ("$field" is a missing option, please update "$prog_name") );
+        exit;
+    }
+}
+
+%mandatory = map { $_, 1 } &Common::Accounts::mandatory_fields();
+
+foreach $field ( keys %options )
+{
+    if ( not defined $options{ $field } )
+    {
+        if ( $mandatory{ $field } ) {
+            push @errors, qq (missing mandatory field -> "$field"\n);
+        } else {
+            $options{ $field } = "";
+        }
+    }
+}
+
+if ( @errors )
+{
+    &echo( "\n" );
+
+    foreach $error ( @errors )
+    {
+        $str = &echo_red( "ERROR" );
+        &echo( "$str: $error" );
+    }
+    
+    &echo( "\n" );
+
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ADD THE USER <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $sid );
+
+$options{"first_name"} = ucfirst $options{"first_name"};
+$options{"last_name"} = ucfirst $options{"last_name"};
+
+&echo( qq (Adding $options{"first_name"} $options{"last_name"} to the user database ... ) );
+
+if ( $sid = &Common::Accounts::add_user( \%options, \@errors ) )
+{
+    &echo_green( "done\n" );
+}
+else
+{
+    &echo_red( "FAILED\n" );
+    &echo( "\n" );
+
+    foreach $error ( @errors )
+    {
+        $str = &echo_red( "ERROR" );
+        &echo( "$str: $error\n" );
+    }
+
+    &echo( "\n" );
+}    
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

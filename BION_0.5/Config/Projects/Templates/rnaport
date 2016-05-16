@@ -1,0 +1,48 @@
+
+<description>
+    title = RNA/miRNA workbench (in development)
+    keywords = RNP, Non-coding RNA, portal, workbench, free software, GNU, GPL
+</description>
+
+<header>
+    title = RNA/miRNA workbench (in development)
+    header_style = header_bar_blue
+    footer_style = footer_bar_blue
+</header>
+
+<style>
+</style>
+
+projpath = RNAport
+
+datasets = rna_seq_mirbase
+datasets = rna_ali_rfam
+
+datasets_other = dna_seq_genbank
+datasets_other = dna_seq_embl_local
+datasets_other = prot_seq_ncbi
+datasets_other = prot_seq_refseq
+datasets_other = rna_ali_srpdb
+
+# hide_methods = mir_blast
+hide_methods = simrank
+
+<defaults>
+  def_menu_1 = rfam
+  def_menu_2 = mir
+  def_menu_3 = mir-395
+  def_request = 
+  def_viewer = array_viewer
+  def_input = rna_ali_rfam:mir-10_flank
+</defaults>
+
+<navigation>
+  name = orgs
+  label = Organisms
+  dbnames = orgs_taxa_ncbi
+</navigation>
+<navigation>
+  name = rfam
+  label = Rfam
+  dbnames = rna_ali_rfam
+</navigation>

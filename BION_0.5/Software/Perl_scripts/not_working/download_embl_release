@@ -1,0 +1,99 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use DNA::EMBL::Download;
+use Common::Messages;
+use Common::Logs;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+This program downloads all EMBL release files to its
+local release directory. If a release is found locally 
+with an up-to-date version number, then only missing 
+files are downloaded or files with a different size. 
+This means the process can resume if it was interrupted.
+If a release is found locally with an outdated version 
+number, then the entire local release and updates 
+directories are emptied. If there is less free disk 
+space than required for the download to complete, then
+then the program will not start. Command line options 
+are,
+
+   --readonly   [ D = on; messages, but no download ]
+ --noreadonly   [ D = off; starts the download ]
+
+Messages are written to the console, but only if the
+program is run from the console. You can run it from a 
+scheduler to keep the EMBL data updated. Processing of
+the downloaded files is done by other programs, see 
+the documentation. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_readonly = 1;
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "headers!" => \$cl_headers,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( &DNA::EMBL::Download::release_is_locked )
+{
+    &user_error( qq (An EMBL release is already downloading.) );
+}
+else
+{
+    if ( $cl_readonly ) {
+        &echo_bold( "Download EMBL Release (readonly) : \n" ) if $cl_headers;
+    }
+    else 
+    {
+        &echo_bold( "Download EMBL Release : \n" ) if $cl_headers;
+        &DNA::EMBL::Download::create_release_lock;
+    }
+
+    &DNA::EMBL::Download::download_release( $cl_readonly );
+
+    if ( not $cl_readonly ) {
+        &DNA::EMBL::Download::remove_release_lock;
+    }
+
+    &echo_bold( "Finished EMBL Release\n" ) if $cl_headers;
+}
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

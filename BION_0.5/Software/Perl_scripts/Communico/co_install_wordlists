@@ -1,0 +1,53 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+
+use Install::Data;
+
+my ( $prog_name, $usage, $args, @msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+
+$usage = qq (
+Program $prog_name, May 2009
+
+Installs word lists. The command line arguments are, 
+with defaults in parantheses,
+
+  --download   Web-scrapes and saves Edict pages (on)
+   --install   Imports the lists to native format (on)
+     --edict   The http://www.edict.com.hk lists
+
+Outputs will be in $Common::Config::word_dir
+
+Usage example,
+
+$prog_name all                 (Download + install)
+$prog_name --nodownload        (Install only)
+
+Author: Niels Larsen
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "download!" => 1,
+        "install!" => 1,
+        "edict!" => 1,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>> CALL MODULE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@msgs = &Install::Data::install_wordlists( $args );
+

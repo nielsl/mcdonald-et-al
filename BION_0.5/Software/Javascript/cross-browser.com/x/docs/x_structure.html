@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>X Library Structure</title>
+<meta name='author' content='Mike Foster (Cross-Browser.com)'>
+<meta name='description' content='Cross-Browser Javascript Libraries and Applications'>
+<meta name='keywords' content='javascript,dhtml,crossbrowser,animation,tooltips,menu,collapsible,dhtml drag drop,downgradeable layout,dynamic select,image rollover,dhtml layout,css,dom,api,library,dhtml demos,lgpl code,unobtrusive dhtml,dom2 events,dynamic forms,animation,ellipse,parametric equation,object-oriented javascript'>
+<meta name='license' content='Distributed under the terms of the GNU LGPL (gnu.org)'>
+<link rel='stylesheet' type='text/css' href='../../css/v3.css'>
+</head>
+<body><div id='topLinkCon'><a name='topofpg'>&nbsp;</a></div>
+
+<div id='leftColumn' class='column'> <!-- Begin left column -->
+
+<div class='leftContent'> <!-- Begin left content -->
+
+<script type='text/javascript' src='../../menu.js'></script>
+<script type='text/javascript'>insert_header(0, '../..');</script>
+
+<h2>X Library Structure</h2>
+
+<h3>x_symbol</h3>
+<div>
+<p><b>X</b> consists of <i>symbols</i>. A symbol is a variable, object prototype, object property, object method or function.</p>
+<p>Previously, <b>X</b> was defined as a set of symbols where each identifier began with a lower-case 'x'. XC 1.0 frees us from that limitation. Now <b>X</b> symbols can be any legal Javascript identifier. <b>X</b> is now defined by a set of <code>x_symbol</code> XML elements. The <code>id</code> attribute of <code>x_symbol</code> specifies the identifier for the symbol. The only requirement is that each symbol's <code>id</code> be unique within the library.</p>
+<p>When I wrote the <a href='http://cross-browser.com/x/lib/view.php?s=xAnimation'>xAnimation</a> object I wanted its animation methods to be separate compilation units (modules). When I first designed XC and the X structure I did not plan on having symbols of type 'method' or 'property'. So here is how I've handled this: Symbols of type 'method' must have <code>id</code> = <code>objectName.methodName</code>, and symbols of type 'property' must have <code>id</code> = <code>objectName.propertyName</code>. This satisfies the requirement that all symbol <code>id</code>s be unique but presents XC with a challenge. To see how XC handles this refer to the <a href='xc_reference.html'>XC Reference</a>.</p>
+<p>Each symbol is completely defined by two files: an XML file and a Javascript source file.</p>
+</div>
+
+<h3>The x_symbol XML File</h3>
+<div>
+<p>For every <b>X</b> symbol there must be an XML file with an <code>x_symbol</code> root element. For convenience the name of the XML file is the symbol identifier in all lower-case.</p>
+<p>The XML file provides the symbol's actual identifier, the location of the Javascript source file, a list of dependencies, complete usage documentation, revision history, author copyright, license statement, and more. In <code>/templates/</code> you will find an <a href='../../templates/_x_symbol_template.xml'>_x_symbol_template.xml</a> file.</p>
+</div>
+
+<h3>The x_symbol Source File</h3>
+<div>
+<p>With the release of XC 1.0 there is now no requirement for the name of the Javascript source file. It can be any legal filename. For convenience the filenames are all lower-case. Also, multiple symbols (multiple XML files) can have their sources in the same Javascript file (but XC will include the entire source file in the ouput even if only one of the symbols is used in the application code).</p>
+<p>The Javascript source file should begin with the following, standard header. If you are the author you should use your own copyright info. I do not require copyright assignment for code contributions to <b>X</b>. For "[your URL]" please provide the URL to your web-site. I never make your email addresses publically available.</p>
+<pre>
+// [symbol identifier], Copyright [your date] [your name] ([your URL])
+// Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL
+</pre>
+<p>Please only use 'text' files with no special characters.</p>
+<p>Please don't use tabs - use spaces for indentation.</p>
+<p>Since XC's compression option removes newlines, you cannot use <i>implicit</i> statement termination. For example in the following the ';' is required because this is an assignment expression.</p>
+<pre>
+myObject.prototype.method = function()
+{
+  // statements...
+}; // &lt;- this semicolon is required to support compression
+</pre>
+<p>Here is another example where a semicolon is required because it is an assignment statement.</p>
+<pre>
+function myObjectPrototype(id)
+{
+  var img = document.getElementById(id);
+  
+  img.onmouseover = function()
+  {
+    this.src = urlOver;
+  }; // &lt;- this semicolon is required to support compression
+  
+  function foo()
+  {
+  } // &lt;- a semicolon is not required here
+}
+</pre>
+<p>XC v1.02+ (released 30Jan07) supports JScript conditional compilation statements - that is, it will not remove them when compressing.</p>
+<p>&nbsp;</p>
+<p>I am proud to include your contribution in the official X distribution - but it is your responsibility to document, test and maintain your function or object.</p>
+</div>
+
+</div> <!-- end leftContent -->
+
+<div id='footer' class='leftContent'>
+Copyright &copy; 2001-2007 Michael Foster<br>
+Javascript distributed under the terms of the <a href='../../license.html'>GNU LGPL</a>
+</div> <!-- end leftContent -->
+
+</div> <!-- end leftColumn -->
+
+<div id='rightColumn' class='column'>
+<div class='rightContent'>
+
+<h3>Related Documents</h3>
+<div class='collapsible'>
+<p><a href='x_index.html'>X Index</a> - X Library Index.</p>
+<p><a href='x_quickstart.html'>X Quick-Start</a> - Getting Started with the X Library.</p>
+<p><a href='xc_reference.html'>XC Reference</a> - X Library Compiler Reference.</p>
+</div>
+
+<h3>Developer Support</h3>
+<div class='collapsible'>
+<p><a href='http://cross-browser.com/forums/'>X Library Support Forums</a></p>
+</div>
+
+<h3>License</h3>
+<div class='collapsible'>
+<p>By your use of <b>X</b> and/or CBE and/or any Javascript from this site you consent to the <a href='http://www.gnu.org/licenses/licenses.html#LGPL'>GNU LGPL</a> - please <a href='../../talk/license.html'>read it</a>. If you have any questions about the license, read the <a href='../../talk/license_faq.php'>FAQ</a> and/or come to the forums.</p>
+</div> <!-- end collapsible -->
+
+</div> <!-- end rightContent -->
+</div> <!-- end rightColumn -->
+
+</body>
+</html>

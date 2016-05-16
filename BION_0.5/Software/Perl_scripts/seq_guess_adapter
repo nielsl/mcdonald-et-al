@@ -1,0 +1,88 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, September 2009.
+
+Guesses the adapter part of the ends of a set of solexa sequences on 
+file. It works by looking at a sample: the first (1000) reads or so of 
+high quality (99.5 or better, all bases), are read into memory; then 
+the most frequent oligo (6 long) at the very ends is found, and used 
+as adapter sequence "seed"; this oligo is then matched against the 
+end regions of the sequences, and a list of pre- and post-match 
+sequences is made. The adapter sequence is then extended upstream and
+downstream as far as highly conserved (95%) positions go. Downstream
+has the additional constraint that a certain number ( sample size / 
+(100 - minimum conservation percent ) of sequences must be present,
+so a wrong adapter will not be extended based on a few misaligned 
+sequences. Command line arguments are,
+
+     --iseqs   Input file path (<stdin>)
+   --iformat   Input file format (fastq)
+      --oseq   Output file (<stdout>)
+
+    --sample   Sample size (1000)
+  --qualtype   Quality encoding (Illumina_1.3)
+   --minqual   Minimum base quality percent (99.5)
+    --olilen   Seed oligo length (6)
+    --olipct   Seed oligo minimum percent frequency at ends (30)
+   --olidist   Maximum distance from end to look for match (15)
+   --conspct   Minimum conservation percentage (95)
+
+    --silent   Prints no progress messages (off)
+
+The script simply prints an adapter suggestion, and the default 
+arguments should be okay. Example,
+
+1) $prog_name --iseqs reads.fastq 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => "fastq",
+        "oseq:s" => undef,
+
+        "sample=s" => undef,
+        "qualtype=s" => "Illumina_1.3",
+        "minqual=f" => 99.5,
+        "olilen=i" => 6,
+        "olipct=f" => 30,
+        "olidist=i" => 15,
+
+        "header!" => 1,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( @ARGV ) {
+    $args->iseqs( shift @ARGV );
+}
+
+&Seq::Clean::guess_adapter( $args );
+
+__END__

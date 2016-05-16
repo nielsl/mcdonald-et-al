@@ -1,0 +1,89 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Convert;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2012. 
+
+Extracts and writes column ranges from a given alignment. Input format 
+can be single-line fasta (including uclust) and fastq format (more can
+be easily added). Ranges can be given by alignment column numbers or by 
+sequence numbers, if an ID is given. Output is written with or without
+gaps, in upper or lowercase and with U's instead of T's. Command line 
+arguments are (defaults in parantheses),
+
+     --ofile   Output file name (STDOUT)
+   --osuffix   Output suffix for multiple files
+
+   --alicols   Comma separated range of columns
+   --seqcols   Comma separated range of sequence positions
+     --seqid   Reference sequence ID
+    --minres   Minimum number of residues per row (10)
+     --cover   Residues before and after range (on)
+   --readbuf   Number of sequences read at a time (1000)
+
+     --degap   Delete gaps from output (off)
+     --upper   Converts sequence to upper case (off)
+     --lower   Converts sequence to lower case (off)
+       --t2u   Substitute all t's to u's (off)
+       --u2t   Substitute all u's to t's (off)
+
+   --clobber   Overwrites existing output (off)
+    --append   Appends to existing output (off)
+    --silent   Prints no progress messages (off)
+
+Examples,
+
+1\) $prog_name ali.fa --alicols '300-600,800-1000' --minres 100
+2\) $prog_name ali.fa --seqid someid --seqcols 300-600 --degap --upper
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifile=s" => undef,
+        "ofile=s" => undef,
+        "osuffix=s" => undef,
+        "alicols=s" => undef,
+        "seqcols=s" => undef,
+        "seqid=s" => undef,
+        "minres=i" => undef,
+        "cover!" => undef,
+        "readbuf=i" => undef,
+        "degap!" => undef,
+        "upper!" => undef,
+        "lower!" => undef,
+        "t2u!" => undef,
+        "u2t!" => undef,
+        "clobber!" => undef,
+        "append!" => undef,
+        "silent!" => undef,
+    });
+
+$args->ifile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Ali::Convert::slice_ali( $args );
+
+__END__

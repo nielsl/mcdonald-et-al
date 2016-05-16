@@ -1,0 +1,39 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Admin;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $args, $usage, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Stops the MySQL server. Does not erase the configuration file, which 
+can be manually edited and the effect tried with 'mysqld_safe'. To 
+run it, give the script a bogus argument, it will be ignored. Like
+so for example,
+
+$prog_name doit
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>> STOP <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" );
+
+&Common::Admin::stop_mysql( {"headers" => 1} );
+
+&echo( "\n" );

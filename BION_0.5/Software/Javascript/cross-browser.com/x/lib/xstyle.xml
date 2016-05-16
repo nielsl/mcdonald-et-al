@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xStyle'>
+
+<sources>
+  <src><file>xstyle.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Style</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Set any style property for any number of elements.]]></description>
+
+<syntax>xStyle(sProp, sVal, e1, e2, e3, etc)</syntax>
+
+<parameters>
+  <par>
+    <name>sProp</name><note><![CDATA[string - any valid style object property identifier. For example, "zIndex" and not "z-index".]]></note>
+  </par>
+  <par>
+    <name>sVal</name><note><![CDATA[string - a value to assign to sProp.]]></note>
+  </par>
+  <par>
+    <name>e</name><note><![CDATA[id string or element reference.]]></note>
+  </par>
+</parameters>
+
+<return>none</return>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/toys/</url><note><![CDATA[Index of all X demos.]]></note>
+  </demo>
+</demos>
+
+<comments>
+  <comment><date>5Jun07</date><author>mf</author><note><![CDATA[]]>This can be used instead of xColor, xBackground, xZIndex, xShow, xHide, xVisibility and xDisplay (which are no longer in X as of v4.16) - and has other uses.</note></comment>
+</comments>
+
+<revisions>
+  <rev>
+    <num>1</num><date>5Jun07</date><author>mf</author><note><![CDATA[Initial release.]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

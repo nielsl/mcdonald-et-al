@@ -1,0 +1,93 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Align;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, October 2010.
+
+Reads sequences one pair at a time and writes aligned versions of these
+pairs. Different input types are accepted,
+
+1. A table with rows of the form "id1<tab>seq1<tab>id2<tab>seq2". Each 
+   seq1 will be aligned with each seq2 and output will be in the same 
+   format.
+
+2. A fasta file where sequences without gaps will be aligned against the
+   last gap-containing sequence template that precedes it in the input 
+   file. The output is also fasta, where gaps have been inserted (but 
+   not in the template).
+
+Both sequence 1 and 2 in the pairs may contain gaps, but those in 2 are 
+always discarded. Gaps in 1 may be transferred to 2, as an option. The 
+--debug switch shows the two sequences in single-line alignment with all 
+gaps discarded prior. Command line arguments are (defaults in parantheses),
+
+     --itable   Input table file
+     --ifasta   Input fasta file
+      --ofile   Output file (STDOUT)
+      --debug   Prints gap-stripped alignment in readable format (off)
+
+    --seqtype   Sequence type: nuc, protein (nuc)
+      --score   Positive strictness score, lower = more strict (100)
+       --gaps   Transfer template gaps to query sequence (off)
+    --stretch   Allow new template gaps where needed (off)
+   --seqcheck   Crashes if input sequence different from output (on)
+
+    --clobber   Overwrites output files (off)
+     --silent   Prints no progress messages (off)
+    
+Usage examples,
+
+1\) $prog_name --itable seqs.tab 
+2\) $prog_name --ifasta seqs.fasta --ofile seqs2.fasta --score 0.1
+3\) $prog_name --ifasta seqs.fasta --seqtype protein --debug
+
+Example 1 produces table output from the table input. The second example
+processes a fasta file with stricter alignment. Example 3 produces a human
+readable listing where all gaps are discarded before alignment.
+
+Author: $signature
+);
+
+#   --collapse   Collapse upstream gaps to keep query aligned (off)
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "itable=s" => undef,
+        "ifasta=s" => undef,
+        "ofile=s" => undef,
+        "seqtype=s" => "nuc",
+        "score=f" => 100.0,
+        "gaps!" => 0,
+        "stretch!" => 0,
+        "collapse!" => 0,
+        "debug!" => 0,
+        "seqcheck!" => 1,
+        "clobber!" => undef,
+	"silent!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> ALIGN SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Align::align_pairs( $args );
+
+__END__

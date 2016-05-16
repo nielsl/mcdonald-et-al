@@ -1,0 +1,136 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Util;
+
+use Seq::Simrank;
+use Seq::Help;
+
+my ( $prog_name, $args, $usage, $signature );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2012.
+
+Finds oligo-based similarities between sequences in a query file and 
+a dataset file with sequences comparable in length. Output is a table 
+of matches with percentages, see --help for more. Command line 
+arguments are (defaults in parantheses),
+
+Query:
+     --format   Query file format if piped (guessed)
+    --forward   Query sequence forward direction match (on)
+    --reverse   Query sequence reverse/complement match (off)
+     --breaks   Query sequence pair break acceptance (on)
+      --degap   Query sequence gap removal (off)
+     --minlen   Query sequence length minimum (wordlen)
+     --filter   Query annotation text filter (none)
+   --qualtype   Query quality encoding (Illumina_1.8 / Sanger)
+    --minqual   Query minimum base quality percent (0)
+     --splits   Query number of parts to divide into (under 100 MB)
+    --readbuf   Query sequences read-ahead buffer (10_000)
+
+Datasets:
+     --dbfile   Dataset sequence file
+    --dbdegap   Dataset sequence gap removal (off)
+   --dbminlen   Dataset sequence length minimum (wordlen)
+   --dbfilter   Dataset annotation word filter (none)
+     --dbread   Dataset sequences read-ahead buffer (10,000)
+    --dbcache   Dataset directory for cache files (+ ".simrank_cache")
+
+Outputs:
+    --wordlen   Oligo word length (8)
+    --steplen   Oligo word step length (4)
+     --minsim   Minimum similarity percentage (40)
+     --topsim   Percent range of highest similarities (1)
+     --wconly   Use oligos with Watson-Crick bases only (on)
+     --simfmt   Similarity percent output format ("%.5f")
+     --numids   Use index numbers instead of original ids (off)
+     --maxout   Maximum number of output hits (all)
+     --otable   Output table file (STDOUT)
+    --osuffix   Output table suffix (none)
+
+Switches:
+      --cores   Run on this many CPU cores (all available)
+     --silent   Prints no progress messages (off)
+    --clobber   Overwrites previous output (off)
+       --help   Prints various $prog_name help (off)
+
+Usage examples,
+
+1\) $prog_name q.fq --dbfile ref.fa --topsim 5.0
+2\) $prog_name q.fq --dbfile ref.fq --otable hits.tab --splits 0
+
+In 1, a query file is matched against a given database file, with all 
+default settings. All CPU cores will be used and output goes to STDOUT. 
+In 2, output goes to a named file and no parallization happens. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline({
+    "format=s" => undef,
+    "wordlen=i" => undef,
+    "steplen=i" => undef,
+    "fwdmap=s" => undef,
+    "revmap=s" => undef,
+    "forward!" => 1,
+    "reverse!" => 0,
+    "breaks!" => 1,
+    "degap!" => 0,
+    "readbuf=i" => undef,
+    "minlen=i" => undef,
+    "filter=s" => undef,
+    "qualtype=s" => undef,
+    "minqual=f" => undef,
+    "splits=i" => undef,
+    "dbfile=s" => undef,
+    "dbdegap!" => 0,
+    "dbminlen=i" => undef,
+    "dbfilter=s" => undef,
+    "dbread=i" => undef,
+    "dbcache:s" => undef,
+    "dbtot=i" => undef,
+    "minsim=f" => undef,
+    "topsim=f" => undef,
+    "wconly!" => 1,
+    "numids!" => 0,
+    "simfmt=s" => undef,
+    "maxout=i" => undef,
+    "otable=s" => undef,
+    "osuffix=s" => undef,
+    "cores=i" => undef,
+    "silent!" => 0,
+    "clobber!" => 0,
+    "debug!" => 0,
+    "help:s" => undef,
+});
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> DEFAULT SETTINGS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Simrank::match_seqs( $ARGV[0], $args );
+}
+
+__END__

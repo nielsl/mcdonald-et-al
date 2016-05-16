@@ -1,0 +1,78 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Workflow::Recipe;
+use Workflow::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, November 2010.
+
+Runs a given recipe file on one or more input files. A recipe is a human- 
+and computer-readable description of a series of analysis steps that is 
+easy to create for users without programming knowledge. However recipes 
+do support "symbols", the ability to substitute placeholders with real 
+values from the command line. Arguments are (defaults in parantheses), 
+
+  --clobber   Overwrites output files (off)
+    --force   Runs despite unused variables complaint (off)
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+
+     --help   Prints various recipe help (off)
+
+Usage examples,
+
+1\) $prog_name recipe.txt RECIPE_INPUT=input.file RECIPE_OUTPUT=output.file
+2\) $prog_name cleaning.recipe SOLEXA_READS=seqs.fq FASTA_SEQS=output.fa
+3\) $prog_name cleaning.recipe FASTQ_INPUT=seqdir*/*.fq 
+
+Example 1 runs the recipe recipe.txt that contains the RECIPE_INPUT and 
+RECIPE_OUTPUT symbols; these symbols must be present in recipe.txt and are
+replaced with "input.file" and "output.fa". See --help symbols for more.
+Example 2 is the same, but with a different recipe and uppercase symbols 
+chosen. Example 3 runs a recipe over many data files.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "help:s" => undef,
+        "clobber!" => 0,
+        "force!" => 0,
+        "silent!" => 0,
+        "verbose!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Workflow::Help::dispatch( $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Workflow::Recipe::run_recipe( \@ARGV, $args );
+}
+
+__END__

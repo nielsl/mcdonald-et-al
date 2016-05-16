@@ -1,0 +1,20 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Admin;
+use Common::Messages;
+use Common::Config;
+
+&echo( "\n" );
+
+&Common::Admin::stop_queue();
+
+&echo( "\n" );
+
+__END__

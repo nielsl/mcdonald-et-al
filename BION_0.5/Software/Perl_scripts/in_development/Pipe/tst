@@ -1,0 +1,12 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Common::Admin;
+
+&dump( \@ARGV );
+

@@ -1,0 +1,51 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Classify;
+
+my ( $prog_name, $signature, $usage, $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, August 2011.
+
+Creates a fasta file with sequences that do not match anything
+in a given classification output. Command line arguments,
+
+  --clafile   Classification output table
+  --seqfile   Sequence fasta file
+  --outfile   Output file (STDOUT)
+
+   --silent   Prints no progress messages (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "clafile=s" => undef,
+        "seqfile=s" => undef,
+        "outfile=s" => undef,
+	"silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> CHECK IDS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Classify::noclassify( $args );
+
+__END__

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xTable'>
+
+<sources>
+  <src><sym>xTable</sym><file>xtable.js</file><note><![CDATA[The default implementation.]]></note></src>
+</sources>
+
+<copyright>Copyright 2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Table</grp>
+</groups>
+
+<type>Object</type>
+
+<description><![CDATA[This is an unobtrusive table enhancement. It freezes the table's first row (or THEAD) and first column while the rest of the table is scrollable. If the table has a CAPTION it is removed and inserted above the frozen header.]]></description>
+
+<syntax>new xTable(sTableId, sRoot, sCC, sFR, sFRI, sRCell, sFC, sFCI, sCCell, sTC, sCellT)</syntax>
+
+<parameters>
+  <par><name>sTableId</name><note><![CDATA[]]></note></par>
+  <par><name>sRoot</name><note><![CDATA[]]></note></par>
+  <par><name>sCC</name><note><![CDATA[]]></note></par>
+  <par><name>sFR</name><note><![CDATA[]]></note></par>
+  <par><name>sFRI</name><note><![CDATA[]]></note></par>
+  <par><name>sRCell</name><note><![CDATA[]]></note></par>
+  <par><name>sFC</name><note><![CDATA[]]></note></par>
+  <par><name>sFCI</name><note><![CDATA[]]></note></par>
+  <par><name>sCCell</name><note><![CDATA[]]></note></par>
+  <par><name>sTC</name><note><![CDATA[]]></note></par>
+  <par><name>sCellT</name><note><![CDATA[]]></note></par>
+</parameters>
+
+<methods>
+</methods>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+  <dep>xWidth</dep>
+  <dep>xHeight</dep>
+  <dep>xAddEventListener</dep>
+  <dep>xLeft</dep>
+  <dep>xTop</dep>
+  <dep>xMoveTo</dep>
+  <dep>xResizeTo</dep>
+  <dep>xFirstChild</dep>
+  <dep>xNextSib</dep>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/x/examples/xtable.html</url><note><![CDATA[xTable demo.]]></note></demo>
+</demos>
+
+<comments>
+  <comment><date>30Jan07</date><author>mf</author><note><![CDATA[Refer to the demo for usage. Documentation on this page is not yet complete.]]></note></comment>
+</comments>
+
+<revisions>
+  <rev><num>1</num><date>30Jan07</date><author>mf</author><note><![CDATA[Initial inclusion in X.]]></note></rev>
+</revisions>
+
+</x_symbol>

@@ -1,0 +1,103 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Taxonomy::Profile;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2012.
+
+Filters and formats a multi-column organism taxonomy profile into 
+tables a set of tables. Outputs are HTML and text tables of scores
+unmodified, normalized scores, scores summed across all parents, 
+and summed normalized tables. The profile can be filtered by OTU 
+name expressions, taxonomy level, row score sums and minimum score
+values. Command line arguments are (defaults in parentheses),
+
+    --recipe   Recipe file (none)
+
+     --level   The maximum taxonomy level to show (all)
+    --minsum   Minimum totals across all columns (1)
+    --minval   Minimum value in at least one column (1)
+    --taxexp   Expression to filter taxonomy names with (none)
+    --colsum   Set column totals for normalized output (average)
+   --barfile   Input column names file (file basenames)
+    --colexp   Column title name expression (file basenames)
+    --places   Number of decimal places in numbers (0)
+
+     --title   Output HTML taxonomy table title (none)
+     --lhead   Output HTML left header title ("Taxonomy profile")
+     --rhead   Output HTML right header title (none)
+     --oname   Output table file name prefix (input + .html etc)
+   --osuffix   Output table suffix (.part)
+     --stats   Output statistics file 
+
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+      --help   Prints help
+
+Usage examples,
+
+1\) $prog_name tax.tree 
+2\) $prog_name tax.tree --level family --minsum 10
+3\) $prog_name tax.tree --level species --minval 5
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifile=s" => undef,
+        "level=s" => undef,
+        "minsum=i" => undef,
+        "minval=i" => undef,
+        "taxexp=s" => undef,
+        "colsum=i" => undef,
+        "barfile=s" => undef,
+        "colexp=s" => undef,
+        "places=i" => undef,
+        "title=s" => undef,
+        "lhead=s" => undef,
+        "rhead=s" => undef,
+        "oname=s" => undef,
+        "osuffix=s" => undef,
+        "stats=s" => undef,
+        "help:s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+$args->ifile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Taxonomy::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Taxonomy::Profile::org_profile_format( $args );
+}
+
+__END__

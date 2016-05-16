@@ -1,0 +1,111 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Taxonomy::Download;
+
+use Common::Messages;
+use Common::Logs;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, December 2005.
+
+This program downloads one or more selected taxonomies if the 
+local version is outdated. Command line options are,
+
+       --ncbi    [ D = on; the NCBI general taxonomy ]
+     --ludwig    [ D = off; Wolfgang L general SSU taxonomy ]
+        --rdp    [ D = off; RDP general SSU taxonomy ]
+ --hugenholtz    [ D = off; Phil Hug. procaryote SSU taxonomy ]
+        --jgi    [ D = off; JGI procaryote SSU taxonomy ]
+       --pace    [ D = off; Norman Pace procaryote SSU taxonomy ]
+
+        --all    [ D = off; all of the above ]
+
+   --readonly    [ D = on; messages, but no download ]
+ --noreadonly    [ D = off; starts the download ]
+
+Messages are written to the console, but only if the program is
+run from the console. You can run it from a scheduler to keep the 
+taxonomies updated. Databasing of the downloaded files is done 
+with the program import_taxonomy. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_headers, $cl_readonly, $cl_args );
+
+# Defaults, 
+
+$cl_headers = 1;
+$cl_readonly = 1;
+
+$cl_args->{"NCBI"} = 0;
+$cl_args->{"Ludwig"} = 0;
+$cl_args->{"RDP"} = 0;
+$cl_args->{"Hugenholtz"} = 0;
+$cl_args->{"JGI"} = 0;
+$cl_args->{"Pace"} = 0;
+$cl_args->{"all"} = 0;
+
+# Get arguments from command line,
+
+if ( not GetOptions(
+                    "ncbi!" => \$cl_args->{"NCBI"},
+                    "ludwig!" => \$cl_args->{"Ludwig"},
+                    "rdp!" => \$cl_args->{"RDP"},
+                    "hugenholtz!" => \$cl_args->{"Hugenholtz"},
+                    "jgi!" => \$cl_args->{"JGI"},
+                    "pace!" => \$cl_args->{"Pace"},
+                    "all" => \$cl_args->{"all"},
+
+                    "headers!" => \$cl_headers,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;
+}
+
+if ( not grep { $_ } values %{ $cl_args } )
+{
+    &user_error( qq (Please specify at least one taxonomy to download.) );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Download Taxonomy (readonly): \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Download Taxonomy: \n" ) if $cl_headers;
+}
+
+&Taxonomy::Download::download_all( $cl_args, $cl_readonly );
+
+&echo_bold( "Finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

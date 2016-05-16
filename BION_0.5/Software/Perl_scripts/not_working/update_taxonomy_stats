@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Taxonomy::Stats;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2003.
+
+This program builds a database of statistics that can be 
+projected onto viewers. The statistics are gathered from
+a number of source databases (see options below) which 
+must exist. New organism taxonomy versions keep the same
+ids, but the statistics should be rerun regularly. The
+command line options are,
+
+   --taxonomy   [ Creates new taxonomy counts ]
+       --gold   [ Maps organisms in GOLD database ]
+        --dna   [ Creates new DNA counts ] 
+    --ssu_rna   [ Creates new SSU RNA counts ]
+    --protein   [ Creates new Protein counts ]
+         --go   [ Creates new Gene Ontology counts ]
+        --all   [ All of the above ]
+
+   --readonly   [ On; extracts, with messages, no load ]
+
+You may use the --readonly as a "test-run" to see if it 
+is safe to start the real update of the databases. The 
+--noreadonly option loads the data into the database.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_taxonomy = 0;
+my $cl_gold = 0;
+my $cl_dna = 0;
+my $cl_ssu_rna = 0;
+my $cl_protein = 0;
+my $cl_go = 0;
+my $cl_all = 0;
+my $cl_headers = 1;
+my $cl_readonly = 1;
+
+if ( not &GetOptions (
+                      "taxonomy!" => \$cl_taxonomy,
+                      "gold!" => \$cl_gold,
+                      "dna!" => \$cl_dna,
+                      "ssu_rna!" => \$cl_ssu_rna,
+                      "protein!" => \$cl_protein,
+                      "go!" => \$cl_go,
+                      "all!" => \$cl_all,
+                      "headers!" => \$cl_headers,
+                      "readonly!" => \$cl_readonly,
+                      ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>> BUILD STATISTICS <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Update Taxonomy Statistics (readonly):\n" ) if $cl_headers;
+} else {
+    &echo_bold( "Update Taxonomy Statistics:\n" ) if $cl_headers;
+}
+
+&Taxonomy::Stats::update_all(
+                             { 
+                                 "taxonomy" => $cl_taxonomy,
+                                 "gold" => $cl_gold,
+                                 "dna" => $cl_dna,
+                                 "ssu_rna" => $cl_ssu_rna,
+                                 "protein" => $cl_protein,
+                                 "go" => $cl_go,
+                                 "all" => $cl_all,
+                             },
+                             $cl_readonly,
+                             );
+
+&echo_bold( "Finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

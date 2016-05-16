@@ -1,0 +1,131 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Cluster;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2010.
+
+Clusters a fasta formatted sequence file and produces a file of cluster 
+sequence alignments. Optionally a fasta file of cluster seed sequences
+can also be written, with the number of original sequences in the header.
+Clusters with fewer than a given minimum are written to a seed file with 
+the ".small" suffix added. By default, the output file is named as the 
+input file, but with a suffix appended. Command line arguments are 
+(defaults in parantheses),
+
+    --recipe   Recipe file (none)
+      --help   Prints various $prog_name help (off)
+
+Cluster parameters:
+    --minsim   Minimum percent seed similarity (90)
+   --minsize   Minimum number of cluster sequences (2)
+    --maxram   Maximum approximate Mbyte RAM usage (80% of available)
+   --cluprog   Clustering program used (uclust)
+   --cluargs   Clustering program argument string (its own defaults) 
+
+Overlap parameters:
+    --cloops   Number of times to recluster (none)
+   --cseqmin   Minimum number of aligned sequences (3)
+   --coffmin   Minimum percent off to either side (60)
+   --crowmin   Minimum percent rows where sequences are off (60)
+   --cbalmin   Minimum right/left off proportion (10)
+   --corinum   Use cluster sizes from previous clusterings (on)
+
+Outputs:
+    --oalign   Output alignment file name (none)
+    --oalsuf   Output alignment file suffix (.cluali)
+    --ofasta   Output seeds fasta file (none)
+    --ofasuf   Output seeds fasta file suffix (.clufa)
+    --tmpdir   Directory for scratch files ($Common::Config::tmp_dir)
+     --stats   Statistics outputs (none)
+
+Switches: 
+   --clobber   Overwrites output file (off)
+    --silent   Prints no progress messages (off)
+   --verbose   Prints more progress messages (on)
+
+Examples,
+
+1\) $prog_name seqs.fasta
+2\) $prog_name seqs.fa --maxram 60% --minsim 100 --oalign test.fa.uclust
+
+Example 1 produces the single file seqs.fasta.cluali. Example 2 creates a 
+named output alignment, where clustered sequences are identical (but do not
+necessarily have the same length) while using at most 60% of available ram.
+
+TIP: the seq_derep program can often reduce expression datasets very quickly,
+use this when feasible. Instead of dumping seed sequences, use the 
+ali_consensus program which often gives better results.
+
+WARNING: the --maxram does not, unfortunately, limit ram during alignment 
+creation, only clustering.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "recipe=s" => undef,
+	"ofasta=s" => undef,
+        "ofasuf=s" => undef,
+	"oalign=s" => undef,
+	"oalsuf=s" => undef,
+        "tmpdir=s" => undef,
+        "stats=s" => undef,
+
+        "maxram=s" => undef,
+	"minsim=i" => undef,
+	"minsize=i" => undef,
+        "cluprog=s" => undef,
+        "cluargs=s" => undef,
+
+        "cloops:i" => undef,
+        "cseqmin:i" => undef,
+        "coffmin:f" => undef,
+        "crowmin:f" => undef,
+        "cbalmin:f" => undef,
+        "corinum!" => 1,
+
+        "clobber!" => 0,
+	"silent!" => 0,
+	"verbose!" => 1,
+        "help:s" => undef,
+    });
+
+$args->iseqs( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Cluster::cluster( $args );
+}
+
+__END__

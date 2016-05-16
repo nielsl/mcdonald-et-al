@@ -1,0 +1,126 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Chimera;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, August 2012.
+
+Chimera-checks PCR amplified DNA/RNA gene sequences. One or more fastq
+or fasta files are inputs. Outputs are chimeric and non-chimeric files
+with ".chim" and ".nochim" appended, written in the same format as the
+inputs, and a score table with a ".chimtab" suffix. For description of
+the method, it performance, parameters and how to prepare reference 
+data, see --help. Command line arguments are (defaults in parantheses),
+
+    --recipe   Recipe file (none)
+      --help   Prints various $prog_name help (off)
+
+Parameters:
+   --wordlen   Oligo word length (8)
+   --steplen   Oligo word step length (4)
+    --minsco   Minimum chimeric score (30)
+   --minfrag   Minimum chimeric fragment length (50)
+    --denovo   Use the query set as reference (off)
+     --cores   Run on this many CPU cores (all available)
+
+Query data:
+    --minlen   Query sequence minimum length (any)
+    --maxlen   Query sequence maximum length (10_000)
+     --degap   Query sequence gap removal (off)
+    --seqbuf   Query sequences to process at a time (1,000)
+
+Reference data:
+    --dbname   Reference dataset name
+    --dbfile   Reference dataset file with taxonomies
+  --dbminlen   Reference sequence minimum length (any)
+  --dbmaxlen   Reference sequence maximum length (10_000)
+   --dbdegap   Reference dataset gap removal (off)
+  --dbseqbuf   Reference sequences to process at a time (5,000)
+
+Outputs:
+    --outdir   Output directory (same as input)
+     --chist   Combined score histogram (none)
+     --stats   Combined statistics file (none)
+     --debug   Write debug histograms (off, warning below)
+
+Switches:
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+
+WARNING: debug histogram output can become very large if run on full 
+datasets. 
+
+Usage example:
+
+$prog_name *.fq --dbfile ~/rdp/Installs/all.fasta --clobber
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "help:s" => undef,
+
+        "wordlen=i" => undef,
+        "steplen=i" => undef,
+        "minsco=i" => undef,
+        "minfrag=i" => undef,
+        "denovo!" => 0,
+        "cores=i" => undef,
+
+        "minlen=i" => undef,
+        "maxlen=i" => undef,
+        "degap!" => 0,
+        "seqbuf=i" => undef,
+
+        "dbname=s" => undef,
+        "dbfile=s" => undef,
+        "dbminlen=i" => undef,
+        "dbmaxlen=i" => undef,
+        "dbdegap!" => 0,
+        "dbseqbuf=i" => undef,
+
+        "outdir=s" => undef,
+        "chist=s" => undef,
+        "stats=s" => undef,
+        "debug!" => 0,
+
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Chimera::check_files( \@ARGV, $args );
+}
+
+__END__

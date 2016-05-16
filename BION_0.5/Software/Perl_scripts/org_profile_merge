@@ -1,0 +1,87 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Taxonomy::Profile;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, June 2012.
+
+Merges two or more organism taxonomy profile files into one. All 
+given files must use the same taxonomy, so Greengenes profiles
+cannot be merged with RDP or Silva profiles. No collapsing or 
+filtering is done, but org_profile_format does that. Command 
+line arguments are (defaults in parentheses),
+
+    --recipe   Recipe file (none)
+     --ofile   Output profile file name
+
+     --title   Output HTML taxonomy table title (Merged profile)
+     --lhead   Output HTML left header title ("Taxonomy profile")
+     --rhead   Output HTML right header title (BION Meta)
+    --tables   Write taxonomy level tables (on)
+    --colsum   Set column totals for normalized output (average)
+    --minval   Minimum value in at least one column (1)
+    --rowmax   Include column of row maxima or not (on)
+
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+      --help   Prints help
+
+Usage example,
+
+1\) $prog_name org_profile* --ofile org_profiles.merged
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifiles=s" => undef,
+        "ofile=s" => undef,
+        "title=s" => undef,
+        "lhead=s" => undef,
+        "rhead=s" => undef,
+        "tables!" => undef,
+        "colsum=i" => undef,
+        "minval=i" => undef,
+        "rowmax!" => undef,
+        "help:s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Taxonomy::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Taxonomy::Profile::org_profile_merge( $args );
+}
+
+__END__

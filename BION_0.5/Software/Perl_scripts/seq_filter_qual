@@ -1,0 +1,79 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, December 2011.
+
+Filters sequence files by sequence quality. Input is a sequence file or
+stream and output is new sequence file or stream in the same format, but
+possibly with fewer entries. Command line arguments are (defaults in 
+parantheses),
+
+   --iformat   Input format (detected if file is given)
+     --oseqs   Output sequence file (STDOUT)
+
+  --qualtype   Quality encoding (Illumina_1.3)
+   --minqual   Minimum base quality percent (0)
+   --maxqual   Maximum base quality percent (100)
+    --minpct   Mininum quality stringency percent (0)
+    --maxpct   Maximum quality stringency percent (100)
+
+    --dryrun   Prints the number of matches instead of output (off)
+   --clobber   Overwrites previous output (off)
+    --append   Appends to existing files (off)
+    --silent   Prints no progress messages (off)
+
+The --minqual and --maxqual arguments specify bounds for quality: 99 means 
+one average error in 100 bases, 99.5 one in 200, etc. The --minpct and 
+--maxpct arguments specify how many percent of bases must have qualities 
+in the specified range. Examples,
+
+1\) cat reads.fastq | $prog_name --minqual 99.6 --minpct 90 -minlen 20
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => undef,
+        "oseqs=s" => undef,
+        "qualtype=s" => undef,
+        "minqual=f" => 0,
+        "maxqual=f" => 100,
+        "minpct=f" => 0,
+        "maxpct=f" => 100,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+$args->iseqs( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Clean::filter_qual( $args );
+
+__END__

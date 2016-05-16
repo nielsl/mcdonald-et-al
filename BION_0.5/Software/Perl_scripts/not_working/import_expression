@@ -1,0 +1,107 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Expr::Import;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, April 2004.
+
+This program builds a database of records from downloaded
+gene expression sources, making them available for query. 
+Command line options are,
+
+     --test   [ D = on; test data only ]
+      --all   [ D = off; includes all the above ]
+
+ --readonly   [ D = on; messages, but no download ]
+    --force   [ D = off; forces reloading old data ]
+     --keep   [ D = on; keep database ready tables ]
+
+The default --readonly option will print screen messages 
+and parse the files, but will not update the databases; 
+you may use this option as a "test-run" to see if it is 
+safe to start the real update of the databases. The 
+--noreadonly option loads the data into the database. The
+--force option will reload the data even if they seem up
+to date. The --keep option keeps the database ready 
+tables from being deleted.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_test = 1;
+my $cl_all = 0;
+my $cl_readonly = 1;
+my $cl_headers = 1;
+my $cl_force = 0;
+my $cl_keep = 1;
+
+if ( not &GetOptions (
+                      "test!" => \$cl_test,
+                      "all!" => \$cl_all,
+                      "headers!" => \$cl_headers,
+                      "readonly!" => \$cl_readonly,
+                      "force!" => \$cl_force,
+                      "keep!" => \$cl_keep,
+                     ) )
+{
+    exit;
+}
+
+
+# >>>>>>>>>>>>>>>>>>> BUILD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( &Expr::Import::is_locked )
+{
+    &user_error( qq (An expression database is already being built.) );
+    exit;
+}
+else
+{
+    if ( $cl_readonly ) {
+        &echo_bold( "Import Expression Data (readonly) : \n" ) if $cl_headers;
+    } else {
+        &echo_bold( "Import Expression Data : \n" ) if $cl_headers;
+    }
+
+    &Expr::Import::load_all(
+                            {
+                                "test" => $cl_test,
+                                "all" => $cl_all,
+                            },
+                            $cl_readonly,
+                            $cl_force,
+                            $cl_keep,
+                            );
+    
+    &echo_bold( "Finished Import\n" ) if $cl_headers;
+}
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

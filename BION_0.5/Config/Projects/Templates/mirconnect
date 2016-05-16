@@ -1,0 +1,48 @@
+
+<description>
+    title = MicroRNA / mRNA cancer cell-line co-expression 
+    keywords = 
+</description>
+
+<header>
+    title = miRConnect 2
+    header_style = header_bar_purple
+    footer_style = footer_bar_purple
+    logo_text = Northwestern Univ.
+    logo_image = nw_univ.png
+    logo_link = http://www.medicine.northwestern.edu/peterlab
+    home_link =
+</header>
+
+<style>
+</style>
+
+projpath = miRConnect
+
+datasets = expr_mirconnect_q
+datasets = expr_mirconnect_l
+datasets = expr_mirconnect_kirc
+datasets = expr_mirconnect_gbm
+datasets = expr_mirconnect_ovca
+
+hide_navigation = analysis
+
+<defaults>
+    def_menu_1 = expr
+    def_menu_2 = expr_mirconnect_q
+    def_menu_3 = 
+    def_request = show_query_page
+    def_input = 
+    def_viewer = query_viewer
+</defaults>
+
+<navigation> 
+    name = expr
+    label = Query
+    dbnames = expr_mirconnect_q
+    dbnames = expr_mirconnect_l
+    dbnames = expr_mirconnect_kirc
+    dbnames = expr_mirconnect_gbm
+    dbnames = expr_mirconnect_ovca
+</navigation>
+

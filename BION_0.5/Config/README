@@ -1,0 +1,7 @@
+
+This directory has files that change appearance of an installation, has the 
+address of the local maintainer (appears in error messages). 
+
+These files are not overwritten during updates. But if you make updates to a
+file and want those to be part of the distribution, then please contact us.
+

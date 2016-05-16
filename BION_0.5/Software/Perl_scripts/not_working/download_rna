@@ -1,0 +1,115 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Config;
+
+use RNA::Download;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+
+$usage = qq (
+Program $prog_name, April 2005.
+
+This program downloads various RNA data sets, but only 
+versions newer than the previous download. Command line 
+options are,
+
+    --ssu_ldw    [ D = off; Ludwig/ARB SSU alignment ]    
+    --ssu_gen    [ D = off; GreenGenes SSU alignment ]
+    --ssu_rdp    [ D = off; RDP SSU alignment ]
+    --mirbase    [ D = off; miRBase sequences at Sanger ]
+       --rfam    [ D = off; Rfam alignments at Sanger ]
+        --srp    [ D = off; SRP alignment (Texas) ]
+      --tmrnp    [ D = off; tmRNA alignment (Texas) ]
+
+        --all    [ D = off; all of the above ]
+
+   --readonly    [ D = on; messages, but no download ]
+ --noreadonly    [ D = off; starts the download ]
+
+Messages are written to the console, if run from the 
+console. Processing of the downloaded files is done by 
+the program import_rna. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_args, $cl_readonly, $cl_headers );
+
+# Defaults, 
+
+$cl_readonly = 1;
+$cl_headers = 1;
+
+$cl_args->{"SSU_Ludwig"} = 0;
+$cl_args->{"SSU_GreenGenes"} = 0;
+$cl_args->{"SSU_RDP"} = 0;
+$cl_args->{"miRBase"} = 0;
+$cl_args->{"Rfam"} = 0;
+$cl_args->{"SRP"} = 0;
+$cl_args->{"tmRNP"} = 0;
+$cl_args->{"all"} = 0;
+
+if ( not GetOptions(
+                    "ssu_ldw!" => \$cl_args->{"SSU_Ludwig"},
+                    "ssu_gen!" => \$cl_args->{"SSU_GreenGenes"},
+                    "ssu_rdp!" => \$cl_args->{"SSU_RDP"},
+                    "mirbase!" => \$cl_args->{"miRBase"},
+                    "rfam!" => \$cl_args->{"Rfam"},
+                    "srp!" => \$cl_args->{"SRP"},
+                    "tmrnp!" => \$cl_args->{"tmRNP"},
+                    "all" => \$cl_args->{"all"},
+                    
+                    "headers!" => \$cl_headers,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;
+}
+
+if ( not grep { $_ } values %{ $cl_args } )
+{
+    &user_error( qq (Please specify at least one RNA to download.) );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Download RNAs (readonly): \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Download RNAs: \n" ) if $cl_headers;
+}
+
+&dump( $cl_args );
+
+&RNA::Download::download_all( $cl_args, $cl_readonly );
+
+&echo_bold( "Finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

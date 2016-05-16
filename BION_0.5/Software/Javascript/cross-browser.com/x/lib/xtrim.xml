@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xTrim'>
+
+<sources>
+  <src><file>xtrim.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>String</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Removes leading and trailing white-space from a string.]]></description>
+
+<syntax>xTrim(s)</syntax>
+
+<parameters>
+  <par>
+    <name>s</name><note><![CDATA[String]]></note>
+  </par>
+</parameters>
+
+<return>string</return>
+
+<demos>
+</demos>
+
+<revisions>
+  <rev>
+    <num>1</num><date>10Feb07</date><author>mf</author><note><![CDATA[Initial release.]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

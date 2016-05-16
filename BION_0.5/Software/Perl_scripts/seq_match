@@ -1,0 +1,85 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Seq::Match;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Matches fasta-formatted sequences against one or more locally installed 
+datasets or remotely, so far only at NCBI. The output format is that of 
+the program selected. The program can take multiple files as input or 
+get a stream from STDIN (but not both). Dataset files should be a comma 
+separated list of files, or it can be a string in single quotes with 
+wildcards. Outputs go into one file per input (with a given suffix 
+appended); however if --osingle is given, then it goes to a given file, 
+or STDOUT if no file given. See also seq_match_remote, which does the 
+same against certain remote servers. Command line arguments (defaults 
+in parentheses),
+
+   --itype   Input data type (dna)
+
+     --dbs   Comma-separated dataset string, wildcards allowed
+  --dbtype   Dataset type (same as input)
+
+ --osingle   Output to a single file or stream (<stdout>)
+ --osuffix   Output table file suffix if multiple files (.out)
+ --clobber   Overwrites existing output (off)
+
+    --prog   Program to do the matching ([pn]simscan)
+    --args   Arguments of matching program (its own defaults)
+
+  --silent   Prints no progress messages (off)
+ --verbose   Prints more progress messages (off)
+
+Examples,
+
+1\) cat prot.fasta | $prog_name --itype protein --dbnames prot_seq_refseq
+2\) $prog_name 16s.fasta --itype dna --dbs 'ssu*.fasta' --osingle out.fasta
+
+Example 1 reads protein sequences from STDIN and looks for similarities 
+in the local version of the Refseq database and writes output to STDOUT. 
+Example 2 reads a file of 16S rRNA sequences and looks for similarities 
+in a set of fasta files and saves output in a file.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+	"ifiles=s" => undef,
+        "itype=s" => "dna",
+	"dbs=s" => undef,
+        "osingle:s" => undef,
+        "osuffix=s" => ".match",
+        "clobber!" => 0,
+	"prog=s" => "nsimscan",
+	"args=s" => undef,
+	"silent!" => 0,
+	"verbose!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Match::match( $args );
+
+__END__
+

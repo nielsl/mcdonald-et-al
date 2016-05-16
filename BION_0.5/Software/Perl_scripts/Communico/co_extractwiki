@@ -1,0 +1,77 @@
+#!/usr/bin/env perl
+
+#  -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Data::Dumper;
+
+use Parse::MediaWikiDump;
+
+my ( $i_file, $o_catgs, $o_titles, $o_cat2pgs, $count,
+     $pages, $page, $id, $title, $catgs, %catgs, $catg,
+     );
+    
+$i_file = shift @ARGV; 
+
+$o_catgs = "categories.tab";
+$o_titles = "titles.tab";
+$o_cat2pgs = "cat2pages.tab";
+
+open CATGS, ">:utf8", $o_catgs || die "Could not write-open $o_catgs";
+open TITLES, ">:utf8", $o_titles || die "Could not write-open $o_titles";
+open CAT2PGS, ">:utf8", $o_cat2pgs || die "Could not write-open $o_cat2pgs";
+
+$pages = Parse::MediaWikiDump::Revisions->new( $i_file );
+
+while( defined ($page = $pages->next) )
+{
+    $count += 1;
+
+    if ( not $page->redirect )
+    {
+	$id = $page->id;
+	$title = $page->title;
+
+	if ( $title =~ /^Category:(.+)/i )
+	{
+	    print CATGS "$id\t$1\n";
+	}
+	elsif ( $title !~ /^File:/i )
+	{
+	    $title =~ s/^Wikipedia://;
+
+	    if ( defined $title ) {
+		print TITLES "$id\t$title\n";
+	    } else {
+		print STDERR qq ($id: has no title\n);
+	    }
+
+	    $catgs = $page->categories;
+
+	    if ( $catgs )
+	    {
+		foreach $catg ( @{ $catgs } )
+		{
+		    if ( exists $catgs{ $catg } ) {
+			$catgs{ $catg } .= ",$id";
+		    } else {
+			$catgs{ $catg } = $id;
+		    }
+		}
+	    }
+	}
+    }
+
+    # last if $count > 1000;
+}
+
+foreach $catg ( keys %catgs )
+{
+    print CAT2PGS "$catg\t$catgs{$catg}\n";
+}
+
+close CATGS;
+close TITLES;
+close CAT2PGS;

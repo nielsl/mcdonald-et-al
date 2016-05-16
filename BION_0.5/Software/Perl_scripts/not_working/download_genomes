@@ -1,0 +1,119 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use Data::Dumper;
+
+use DNA::Genomes::Download;
+use Common::Messages;
+use Common::File;
+use Common::Names;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2003.
+
+This program downloads procaryotic genomes from seven most 
+active sites to your computer. Each genome is saved, in a given
+folder, as sub-folders named "genus_species.number". The program
+can be rerun and only new or changed data will be fetched. To 
+select the sites to download from, use the --sites argument:
+
+$prog_name --sites         (prints all sites with numbers )
+$prog_name --sites=1,3,4   (downloads from select sites )
+$prog_name --sites=all     (downloads from all sites )
+
+Command line arguments and switches are, 
+
+       --folder   [ D = ./Genomes; folder of project-folders ]
+     --readonly   [ D = on; log messages only, no download ]
+      --restart   [ D = off; manually continue if net error ]
+
+NOTE\: the downloaded data are subject to different licenses
+and it is your absolute responsibility to respect them. 
+
+WARNING\: this program interprets web pages and locations that
+may change at any time. Therefore this program can misbehave
+at any time. Also, it comes with no warranty of any kind.
+
+Authors: $signature
+         Bo Mikkelsen, bom\@biobase.dk
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_sites = undef;
+my $cl_folder = "./Genomes";
+my $cl_readonly = 1;
+my $cl_restart = 0;
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "sites:s" => \$cl_sites,
+                    "folder:s" => \$cl_folder,
+                    "readonly!" => \$cl_readonly,
+                    "restart!" => \$cl_restart,
+                    "headers!" => \$cl_headers,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>> PRINT SITES <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my $sites = qq (
+Program $prog_name fetches data from 
+
+1.  Oklahoma University, USA   [ http://www.genome.ou.edu ]
+2.  Washington University, USA [ http://www.genome.wustl.edu ]
+3.  Sanger Centre, UK  [ http://www.sanger.ac.uk ]
+4.  Institute for Genomic Research, USA  [ http://tigr.org ]
+5.  Joint Genome Institute, USA  [ http://www.jgi.doe.gov ]
+6.  Baylor College of Medicine, USA [ http://hgsc.bcm.tmc.edu ]
+7.  NCBI, USA [ http://www.ncbi.nlm.nih.gov ]
+
+);
+
+if ( defined $cl_sites and not $cl_sites )
+{
+    print STDERR $sites;
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Download Genomes (readonly) : \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Download Genomes : \n" ) if $cl_headers;
+}
+
+if ( $cl_sites =~ /^all$/i ) {
+    $cl_sites = "1,5,6,2,4,3,7";
+}
+
+&DNA::Genomes::Download::download_all( $cl_folder, $cl_sites, $cl_readonly, $cl_restart );
+
+&echo_bold( "Finished Download\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<
+
+__END__

@@ -1,0 +1,86 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, $args, $types, @table );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2009.
+
+Lists all user commands available from the command line. 
+Options are,
+
+     --admin   Administration related commands
+   --install   Install commands 
+  --registry   Lists mostly registry content
+
+Example:
+
+1\) $prog_name --admin 
+
+Example 1 lists the administration related commands.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "admin!" => 0,
+        "install!" => 0,
+        "registry!" => 0,
+        "fields:s" => "name,title",
+        "sort:s" => undef,
+        "header!" => 1,
+        "colsep:s" => "   ",
+        "indent:s" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $args->admin ) {
+    $types = "soft_admin";
+} elsif ( $args->install ) {
+    $types = "soft_install";
+} elsif ( $args->registry ) {
+    $types = "soft_list";
+} else {
+    &echo_messages( [["ERROR", qq (Please specify a command category) ]] );
+    exit 0;
+}
+
+@table = Registry::List->list_commands( 
+    {
+        "types" => [ $types ],
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+print "\n";
+
+Common::Tables->render_list(
+    \@table,
+    {
+        "fields" => $args->fields,
+        "header" => $args->header,
+        "colsep" => $args->colsep,
+        "indent" => $args->indent,
+    });
+
+print "\n\n";
+
+__END__

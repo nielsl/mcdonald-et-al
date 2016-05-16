@@ -1,0 +1,124 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Un-installs the datasets named on the command line.
+#
+# Author: Niels Larsen, May 2009.
+# 
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Registry::Get;
+use Install::Data;
+
+my ( $prog_name, $signature, $usage, $args, $count, $msg, $onstr );
+
+$onstr = &echo_green("ON");
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2009.
+
+Un-installs datasets named on the command line. Switches:
+
+     --all   Uninstalls all datasets (off)
+   --force   Uninstalls even if not installed (off)
+--download   Includes download removal (off).
+ --install   Includes install removal ($onstr).
+ --verbose   Prints more screen messages (off)
+  --silent   Prints no screen messages (off)
+    --list   List all available installs (off)
+
+Examples:
+
+1\) $prog_name --list
+2\) $prog_name --list --all
+3\) $prog_name blast muscle --force
+4\) $prog_name --all 
+
+Example 1 prints a table of the installed datasets. Example 2
+prints the same table, but with all datasets, installed or not. 
+Example 3 uninstalls the SRP proteins, even if they are not 
+installed, according to the registry; this can be used to remove
+traces of failed installs. Example 4 uninstalls all installed 
+datasets. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "all!" => 0,
+        "force!" => 0,
+        "download!" => 0,
+        "install!" => 1,
+        "verbose!" => 1,
+        "silent!" => 0,
+        "list!" => 0,
+    });
+
+if ( not @ARGV and not $args->all and not $args->list ) 
+{
+    $msg = "Please specify which dataset(s) to uninstall";
+}
+elsif ( not $args->download and not $args->install )
+{
+    $msg = "Please specify removal of either downloads or installs";
+}
+
+if ( $msg ) {
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$count = &Install::Data::uninstall_data(
+    \@ARGV,
+    {
+        "all" => $args->all,
+        "force" => $args->force,
+        "download" => $args->download,
+        "install" => $args->install,
+        "verbose" => $args->verbose,
+        "silent" => $args->silent,
+        "list" => $args->list,
+        "print_header" => 1,
+    });
+
+if ( $count ) {
+    &echo( "\n" ) if not $args->silent;
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (No datasets are installed);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (None of the given datasets are installed);
+    } else {
+        $msg = qq (The @ARGV dataset is not installed);
+    }        
+
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+__END__

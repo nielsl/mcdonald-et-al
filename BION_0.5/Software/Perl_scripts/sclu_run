@@ -1,0 +1,168 @@
+#!/usr/bin/env perl
+
+#  -*- perl -*-
+
+# This is a no-dependcy script that runs a given program with given input,
+# and given parameters and datasets. It is used on slave machines and is
+# not directly for users. 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+use Data::Dumper;
+use File::Basename;
+
+use Common::Config;
+use Common::Cluster_slave;
+
+# use Common::Messages;
+
+my ( $prog_name, $usage, $args, $pid_file, $inputs, $datasets, @msgs,
+     $background, $pid, $err, @list, $inpath, $datapath, $ifile, $dfile,
+     $cmd, $output, $cmd_tpl, $cmd_i, $beg_file, $end_file );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+
+$usage = qq (
+Program $prog_name, February 2009.
+
+Runs a given program with the given parameters, input and output and 
+dataset paths. The input and dataset paths may be single files or 
+directories; if directories, the program is run repeatedly on each, 
+as required. The process ID of the parent process is stored in a given
+pid file. Command line arguments,
+
+    [ --program ]   Program path of an executable
+ [ --parameters ]   Program parameters string 
+        [ input ]   Input path expression 
+    [ --dataset ]   Dataset path expression
+     [ --output ]   Output path
+    [ --pidfile ]   Process ID file path
+    [ --begfile ]   Epoch seconds when started 
+    [ --endfile ]   Epoch seconds when finished
+ [ --background ]   Background flag
+
+Author: Niels Larsen
+);
+
+$usage =~ s/\n/\n /g;
+print "$usage\n" and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "program=s" => undef,
+        "parameters=s" => undef,
+        "input=s" => undef,
+        "dataset=s" => undef,
+        "output=s" => undef,
+        "pidfile=s" => undef,
+        "begfile=s" => undef,
+        "endfile=s" => undef,
+        "background!" => undef,
+    });
+
+$pid_file = $args->pidfile;
+$beg_file = $args->begfile;
+$end_file = $args->endfile;
+
+$background = $args->background;
+
+# Create command with placeholders, list of inputs and possibly a list
+# of dataset files (depending on the application),
+
+( $cmd_tpl, $inputs, $datasets ) = &Common::Cluster_slave::program_paths( $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RUN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $background and $pid = fork )
+{
+    # Background job. Fork is only called if the batch argument is given. 
+    # Then just exit, the rest of the script will continue in the other 
+    # process of the fork.
+
+    exit;
+}
+elsif ( $pid = fork )
+{
+    system( "echo `date +%s` > $beg_file" );
+
+    # Parent process that waits for child below. Delete PID file if no errors.
+
+    waitpid( $pid, 0 );
+
+    $err = $? >> 8;
+
+    if ( not $err and not unlink $pid_file )
+    {
+        die qq (Could not delete PID file: "$pid_file");
+    }
+
+    system( "echo `date +%s` > $end_file" );
+}
+else
+{
+    # Child process. Write the current process id to file. Depending on the
+    # application, child processes may be started - so to follow the fate of
+    # a started job the process table must be scanned. See the sclu_jobs 
+    # script.
+
+    open PID, "> $pid_file" or die qq (Could not open PID file: "$pid_file");
+
+    print PID "$$\n"; 
+
+    close PID;
+
+    # Create output directory,
+
+    if ( not mkdir $args->output ) {
+        die qq (Could not create output directory: ). $args->output;
+    }
+
+    # Loop inputs and datasets if given,
+
+    foreach $inpath ( @{ $inputs } )
+    {
+        $cmd_i = $cmd_tpl;
+        $cmd_i =~ s/__INPUT__/$inpath/;
+
+        $ifile = &File::Basename::basename( $inpath );
+
+        if ( $cmd_tpl =~ /__DATASET__/ )
+        {
+            if ( $datasets )
+            {
+                foreach $datapath ( @{ $datasets } )
+                {
+                    $cmd = $cmd_i;
+                    $cmd =~ s/__DATASET__/$datapath/;
+
+                    $dfile = &File::Basename::basename( $datapath );
+                    
+                    $output = $args->output ."/$ifile" ."__VS__". $dfile;
+                    
+                    $cmd =~ s/__OUTPUT__/$output/;
+
+                    system( $cmd );
+                }
+            }
+            else {
+                die qq (__DATASET__ placeholder, but no data file list);
+            }
+        }
+        else
+        {
+            $output = $args->output ."/$ifile";
+            $cmd_i =~ s/__OUTPUT__/$output/;
+
+            system( $cmd_i );
+        }
+    }
+};
+
+__END__
+

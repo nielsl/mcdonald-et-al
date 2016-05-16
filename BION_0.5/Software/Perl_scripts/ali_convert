@@ -1,0 +1,79 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Convert;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2012.
+
+UNFINISHED - does not work
+
+Interconverts a small set of alignment formats, from/to file or stream.
+Takes a single file with a single alignment in it (ali_split will split
+files with multiple alignments). Supported formats are,
+
+Input: stockholm, uclust, fasta, pdl
+Output: fasta, pdl
+
+Command line arguments are (defaults in parantheses),
+
+   --iformat   Input format (auto detected if file given)
+   --oformat   Output format (fasta)
+     --ofile   Output file 
+   --osuffix   Output suffix (."output format")
+   --clobber   Overwrites existing output (off)
+
+     --degap   Sequence gap removal (off)
+    --numids   Use integer ids instead of original (off)
+     --upper   Converts sequence to upper case (off)
+     --lower   Converts sequence to lower case (off)
+       --t2u   Substitute all t's to u's (off)
+       --u2t   Substitute all u's to t's (off)
+
+    --silent   Prints no progress messages (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifile=s" => undef,
+        "iformat=s" => undef,
+        "oformat=s" => undef,
+        "ofile=s" => undef,
+        "osuffix=s" => undef,
+        "clobber!" => 0,
+        "degap!" => 0,
+        "numids!" => 0,
+        "upper!" => 0,
+        "lower!" => 0,
+        "t2u!" => 0,
+        "u2t!" => 0,
+        "silent!" => 0,
+    });
+
+$args->ifile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Ali::Convert::convert_ali( $args );
+
+__END__

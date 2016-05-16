@@ -1,0 +1,74 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, $args, @table );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Lists all methods as a table with selectable columns. 
+Command line options,
+
+      --fields    Fields ("name,title,credits")
+        --sort    Field to sort on ("owner")
+
+Accepted fields are,
+
+          name    Unique identifier
+         title    Short description
+       credits    Thanks to who made it 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "fields:s" => "name,title,credits",
+        "sort:s" => "name",
+        "header!" => 1,
+        "colsep:s" => "   ",
+        "indent:s" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@table = Registry::List->list_methods( 
+    {
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+    });
+
+if ( not @table ) {
+    &error( qq (No methods) );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+print "\n";
+
+Common::Tables->render_list(
+    \@table,
+    {
+        "fields" => $args->fields,
+        "header" => $args->header,
+        "colsep" => $args->colsep,
+        "indent" => $args->indent,
+    });
+
+print "\n\n";
+
+__END__

@@ -1,0 +1,72 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::IO;
+
+my ( $prog_name, $signature, $usage, $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, October 2010.
+
+Prints IDs of sequences that fail length or pattern match criteria or
+whose IDs are duplicated. The --seqs switch applies the filters to 
+sequences instead of IDs. Input is fasta. Output is a three column 
+table (where the first column is the ID) if an output file is given,
+otherwise a screen message. Command line arguments are (defaults in 
+parantheses),
+
+   --ofile   Output file (STDOUT)
+
+     --dup   Gets duplicate IDs (off)
+   --nodup   Gets unique IDs (off)
+    --seqs   Applies the following to sequence instead of ID (off)
+   --regex   Gets IDs where this perl regexp matches (none)
+ --noregex   Gets IDs where this perl regexp does not match (none)
+  --minlen   Gets IDs where shorter than this minimum (none)
+  --maxlen   Gets IDs where longer than this maximum (none)
+    
+Usage examples,
+
+1\) $prog_name seqs.fasta --dup
+2\) $prog_name seqs.fasta --regex '^[A-Z1-9]{7,10}\.\\d+\$'
+3\) $prog_name seqs.fasta --min 8 --max 10 --seqs
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifile=s" => undef,
+        "ofile=s" => undef,
+        "dup:s" => undef,
+        "nodup:s" => undef,
+        "seqs!" => 0,
+        "regex=s" => undef,
+        "noregex=s" => undef,
+        "minlen=i" => undef,
+        "maxlen=i" => undef,
+    });
+
+$args->ifile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> CHECK IDS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::IO::get_ids_fasta( $args );
+
+__END__

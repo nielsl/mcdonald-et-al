@@ -1,0 +1,118 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Storage;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$out_formats = join ", ", sort keys %{ &Seq::Storage::format_fields("valid") };
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Fetches sequences or sub-sequences from a named sequence file and 
+streams them to file or STDOUT. ID's and sub-sequence locations can be
+on the command line, be piped from STDIN and/or read from a file. See 
+the help option. Command line arguments are,
+
+  --seqfile   Input sequence file (undef)
+  --locfile   Input sequence locations file (undef)
+    --order   Speed++ when many IDs follow sequence file order (off)
+    --parse   Parses output entries or not (on)
+    --ssize   Do sub-sequence seek in sequences this long (4000k)
+
+   --format   Output format (fasta)
+   --fields   Output fields (all that the formats support)
+  --outfile   Output sequence file path (<stdout>)
+  --errfile   Write error messages (warnings to screen)
+
+   --append   Appends to output file (off)
+  --clobber   Overwrites output file (off)
+   --silent   Prints no progress messages (off)
+
+     --help   Prints various $prog_name help (off)
+    
+Output formats: $out_formats
+
+Examples,
+
+1\) $prog_name 'contig1::100,20,-;500,100' --seqfile pig.fa
+2\) $prog_name --seqfile pig_expr.fq --locfile locs.list --format fastq
+3\) cat locs.list | $prog_name --seqfile pig_expr.fq --format fastq
+
+Example 1 gets a sub-sequence from an entry in a fasta file. Example 2 
+gets many sequences from a fastq file with qualities. Example 3 does the 
+same, except gets ids from STDIN. The script will look for all three ways
+and use the union of ids. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "help:s" => undef,
+	"seqfile=s" => undef,
+        "locfile=s" => undef,
+        "order!" => 0,
+        "parse!" => 1,
+        "ssize=s" => undef,
+        "format=s" => undef,
+        "fields=s" => undef,
+        "outfile=s" => undef,
+        "errfile=s" => undef,
+        "clobber!" => 0,
+        "append!" => 0,
+	"silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+
+    $args->add_field( "locs" );
+    $args->locs( \@ARGV );
+    
+    &Seq::Storage::fetch_seqs(
+        $args->seqfile,
+        {
+            "locs" => $args->locs,
+            "locfile" => $args->locfile,
+            "order" => $args->order,
+            "parse" => $args->parse,
+            "ssize" => $args->ssize,
+            "format" => $args->format,
+            "fields" => $args->fields,
+            "outfile" => $args->outfile,
+            "errfile" => $args->errfile,
+            "clobber" => $args->clobber,
+            "append" => $args->append,
+            "silent" => $args->silent,
+            "stdin" => 1,
+        });
+}
+
+__END__

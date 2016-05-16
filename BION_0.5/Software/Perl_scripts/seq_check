@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Stats;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2013.
+
+UNFINISHED 
+
+Prints sequence integrety summary table. Sometimes software writes 
+incorrectly formatted files with different kinds of errors, and this
+program checks for some of that. Command line arguments are (defaults
+in parantheses),
+ 
+    --table   Counts table output (STDOUT)
+    --dumps   Screen-dump bad sequences (off)
+   --titles   Include titles (on)
+   --totals   Include totals (on)
+
+  --readbuf   Number of entries to read at a time (1000)
+  --clobber   Overwrites previous output (off)
+   --silent   Prints no progress messages (off)
+
+Usage examples,
+
+1\) $prog_name seq*/*.fq
+2\) $prog_name seq*/*.fq --table all.counts --silent
+
+In 1\), a table with sequence and read counts are printed to the 
+screen, with default settings. In 2\), counts are written to a named
+file.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifiles=s" => undef,
+        "table=s" => undef,
+        "dumps!" => 0,
+        "titles!" => 1,
+        "totals!" => 1,
+        "readbuf=i" => undef,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Stats::check_seq_files( $args );
+
+__END__

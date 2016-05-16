@@ -1,0 +1,77 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Taxonomy::Profile;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $file, $msg );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, June 2012.
+
+Converts an organism profile table to HTML. If no output file is 
+given, it will be named as the input but with ".html" appended. 
+Command line switches,
+
+     --ofile   Output HTML file (input + .html)
+      --norm   Normalize values (on)
+    --colsum   Normalized column totals (observed average)
+   --colsums   Show column totals or not (on)
+   --rowsums   Show row totals or not (on)
+    --places   Number of decimal places in numbers (0)
+
+    --header   Include header bar (on)
+    --footer   Include footer bar (on)
+     --lhead   Text to appear in left part of header (none)
+     --rhead   Text to appear in right part of header (none)
+     --title   Text to appear as title on the page body
+
+   --clobber   Overwrites previous output (off)
+    --silent   Prints no progress messages (off)
+
+Example,
+
+1\) $prog_name profile.tab --clobber --silent
+2\) $prog_name profile.tab --lhead "Firstname Lastname" 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "itable=s" => undef,
+        "ofile=s" => undef,
+        "colsum=i" => undef,
+        "colsums!" => undef,
+        "rowsums!" => undef,
+        "places=i" => undef,
+        "lhead=s" => undef,
+        "rhead=s" => undef,
+        "title=s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+        "header!" => undef,
+        "footer!" => undef,
+        "norm!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Taxonomy::Profile::org_profile_html( $ARGV[0], $args );
+
+__END__

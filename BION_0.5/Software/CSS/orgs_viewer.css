@@ -1,0 +1,246 @@
+/* Title box */
+
+table.taxonomy_title, tr.taxonomy_title, td.taxonomy_title {
+    color: #ffffff;
+    background-color: #336699;
+    border-color: #6699cc #000033 #000033 #6699cc;
+    border-style: solid;
+    border-width: 2px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+/* 
+   ---------------------------------------------------------------------
+   Popup windows
+   ---------------------------------------------------------------------
+*/
+
+.form_bar_text {
+    color: #ffffff;
+    background-color: #336699;
+    border-left: 2px solid #6699cc;
+    border-right: 0px solid #000033;
+    border-top: 2px solid #6699cc;
+    border-bottom: 2px solid #000033;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+.form_bar_close {
+    color: #ffffff;
+    background-color: #336699;
+    border-right: 2px solid #000033;
+    border-top: 2px solid #6699cc;
+    border-bottom: 2px solid #000033;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+div#form_content {
+    font-size: 12px;
+    padding: 10px;
+}
+
+/* 
+   ---------------------------------------------------------------------
+   Hierarchy skeleton text and arrows
+   ---------------------------------------------------------------------
+*/
+
+table.group, tr.group, td.group {
+    color: #000000;
+    background-color: #cccccc;
+    border-right: 0.2em solid #999999;
+    border-bottom: 0.1em solid #999999;
+    border-top: 0.1em solid #ffffff;
+    padding-left: 0.1em;
+    padding-right: 0.2em;
+    white-space: nowrap;
+    height: 1.5em;
+}
+
+td.group_arrow {
+    color: #000000;
+    background-color: #cccccc;
+    border-bottom: 0.1em solid #999999;
+    border-top: 0.1em solid #ffffff;
+    padding-left: 2px;
+    white-space: nowrap;
+    height: 1.5em;
+}
+
+td.leaf {
+    background-color: #eeeddd;
+    border-color: #999999 #ffffff #ffffff #999999;
+    border-style: solid;
+    border-width: 0.1em;
+    color: #000000;
+    font-weight: normal;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    white-space: nowrap;
+    height: 1.5em;
+}
+
+td.data_leaf {
+    background-color: #dddccc;
+    border-color: #999999 #ffffff #ffffff #999999;
+    border-style: solid;
+    border-width: 0.1em;
+    color: #000000;
+    font-weight: normal;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    white-space: nowrap;
+    height: 1.5em;
+}
+
+td.arrow_l {
+    background-color: #cccccc;
+    border-left: 0.2em solid #ffffff;
+    border-bottom: 0.1em solid #999999;
+    border-top: 0.1em solid #ffffff;
+    width: 22px;
+    text-align: center;
+    vertical-align: middle;
+    height: 1.5em;
+}
+
+td.arrow_r {
+    background-color: #cccccc;
+    border-right: 0.2em solid #999999;
+    border-bottom: 0.1em solid #999999;
+    border-top: 0.1em solid #ffffff;
+    width: 22px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    height: 1.5em;
+}
+
+/* 
+   ---------------------------------------------------------------------
+   Report titles and text
+   ---------------------------------------------------------------------
+*/
+
+.tax_report_title_l {
+    color: #ffffff;
+    background-color: #666666;
+    border-left: 2px solid #999999;
+    border-right: 0px solid #333333;
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #333333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.tax_report_title_r {
+    color: #ffffff;
+    background-color: #666666;
+    border-left: 0px solid #999999;
+    border-right: 2px solid #333333;
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #333333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+.tax_report_author {
+    color: #ffffff;
+    background-color: #666666;
+    border-left: 2px solid #999999;
+    border-right: 0px solid #333333;
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #333333;
+    text-align: right;
+    vertical-align: middle;
+    padding: 2px;
+    padding-right: 6px;
+    font-size: 12px;
+}
+
+.tax_report_title {
+    color: #333333;
+    background-color: #cccccc;
+    font-size: 12px;
+    font-weight: bold;
+    border: 10px solid #cccccc;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tax_report_value {
+    background-color: #eeeddd;
+    border-color: #999999 #ffffff #ffffff #999999;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 12px;
+    color: #000000;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tax_report_key {
+    border: 1px solid;
+    color: #ffffff;
+    background-color: #336699;
+    border-color: #6699cc #000033 #000033 #6699cc;
+    font-size: 12px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.rna_report_key {
+    border: 1px solid;
+    color: #ffffff;
+    border-color: #99cc99 #003300 #003300 #99cc99;
+    background-color: #339966;
+    font-size: 12px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.rna_report_value {
+    background-color: #eeeddd;
+    border-color: #999999 #ffffff #ffffff #999999;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 12px;
+    color: #000000;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: left;
+}

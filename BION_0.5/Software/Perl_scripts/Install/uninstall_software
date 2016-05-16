@@ -1,0 +1,172 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Please use the uninstall_software script in the top directory of this 
+# package, rather than this script.
+#
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Install::Software;
+
+my ( $prog_name, $usage, $args, $msg, $count );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$prog_name =~ s/\.[^.]+$//;
+
+$usage = &usage( $prog_name );
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "confirm!" => 1,
+        "all!" => 0,
+        "force!" => 0,
+        "source!" => 0,
+        "verbose!" => 1,
+        "silent!" => 0,
+    });
+
+if ( not @ARGV and not $args->all ) 
+{
+    $msg = "Please specify which package(s) to uninstall";
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+$Common::Messages::silent = 1 if $args->silent;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> UNINSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# The following are default install options. Routines may or may not use 
+# them, and they may copy + override them.
+
+( $count, undef, undef ) = &Install::Software::uninstall_software(
+    \@ARGV,
+    {
+        "all" => $args->all,
+        "force" => $args->force,
+        "source" => $args->source,
+        "verbose" => $args->verbose,
+        "confirm" => $args->confirm,
+        "silent" => $args->silent,
+    });
+
+if ( $count )
+{
+    &echo( "\n" ) if not $args->silent;
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (All software packages are uninstalled);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (All of the given packages are uninstalled);
+    } else {
+        $msg = qq (The @ARGV package is uninstalled);
+    }
+    
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage
+{
+    # Niels Larsen, April 2009.
+
+    # Returns console text that shows available un-installation options. If 
+    # the console supports color, the options that have been installed are
+    # shown in green.
+
+    my ( $prog_name,    # Invoking program name
+         ) = @_;
+
+    # Returns a string.
+
+    my ( $text, %inst_opts, $opt, @all_opts, @highlights, $onstr );
+
+    require Common::Tables;
+    require Registry::Get;
+    require Registry::Register;
+    require Registry::Args;
+
+    # Create list of highlights,
+
+    %inst_opts = map { $_, 1 } Registry::Register->registered_soft_installs();
+
+    foreach $opt ( Registry::Get->sinstall_ids )
+    {
+        if ( $inst_opts{ $opt } ) {
+            push @highlights, $opt;
+        }
+    }
+
+    # Name/title lists,
+
+    @all_opts = 
+        map { [ $_->name, $_->title ] }
+        reverse Registry::Get->installs_software->options;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT PAGE TEXT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $onstr = &echo_green("ON");
+
+    $text = "";
+    $text .= &echo_bold( "\n$Common::Config::sys_name software uninstallation\n" );
+
+    $text .= qq (
+The options marked with asterisk (*) can be uninstalled, the 
+rest are not installed:
+
+);
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [
+         @all_opts,
+        ],
+        { "highlights" => \@highlights },
+        );
+
+    $text .= qq (
+Switches:
+
+     --all   Uninstall all installed packages (off).
+  --source   Removes source packages (off).
+   --force   Ignores recorded install status (off).
+ --confirm   Ask for confirmation before uninstalling ($onstr).
+ --verbose   Print more than summary progress messages (off).
+  --silent   Turns off progress messages (off).
+
+Examples:
+
+(1) ./$prog_name all 
+(2) ./$prog_name apache --force
+
+Example 1 uninstalls all installed software. Example 2 forces
+removal of all remnants of an old Apache install.
+);
+
+    return $text;
+}
+
+
+__END__
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> GO STATISTICS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<

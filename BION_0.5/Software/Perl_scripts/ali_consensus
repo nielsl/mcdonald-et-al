@@ -1,0 +1,113 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Consensus;
+use Ali::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2010.
+
+Creates a consensus file from a an alignment file, possibly with many 
+alignments in it. Outputs are in fasta and table formats. Input files 
+can be pseudo-fasta (gapped sequences) and uclust format, with optional
+quality strings in the headers. Command line arguments are (defaults in
+parantheses),
+
+    --recipe   Recipe file
+   --seqtype   Input alignment sequence datatype (dna)
+  --qualtype   Input alignment sequence quality encoding (Illumina_1.8)
+    --ofasta   Fasta output file (input + .fasta)
+    --ofastq   Fastq output file (input + .fastq)
+    --otable   Table output file (input + .table)
+   --osuffix   Output file name suffix (undef)
+    --ostats   Statistics output (none)
+
+    --method   Consensus method (most_frequent)
+   --minseqs   Ignore alignments with lower sequence counts (1)
+    --minres   Ignore columns with lower residue (non-gap) percentage (5)
+   --minqual   Base quality threshold percentage if qualities given (99.9)
+   --mincons   Minimum conservation percentage among residues (0)
+  --minqcons   Minimum quality percentage among residues (20)
+  --ambcover   Minimum percent ambiguity code residue coverage (90)
+
+   --trimbeg   Trim 5' columns that do not meet above criteria (on)
+   --trimend   Trim 3' columns that do not meet above criteria (on)
+
+   --maxfail   Max. percentage of positions failing sequence criteria (5)
+  --maxqfail   Max. percentage of positions failing quality criteria (5)
+    --minlen   Minimum length of output consenses (15)
+
+   --clobber   Overwrites output files (off)
+    --silent   Prints no progress messages (off)
+
+      --help   Explains the above options and methods and examples (off)
+
+The --help option gives a description of methods and formats, but in short
+data types are rna, dna, prot; output formats are fasta, and table; methods 
+are most_frequent, most_frequent_any and least_ambiguous. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ 
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifile=s" => undef,
+	"seqtype=s" => undef,
+        "qualtype=s" => undef,
+        "ofasta:s" => undef,
+        "ofastq:s" => undef,
+        "otable:s" => undef,
+        "ostats:s" => undef,
+        "method=s" => undef,
+        "minseqs=i" => undef,
+        "minres=i" => undef,
+        "minqual=f" => undef,
+        "mincons=i" => undef,
+        "minqcons=i" => undef,
+        "ambcover=i" => undef,
+        "trimbeg!" => 1,
+        "trimend!" => 1,
+        "maxfail:f" => undef,
+        "maxqfail:f" => undef,
+        "minlen:i" => undef,
+        "clobber!" => 0,
+	"silent!" => 0,
+        "help:s" => undef,
+    });
+
+$args->ifile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Ali::Help::dispatch( "ali_cons", $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Ali::Consensus::consenses( $args );
+}
+
+
+__END__

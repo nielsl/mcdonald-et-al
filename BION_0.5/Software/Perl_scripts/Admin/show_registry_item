@@ -1,0 +1,89 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, $text );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Shows a dump of the dataset given by its name. Command line
+options are,
+
+     --type   Item type
+     --name   Dataset name
+   --format   Output format
+
+Dataset name is one of those from the register. Format can be
+one of 
+
+       yaml  YAML, see http://yaml.org 
+       dump  Data::Dumper hash
+      odump  Data::Dumper object 
+     config  Config::General tags
+
+Example:
+
+$prog_name --name rna_ali_rfam --format yaml
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_args, $msgs );
+
+$cl_args = {
+    "format" => "config",
+    "type" => "dataset",
+};
+
+if ( not &GetOptions (
+         "type=s" => \$cl_args->{"type"},
+         "name=s" => \$cl_args->{"name"},
+         "format:s" => \$cl_args->{"format"},
+     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> CREATE TABLE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$text = Registry::List->show_item( 
+    {
+        "type" => $cl_args->{"type"},
+        "name" => $cl_args->{"name"},
+        "format" => $cl_args->{"format"},
+    }, $msgs );
+
+if ( $msgs )
+{
+    &echo_messages( $msgs );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+print $text;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

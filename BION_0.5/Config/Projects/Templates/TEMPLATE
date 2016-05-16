@@ -1,0 +1,45 @@
+# --------------------------------------------------------------------
+# 
+# PROJECT DESCRIPTION TEMPLATE
+# 
+# The files in lower case in this directory should contain the keys
+# and sections below. See the README for further explanation.
+#
+# --------------------------------------------------------------------
+
+<description>
+    title = 
+    keywords = 
+    logo_text = 
+    logo_image = 
+    logo_link = 
+    home_link = 1
+</description>
+
+<style>
+</style>
+
+datadir = 
+
+datasets = 
+datasets = 
+
+datasets_other = 
+datasets_other = 
+
+
+<defaults>
+    def_menu_1 = 
+    def_menu_2 = 
+    def_menu_3 = 
+    def_request = 
+    def_input = RNAs/Alignments/SRPDB/Installs/srprna
+    def_viewer = array_viewer
+</defaults>
+
+<navigation> 
+    name = 
+    label = 
+    dbnames =    
+</navigation>
+

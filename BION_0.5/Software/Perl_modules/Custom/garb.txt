@@ -1,0 +1,51 @@
+ A sample was sequenced by both PCR and a modified shotgun approach (RT).
+ The RT data showed much more diversity, and we wondered if that could 
+ be due to the primers missing certain groups. To find that out, we make
+ a taxonomic overview of how well the primer sites fit: align the query 
+ sequences against the best-matching database sequences, and if that 
+ alignment includes the forward and/or reverse primer site, the number 
+ of mismatches, insertions and deletions are measured and saved. Those 
+ numbers are mapped to a taxonomy and numers + taxonomy are saved 
+ as a table. In more detail, the steps done are, in sequence:
+ 
+ * Find the reference sequence in the alignment that we know the primer
+   matches well with.
+
+ * Use that reference sequence to determine alignment coordinates of the
+   primer match. We can then get the coordinates in any sequence where 
+   primers are supposed to match (assuming the alignment is right).
+
+ * Create a list of pairs of [ query id, [ best matching db ids ] ],
+   reading from the simrank match file. That tells which sequences must
+   be aligned.
+
+ * For all the best matching db ids, create a lookup dictionary of 
+   forward and reverse primer matches in sequence numbering. Then we 
+   know which db-sequence regions to check for overlap with.
+
+ * Extract a table of taxonomy strings from the RDP genbank distribution
+   file. Index it with Kyoto Cabinet, so we can pull out strings at
+   random.
+
+ * Align each query sequence with its best matching db sequence(s).
+
+ * If this alignment completely overlaps either forward or reverse primer
+   locations, then measure the number of mismatches, insertions and 
+   deletions.
+
+ * Pull out the taxonomy strings for the best-matching db sequences.
+
+ * Write a taxonomy table with these columns from left to right, where
+   F- and R- means forward and reverse primer,
+ 
+   F-mdi   Number of primer mismatches, deletions and insertions
+   F-mis   Number of primers with m+d+i > 0
+   F-ovl   Number of sequences that overlap forward primer region
+   R-mdi   - same for reverse -
+   R-mis   - same for reverse - 
+   R-ovl   - same for reverse - 
+   Alis    Number of sequences that align with closest DB hit
+   DB hits Number of sequences that match the DB with simrank
+   Taxonomy string
+ 
+ For more detail, see the code. 

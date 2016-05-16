@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Admin;
+
+my ( $prog_name, $args, $usage, $apache_port, $mysql_port, 
+     $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$apache_port = $Common::Config::http_port;
+$mysql_port = $Common::Config::db_port;
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Starts all servers: Apache web server, MySQL database, and a
+batch queue. Before each server is started it is checked if 
+it is running and shut down first if it does. Command line 
+options (defaults in parantheses):
+
+   --apache_mode   WWW server mode, cgi or modperl (modperl)
+   --apache_port   WWW server port number ($apache_port)
+    --mysql_port   MySQL database port ($mysql_port)
+
+Examples,
+
+1\) $prog_name --apache_mode=cgi --apache_port=8000
+2\) $prog_name --mysql_port=4000
+3\) $prog_name   blabla
+
+Example 1 starts Apache in CGI mode on a specific port, and 
+MySQL on the default port. In 2, MySQL starts on a given port
+and Apache starts with default settings. In 3, both start with
+default settings; the 'blabla' argument only means anything 
+can be typed, just to avoid this help message.  
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>> GET COMMAND LINE <<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "apache_mode=s" => "modperl",
+        "apache_port=s" => $apache_port,
+        "mysql_port=s" => $mysql_port,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>> START <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" );
+&Common::Admin::start_servers( $args );
+
+__END__

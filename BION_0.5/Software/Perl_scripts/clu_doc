@@ -1,0 +1,64 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Cluster;
+
+my ( $prog_name, $usage, $signature, $acctfile, $acctpath, $args );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$acctpath = &Common::Cluster::accts_file;
+$acctfile = File::Basename::basename( $acctpath );
+
+$usage = qq (
+Program $prog_name, January 2009.
+
+Prints information about how to use this package. Command line 
+arguments:
+
+ [ --overview ]   Describes the overall idea
+
+   [ -install ]   Requirements and installation
+   [ --safety ]   Security and safety implications
+     [ --data ]   How to move data
+     [ --jobs ]   How to run analyses
+ [ --commands ]   Lists available commands and their functions
+  [ --methods ]   Lists available analyses and what they do
+ [ --packages ]   Lists installable packages with descriptions
+   [ --methow ]   How to add analyses
+
+  [ --credits ]   Lists authors, licenses, credits and citations.
+
+$signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET AND VALIDATE INPUT <<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "overview!" => undef,
+        "install!" => undef,
+        "safety!" => undef,
+        "data!" => undef,
+        "jobs!" => undef,
+        "commands!" => undef, 
+        "methods!" => undef,
+        "packages!" => undef,
+        "methow!" => undef,
+        "credits!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> PROCESS EACH NODE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Cluster::documentation( $args );
+
+__END__

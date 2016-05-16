@@ -1,0 +1,85 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Stats;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, September 2012.
+
+Prints length statistics for one or more sequence files in one 
+of thse formats: fasta, fasta with wrapped sequence lines, fastq 
+and uclust. If an output file name is given, then a histogram is
+written for all input files combined. If no output file, then a
+histogram is written for each input file. Command line arguments 
+are (defaults in parantheses),
+ 
+      --all   Single histogram file for all inputs (off)
+     --hsuf   Histogram files suffix (none, output to STDOUT)
+     --hmin   Histogram minimum sequence length (1)
+     --hmax   Histogram maximum sequence length (5000)
+     --step   Histogram slot increments (10)
+     --trim   Skip leading/trailing empty values (off)
+     --plot   Create text histogram with bars (on)
+
+  --readbuf   Number of entries to read at a time (1000)
+  --clobber   Overwrites previous output (off)
+   --silent   Prints no progress messages (off)
+
+Usage examples,
+
+1\) $prog_name seq*/*.fa
+2\) $prog_name seq*/*.fa --hsuf .hist
+3\) $prog_name seq*/*.fa --all pooled.hist
+4\) $prog_name seq*/*.fq --hmin 80 --hmax 150 --step 2
+
+In 1\), separate histograms are written to the console for each 
+input file. In 2\) separate histograms are written to separate 
+files, named as the input files but with .hist appended. In 3\), 
+a cumulative histogram is written to a named file. With just --all 
+and no file, combined output would go to the console. In 4\), 
+only sequence lengths between 80 and 150 are shown, and lengths
+are shown in steps of two.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifiles=s" => undef,
+        "all:s" => undef,
+        "hsuf=s" => undef,
+        "hmin=i" => undef,
+        "hmax=i" => undef,
+        "step=s" => undef,
+        "trim!" => undef,
+        "plot!" => undef,
+        "readbuf=i" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Stats::hist_seq_files( $args );
+
+__END__

@@ -1,0 +1,24 @@
+; XC Project: x_core
+
+options +lib +cmp -app -obf -obj -dep -log -dbg
+
+; If you don't want the library file to be
+; compressed then use -cmp in the above options.
+
+libpath lib\
+
+appfiles
+
+x_core.xcp
+
+; This project file is the only app file fed to XC.
+; The following X symbols will be included in the
+; library file. They are commented-out so XC will
+; not see them as more app files. No dependents
+; are included, only the following symbols.
+
+; xGetElementById, xGetElementsByTagName, xGetElementsByClassName,
+; xMoveTo, xLeft, xTop, xPageX, xPageY, xScrollLeft, xScrollTop, xHasPoint,
+; xResizeTo, xWidth, xHeight, xClientWidth, xClientHeight,
+; xStyle, xOpacity, xGetComputedStyle, xCamelize,
+; xDef, xStr, xNum, xLibrary

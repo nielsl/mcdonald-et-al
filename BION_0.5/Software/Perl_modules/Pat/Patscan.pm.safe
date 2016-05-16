@@ -1,0 +1,228 @@
+package Pat::Patscan;     #  -*- perl -*-
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DESCRIPTION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#
+# Patscan as a function. 
+#
+# compile_pattern
+# match_pattern
+# match_pattern_compiled
+# parse_matches
+#
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> DESCRIPTION END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use feature "state";
+
+use Common::Config;
+use Common::Messages;
+
+BEGIN 
+{
+  my $inline_dir = "./inline_dir";
+
+    mkdir $inline_dir unless -d $inline_dir;
+
+    use Inline ( C => 'DATA',
+                 DIRECTORY => $inline_dir,
+                 LIBS => '-L/home/niels/People/Selkov-Jr/patscan -lpatscan',
+                 BUILD_NOISY => 1,
+        );
+}
+
+# Inline->init;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# #sub match_pattern
+# {
+#     my ( $pat,
+#          $seq,
+#          $args,
+#         ) = @_;
+
+#     state $matches = "\0" x $args->{"matdim"};
+
+#     &dump( $matches );
+
+#     return;
+# }
+
+# sub match_pattern_compiled
+# {
+#     my ( $seq,
+#          $args,
+#         ) = @_;
+
+#     return;
+# }
+
+# sub parse_matches
+# {
+#     my ( $matstr,
+#         ) = @_;
+
+#     my ( $m, $sm, $ndx );
+
+#     for ( $mat 
+#     return;
+# }
+
+1;
+
+__DATA__
+__C__
+
+#define MAX_SEQ_LEN 10000000
+#define MAX_PAT_LINE_LN 32000
+
+int parse_pattern_C( const char* pattern, int protein )
+{
+    if (protein) {
+        return parse_peptide_cmd(pattern);
+    } else {
+        return parse_dna_cmd(pattern);
+    }
+}
+
+unsigned long *find_matches_forward ( const char* seq, int seqlen, int protein )
+{
+    typedef struct match_str {
+        unsigned long index;
+        unsigned long length;
+    } match;
+
+    unsigned int ndx, ihit, isubs, isub, pos;
+
+    char tmp, *p;
+    int i, j, k, i1, len, hit_in_line, c, ln, count;
+    
+    unsigned long hitbuf[12000];
+    char *hits[2000];
+    int max_hits = 1000;
+
+    unsigned long *matches_count = hitbuf;
+    unsigned long *matches_base = hitbuf + 1;
+    unsigned long *this_match_base = matches_base;
+    unsigned long *submatches_count;
+    match *this_submatch;
+
+    /* Get memory */
+
+    char *data, *cdata;
+
+    if (((data  = malloc(MAX_SEQ_LEN+1)) == NULL) || ((cdata  = malloc(MAX_SEQ_LEN+1)) == NULL)) {
+        fprintf(stderr,"Failed to allocate memory\n");
+    }
+
+    /* Make copy so not to destroy original data passed by reference */
+
+    strcpy(data, seq);
+
+    /* For protein use character data as is, DNA and RNA is encoded to 2 bit */
+
+    if ( ! protein) {
+        comp_data( data, cdata );
+    } else {
+        strcpy( cdata, data );
+    }
+    
+    /*
+      Find and encode matches. The hitbuf array encodes matches like this example:
+
+      { 2,  2,0,6,10,5,  2,30,7,39,5 }
+
+      First element is the number of matches, and each following cluster of numbers
+      is a match. The first element in each match is the number of sub-matches (which
+      corresponds to where each pattern element matches). The first match says "two 
+      sub-matches, the first starting at position 0 and of length 6, the second at 
+      position 10, length 5."
+
+      The hitbuf array is returned, and higher level languages can then decode it.      
+    */
+
+    ln = strlen(data);
+    count = 0;
+
+    for ( hit_in_line = 0, i = first_match(cdata, ln, hits); (max_hits > 0) && (i > 0); i = cont_match(hits) )
+    {
+        count++;
+
+        *this_match_base = (unsigned long)i;
+        this_match_base++;
+
+        hit_in_line = 1; max_hits--;
+            
+        for ( i1 = 0; i1 < i; i1++ )
+        {
+            j = hits[i1 + 1] - hits[i1];
+
+            *this_match_base++ = (unsigned long)(hits[i1] - cdata);
+            *this_match_base++ = (unsigned long)j;
+        }
+    }
+    
+    *matches_count = count;
+
+    /* Return pointer to first element of encoding buffer */
+
+    return hitbuf;
+}
+
+SV* match_pattern_C( const char* seq, int seqlen, int complement, int protein )
+{
+    unsigned long *hitbuf;
+
+    hitbuf = find_matches_forward( seq, seqlen, protein );
+
+    /*
+    if ( complement )
+    {
+    }
+    */
+    
+    /*
+        Patscan encodes matches in an array that specifies the matches 
+        and sub-matches like this example:
+
+        { 2,  1,0,2,  2,3,2,6,5 }
+    
+        The code below creates what is Perl will be
+
+        [ [[0,2]], [[3,2],[6,5]] ]
+
+        It says there are two matches, the first starting at position 0,
+        with length 2. The second match has two .... verify
+    */
+
+    AV* mats = newAV();
+    AV* submats;
+    AV* submat;
+
+    int ndx, ihit, isubs, isub;
+
+    ndx = 1;
+
+    for ( ihit = 0; ihit < hitbuf[0]; ihit++ )
+    {
+        submats = newAV();
+        av_push( mats, newRV_noinc( (SV*)submats ));
+
+        isubs = hitbuf[ndx++];
+
+        for ( isub = 0; isub < isubs; isub++ )
+        {
+            submat = newAV();
+            av_push( submats, newRV_noinc( (SV*)submat ));
+
+            av_push( submat, newSVuv( hitbuf[ndx++] ) );
+            av_push( submat, newSVuv( hitbuf[ndx++] ) );
+        }
+    }
+
+    return newRV_noinc( (SV*) mats );
+}
+
+__END__

@@ -1,0 +1,92 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Help;
+use Seq::Demul;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2012.
+
+Separates sequences based on combined tag and primer pattern 
+matches. This reduces false positives that may result from using 
+tags only (see seq_demul) at the cost of 2-3x longer run-time.
+The program joints tags and primers into patterns, and there 
+are as many output files as there are tags. Sequences can be 
+given as a single file or read from STDIN. Command line arguments
+are, with defaults in parentheses,
+
+   --recipe   Input recipe file (none)
+   --seqfmt   Sequence format (detected unless piped input)
+  --barfile   Input table file with barcodes
+  --prifile   Input primer pattern file 
+   --outdir   Output directory (current directory)
+   --outpre   Output file name prefix (taken from file names)
+  --combine   Append reverse files to forward .F files (off)
+    --stats   Statistics output file ($prog_name.stats)
+ 
+  --readbuf   Sequences read-ahead buffer (10,000)
+   --dryrun   Prints counts without creating outputs (off)
+   --silent   Prints no progress messages (off)
+
+     --help   Prints various $prog_name help (off)
+    
+Examples,
+
+1\) $prog_name seqs.fq --patfile primers.txt --barfile tags.tab 
+2\) zcat *.fq.gz | $prog_name --patf primers.txt --tagf tags.tab 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "prifile=s" => undef,
+        "barfile=s" => undef,
+        "seqfile=s" => undef,
+        "seqfmt=s" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "stats=s" => undef,
+        "combine!" => undef,
+        "readbuf=i" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+	"silent!" => 0,
+        "help:s" => undef,
+    });
+
+$args->seqfile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Demul::demul_pat( $args );
+}
+
+__END__

@@ -1,0 +1,122 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Anatomy::Import;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2004.
+
+This program builds a database of records from a choice of
+anatomy ontology sources, making them available for query.
+Command line options are,
+ 
+    --cells   [ D = on; by J. Bard & M. Ashburner ]
+      --fly   [ D = on; from the Flybase Consortium ]
+    --mouse   [ D = on; from the Jackson Lab ]
+    --moused  [ D = on; development stages, from EMAP ]
+    --plant   [ D = on; from Plant Ontology Consortium ]
+      --all   [ D = off; all of the above ]
+
+ --readonly   [ D = on; messages, but no download ]
+    --force   [ D = off; forces reloading old data ]
+     --keep   [ D = on; keep database ready tables ]
+
+The default --readonly option will print screen messages 
+and parse the files, but will not update the databases; 
+you may use this option as a "test-run" to see if it is 
+safe to start the real update of the databases. The 
+--noreadonly option loads the data into the database. The
+--force option will reload the data even if they seem up
+to date. The --keep option keeps the database ready 
+tables from being deleted.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_cells = 0;
+my $cl_fly = 0;
+my $cl_mouse = 0;
+my $cl_moused = 0;
+my $cl_plant = 0;
+my $cl_all = 0;
+my $cl_readonly = 1;
+my $cl_headers = 1;
+my $cl_force = 0;
+my $cl_keep = 1;
+
+if ( not &GetOptions (
+                      "cells!" => \$cl_cells,
+                      "fly!" => \$cl_fly,
+                      "mouse!" => \$cl_mouse,
+                      "moused!" => \$cl_moused,
+                      "plant!" => \$cl_plant,
+                      "all!" => \$cl_all,
+                      "headers!" => \$cl_headers,
+                      "readonly!" => \$cl_readonly,
+                      "force!" => \$cl_force,
+                      "keep!" => \$cl_keep,
+                     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>> BUILD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( &Anatomy::Import::is_locked )
+{
+    &user_error( qq (An anatomy ontology is already being built.) );
+    exit;
+}
+else
+{
+    if ( $cl_readonly ) {
+        &echo_bold( "Import Anatomy Ontology (readonly) : \n" ) if $cl_headers;
+    } else {
+        &echo_bold( "Import Anatomy Ontology : \n" ) if $cl_headers;
+    }
+
+    &Anatomy::Import::load_all(
+                               {
+                                   "all" => $cl_all,
+                                   "cells" => $cl_cells,
+                                   "fly" => $cl_fly,
+                                   "mouse" => $cl_mouse,
+                                   "moused" => $cl_moused,
+                                   "plant" => $cl_plant,
+                               },
+                               $cl_readonly,
+                               $cl_force,
+                               $cl_keep,
+                               );
+    
+    &echo_bold( "Finished Import\n" ) if $cl_headers;
+}
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

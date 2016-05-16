@@ -1,0 +1,64 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Chimera;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2011.
+
+Finds chimeric alignments in a single uclust alignment output. The output 
+is a file of locators ('alignment-id:seed-sequence-id') for the alignments 
+considered chimeric. Chimeric here means that a significant portion of all
+aligned sequences align only against the left half of the seed sequence,
+and another significant portion only against the right half. Command line 
+arguments are (defaults in parantheses),
+
+   --outfile   Output file for locators (stdout, i.e. the console)
+
+    --seqmin   Skip alignments with less aligned sequences (3)
+    --offpct   Minimum percent off to either side (60)
+    --rowpct   Minimum percent rows where sequences are off (60)
+    --balpct   Minimum right/left off proportion (10)
+     --usize   Consider cluster sizes from previous clusterings (on)
+
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "outfile:s" => "",
+        "seqmin=i" => 3,
+        "offpct=i" => 60,
+        "rowpct=i" => 60,
+        "balpct=i" => 10,
+        "usize!" => 1,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Ali::Chimera::chimeras_uclust( $ARGV[0], $args );
+
+__END__

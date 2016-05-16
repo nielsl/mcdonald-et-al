@@ -1,0 +1,102 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::File;
+use Common::Messages;
+use Common::Util;
+use Common::Tables;
+
+use Registry::Get;
+use Install::Profile;
+use Registry::Args;
+
+my ( $prog_name, $signature, $usage, %proj_ids, $proj, $proj_name, @msgs, $arg );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( not @ARGV )
+{
+    $usage = &usage( $prog_name, $signature );
+    print STDERR $usage and exit;
+}
+
+%proj_ids = map { $_, 1 } Registry::Get->project_ids();
+
+foreach $arg ( @ARGV )
+{
+    if ( not $proj_ids{ $arg } ) {
+        push @msgs, [ "Problem", qq (Wrong-looking project option -> "$arg") ];
+    }
+}
+
+if ( @msgs )
+{
+    unshift @msgs, &echo_red( "USER ERROR" );
+    push @msgs, "", [ "Help", "Type ./$prog_name to see the options." ];
+
+    &echo( "\n" );
+    &echo_messages( \@msgs );
+    &echo( "\n" );
+
+    exit 0;
+}
+
+&echo_bold( "\nCreating site profiles:\n" );
+
+foreach $arg ( @ARGV )
+{
+    $proj = Registry::Get->project( $arg );
+    $proj_name = $proj->name;
+    
+    &echo( qq (   Creating site profile for "$arg" ... ) );
+    Install::Profile->create_profile( $proj );
+    &echo_green( "done\n" );
+}
+
+&echo_bold( "Finished\n\n" );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> CREATE MENUS <<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage
+{
+    # Niels Larsen, April 2007.
+
+    # Returns console text that shows available options. If the console 
+    # supports color, the options that have not been installed as shown 
+    # in green.
+
+    my ( $prog_name,    # Invoking program name
+         $signature,
+         ) = @_;
+
+    # Returns a string.
+
+    my ( $text, @projs );
+
+    $text = "";
+    $text .= &echo_bold( "\n$Common::Config::sys_name profile update\n\n" );
+
+    $text .= &echo( "The following options are available:\n\n" );
+
+    @projs = @{ Registry::Get->projects->options };
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [ map {[ $_->name, $_->description->title ]} @projs ],
+        { "highlights" => [ Registry::Register->registered_projects ] });
+
+    $text .= "\nAuthor: $signature\n\n";
+        
+    return $text;
+}
+
+__END__

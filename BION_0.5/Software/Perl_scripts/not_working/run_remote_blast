@@ -1,0 +1,68 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Config;
+
+use Bio::Perl;
+
+my ( $prog_name, $signature, $usage, $cl_input, $cl_output,
+     $result, $seqio, $seq );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, July 2005.
+
+This program runs each sequence in a given file through 
+Blast at NCBI. 
+
+      --input   Sequence file
+     --output
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+if ( not GetOptions(
+                    "input=s" => \$cl_input,
+                    "output=s" => \$cl_output,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> RUN BLAST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Use Bioperl, 
+
+$seqio = Bio::SeqIO->new( -file => $cl_input );
+
+while ( $seq = $seqio->next_seq )
+{
+    &dump( $seq );
+    $result = blast_sequence( $seq );
+    &dump( $result );
+    exit;
+    write_blast( ">> output.blast", $result );
+}
+
+__END__
+
+  use Bio::Perl;
+
+  $seq = get_sequence('swiss',"ROA1_HUMAN");
+
+  # uses the default database - nr in this case
+  $blast_result = blast_sequence($seq);
+
+  write_blast(">roa1.blast",$blast_result);

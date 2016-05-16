@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xHttpRequest'>
+
+<sources>
+  <src><sym>xHttpRequest</sym><file>xhttprequest.js</file><note><![CDATA[The default implementation.]]></note></src>
+  <src><sym>xHttpRequest2</sym><file>xhttprequest2.js</file><note><![CDATA[Uses a 'data island' for IE.]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Michael Foster (Cross-Browser.com)</copyright>
+
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Event</grp>
+</groups>
+
+<type>Object</type>
+
+<description><![CDATA[An asynchronous HTTP request object. Features a 'timeout' event, a random number to prevent GET cacheing in IE, detailed error reporting, a 'busy' property for easy serialization, and more.]]></description>
+
+<syntax>var req = new xHttpRequest();</syntax>
+
+<parameters>
+</parameters>
+
+<properties>
+  <prop><name>busy</name><note><![CDATA[True if a response is pending.]]></note></prop>
+  <prop><name>error</name><note><![CDATA[The Error object from an exception that occurred during a request (status == REQERR).]]></note></prop>
+  <prop><name>status</name><note><![CDATA[Integer. One of the following bitmapped values:]]></note></prop>
+  <prop><name>OK</name><note><![CDATA[0 - No error.]]></note></prop>
+  <prop><name>NOXMLOBJ</name><note><![CDATA[1 - Browser doesn't support an XmlHttp object.]]></note></prop>
+  <prop><name>REQERR</name><note><![CDATA[2 - An exception occurred during a request. See the 'error' property.]]></note></prop>
+  <prop><name>TIMEOUT</name><note><![CDATA[4 - A timeout occurred while waiting for a response. The request was aborted.]]></note></prop>
+  <prop><name>RSPERR</name><note><![CDATA[8 - Response status is not 200.]]></note></prop>
+  <prop><name>NOXMLCT</name><note><![CDATA[16 - Response content-type is not XML.]]></note></prop>
+</properties>
+
+<methods>
+  <meth><name>ret = xhr.send(sMethod, sUrl, sData, uTimeout, sRndVar, bXml, oUData, fnCallback);</name><note><![CDATA[
+[code]  ret        - True if the request was sent, else false. 
+  xhr        - An xHttpRequest object.
+  sMethod    - Case-insensitive string: 'GET', 'POST', etc.
+  sUrl       - String. URL to which the request will be sent.
+  sData      - String. The data sent in the request. It should be in the form
+               "name1=value1&name2=value2&etc..." and values be encoded.
+  uTimeout   - Unsigned integer. If a response is not received within
+               uTimeout milliseconds the request will be aborted.
+               If (!uTimeout) there will be no timeout.
+  sRndVar    - If (sRndVar) the following will be appended to sData:
+               '&' + sRndVar + '=' + a_random_number.
+  bXml       - Boolean. When sMethod=='GET': if bXml is true the response is
+               expected to be XML and the Content-Type request header will be
+               set to 'text/xml'; if bXml is false it will be set to 'text/plain'.
+               When sMethod=='POST': the Content-Type request header will be
+               set to 'application/x-www-form-urlencoded'.
+  oUData     - A user data object which will be passed to the callback function.
+  fnCallback - A reference to the function which will be called when a response
+               is received or when the timeout period has elapsed. The callback
+               function will receive three arguments:
+               fnCallback(req, status, data);
+               req - The XMLHttpRequest object.
+               status - The xhr.status property.
+               data - The oUData object that was passed to the send method.[/code]
+  ]]></note></meth>
+</methods>
+
+<dependencies>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/x/examples/xhttprequest.html</url><note><![CDATA[Demo 1.]]></note></demo>
+  <demo><url>http://cross-browser.com/x/examples/xhttprequest2.html</url><note><![CDATA[Demo 2.]]></note></demo>
+</demos>
+
+<tests>
+</tests>
+
+<comments>
+</comments>
+
+<revisions>
+  <rev><num>4</num><date>17Mar07</date><author>mf</author><note><![CDATA[Experimental change: set "_r.onreadystatechange = function(){}" before calling abort (needs more testing). Ref: "http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_a_1.html".]]></note></rev>
+  <rev><num>3</num><date>30Jan07</date><author>mf</author><note><![CDATA[Did more testing and made an improvement: It seemed that FF was not clearing previously set request headers after open(). So now it sets either 'text/xml' or 'text/plain'. Also moved "_i.busy = false" to after the callback is called.]]></note></rev>
+  <rev><num>2</num><date>16Nov06</date><author>mf</author><note><![CDATA[Removed 'data island' code. See xHttpRequest2. Also made some other improvements.]]></note></rev>
+  <rev><num>1</num><date>12Nov06</date><author>mf</author><note><![CDATA[Initial implementation based loosely on XHConn (http://xkr.us/code/javascript/XHConn/).]]></note></rev>
+</revisions>
+
+</x_symbol>

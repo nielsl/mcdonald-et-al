@@ -1,0 +1,38 @@
+<description>
+    title = BION Software (in development)
+    keywords = genomics, portal, free software, GNU, GPL
+</description>
+
+<header>
+    title = Genome Office (in development)
+    header_style = header_bar_blue
+    footer_style = footer_bar_blue
+    logo_image = # biobase_logo.gif
+    logo_text = # BION
+    logo_link = 
+    home_link = 1
+</header>
+
+<style>
+</style>
+
+projpath = BION
+
+datasets = orgs_taxa_ncbi
+
+# datasets_other = 
+
+<defaults>
+  def_request = 
+  def_input = 
+  def_viewer = orgs_viewer
+  def_menu_1 = orgs
+  def_menu_2 = 
+  def_menu_3 = 
+</defaults>
+
+<navigation>
+  name = orgs
+  label = Organisms
+  dbnames = orgs_taxa_ncbi
+</navigation>

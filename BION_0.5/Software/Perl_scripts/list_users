@@ -1,0 +1,104 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Data::Dumper;
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::DB;
+use Common::Accounts;
+use Common::Tables;
+
+my ( $prog_name, $usage, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2005.
+
+Lists all registered users. The command $prog_name --all will list
+all users with their login and real names, printed as a table on
+the screen. Additional fields of information are available,
+
+  password, title, department, institution, company, street,
+  city, postal_code, state, country, web_home, e_mail, telephone,
+  telefax, username, password, credit
+
+To see these fields, specify desired fields like in this example,
+
+$prog_name --output="credit,institution,country"
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_all, $cl_output, @fields, $field, %keys, @errors, $error, 
+     $str, $sql, $table, $fields, @table );
+
+if ( not &GetOptions (
+                      "output=s" => \$cl_output,
+                      "all" => \$cl_all,
+                      ) )
+{
+    exit;
+}
+
+if ( $cl_output ) {
+    @fields = split /\s*,\s*/, $cl_output;
+} else {
+    @fields = ( "first_name", "last_name", "username", "password", "project", "session_id" );
+}
+
+%keys = map { $_, 1 } &Common::Accounts::all_fields;
+
+foreach $field ( @fields )
+{
+    if ( not exists $keys{ $field } )
+    {
+        push @errors, qq (Wrong looking field -> "$field"\n);
+    }
+}
+
+if ( @errors )
+{
+    &echo( "\n" );
+
+    foreach $error ( @errors )
+    {
+        $str = &echo_red( "ERROR" );
+        &echo( "$str: $error" );
+    }
+    
+    &echo( "\n" );
+
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> MAKE QUERY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@table = &Common::Accounts::list_users( undef, \@fields );
+
+@fields = map { $_ =~ s/_/ /g; ucfirst $_ } @fields;
+
+unshift @table, [ map { "-" x length $_ } @fields ];
+unshift @table, [ @fields ];
+
+print "\n";
+print &Common::Tables::render_ascii( \@table );
+print "\n\n";
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

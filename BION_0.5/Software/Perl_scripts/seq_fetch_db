@@ -1,0 +1,91 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::IO;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Fetches sequences from named files, installed datasets or remote servers
+and writes them to file or STDOUT. Sequences are given by their IDs or
+accession numbers and may include sub-sequence locations, 
+
+CP001140.1                          Gets whole sequence
+CP001140.1:100,20,-;500,100         Gets sub-sequence (local files only)
+
+The sub-sequence locations are given by start (1-based numbering), length 
+direction ('+' or '-', '+' assumed if not given). Such locators can be 
+given on the command line within single quotes, be piped from STDIN and/or
+be read from a file. Output are sequences in fasta format (more formats 
+later) written to STDOUT or a named file. Command line arguments are,
+
+     --locs   Input locators file (undef)
+     --idex   ID filter expression, perl style (undef)
+     --from   File path, dataset name or remote server (undef)
+       --to   Output sequence file path (<stdout>)
+   --format   Output sequence format (fasta)
+  --clobber   Overwrites output file (off)
+   --append   Appends to output file (off)
+
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+    
+The --from argument can be a path to an indexed sequence file, an installed
+dataset name, or remote database names such as "ebi:embl" (see more EBI 
+names with "ebi_fetch getSupportedDBs").
+
+Examples,
+
+1\) $prog_name id1 id3:2,2 --from test.fa 
+2\) $prog_name --locs locs.list --from rna_seq_mirbase
+3\) $prog_name --from rna_seq_mirbase --idex '^mmu'
+4\) $prog_name 'CP001140.1:100,20,-;500,100' --from ebi:embl
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "argv:s" => undef,
+        "locs:s" => undef,
+        "idex=s" => undef,
+	"from:s" => undef,
+        "to:s" => undef,
+        "format:s" => "fasta",
+        "clobber!" => 0,
+        "append!" => 0,
+	"silent!" => 0,
+	"verbose!" => 0,
+    });
+
+$args->argv( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$msgs = [];
+
+&Seq::IO::get_seqs( $args, $msgs );
+
+if ( @{ $msgs } ) {
+    &echo_messages( $msgs, { "linewid" => 60, "linech" => "-" } );
+}
+
+__END__

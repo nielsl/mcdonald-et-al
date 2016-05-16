@@ -1,0 +1,181 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------------
+#
+# Installs software packages (which may consist of several programs) 
+# named on the command line.
+#
+# Author: Niels Larsen, June 2009.
+#
+# -----------------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Install::Software;
+
+my ( $prog_name, $usage, $args, $msg, $file, $type, $routine, $count );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$prog_name =~ s/\.[^.]+$//;
+
+$usage = &usage( $prog_name );
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "apache_port=i" => undef,
+        "mysql_port=i" => undef,
+        "confirm!" => 1,
+        "all!" => 0,
+        "force!" => 0,
+        "download!" => 1,
+        "verbose!" => 1,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+if ( not @ARGV and not $args->all ) 
+{
+    $msg = "Please specify which package(s) to install";
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+$Common::Messages::silent = 1 if $args->silent;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# The following are default install options. Routines may or may not use 
+# them, and they may copy + override them.
+
+( $count, undef, undef ) = &Install::Software::install_software(
+    \@ARGV,
+    {
+        "apache_port" => $args->apache_port,
+        "mysql_port" => $args->mysql_port,
+        "all" => $args->all,
+        "force" => $args->force,
+        "download" => $args->download,
+        "verbose" => $args->verbose,
+        "silent" => $args->silent,
+        "confirm" => $args->confirm,
+        "debug" => $args->debug,
+    });
+
+if ( $count )
+{
+    &echo( "\n" ) if not $args->silent;
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (All software packages are installed);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (All of the given packages are installed);
+    } else {
+        $msg = qq (The @ARGV package is installed);
+    }
+    
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage
+{
+    # Niels Larsen, March 2005.
+
+    # Returns console text that shows available installation options. If the
+    # console supports color, the options that have not been installed are
+    # shown in green.
+
+    my ( $prog_name,    # Invoking program name
+         ) = @_;
+
+    # Returns a string.
+
+    my ( $text, %inst_opts, $opt, @all_opts, @highlights, $onstr );
+
+    require Common::Tables;
+
+    require Registry::Get;
+    require Registry::Register;
+
+    # Create lidt of [ name, title ] tuples of install options,
+    # minus perl which will have been installed before getting here,
+
+    @all_opts =  grep { $_->[0] ne "perl" }
+                 map { [ $_->name, $_->title ] }
+                 Registry::Get->installs_software->options;
+
+    # Create list of highlights,
+
+    %inst_opts = map { $_, 1 } Registry::Register->registered_soft_installs();
+
+    foreach $opt ( @all_opts )
+    {
+        if ( not $inst_opts{ $opt->[0] } ) {
+            push @highlights, $opt->[0];
+        }
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT PAGE TEXT <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $onstr = &echo_green("ON");
+
+    $text = "";
+    $text .= &echo_bold( "\n$Common::Config::sys_name software installation\n" );
+
+    $text .= qq (
+The options marked with asterisk (*) can be installed, the 
+rest are installed already:
+
+);
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [
+         @all_opts,
+        ],
+        { "highlights" => \@highlights },
+        );
+
+    $text .= qq (
+Switches:
+
+     --all   Installs all uninstalled packages (off).
+   --force   Ignores recorded install status (off).
+--download   Downloads from internet where needed (on).
+ --confirm   Ask for confirmation before installing ($onstr).
+ --verbose   Print more than summary progress messages (off).
+  --silent   Turns off progress messages (off).
+
+--apache_port nnnn   Apache port (default $Common::Config::http_port)
+ --mysql_port nnnn   MySQL port (default $Common::Config::db_port)
+
+Examples:
+
+(1) ./$prog_name --all 
+(2) ./$prog_name apache --apache_port 8000 --force
+
+Example 1 installs all uninstalled software. Example 2 forces
+removal of the old Apache install and installation of a new 
+one that uses port 8000.
+);
+
+    return $text;
+}
+
+__END__

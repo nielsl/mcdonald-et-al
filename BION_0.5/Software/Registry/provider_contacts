@@ -1,0 +1,34 @@
+#
+# Contact person
+# --------------
+#
+# This is the contact information that shows up in both the console
+# and browser in the event of an error. Local installations may put 
+# their own contact person here instead,
+
+   first_name = Niels
+    last_name = Larsen
+        title = Bicyclist
+
+       e_mail = niels@genomics.dk
+        skype = niels_larsen_denmark
+    telephone = +45-3091-5426
+      telefax = 
+
+#
+# Provider address
+# ----------------
+# 
+# The current system provider. Please do not change this.
+
+   department = 
+      company = Danish Genome Institute
+  institution = 
+       street = Skt. Lucas Kirkeplads 8
+  postal_code = DK-8000
+         city = Aarhus C
+        state = 
+      country = Denmark
+
+     web_home = http://genomics.dk
+

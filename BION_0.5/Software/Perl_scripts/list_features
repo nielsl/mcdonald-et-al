@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, $args, @table );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Lists all data features as a table, with selectable columns.
+Command line options,
+
+     --fields    Fields ("name,title,viewers")
+       --sort    Field to sort on ("name")
+
+Accepted fields are,
+
+         name   Unique identifier
+        title   Short description for menus
+  description   Longer description
+      dbtypes   Data types the feature applies to
+      viewers   Viewers that can show the feature
+
+Example:
+
+1\) $prog_name --fields "name,title"
+
+Example 1 lists the names and titles, in the order they they
+appear in the registry.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "fields:s" => "name,title,viewers",
+        "sort:s" => "name",
+        "header!" => 1,
+        "colsep:s" => "   ",
+        "indent:s" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@table = Registry::List->list_features( 
+    {
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+    });
+
+if ( not @table ) {
+    &error( qq (No packages) );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+print "\n";
+
+Common::Tables->render_list(
+    \@table,
+    {
+        "fields" => $args->fields,
+        "header" => $args->header,
+        "colsep" => $args->colsep,
+        "indent" => $args->indent,
+    });
+
+print "\n\n";
+
+__END__

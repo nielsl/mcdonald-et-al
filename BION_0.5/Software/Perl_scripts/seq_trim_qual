@@ -1,0 +1,88 @@
+#!/usr/bin/env perl
+
+# Niels Larsen, January 2010.
+
+# Script for quality trimming. Contains no functionality, but calls a 
+# library function. 
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, September 2009.
+
+Trims sequence beginnings or ends by quality. A window of a given 
+length and quality is moved from the beginning (or end) one step at 
+a time until it reaches a good stretch. Good is defined as a minimum
+percentage of bases of a given accuracy or better. Low quality bases 
+are finally stripped. If sequence is shorter than window length, 
+then the window is shortened. Command line arguments are (defaults 
+in parantheses),
+
+   --iformat   Input format (detected if file is given)
+     --oseqs   Output sequence file (<STDOUT>)
+
+    --winlen   Window length for quality measurement (10)
+    --winhit   Mininum number of window qualities above cutoff (9)
+   --minqual   Minimum base quality percent (99.0)
+  --qualtype   Quality encoding (Illumina_1.8)
+      --begs   Trim beginnings (off)
+      --ends   Trim ends (on)
+
+    --dryrun   Prints the number of matches instead of output (off)
+   --clobber   Overwrites previous output (off)
+    --append   Appends to existing files (off)
+    --silent   Prints no progress messages (off)
+
+The --minqual argument specifies minimum accuracy (e.g. 99.5 means 
+one error in 200 bases). Examples,
+
+1\) $prog_name reads.fastq --minqual 98 --winhit 10 --begs
+2\) cat reads.fastq | $prog_name --begs --noends 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => undef,
+        "oseqs=s" => undef,
+        "winlen=i" => 10,
+        "winhit=i" => 9,
+        "minqual=f" => 99.0,
+        "qualtype=s" => "Illumina_1.8",
+        "begs!" => 0,
+        "ends!" => 0,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->iseqs( $ARGV[0] );
+
+&Seq::Clean::trim_qual( $args );
+
+__END__

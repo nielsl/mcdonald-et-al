@@ -1,0 +1,64 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Expr::Stats;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2011.
+
+Creates overview statistics from one or more expr_profile table outputs.
+The outputs are convertible to HTML with stats_to_html. Command line 
+arguments are (defaults in parantheses),
+
+   --config   Configures the statistics output tables
+    --stats   Output statistics file path 
+   --suffix   Output statistics file suffix 
+
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+  --clobber   Create output files even if they exist (off)
+
+Examples,
+
+1\) $prog_name gris.expr.sca --config ncrna_stats.config --stats test.out
+2\) $prog_name seqdir*/*.expr --config stats.config --suffix .stats
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "itables=s" => undef,
+        "config=s" => undef,
+	"stats=s" => undef,
+        "suffix=s" => undef,
+	"silent!" => 0,
+	"clobber!" => 0,
+    });
+
+$args->itables( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RUN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Expr::Stats::create_stats( $args );
+
+__END__
+

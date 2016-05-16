@@ -1,0 +1,114 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Taxonomy::Profile;
+use Taxonomy::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2013.
+
+Creates a table of similarities between query sequences and reference
+datasets. The input query sequences can be given as 
+
+1. One or more sequence files in common formats (fastq, fasta)
+2. A consensus table with weights as created by seq_pool_map. This is
+   used when millions of Illumina reads are clustered down in numbers.
+
+For the moment similarities are made with seq_simrank, but there will
+be more similarity software. The supported datasets are RDP, Greengenes
+and Silva, their install names can be listed with the --list option. 
+Command line arguments are (defaults in parantheses),
+
+    --recipe   Recipe file (none)
+
+    --dbname   Reference dataset installed name (Green_SSU_all)
+    --dbfile   Reference sequence file path (none)
+    --dbread   Dataset sequences read-ahead (10,000)
+
+      --self   With query cluster mapping (on)
+    --minsim   Minimum oligo similarity percentage (50)
+    --topsim   Percent best matches to save (1.0)
+   --forward   Matches sequences in the forward direction (on)
+   --reverse   Matches sequences in the reverse direction (off)
+   --minqual   Minimum base quality percent (99.0)
+  --qualtype   Quality encoding (Illumina_1.8)
+   --wordlen   Sequence oligo or "word" length (8)
+   --steplen   Sequence oligo word step length (2)
+    --wconly   Use oligos with Watson-Crick bases only (on)
+
+    --outdir   Output directory (current directory)
+    --outpre   Output file name prefix (taken from file names)
+     --stats   Output statistics file (--outdir/--outpre.stats)
+   
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+      --list   Lists installed dataset names (off)
+      --help   Prints help
+
+Usage examples,
+
+1\) $prog_name *.clean
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifiles=s" => undef,
+        "recipe=s" => undef,
+        "dbname=s" => undef,
+        "dbfile=s" => undef,
+        "dbread=i" => undef,
+        "self!" => undef,
+        "minsim=f" => undef,
+        "topsim=f" => undef,
+        "forward!" => undef,
+        "reverse!" => undef,
+        "minqual=f" => undef,
+        "qualtype=s" => undef,
+        "wordlen=i" => undef,
+        "steplen=i" => undef,
+        "wconly!" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "stats=s" => undef,
+        "list!" => undef,
+        "help:s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Taxonomy::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Taxonomy::Profile::org_profile_sims( $args );
+}
+
+__END__

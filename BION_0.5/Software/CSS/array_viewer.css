@@ -1,0 +1,120 @@
+/* 
+
+Stylesheet for alignment views. 
+
+*/
+
+td.name_mid, td.name_top, td.name_bot {
+    background-color: #eeeddd;
+    color: #000000;
+    border-left: 2px solid #aaa999;
+    border-right: 2px solid #ffffff;
+    font-weight: normal;
+    padding-left: 4px;
+    padding-right: 4px;
+    white-space: nowrap;
+    font-size: 70%;
+}
+
+td.name_top {
+    border-top: 2px solid #aaa999;
+}
+
+td.name_bot {
+    border-top: 2px solid #ffffff;
+}
+
+td.toggle_up, a.toggle_up {
+    color: #000000;
+    background-color: #cccccc;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #999999;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #999999;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+td.toggle_down, a.toggle_down {
+    font-size: 12px;
+    color: #000000;
+    background-color: #eeeddd;
+    border-right: 2px solid #ffffff;
+    border-left: 2px solid #999999;
+    border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #999999;
+    font-weight: normal;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#content {
+  background-color: #cccccc;
+  border-color: #ffffff #999999 #999999 #ffffff;
+  border-style: solid;
+  border-width: 2px;
+  font-size: 12px;
+  padding: .5em 1em .25em 1em;
+}
+
+#validation {
+  padding: 1em 0em;
+  text-align: right;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: black;
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.3em; font-size: 170%; margin-top: 0px; }
+h2 { font-size: 1.25em; font-size: 140%; margin-top: 0px; }
+h3 { font-size: 1.2em; font-size: 120%; }
+h4 { font-size: 1.1em; font-size: 100%; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+p {
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.status_box {
+    background-color: #eeeddd;
+    border: 2px solid;
+    border-color: #aaaaaa;
+    font-weight: normal;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    text-align: center;
+    vertical-align: middle;
+}    
+
+.RubberBandBox {
+  position:absolute;
+  overflow:hidden;
+  padding:0;
+  opacity:.3;
+  background-color: #FFFFFF;
+  border:1px solid #666666;
+  visibility:hidden;
+}
+
+.RubberBandBox { filter: alpha(opacity=50); }

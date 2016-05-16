@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, December 2011.
+
+Filters sequence files by the sequence ids. Input is a sequence file or
+stream and output is new sequence file or stream in the same format, but
+possibly with fewer entries. ID name expressions must be Perl-style. 
+Command line arguments are (defaults in parantheses),
+
+  --iformat   Input format (detected if file is given)
+    --oseqs   Output sequence file (STDOUT)
+     --oids   Outputs IDs instead of whole entries (off)
+
+    --match   Entries where ID matches this expression (none)
+  --nomatch   Entries where ID mis-matches this expression (none)
+   --minlen   Entries where ID length is >= this length (1)
+   --maxlen   Entries where ID length is <= this length (none)
+
+  --getfile   File of IDs to get
+ --skipfile   File of IDs to ignore
+
+   --dryrun   Prints the number of matches instead of output (off)
+  --clobber   Overwrites previous output (off)
+   --append   Appends to existing files (off)
+   --silent   Prints no progress messages (off)
+
+Usage examples,
+
+1\) $prog_name seqs.fasta --match '^[A-Z1-9]{7,10}\.\\d+\$'
+2\) $prog_name seqs.fasta --min 8 --max 10
+3\) $prog_name seqs.fasta --min 8 --max 10 --oids
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => undef,
+        "oseqs=s" => undef,
+        "oids!" => 0,
+        "getfile=s" => undef,
+        "skipfile=s" => undef,
+        "match=s" => undef,
+        "nomatch=s" => undef,
+        "minlen=i" => undef,
+        "maxlen=i" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+$args->iseqs( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> CHECK IDS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Clean::filter_id( $args );
+
+__END__

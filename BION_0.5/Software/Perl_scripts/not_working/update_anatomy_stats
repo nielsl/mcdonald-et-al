@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Anatomy::Stats;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2004.
+
+This program builds a database of statistics that can be 
+projected onto the anatomy ontology displays. The options
+allow loading of separate anatomies. The command line 
+options are,
+
+    --cells   [ Creates new cells counts ]
+      --fly   [ Creates new fly counts ]
+    --mouse   [ Creates new adult mouse counts ]
+    --moused  [ Creates new embryo mouse counts ]
+    --plant   [ Creates new plant counts ]
+      --all   [ All of the above ]
+
+ --readonly   [ On; extracts, with messages, no load ]
+    --force   [ D = off; forces reloading old data ]
+     --keep   [ D = on; keep database ready tables ]
+
+You may use the --readonly as a "test-run" to see if it 
+is safe to start the real update of the databases. The 
+--noreadonly option loads the data into the database.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_cells = 0;
+my $cl_fly = 0;
+my $cl_mouse = 0;
+my $cl_moused = 0;
+my $cl_plant = 0;
+my $cl_all = 0;
+my $cl_headers = 1;
+my $cl_readonly = 1;
+my $cl_force = 0;
+my $cl_keep = 1;
+
+if ( not &GetOptions (
+                      "cells!" => \$cl_cells,
+                      "fly!" => \$cl_fly,
+                      "mouse!" => \$cl_mouse,
+                      "moused!" => \$cl_moused,
+                      "plant!" => \$cl_plant,
+                      "all!" => \$cl_all,
+                      "headers!" => \$cl_headers,
+                      "readonly!" => \$cl_readonly,
+                      "force!" => \$cl_force,
+                      "keep!" => \$cl_keep,
+                      ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>> BUILD STATISTICS <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Update Anatomy Statistics (readonly) : \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Update Anatomy Statistics : \n" ) if $cl_headers;
+}
+
+&Anatomy::Stats::update_all(
+                            { 
+                                "all" => $cl_all,
+                                "cells" => $cl_cells,
+                                "fly" => $cl_fly,
+                                "mouse" => $cl_mouse,
+                                "moused" => $cl_moused,
+                                "plant" => $cl_plant,
+                            },
+                            $cl_readonly,
+                            );
+
+&echo_bold( "Finished Update\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

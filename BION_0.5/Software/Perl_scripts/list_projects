@@ -1,0 +1,103 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, $filter, $msg, @table, $args );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Lists projects as a table with selectable columns. Command 
+line options are,
+
+      --fields    Fields ("name,datadir,title")
+        --sort    Field to sort on ("name")
+   --installed    Lists installed projects only (off)
+ --uninstalled    Lists uninstalled projects only (off)
+
+Accepted fields are,
+
+          name    Unique identifier
+       datadir    WWW and data directory
+         title    Menu titles
+      datasets    Datasets registered to this project 
+datasets_other    Datasets registered to other projects
+  hide_methods    Methods not to make available 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "fields:s" => "name,datadir,title",
+        "sort:s" => "name",
+        "installed!" => 0,
+        "uninstalled!" => 0,
+        "header!" => 1,
+        "colsep:s" => "   ",
+        "indent:s" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $args->installed ) {
+    $filter = "installed";
+} elsif ( $args->uninstalled ) {
+    $filter = "uninstalled";
+} else {
+    $filter = "";
+}
+
+@table = Registry::List->list_projects( 
+    {
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+        "filter" => $filter,
+    });
+
+if ( not @table ) {
+    &error( qq (No projects) );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( @table )
+{
+    print "\n";
+    
+    Common::Tables->render_list(
+        \@table,
+        {
+            "fields" => $args->fields,
+            "header" => $args->header,
+            "colsep" => $args->colsep,
+            "indent" => $args->indent,
+        });
+    
+    print "\n\n";
+}
+else
+{
+    if ( $filter ) {
+        $msg = "No $filter projects";
+    } else {
+        $msg = "No projects";
+    }
+
+    &echo_messages( [["OK", $msg ]] );
+}
+
+__END__

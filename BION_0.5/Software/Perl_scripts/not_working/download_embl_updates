@@ -1,0 +1,94 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use DNA::EMBL::Download;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+This program downloads EMBL update files to its local 
+updates directory. Only files are downloaded which are
+missing locally or have a different size. This means 
+the process can resume if it was interrupted. If there
+is less free disk space than required for the download 
+to complete, then the program will not start. Command 
+line options are,
+
+   --readonly   [ D = on; messages, but no download ]
+ --noreadonly   [ D = off; starts the download ]
+
+Messages are written to the console, but only if the
+program is run from the console. You can run it from a 
+scheduler to keep the EMBL data updated. Processing of
+the downloaded files is done by other programs, see 
+the documentation. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_readonly = 1;
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "headers!" => \$cl_headers,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> DOWNLOAD UPDATES <<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( &DNA::EMBL::Download::updates_are_locked )
+{
+    &user_error( qq (EMBL updates are already downloading.) );
+}
+else
+{
+    if ( $cl_readonly ) {
+        &echo_bold( "Download EMBL Updates (readonly) : \n" ) if $cl_headers;
+    }
+    else 
+    {
+        &echo_bold( "Download EMBL Updates : \n" ) if $cl_headers;
+        &DNA::EMBL::Download::create_updates_lock;
+    }
+
+    &DNA::EMBL::Download::download_updates( $cl_readonly );
+
+    if ( not $cl_readonly ) {
+        &DNA::EMBL::Download::remove_updates_lock;
+    }
+
+    &echo_bold( "Finished EMBL Updates\n" ) if $cl_headers;
+}
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

@@ -1,0 +1,69 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Storage;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$out_formats = join ", ", sort keys %{ &Seq::Storage::format_fields("valid") };
+
+$usage = qq (
+Program $prog_name, February 2011.
+
+Iterates through one or more dereplicated sequence stores and writes 
+all data to files in different formats. Command line arguments are,
+
+   --outfmt   Output format (table)
+   --outsuf   Output suffix (period plus the chosen format name)
+
+  --clobber   Overwrites output file (off)
+   --silent   Prints no progress messages (off)
+
+Supported output formats: $out_formats
+
+Examples,
+
+1\) $prog_name seqdir*/*.derep --outsuf .proj5
+2\) $prog_name seqdir*/*.derep --outfmt fastq 
+
+Example 1 creates table with sequences and counts, and qualities if 
+present. Files are named as the inputs, but with ".proj5" appended. 
+Example 2 prints fastq format with ids as running integers (the old 
+ids are gone in the dereplication process). 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+   {
+       "outfmt=s" => undef,
+       "outsuf=s" => undef,
+       "clobber!" => 0,
+       "silent!" => 0,
+   });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->add_field("ifiles");
+$args->ifiles( \@ARGV );
+
+&Seq::Storage::dump_derep_seqs( $args );
+
+__END__

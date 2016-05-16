@@ -1,0 +1,117 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Recipe::Run;
+use Recipe::Help;
+
+my ( $usage, $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = &usage_text( ( split "/", $0 )[-1] );
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifiles=s" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "single!" => 1,
+        "beg=s" => undef,
+        "end=s" => undef,
+        "delta=s" => undef,
+        "yield!" => 1,
+        "batch!" => 0,
+        "list!" => 0,
+        "stats!" => 0,
+        "stop!" => 0,
+        "clobber!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->recipe( shift @ARGV );
+$args->ifiles( \@ARGV );
+
+&Recipe::Run::run_recipe( $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage_text
+{
+    # Niels Larsen, May 2012.
+
+    # Formats and returns a usage text string.
+
+    my ( $prog_name,       # Program name
+         ) = @_;
+
+    # Returns a string.
+
+    my ( $text, @opts );
+
+    $text = &echo_bold( "\nRun a recipe\n" );
+
+    @opts = (
+        [ "--single", "Regard multiple input files as one (on)" ],
+        [ "--beg", "Name of step to start recipe at (first)" ],
+        [ "--end", "Name of step to stop recipe at (first)" ],
+        [ "--delta", "File of overriding keys and values (none)" ],
+        [ "--yield", "Job yields priority when users are active (on)" ],
+        [ "--batch", "Runs the job in the background (off)" ],
+        [ "--outdir", "Output directory (current directory)" ],
+        [ "--outpre", "File prefix for all output files (OUT)" ],
+        [ "--list", "Lists names and titles of the given recipe" ],
+        [ "--stats", "Re-generates the main statistics page" ],
+        [ "--stop", "Stops all running run_recipe analyses (off)" ],
+        );
+
+    $text .= qq (
+Runs a workflow on one or more input files. A recipe is a text file
+with steps that together form an analysis workflow. Steps are run 
+in the order given in the file text. The command "help_recipe run"
+(without quotes) explains how to run recipes, "help_recipe steps" 
+lists which steps there are to build recipes from. Templates are in
+
+$Common::Config::recp_dir
+
+This script's command line arguments are (defaults in parantheses),
+
+);
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [ @opts ],
+        { "highlights" => [ map { $_->[0] } @opts ], "highch" => " " },
+        );
+    
+    $text .= qq (
+ --clobber   Overwrites existing output files (off)
+  --silent   Prints no progress messages (off)
+   --debug   Creates debug information in directory (off)
+
+Command line usage example,
+
+$prog_name recipe.file seqdir*/*.fq --outdir Outputs 
+
+The recipe file must come first, then one or more input files.
+Arguments can be placed anywhere. 
+);
+
+    $text .= &Recipe::Help::about();
+
+    return $text;
+}
+
+__END__

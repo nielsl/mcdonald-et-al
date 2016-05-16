@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Consensus;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2012.
+
+Creates a table map from a set of consensus files with read counts. A
+pool is first made which is the union of all sequences, and each file 
+is mapped against this pool. A table map has one sequence per row, the
+values are original read counts and each column corresponds to an input
+file. Read counts are summed up and can be scaled, so the total number
+of reads for each file are the same. See --help for more. Command line 
+arguments are,
+
+     --recipe   Recipe file (none)
+
+    --pmethod   Pooling method, "similar" or "exact" (exact)
+    --iminsiz   Pool input sequence minimum read count (1)
+    --iminlen   Pool input sequence minimum length (20)
+    --pminsiz   Pool minimum cluster size (as --iminsiz + 1)
+    --pminlen   Pool minimum consensus length (same as --iminlen)
+    --pminsim   Pool minimum cluster similarity percent (100)
+    --pminres   Pool minimum non-gap percentage in columns (5)
+
+    --mmethod   Map method, "similar" or "exact" (exact)
+    --mminsim   Map minimum similarity percent for "similar" method (95)
+      --scale   Scale counts to equal number of read totals (on)
+     --colids   Table column IDs, as comma-separated string 
+    --colfile   Table column ID file, barcode file format (none)
+     --colpat   Table column pattern that makes IDs from file names
+     --otable   Output table file (<stdout>)
+     --ostats   Output statistics file (none)
+
+    --clobber   Overwrites existing output (off)
+     --silent   Prints no progress messages (off)
+    --verbose   Prints more progress messages (off)
+
+       --help   Explains the above options and methods and examples (off)
+
+Usage examples,
+
+1\) $prog_name 'seqdir/*.confa' --otable cons_pool.table --method cluster
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifiles=s" => undef,
+        "pmethod=s" => undef,
+        "iminsiz=i" => undef,
+        "iminlen=i" => undef,
+        "pminsiz=i" => undef,
+        "pminlen=i" => undef,
+        "pminsim=i" => undef,
+        "pminres=i" => undef,
+        "mmethod=s" => undef,
+        "mminsim=i" => undef,
+        "scale!" => undef,
+        "colids=s" => undef,
+        "colpat=s" => undef,
+        "colfile=s" => undef,
+        "otable=s" => undef,
+        "ostats=s" => undef,
+        "clobber!" => 0,
+        "silent!" => 0,
+        "verbose!" => 0,
+        "help:s" => undef,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> POOL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Consensus::create_table( $args );
+}
+
+__END__

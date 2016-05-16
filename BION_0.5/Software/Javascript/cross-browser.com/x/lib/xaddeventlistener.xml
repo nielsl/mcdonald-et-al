@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xAddEventListener'>
+
+<sources>
+  <src><sym>xAddEventListener</sym><file>xaddeventlistener.js</file><note><![CDATA[The default implementation.]]></note></src>
+  <src><sym>xAddEventListener2</sym><file>xaddeventlistener2.js</file><note><![CDATA[The original implementation of xAddEventListener.]]></note></src>
+  <src><sym>xAddEventListener3</sym><file>xaddeventlistener3.js</file><note><![CDATA[Has Ivan's enhancements. See the notes for rev 7.]]></note></src>
+</sources>
+
+<copyright>Copyright 2001-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Event</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Register an event listener on the element.]]></description>
+
+<syntax>xAddEventListener(ele, sEventType, fnEventListener, bCapture)</syntax>
+
+<parameters>
+  <par>
+    <name>ele</name>
+    <note><![CDATA[ID string or object reference.]]></note>
+  </par>
+  <par>
+    <name>sEventType</name>
+    <note><![CDATA[String event type: 'mousemove', 'click', 'resize', etc.]]></note>
+  </par>
+  <par>
+    <name>fnEventListener</name>
+    <note><![CDATA[Reference to the listener function.]]></note>
+  </par>
+  <par>
+    <name>bCapture</name>
+    <note><![CDATA[Boolean capture event flag.]]></note>
+  </par>
+</parameters>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/x/examples/drag2.php</url>
+    <note><![CDATA[Many of the demos use xAddEventListener.]]></note>
+  </demo>
+</demos>
+
+<comments>
+</comments>
+
+<revisions>
+  <rev>
+    <num>8</num><date>17Mar2007</date><author>mf</author>
+    <note><![CDATA[Added the closure for DOM0 handlers.]]></note>
+  </rev>
+  <rev>
+    <num>7</num><date>21Nov06</date><author>mf</author>
+    <note><![CDATA[
+    This implementation came from the original, which is now xAddEventListener2. See the alternative implementations for complete revision history.
+    ]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

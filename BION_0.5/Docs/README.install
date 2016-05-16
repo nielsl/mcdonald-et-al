@@ -1,0 +1,131 @@
+Introduction
+------------
+
+Software and data are installed with a single command and everything can be 
+removed easily without leaving traces. All software is configured and compiled
+from source code and no administrator access is required. 
+
+The system come with its own Apache, MySQL, Perl, Python, and many non-standard
+modules as well as GNU utilities. This "baggage" is included for robustness,
+and we think the inconvenience of 30-60 minutes of compile time plus an extra 
+gigabyte of storage is small compared with having a problem.
+
+See the LICENSE file for availability. 
+
+Requirements
+------------
+
+A unix or unix-like machine such as Mac's with at least 1 Gigabyte of RAM and 
+20 Gigabytes of free disk space, and with connection to the internet.
+
+Working C and C++ compilers must also be present. Installation of these vary 
+between systems, please ask the systems operator or look on the internet. On a
+Ubuntu Linux system, installing the 'build-essential' package should suffice.
+
+Software installation
+---------------------
+
+To install all software with default ports (Apache 8001 and MySQL 3807), type
+
+./install_software --all
+
+To see more options type ./install_software with no arguments. 
+
+The install may run for half an hour or longer and there should be no need to
+do anything. When complete, do (as the screen messages will also say),
+
+. set_env
+
+to set environment variables. Alternatively, have them set automatically by 
+adding this to the login file (.bashrc, .tcshrc, etc),
+
+. DIR/set_env DIR     (e.g. ". ~/BION/set_env ~/BION")
+
+where "DIR" is the directory path to where BION is installed. All steps 
+below assume that these environment variables have been set.
+
+Data installation
+-----------------
+
+When the software is installed, then try 
+
+install_data --list 
+
+This lists the available datasets. To download and install Greengenes 16S,
+it is okay to type part of the dataset name, 
+
+install_data green
+
+and wait about 10 minutes. Same with rdp and silva,
+
+install_data rdp
+install_data silva
+
+but this takes 1-2 hours (because domain sub-sequences are extracted from 
+large alignments).
+
+Administration
+--------------
+
+There is no other administration than to start/stop the Apache, MySQL and 
+batch software servers. This is done with the commands
+
+start_servers all 
+stop_servers all
+
+Data uninstallation
+-------------------
+
+Type 
+
+uninstall_data
+
+to see uninstallation options. Packages can be installed separately, or all 
+in one go. The --list argument shows the choices.
+
+Software uninstallation
+-----------------------
+
+To remove all software, all background processes must be stoppped with
+
+stop_servers --halt 
+
+Then type
+
+uninstall_software --all
+
+Then unset environment variables, either with
+
+. unset_env 
+
+or by removing the environment-setting line from the login file. Finally, if
+you with to remove everything again, simply do 
+
+rm -Rf BION 
+
+from the parent directory of this directory. 
+
+If trouble 
+----------
+
+Contact the person listed in the file Registry/Contacts/provider_contacts. 
+Please include as much output as possible, and please mention which operating 
+system used; the command "uname -a" usually tells. 
+
+Documentation
+-------------
+
+The code is somewhat documented in its modules, but the overall description
+is almost non-existent yet. There is rudimentary recipe help,
+
+help_recipe
+
+Disclaimer
+----------
+
+This package is provided free of charge (see the LICENSE file) and is under
+development. As such it may not work, and no guarantees are given.
+
+
+
+

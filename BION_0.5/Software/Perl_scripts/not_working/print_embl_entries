@@ -1,0 +1,140 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+use Cwd;
+
+use Common::File;
+use Common::Messages;
+use Common::Names;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, July 2003.
+
+This program fetches one or more EMBL entries from a given
+distribution flat-file, gzip-compressed or not. The entries 
+fetched are those with the given ID(s). Command line options
+are,
+
+     --ids   Comma separated ID\'s or file with ID\'s
+    --file   File with EMBL entries 
+
+The entries are printed to STDOUT, log messages to STDERR.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_headers, $cl_file, $cl_ids, %ids, $content, $src_dir );
+
+$cl_headers = 1;
+$cl_file = "";
+$cl_ids = "";
+
+if ( not &GetOptions (
+                      "headers!" => \$cl_headers,
+                      "file=s" => \$cl_file,
+                      "ids=s" => \$cl_ids,
+                     ) )
+{
+    exit;
+}
+
+# ID's,
+
+if ( -r $cl_ids )
+{
+    %ids = map { $_, 1 } grep /\w/, ( split "\n", ${ &Common::File::read_file( $cl_ids ) } );
+}
+elsif ( $cl_ids )
+{
+    %ids = map { $_, 1 } split /\s*,\s*/, $cl_ids;
+}
+else {
+    &user_error( qq (Please specify ID\'s or a file of ID\'s) );
+}
+
+# File,
+
+if ( not $cl_file ) {
+    &user_error( qq (Please specify a file of entries) );
+}
+
+$src_dir = "$Common::Config::embl_dir";
+
+if ( $src_dir )
+{
+    $cl_file = "$src_dir/$cl_file";
+} else {
+    $cl_file = &Cwd::abs_path( $cl_file );
+}
+
+if ( not -r $cl_file ) {
+    &user_error( qq (Entry file is not readable -> "$cl_file") );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> PRINT ENTRIES <<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+&echo_bold( "Print EMBL Entries : \n" ) if $cl_headers;
+
+&print_entries( $cl_file, \%ids );
+
+&echo_bold( "Finished Printing\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<
+
+sub print_entries
+{
+    my ( $path,
+         $ids,
+         ) = @_;
+
+    my ( $recsep, $entry, $fh );
+
+    $fh = &Common::File::get_read_handle( $path );
+
+    $recsep = $/;
+    $/ = "\n//\n";
+
+    while ( defined ( $entry = <$fh> ) )
+    {
+        if ( $entry =~ /^ID\s+([^ ]+)/ and $ids{ $1 } )
+        {
+            $/ = $recsep; 
+
+            &echo( qq (   Getting "$1" ... ) );
+            print $entry;
+            &echo_green( "done\n" );
+
+            $/ = "\n//\n";
+        }
+    }
+
+    &Common::File::close_handle( $fh );
+
+    $/ = $recsep;
+
+    return;
+}
+
+__END__

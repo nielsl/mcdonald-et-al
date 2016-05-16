@@ -1,0 +1,71 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Split;
+
+my ( $prog_name, $signature, $formats, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+$formats = &Ali::Split::formats();
+
+$usage = qq (
+Program $prog_name, January 2011.
+
+Splits one or more files of multiple alignments into single-alignment
+files within a given target directory. Formats are unchanged, and file
+names or numbers become the output file names, with a suffix appended.
+Non-unique IDs and existing output files cause an error unless the 
+clobber switch is on. Command line arguments are,
+
+    --format   Alignment file format (uclust)
+      --odir   Output directory (none)
+    --suffix   Output file suffix (the alignment format)
+   --minsize   Ignore alignments smaller than this (none)
+   --maxsize   Ignore alignments larger than this (none)
+   --skipids   Ignore these string or file ids (none)
+    --numids   Use integer ids instead of those in the input (off)
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+
+Supported formats are,
+
+$formats
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "files=s" => undef,
+        "format=s" => "uclust",
+        "odir=s" => undef,
+        "osuffix=s" => undef,
+        "minsize=i" => 1,
+        "maxsize=i" => undef,
+        "skipids=s" => undef,
+        "numids!" => 0,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+$args->files( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SPLIT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Ali::Split::split_alis( $args );
+
+__END__

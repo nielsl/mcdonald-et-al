@@ -1,0 +1,40 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Admin;
+use Common::Messages;
+
+my ( $prog_name, $usage, $signature, $expr );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+Prints all lines in all Perl scripts and modules that
+match the expression you give on the command line. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Admin::code_clean();
+
+$expr = quotemeta $ARGV[0];
+
+&Common::Admin::code_grep( $expr );
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<
+
+__END__

@@ -1,0 +1,114 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Storage;
+use Seq::Help;
+
+my ( $prog_name, $signature, $suffix, $usage, $args, $msgs, $formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$formats = join ", ", @{ &Seq::Storage::index_info("fetch_varpos","formats") };
+$suffix = &Seq::Storage::index_info("fetch_varpos","suffixes")->[0];
+
+$usage = qq (
+Program $prog_name, January 2011.
+
+Creates indices for sequence and sub-sequence access with seq_fetch.
+Command lines arguments are (defaults in parantheses),
+
+    --within   Put all data within the index file (off)
+     --fixed   Smaller indexes when all entries have same length (off)
+    --seqmax   Manually configure indices for this many sequences (auto)
+    --regexp   Header filter expression (format dependent)
+    --ndxsuf   Index file suffix ($suffix)
+
+     --count   Count input sequences for exact numbers (on)
+   --clobber   Force creation of new indices (off)
+    --silent   Prints no progress messages (off)
+
+     --about   Prints index information and exits (off)
+      --help   Prints various $prog_name help (off)
+
+Supported input formats: $formats
+Wrapped fasta sequence lines are not accepted, use seq_convert first
+in that case. 
+
+Quick examples ('$prog_name --help examples' gives more),
+
+1\) $prog_name seqdir*/*.fq
+2\) $prog_name seqdir*/*.fq --fixed
+3\) $prog_name --about seqs.fa.fetch
+
+Example 1 indexes a set of fastq files in the default mode, creating a 
+set of seqdir*/*.fq$suffix files. In example 2 a smaller index is created 
+that only contains running integers, as it assumes all entries have the 
+exact same size (if not, seq_fetch will return garbage, so use with care).
+Example 3 prints information for a single index file and then exits. The 
+clobber option forces re-creation of existing indices. To delete indices 
+use seq_unindex. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "help:s" => undef,
+        "about=s" => undef,
+        "within!" => 0,
+        "fixed!" => 0,
+        "seqmax=s" => undef,
+        "regexp=s" => undef,
+        "ndxsuf=s" => undef,
+        "count!" => 1,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+elsif ( defined $args->about )
+{
+    &Seq::Storage::about_storage( $args->about );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    $args->delete_field( "about" );
+
+    $args->add_field("ifiles");
+    $args->ifiles( \@ARGV );
+
+    $args->add_field("progtype");
+    $args->progtype("fetch");
+    
+    $args->add_field("stats");
+    $args->stats( 0 );
+
+    $args->add_field("newstats");
+    $args->newstats( 0 );
+
+    &Seq::Storage::create_indices( $args );
+}
+
+__END__

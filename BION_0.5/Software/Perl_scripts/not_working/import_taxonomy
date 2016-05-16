@@ -1,0 +1,107 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Taxonomy::Import;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, December 2005.
+
+This program builds a database of taxonomy records from the taxonomy
+sources that are more recent than the database tables. Command line 
+options are,
+
+       --ncbi    [ D = on; the NCBI general taxonomy ]
+     --ludwig    [ D = off; Wolfgang Ludwig SSU taxonomy ]
+        --rdp    [ D = off; RDP SSU taxonomy ]
+ --hugenholtz    [ D = off; Phil Hug. procaryote SSU taxonomy ]
+        --jgi    [ D = off; JGI procaryote SSU taxonomy ]
+       --pace    [ D = off; Norman Pace procaryote SSU taxonomy ]
+
+        --all    [ D = off; all of the above ]
+
+   --readonly    [ D = on; messages, but no download ]
+ --noreadonly    [ D = off; starts the download ]
+      --force    [ D = off; forces reload ]
+
+Messages are written to the console, but only if the program is
+run from the console. You can run it from a scheduler to keep the 
+taxonomies updated. The default --readonly option will print screen
+messages and parse the files, but will not update the databases, 
+but the --noreadonly option will. The --force option reloads the 
+data even if the sources are older than the database tables. 
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_args, $cl_data );
+
+# Defaults, 
+
+$cl_data->{"NCBI"} = 1;
+$cl_data->{"Ludwig"} = 0;
+$cl_data->{"RDP"} = 0;
+$cl_data->{"Hugenholtz"} = 0;
+$cl_data->{"JGI"} = 0;
+$cl_data->{"Pace"} = 0;
+$cl_data->{"all"} = 0;
+
+$cl_args->{"headers"} = 1;
+$cl_args->{"readonly"} = 1;
+$cl_args->{"force"} = 0;
+
+# Get arguments from command line,
+
+if ( not GetOptions(
+                    "ncbi!" => \$cl_data->{"NCBI"},
+                    "ludwig!" => \$cl_data->{"Ludwig"},
+                    "rdp!" => \$cl_data->{"RDP"},
+                    "hugenholtz!" => \$cl_data->{"Hugenholtz"},
+                    "jgi!" => \$cl_data->{"JGI"},
+                    "pace!" => \$cl_data->{"Pace"},
+                    "all" => \$cl_data->{"all"},
+                    "headers!" => \$cl_args->{"headers"},
+                    "readonly!" => \$cl_args->{"readonly"},
+                    "force!" => \$cl_args->{"force"},
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>> BUILD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+if ( $cl_args->{"readonly"} ) {
+    &echo_bold( "Import Taxonomy (readonly) : \n" ) if $cl_args->{"headers"};
+} else {
+    &echo_bold( "Import Taxonomy : \n" ) if $cl_args->{"headers"};
+}
+
+&Taxonomy::Import::import_all( $cl_data, $cl_args );
+
+&echo_bold( "Finished Taxonomy\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

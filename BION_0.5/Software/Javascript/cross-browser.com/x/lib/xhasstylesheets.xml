@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xHasStyleSheets'>
+
+<sources>
+  <src><file>xhasstylesheets.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Ivan Pepelnjak (www.zaplana.net)</copyright>
+
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Style</grp>
+</groups>
+
+<type>Function</type>
+
+<description><![CDATA[Checks browser support for stylesheet related objects (IE or DOM compliant).]]></description>
+
+<syntax>xHasStyleSheets()</syntax>
+
+<return><![CDATA[boolean]]></return>
+
+<dependencies>
+</dependencies>
+
+<demos>
+</demos>
+
+<tests>
+</tests>
+
+<revisions>
+  <rev><num>1</num><date>12Aug06</date><author>ip</author><note><![CDATA[Initial release]]></note></rev>
+</revisions>
+
+</x_symbol>

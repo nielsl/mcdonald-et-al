@@ -1,0 +1,66 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Common::Names;
+
+use Pat::Report;
+
+my ( $prog_name, $usage, $signature, $list, @seq_dbs, $seq_dbstr,
+     $args );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Generates a table report from one or more patscan output files. The 
+table contains ids, taxonomy, function description when available, 
+and aligned matches. Command line arguments,
+
+   --seqdbs      Sequence databanks to pull from
+  --outfile      Output report file (default <stdout>)
+  --outends      Output line ends type (default unix)
+
+The script must know where to pull annotation from, and there are 
+three ways of doing that,
+
+1. Give a comma-separated string of dataset names to --seqdbs
+2. Give a single dataset name to --seqdbs
+3. Name the patscan output files like "pattern_vs_dataset_name"
+
+The datasets to specify can be seen with list_datasets --installed.
+Examples,
+
+$prog_name refseq1.hits refseq2.hits --seqdbs prot_seq_refseq
+$prog_name refseq1.hits uniprot1.hits --seqdbs prot_seq_refseq,prot_seq_uniprot
+$prog_name Results/refseq*.hits --seqdbs prot_seq_refseq
+$prog_name Results/refseq*.hits --outends mac
+
+Allowed values for --outends is "unix", "mac", "dos".
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "seqdbs=s" => "",
+        "outfile=s" => "",
+        "outends=s" => "",
+        "headers!" => 1,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>> GET AND VALIDATE INPUTS <<<<<<<<<<<<<<<<<<
+
+&Pat::Report::create_report( \@ARGV, $args );
+
+__END__

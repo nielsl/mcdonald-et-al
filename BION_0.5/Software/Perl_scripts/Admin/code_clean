@@ -1,0 +1,41 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Admin;
+
+my ( $prog_name, $usage, $signature, @dirs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+This program removes all files in the software and 
+configuration directories whose names do not start
+and end with a word-character. Usage,
+
+$prog_name all
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CLEAN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Admin::code_clean();
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

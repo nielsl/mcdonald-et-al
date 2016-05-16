@@ -1,0 +1,33 @@
+
+<description>
+    title = Prototype
+    keywords = 
+    logo_text = 
+    logo_image = 
+    logo_link =
+    home_link =
+</description>
+
+<style>
+</style>
+
+projpath = CommuniCo
+
+datasets = word_edict
+
+hide_navigation = analysis
+
+# <defaults>
+#     def_menu_1 = expr
+#     def_menu_2 = expr_mirconnect
+#     def_menu_3 = 
+#     def_request = show_co_query_page
+#     def_input = 
+#     def_viewer = query_viewer
+# </defaults>
+
+# <navigation> 
+#     name = expr
+#     label = Query
+#     dbnames = expr_mirconnect
+# </navigation>

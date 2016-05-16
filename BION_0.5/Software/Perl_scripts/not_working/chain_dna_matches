@@ -1,0 +1,158 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all ); 
+
+use Getopt::Long;
+
+use DNA::Map;
+use Common::Messages;
+use Common::Util;
+use Common::Config;
+
+my ( $cl_args, $prog_name, $signature, $usage, $cl_headers );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, December 2004.
+
+This program finds all "chains" that can be formed by combining
+perfect matches in different ways. Each match above a certain 
+length (seedmin) is extended with other good nearby matches, if 
+any, the longer and the closer the better. Two possible outputs:
+a list of matches that make up the chains and/or a list of chains.
+Command line arguments and switches are (bracketed are optional),
+
+   --mummer     <file>; Mummer v3 output file
+  --reverse   [ D = off; reads the reverse part of mummer file ]
+
+   --gapmax   [ D = $cl_args->{"gapmax"}; largest gap between chain elements ]
+  --seedmin   [ D = $cl_args->{"seedmin"}; min. length of matches to extend ]
+  --basemin   [ D = $cl_args->{"basemin"}; min. number of bases in chains ]
+  --extqual   [ D = $cl_args->{"extqual"}; extension quality, higher is better ]
+
+   --chains   [ <file>  D = screen; list of chains, sorted by length ]
+  --matches   [ <file>  D = off; list of chained matches ]
+   --errors   [ <file>  D = off; list of consistency error messages ]
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults,
+
+$cl_args =
+{
+    "reverse" => undef,
+    "gapmax" => 1000,
+    "seedmin" => 100,
+    "basemin" => 500,
+    "extqual" => 2.0,
+    "chains" => "",
+};
+
+$cl_headers = 1;
+
+if ( not GetOptions(
+                    "mummer=s" => \$cl_args->{"mummer"},
+                    "reverse!" => \$cl_args->{"reverse"},
+                    "sequence=s" => \$cl_args->{"sequence"},
+                    "gapmax=i" => \$cl_args->{"gapmax"},
+                    "seedmin=i" => \$cl_args->{"seedmin"},
+                    "basemin=i" => \$cl_args->{"basemin"},
+                    "extqual=f" => \$cl_args->{"extqual"},
+                    "chains:s" => \$cl_args->{"chains"},
+                    "matches=s" => \$cl_args->{"matches"},
+                    "errors=s" => \$cl_args->{"errors"},
+                    "headers!" => \$cl_headers,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $chains, $matches_chained, $errors, $count );
+
+if ( $cl_headers ) 
+{
+    &echo( "\n" );
+    &echo_bold( "Chaining Mummer v3 matches : \n" );
+}
+
+# Run,
+
+$matches_chained = &DNA::Map::chain_matches( $cl_args );
+
+# Post-process results, print and look for errors,
+
+if ( $matches_chained )
+{
+    $chains = &DNA::Map::create_chains_table( $matches_chained );
+    @{ $chains } = sort { $a->[0] <=> $b->[0] } @{ $chains };  # sort by q_beg
+
+    if ( $cl_args->{"chains"} ) 
+    {
+        $count = &Common::Util::commify_number( scalar @{ $chains } );
+        
+        &echo( qq (   Saving chains in "$cl_args->{'chains'}" ... ) );
+        &DNA::Map::print_chains( $chains, $cl_args->{"chains"} );
+        &echo_green( "total $count\n" );
+    }
+    else
+    {
+        &DNA::Map::print_chains( $chains );
+    }
+    
+    if ( $cl_args->{"matches"} )
+    {
+        $count = &Common::Util::commify_number( scalar @{ $matches_chained } );
+
+        &echo( qq (   Saving matches in "$cl_args->{'matches'}" ... ) );
+        &DNA::Map::print_matches( $matches_chained, $cl_args->{"matches"} );
+        &echo_green( "total $count\n" );
+    }
+    
+    if ( $cl_args->{"errors"} ) 
+    {
+        $errors = &DNA::Map::chains_debug( $chains, $matches_chained );
+        
+        if ( $errors )
+        {
+            $count = &Common::Util::commify_number( scalar @{ $errors } );
+
+            &echo_yellow( " * " );
+            &echo( qq (Saving errors in "$cl_args->{'errors'}" ... ) );
+            &DNA::Map::print_errors( $errors, $cl_args->{"errors"} );
+            &echo_yellow( "total $count\n" );
+        }
+        else
+        {
+            &echo( qq (   No errors found ... ) );
+            &echo_green( "good\n" );
+        }
+    }
+}
+else
+{
+    &echo( qq (   No match chains made ... ) );
+    &echo_green( "ok\n" );
+}
+
+if ( $cl_headers )
+{
+    &echo_bold( "Finished chaining\n" );
+    &echo( "\n" );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<

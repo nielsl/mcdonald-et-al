@@ -1,0 +1,247 @@
+/* 
+
+Stylesheet for function views. 
+
+*/
+
+body {
+    margin: 2;
+    background: #cccccc;
+    font-family: Tahoma, "Stone Sans", Verdana, Arial, Helvetica, sans-serif;
+    font-size: small;
+    text-align: left;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: black;
+    font-family: Tahoma, "Stone Sans", Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.3em; }
+h2 { font-size: 1.25em; }
+h3 { font-size: 1.2em; }
+h4 { font-size: 1.1em; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+p {
+    font-family: Tahoma, "Stone Sans", Verdana, Arial, Helvetica, sans-serif;
+}
+
+a:link {
+    color: #000000;
+    text-align: left;
+}
+
+a:visited { color: #000000 }  /* visited link */
+a:hover { color: #000000 }    /* mouse over link */
+a:active { color: #003366 }   /* selected link */
+
+table { empty-cell: show }
+
+/* Title box */
+
+table.go_title, tr.go_title, td.go_title {
+    color: #ffffff;
+    background-color: #cc6633;
+    border-color: #ee9966 #993300 #993300 #ee9966;
+    border-style: solid;
+    border-width: 2px;
+    font-size: 140%;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+/* 
+   ---------------------------------------------------------------------
+   Popup windows
+   ---------------------------------------------------------------------
+*/
+
+.form_bar_text {
+    color: #ffffff;
+    background-color: #cc6633;
+    border-left: 2px solid #ee9966;
+    border-right: 0px solid #993300;
+    border-top: 2px solid #ee9966;
+    border-bottom: 2px solid #993300;
+    font-size: 140%;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+.form_bar_close {
+    color: #ffffff;
+    background-color: #cc6633;
+    border-right: 2px solid #993300;
+    border-top: 2px solid #ee9966;
+    border-bottom: 2px solid #993300;
+    font-size: 140%;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+div#form_content {
+    font-size: small;
+    padding: 10px;
+}
+
+/* 
+   ---------------------------------------------------------------------
+   Hierarchy skeleton text and arrows
+   ---------------------------------------------------------------------
+*/
+
+table.group, tr.group, td.group {
+    color: #000000;
+    background-color: #cccccc;
+    border-right: 2px solid #999999;
+    border-bottom: 1px solid #999999;
+    border-top: 1px solid #ffffff;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 2px;
+    padding-right: 6px;
+    white-space: nowrap;
+}
+
+td.group_arrow {
+    color: #000000;
+    background-color: #cccccc;
+    border-bottom: 1px solid #999999;
+    border-top: 1px solid #ffffff;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 2px;
+    white-space: nowrap;
+}
+
+td.leaf {
+    background-color: #eeeddd;
+    border-color: #999999 #ffffff #ffffff #999999;
+    border-style: solid;
+    border-width: 1px;
+    color: #000000;
+    font-weight: normal;
+    padding-left: 4px;
+    padding-right: 4px;
+    white-space: nowrap;
+}
+
+td.arrow_l {
+    background-color: #cccccc;
+    border-left: 2px solid #ffffff;
+    border-bottom: 1px solid #999999;
+    border-top: 1px solid #ffffff;
+    width: 22px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td.arrow_r {
+    background-color: #cccccc;
+    border-right: 2px solid #999999;
+    border-bottom: 1px solid #999999;
+    border-top: 1px solid #ffffff;
+    width: 22px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* 
+   ---------------------------------------------------------------------
+   Report titles and text
+   ---------------------------------------------------------------------
+*/
+
+.go_report_title_l {
+    color: #ffffff;
+    background-color: #666666;
+    border-left: 2px solid #999999;
+    border-right: 0px solid #333333;
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #333333;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.go_report_title_r {
+    color: #ffffff;
+    background-color: #666666;
+    border-left: 0px solid #999999;
+    border-right: 2px solid #333333;
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #333333;
+    font-size: large;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+.go_report_author {
+    color: #ffffff;
+    background-color: #666666;
+    border-left: 2px solid #999999;
+    border-right: 0px solid #333333;
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #333333;
+    text-align: right;
+    vertical-align: middle;
+    padding: 2px;
+    padding-right: 6px;
+    font-size: small;
+}
+
+.go_report_title {
+    color: #333333;
+    background-color: #cccccc;
+    font-size: medium;
+    font-weight: bold;
+    border: 10px solid #cccccc;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.go_report_value {
+    background-color: #eeeddd;
+    border-color: #999999 #ffffff #ffffff #999999;
+    border-style: solid;
+    border-width: 1px;
+    font-size: small;
+    color: #000000;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: left;
+    white-space: none;
+}
+
+.go_report_key {
+    border: 1px solid;
+    color: #ffffff;
+    background-color: #cc6633;
+    border-color: #ee9966 #993300 #993300 #ee9966;
+    font-size: small;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+    text-align: right;
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xTableHeaderFixed'>
+
+<sources>
+  <src><sym>xTableHeaderFixed</sym><file>xtableheaderfixed.js</file><note><![CDATA[The default implementation.]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Table</grp>
+</groups>
+
+<type>Object</type>
+
+<description><![CDATA[xTableHeaderFixed is an unobtrusive table enhancement. It makes a copy of the table's THEAD section. While the table is visible in the window the THEAD copy will be fixed to the top of the window. So you can scroll up and down in a long table and the header will always be visible. The position and size of the THEAD copy will be adjusted when the window is resized. For modern browsers it uses "position:fixed" to fix the header at the top of the window. As a compromise I assume any browser which implements the native XMLHttpRequest object is a "modern browser". If you are viewing this page with IE6 then you are getting the "fake body" (Catfish) version. Other browsers will not get the enhancement.]]></description>
+
+<syntax>new xTableHeaderFixed(fixedContainerId, fixedTableClass, fakeBodyId, tableBorder, thBorder)</syntax>
+
+<parameters>
+  <par><name>fixedContainerId</name><note><![CDATA[]]></note></par>
+  <par><name>fixedTableClass</name><note><![CDATA[]]></note></par>
+  <par><name>fakeBodyId</name><note><![CDATA[]]></note></par>
+  <par><name>tableBorder</name><note><![CDATA[]]></note></par>
+  <par><name>thBorder</name><note><![CDATA[]]></note></par>
+</parameters>
+
+<methods>
+  <meth><name>unload</name><note><![CDATA[]]></note></meth>
+</methods>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+  <dep>xPageX</dep>
+  <dep>xPageY</dep>
+  <dep>xScrollLeft</dep>
+  <dep>xScrollTop</dep>
+  <dep>xWidth</dep>
+  <dep>xHeight</dep>
+  <dep>xGetElementsByTagName</dep>
+  <dep>xLeft</dep>
+  <dep>xAddEventListener</dep>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/x/examples/xthf.html</url><note><![CDATA[xTableHeaderFixed demo.]]></note></demo>
+</demos>
+
+<comments>
+  <comment><date>30Jan07</date><author>mf</author><note><![CDATA[Refer to the demo for usage. Documentation on this page is not yet complete.]]></note></comment>
+</comments>
+
+<revisions>
+  <rev><num>2</num><date>21May07</date><author>mf</author><note><![CDATA[The loop adding tables to the 'tables' array was starting on the wrong index. Thanks very much to Thiago for finding this bug and submitting a fix.]]></note></rev>
+  <rev><num>1</num><date>30Jan07</date><author>mf</author><note><![CDATA[Initial inclusion in X.]]></note></rev>
+</revisions>
+
+</x_symbol>

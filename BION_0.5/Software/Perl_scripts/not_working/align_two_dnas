@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all ); 
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Util;
+use Common::Config;
+
+use DNA::Ali;
+use Seq::IO;
+
+my ( $args, $prog_name, $signature, $usage, $seq1, $seq2,
+     $matches, $output, @errors );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2006.      TEST SCRIPT 
+
+Runs DNA::Ali::align_two_dnas on two files with one fasta 
+formatted DNA/RNA sequence in each. Prints output to screen. 
+
+   --seq1 = File name
+   --seq2 = File name
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( not GetOptions(
+                    "seq1=s" => \$args->{"seq1"},
+                    "seq2=s" => \$args->{"seq2"},
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$seq1 = lc ( ( &Seq::IO::read_seqs_fasta( $args->{"seq1"} ) )[0]->seq );
+$seq2 = lc ( ( &Seq::IO::read_seqs_fasta( $args->{"seq2"} ) )[0]->seq );
+
+$matches = &DNA::Ali::align_two_dnas( \$seq1, \$seq2 );
+
+&dump( $matches );
+
+$output = &DNA::Ali::format_alignment( $matches, \$seq1, \$seq2 );
+
+&dump( $output );
+
+@errors = &DNA::Ali::check_matches( $matches, \$seq1, \$seq2,
+                                    \$output->[0], \$output->[2] );
+
+if ( @errors )
+{
+    &dump( \@errors );
+}
+
+
+
+__END__

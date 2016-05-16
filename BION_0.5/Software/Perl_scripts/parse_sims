@@ -1,0 +1,61 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Pipe::Lists;
+
+my ( $prog_name, $usage, $signature, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+(UNFINISHED) 
+
+Parses similarity listings and returns similarity objects. Reads 
+from a named input file or STDIN if absent. Prints to a named output
+file or STDOUT if absent. Command line options are,
+
+   --infile   Input file - or STDIN if not given
+   --intype   Input type
+  --outfile   Output file - or STDOUT if not given
+  --outtype   Ids, ... 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "infile:s" => "",
+        "intype=s" => "",
+        "outfile:s" => "",
+        "outtype=s" => "",
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> READ / WRITE <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Pipe::Lists->parse_sims( $args, $msgs );
+
+if ( $msgs )
+{
+    &echo_messages( $msgs );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

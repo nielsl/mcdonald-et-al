@@ -1,0 +1,41 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Admin;
+use Common::Messages;
+use Seq::Import;
+
+
+my ( $prog_name, $usage, $signature, $ifile );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, February 2008.
+
+Creates a bioperl sequence index from a given fasta formatted 
+sequence file. If the file given is "example.fasta" the index
+will be "example.bp_index".
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> COMPLEMENT <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$ifile = shift @ARGV;
+
+Seq::Import->create_seq_index( { "ifile" => $ifile, "iformat" => "fasta" } );
+
+
+
+__END__

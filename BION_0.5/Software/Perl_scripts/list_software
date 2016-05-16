@@ -1,0 +1,139 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Registry::Get;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, @fields, $fields, $args,
+     $types, $filter, @table, $msg );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+@fields = Registry::Get->software_fields();
+$fields = join ", ", sort @fields;
+    
+$usage = qq (
+Program $prog_name, April 2009.
+
+Lists all software as a table with selectable columns. 
+Command line options are (defaults in parantheses),
+
+   --analyses    Analysis packages (on)
+  --utilities    Common utillity packages (off)
+   --perlmods    Perl modules (off)
+     --system    Main system software (off)
+
+     --fields    Fields ("name,src_name,inst_name,title")
+       --sort    Field to sort on ("name")
+  --installed    Lists installed datasets only (off)
+--uninstalled    Lists uninstalled datasets only (off)
+
+     --header    Includes header lines (on)
+     --colsep    Column separator ("   ")
+     --indent    Indentation ("  ")
+
+Accepted fields are,
+
+$fields
+
+Examples: 
+
+1\) $prog_name --analyses --installed 
+2\) $prog_name --system --fields="name,datatype,src_name,title" 
+
+Example 1 returns all installed software packages with the 
+default fields. Example 2 returns all analysis packages with
+given fields.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "fields:s" => "name,src_name,title",
+        "analyses!" => 0,
+        "utilities!" => 0,
+        "perlmods!" => 0,
+        "system!" => 0,
+        "sort:s" => "name",
+        "installed!" => 0,
+        "uninstalled!" => 0,
+        "header!" => 1,
+        "colsep:s" => "   ",
+        "indent:s" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $args->analyses ) {
+    $types = "soft_anal";
+} elsif ( $args->utilities ) {
+    $types = "soft_util";
+} elsif ( $args->perlmods ) {
+    $types = "soft_perl_module";
+} elsif ( $args->system ) {
+    $types = "soft_sys";
+} else {
+    &echo_messages( [["ERROR", qq (Please specify a software type) ]] );
+    exit 0;
+}
+
+if ( $args->installed ) {
+    $filter = "installed";
+} elsif ( $args->uninstalled ) {
+    $filter = "uninstalled";
+} else {
+    $filter = "";
+}
+
+@table = Registry::List->list_software( 
+    {
+        "types" => [ $types ],
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+        "filter" => $filter,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( @table )
+{
+    print "\n";
+    
+    Common::Tables->render_list(
+        \@table,
+        {
+            "fields" => $args->fields,
+            "header" => $args->header,
+            "colsep" => $args->colsep,
+            "indent" => $args->indent,
+        });
+    
+    print "\n\n";
+}
+else
+{
+    if ( $filter ) {
+        $msg = "No $filter packages";
+    } else {
+        $msg = "No packages";
+    }
+
+    &echo_messages( [["OK", $msg ]] );
+}
+
+__END__

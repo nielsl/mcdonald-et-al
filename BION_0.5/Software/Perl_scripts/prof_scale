@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Expr::Profile;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2010.
+
+Scales a set of expression profiles generated with "expr_profile" so they
+become comparable. The sums in each profile are scaled so that the totals 
+are the same in each file. By default, the total number of reads is used,
+but reads of a given dataset or molecule type can also be used. Single 
+output files can be named, for multiple files only a suffix can be given.
+Command line arguments are (defaults in parantheses),
+
+    --otable   Output table file path for single input file (<stdout>)
+   --osuffix   Output suffix for multiple input files (.sca)
+
+  --dbfilter   Scales with these datasets as reference (all)
+ --molfilter   Scales relative to these gene names/functions (all)
+  --weighted   Use the weighted input numbers (on)
+
+   --clobber   Overwrite existing output files (off)
+    --silent   Prints no progress messages (off)
+
+The filters can either be names or Perl-style expressions. Examples,
+
+$prog_name gris1.cla.expr --ofile test.expr
+$prog_name *.expr --osuffix .test --dbfilter 'MiRBase'
+$prog_name *.expr --osuffix .test --molfilter 'miR-'
+
+Name-filtering is done case-independently.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+	"itables=s" => undef,
+	"otable=s" => undef,
+        "osuffix=s" => ".sca",
+	"dbfilter=s" => undef,
+	"molfilter=s" => undef,
+        "weighted!" => 1,
+	"silent!" => 0,
+	"clobber!" => 0,
+    });
+
+$args->itables( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Expr::Profile::scale_files( $args );
+
+__END__

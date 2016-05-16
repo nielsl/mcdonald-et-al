@@ -1,0 +1,475 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Installs the bundled perl if the perl version that runs this script 
+# is older than required, provided the bundled perl is not installed
+# already. The installation is dependent on the bundled modules 
+#
+# Common::Config
+# Common::Messages
+#
+# but these have no further dependencies and can run with older Perl
+# versions. The functions in here, except install_bundled_perl, are 
+# mostly cut-and-paste from bundled modules. 
+#
+# Author: Niels Larsen
+# License: GNU GPL v2
+#
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Cwd;
+use File::Basename;
+
+use Common::Config;
+use Common::Messages;
+
+# use Registry::Get;
+# use Registry::Register;
+
+my ( $args, $minv );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "apache_port=i" => undef,
+        "mysql_port=i" => undef,
+        "confirm!" => 1,
+        "all!" => 0,
+        "force!" => 0,
+        "verbose!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+local $Common::Messages::silent;
+
+if ( $args->silent ) {
+    $Common::Messages::silent = 1;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$minv = $Common::Config::perl_min;
+
+if ( not &bundled_perl_installed() ) # and $] < $minv )
+{
+    &install_bundled_perl( $minv, 0 );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub backtick
+{
+    # Niels Larsen, March 2009.
+
+    my ( $cmd,    # Command to be run
+         $errs,
+        ) = @_;
+
+    # Returns a list.
+
+    my ( $output );
+    
+    if ( ref $cmd ) {
+        $cmd = join " ", @{ $cmd };
+    }
+
+    {
+        local $SIG{__DIE__} = "";
+        local $SIG{__WARN__} = "";
+
+        $output = `$cmd 2>&1`;
+    }
+
+    if ( $? )
+    {
+        if ( defined $errs ) {
+            push @{ $errs }, map { ["ERROR", $_] } $!, split "\n", $output;
+        } else {
+            &error( $output );
+        }
+    }
+    
+    return $output;
+}
+
+sub bundled_perl_installed
+{
+    my ( $perl, $text );
+
+    if ( -x ( $perl = "$Common::Config::bin_dir/perl" ) and
+         $text = &backtick( "$perl -v" ) and
+         $text =~ /This is perl/ )
+    {
+        return 1;
+    }
+
+    return;
+}
+
+sub create_link
+{
+    # Niels Larsen, March 2005.
+
+    # Creates a relative link between two given file paths. The given 
+    # paths need not be absolute. 
+
+    my ( $file,      # The actual file 
+         $link,      # The link file to be created
+         $fatal,     # Error flag - OPTIONAL, default on
+         ) = @_;
+
+    # Returns nothing. 
+
+    my ( @file_path, @link_path, $file_path, $link_path );
+
+    $fatal = 1 if not defined $fatal;
+    
+    $file_path = &Cwd::abs_path( $file ) || $file;
+    $link_path = &Cwd::abs_path( $link ) || $link;
+
+    @file_path = split "/", $file_path;
+    @link_path = split "/", $link_path;
+
+    while ( @file_path and $file_path[0] eq $link_path[0] ) 
+    {
+        shift @file_path;
+        shift @link_path;
+    }
+    
+    $file_path = ( "../" x $#link_path ) . join "/", @file_path;
+
+    if ( (not symlink $file_path, $link_path) and $fatal )
+    {
+        if ( -e $link_path ) {
+            &error( qq (Link file exists -> "$link_path") );
+        } else {
+            &error( qq (Could not create link from "$link_path" to "$file_path") );
+        }
+    }
+
+    return;
+}
+
+sub create_links
+{
+    my ( $from_dir,
+         $to_dir,
+        ) = @_;
+
+    my ( $path, $file, $count );
+
+    if ( not -d $from_dir ) {
+        &error( qq (Is not a directory -> "$from_dir") );
+    }
+
+    $count = 0;
+
+    opendir DIR, $from_dir 
+        or &error( qq (Could not read-open directory "$from_dir") );
+
+    while ( $file = readdir DIR )
+    {
+        next if $file =~ /^\./;
+
+        if ( -e "$to_dir/$file" ) {
+            unlink "$to_dir/$file";
+        }
+
+        &create_link( "$from_dir/$file", "$to_dir/$file" );
+        $count += 1;
+    }
+
+    close DIR;
+
+    return $count;
+}
+
+sub delete_links
+{
+    my ( $from_dir,
+         $to_dir,
+        ) = @_;
+
+    my ( @files, $file, $count );
+
+    return if not -e $from_dir;
+
+    if ( not -d $from_dir ) {
+        &error( qq (Not a directory -> "$from_dir") );
+    }
+
+    if ( not -d $to_dir ) {
+        &error( qq (Not a directory -> "$to_dir") );
+    }
+
+    opendir DIR, $from_dir 
+        or &error( qq (Could not read-open directory "$from_dir") );
+
+    while ( $file = readdir DIR )
+    {
+        next if $file =~ /^\./;
+
+        push @files, $file;
+    }
+
+    close DIR;
+    
+    @files = map { "$to_dir/$_" } @files;
+
+    $count = unlink @files;
+
+    return $count;
+}
+
+sub format_perl_version
+{
+    my ( $version,
+        ) = @_;
+
+    my ( $major, $minor );
+
+    $version = $] if not defined $version;
+
+    if ( $version =~ /^(\d)\.(\d{3,3})(\d{3,3})$/ )
+    {
+        ( $version, $major, $minor ) = ( $1, $2, $3 );
+        
+        $major =~ s/^0{1,2}//;
+        $minor =~ s/^0{1,2}//;
+
+        $version = "$version.$major.$minor";
+    }
+    else {
+        &error( qq (Wrong looking perl version -> "$version") );
+    }
+
+    return $version;
+}
+
+sub install_bundled_perl
+{
+    # Niels Larsen, March 2009.
+
+    my ( $min_version,
+         $sys_check,
+        ) = @_;
+
+    # This routine installs the bundled perl, without including more than
+    # just the most basic of the bundled modules. 
+
+    my ( $their_version, $our_version, $msg, $major, $minor, $inst_dir, 
+         $bin_dir, $lib_dir, $man_dir, $log_dir, $log_file, $pkg, $pks_dir,
+         $tar_path, $path, $cwd, $command, $our_package, $sys_dir, $module,
+         $tmp_dir );
+
+    # >>>>>>>>>>>>>>>>>>>>>> CONVENIENCE VARIABLES <<<<<<<<<<<<<<<<<<<<<<
+    
+    $sys_dir = $Common::Config::sys_dir;
+    $pks_dir = $Common::Config::pks_dir;
+    $inst_dir = "$Common::Config::pki_dir/Perl";
+    $bin_dir = $Common::Config::bin_dir;
+    $lib_dir = "$Common::Config::lib_dir";
+    $man_dir = "$Common::Config::man_dir";
+    $log_dir = "$Common::Config::log_dir/Install";
+    $log_file = "$log_dir/Perl.log";
+    $tmp_dir = $Common::Config::tmp_dir;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>> SCREEN MESSAGE <<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    $tar_path = &backtick( "ls $pks_dir/perl-5.*.tar.gz" );
+    chomp $tar_path;
+
+    if ( $tar_path =~ /perl-(5\.\d+\.\d+)\.tar\.gz$/ )
+    {
+        $our_version = $1;
+        $our_package = "perl-$our_version";
+    }
+    else
+    {
+        $path = File::Basename::basename( $tar_path );
+        &error( qq (Wrong looking perl archive name -> "$path") );
+    }
+
+    &echo( "\n" );
+    &echo_info( "Perl Pre-Install\n" );
+    &echo(      "----------------\n" );
+    &echo( "\n" );
+
+    if ( $sys_check )
+    {
+        $their_version = &format_perl_version( $] );
+        $min_version = &format_perl_version( $min_version );
+
+        $msg = "Version $their_version was detected, but at least $min_version is required,\n"
+             . "so the bundled Perl (version $our_version) will now be installed.\n";
+    }
+    else 
+    {
+        $msg = "The bundled Perl ($our_version) is being installed, even though an\n"
+             . "equally capable Perl may already be installed system-wide. This\n"
+             . "prevents breakage of modules and analysis packages that assume\n"
+             . "where perl modules are located, and makes for a generally more\n"
+             . "stable environment.\n";
+    }
+    
+    &echo( "$msg\n" );
+
+    &echo_bold( "Installing Perl ($our_version):\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> UNPACK <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( "   Unpacking sources ... " );
+
+    &backtick( "cd $pks_dir && zcat < $tar_path | tar -x" );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>> CONFIGURE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( "   Configuring (please wait) ... " );
+
+    &backtick( "mkdir -p $log_dir" );
+    &backtick( "mkdir -p $tmp_dir" );
+
+    # Mac wants this,
+
+    if ( ! -e $log_file ) {
+        &backtick( "touch $log_file" );
+    }
+
+    # Perl bug: running make depend fails, and running make depend is 
+    # default. It is this error: http://www.perlmonks.org/?node_id=616092
+    # (on some systems /bin/sh is linked to /bin/dash instead of /bin/bash, and
+    # then an error - correctly - shows up.) The following delays running 
+    # make depend, the we fix the makedepend file below,
+
+    $cwd = getcwd();
+    chdir "$pks_dir/$our_package";
+
+    &backtick( "chmod 777 Configure" );
+    &backtick( "cat Configure | sed 's/\$make depend &&/# /' > Configure.nodepend" );
+    &backtick( "rm -f Configure" );
+    &backtick( "mv Configure.nodepend Configure" );
+    
+    $command = "sh ./Configure -de -Accflags='-fPIC' -Dprefix=$inst_dir -Duse64bitint";
+
+    &backtick( "echo '' >> $log_file" );
+    &backtick( "echo ' ----------- Output from: $command' >> $log_file" );
+    &backtick( "echo '' >> $log_file" );
+
+    &backtick( "$command >> $log_file 2>&1" );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> COMPILE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    &echo( "   Compiling (takes minutes) ... " );
+
+    # Edit makedepend to fix cause of error above,
+
+    &backtick( "mv makedepend makedepend.broken" );
+    &backtick( qq (cat makedepend.broken | sed "106 s/##/##'/" > makedepend) );
+
+    $command = "make depend";
+
+    &backtick( "echo '' >> $log_file" );
+    &backtick( "echo ' ----------- Output from: $command' >> $log_file" );
+    &backtick( "echo '' >> $log_file" );
+
+#    `CFLAGS="-fPIC"; $command >> $log_file 2>&1`
+    &backtick( "$command >> $log_file 2>&1" );
+
+    $command = "make";
+
+    &backtick( "echo '' >> $log_file" );
+    &backtick( "echo ' ----------- Output from: $command' >> $log_file" );
+    &backtick( "echo '' >> $log_file" );
+
+#    `CFLAGS="-fPIC"; $command >> $log_file 2>&1`
+    &backtick( "$command >> $log_file 2>&1" );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>> REMOVE OLD <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( "   Removing traces of old ... " );
+
+    &delete_links( "$inst_dir/bin", $bin_dir );
+    &delete_links( "$inst_dir/lib", $lib_dir );
+    &delete_links( "$inst_dir/man/man1", "$man_dir/man1" );
+    &delete_links( "$inst_dir/man/man3", "$man_dir/man3" );
+
+    if ( -e $inst_dir ) {
+        &backtick( "rm -Rf $inst_dir" );
+    }
+    
+    &echo_green( "done\n" );
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>> CREATE DIRECTORIES <<<<<<<<<<<<<<<<<<<<<<<
+
+    # Mac, and maybe others, wants install directories to exist, so here
+    # make sure they exist,
+
+    &backtick( "mkdir -p $inst_dir" );
+    &backtick( "mkdir -p $bin_dir" );
+    &backtick( "mkdir -p $lib_dir" );
+    &backtick( "mkdir -p $man_dir/man1" );
+    &backtick( "mkdir -p $man_dir/man3" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    $path = $inst_dir;
+    $path =~ s|^$sys_dir/||;
+
+    &echo( "   Installing in $path ... " );
+
+    $command = "make install";
+
+    &backtick( "echo '' >> $log_file" );
+    &backtick( "echo ' ----------- Output from: $command' >> $log_file" );
+    &backtick( "echo '' >> $log_file" );
+    
+    &backtick( "$command >> $log_file 2>&1" );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>> DELETE SOURCE DIRECTORY <<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( "   Deleting source directory ... " );
+
+    &backtick( "rm -Rf $pks_dir/$our_package >> $log_file 2>&1" );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>> SETTING LINKS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( "   Setting relative links ... " );
+
+    &create_links( "$inst_dir/bin", $bin_dir );
+    &create_links( "$inst_dir/lib", $lib_dir );
+    &create_links( "$inst_dir/man/man1", "$man_dir/man1" );
+    &create_links( "$inst_dir/man/man3", "$man_dir/man3" );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> REGISTER <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( qq (   Registering package ... ) );
+#    Registry::Register->register_syssoft( "perl" );
+#    Registry::Register->register_soft_installs( "perl" );
+    &echo_green( "done\n" );    
+
+    &echo_bold( "Finished\n" );
+
+    return;
+}
+
+__END__

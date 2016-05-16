@@ -1,0 +1,13 @@
+
+Directory of recipes 
+
+All files in here are overwritten during updates, so do not keep
+recipes worth keeping in here. Instead, copy them to directories
+very near the data they apply to, and outside the main BION
+directory. 
+
+It is practical to place the recipes very close to the data they 
+apply to: then it is always clear which parameters were used on 
+the data, it becomes easy to rerun a pipeline with the appropriate
+settings, and the recipes will be part of data backups.
+

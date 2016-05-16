@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use GO::Download;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2003.
+
+This program downloads Gene Ontology (GO) data and software
+if the local version is outdated. Command line options are,
+
+   --readonly    [ D = on; messages, but no download ]
+ --noreadonly    [ D = off; starts the download ]
+
+If the GO software is new then it is installed. Messages 
+are written to the console. To import the data, run the 
+program import_go. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_readonly = 1;
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "readonly!" => \$cl_readonly,
+                    "headers!" => \$cl_headers,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Download Gene Ontology (readonly): \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Download Gene Ontology: \n" ) if $cl_headers;
+}
+
+&GO::Download::download_all( $cl_readonly );
+
+&echo_bold( "Finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<
+
+__END__

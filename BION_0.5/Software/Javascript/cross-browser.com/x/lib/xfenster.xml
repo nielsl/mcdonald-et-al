@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xFenster'>
+
+<sources>
+<src><file>xfenster.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2004-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+<grp>UI</grp>
+</groups>
+<type>Object</type>
+
+<description><![CDATA[xFenster takes an existing DIV or an IFRAME element and dynamically encloses it in a draggable, resizeable "window" (fenster). If the DIV or IFRAME does not exist xFenster will create it. xFenster has a title bar and status bar which can display dynamic text. It can, optionally, be moved, resized, maximized/restored and closed. It provides call-back functionality for its move, resize, maximize/restore, close and focus events.]]></description>
+
+<syntax>new xFenster(clientId, iniTitle, iniUrl, iniX, iniY, iniW, iniH, enMove, enResize, enMaxRes, enClose[, fnMove[, fnResize[, fnMaxRes[, fnClose[, fnFocus]]]]])</syntax>
+
+<parameters>
+<par><name>clientId</name><note><![CDATA[Id string of client element (a DIV or IFRAME). If the element does not exist xFenster will create it. To work cross-browser, this element should not have padding.]]></note></par>
+<par><name>iniTitle</name><note><![CDATA[Initial title for fenster's title bar.]]></note></par>
+<par><name>iniUrl</name><note><![CDATA[Initial url to load into the iframe. If this is not a string it is assumed that the client element is a DIV instead of an IFRAME.]]></note></par>
+<par><name>iniX, iniY</name><note><![CDATA[Initial position of fenster.]]></note></par>
+<par><name>iniW, iniH</name><note><![CDATA[Initial size of fenster.]]></note></par>
+<par><name>enMove</name><note><![CDATA[boolean - If true, moving (dragging by the titlebar) is enabled, else it is disabled.]]></note></par>
+<par><name>enResize</name><note><![CDATA[boolean - If true, resizing (dragging by the lower-right corner) is enabled, else it is disabled.]]></note></par>
+<par><name>enMaxRes</name><note><![CDATA[boolean - If true, the maximize/restore button is enabled, else it is disabled.]]></note></par>
+<par><name>enClose</name><note><![CDATA[boolean - If true, the close button is enabled, else it is disabled.]]></note></par>
+<par><name>fnMove</name><note><![CDATA[fnMove(xf, x, y) - Called before xf is moved. x,y is target position of xf's outer container. Return true to allow move, false to cancel.]]></note></par>
+<par><name>fnResize</name><note><![CDATA[fnResize(xf, w, h) - Called before xf is resized. w,h is target size of client element. Return true to allow resize, false to cancel.]]></note></par>
+<par><name>fnMaxRes</name><note><![CDATA[fnMaxRes(xf, w, h) - Called before xf is maximized or restored. w,h is target size of client element. Return true to allow max/res, false to cancel.]]></note></par>
+<par><name>fnClose</name><note><![CDATA[fnClose(xf) - Called before xf is closed. Return true to allow close, false to cancel.]]></note></par>
+<par><name>fnFocus</name><note><![CDATA[fnFocus(xf) - Called before xf is focused. Return true to allow focus, false to cancel.]]></note></par>
+</parameters>
+
+<properties>
+<prop><name>con</name><note><![CDATA[The outermost container element of the widget.]]></note></prop>
+<prop><name>conW, conH</name><note><![CDATA[Size of the con element.]]></note></prop>
+<prop><name>tbar</name><note><![CDATA[The title bar element.]]></note></prop>
+<prop><name>mbtn</name><note><![CDATA[The maximize/restore button element.]]></note></prop>
+<prop><name>cbtn</name><note><![CDATA[The close button element.]]></note></prop>
+<prop><name>sbar</name><note><![CDATA[The status bar element.]]></note></prop>
+<prop><name>rbtn</name><note><![CDATA[The resize button element.]]></note></prop>
+<prop><name>client</name><note><![CDATA[The client element contains the fenster's "content". It is a DIV or IFRAME.]]></note></prop>
+<prop><name>maximized</name><note><![CDATA[true if the fenster is maximized.]]></note></prop>
+</properties>
+
+<methods>
+<meth><name>paint(dw,dh)</name><note><![CDATA[Re-positions and re-sizes all contained elements except those controlled completely by CSS. dw,dh is added to the outer container's current size.]]></note></meth>
+<meth><name>focus</name><note><![CDATA[Brings the fenster to "the top" and highlights its title and status bars.]]></note></meth>
+<meth><name>href(url)</name><note><![CDATA[It returns, and optionally sets, the contained iframe's "location.href" property.]]></note></meth>
+<meth><name>hide</name><note><![CDATA[It sets the fenster's container to "display:none" and focuses the fenster that was previously focused.]]></note></meth>
+<meth><name>show</name><note><![CDATA[It sets the fenster's container to "display:block" and calls the fenster's focus method.]]></note></meth>
+<meth><name>status(s)</name><note><![CDATA[It returns, and optionally sets, the fenster's status-bar text.]]></note></meth>
+<meth><name>title(s)</name><note><![CDATA[It returns, and optionally sets, the fenster's title-bar text.]]></note></meth>
+</methods>
+
+<dependencies>
+<dep>xGetElementById</dep>
+<dep>xResizeTo</dep>
+<dep>xMoveTo</dep>
+<dep>xWidth</dep>
+<dep>xHeight</dep>
+<dep>xLeft</dep>
+<dep>xTop</dep>
+<dep>xEnableDrag</dep>
+<dep>xClientWidth</dep>
+<dep>xClientHeight</dep>
+<dep>xAddEventListener</dep>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/x/examples/xfenster.php</url><note><![CDATA[xFenster with a DIV]]></note></demo>
+  <demo><url>http://cross-browser.com/x/examples/xfenster2.php</url><note><![CDATA[xFenster with an IFRAME]]></note></demo>
+  <demo><url>http://cross-browser.com/x/examples/xfenster3.php</url><note><![CDATA[Demonstrates the new rev6 features]]></note></demo>
+  <demo><url>http://cross-browser.com/x/examples/xfenster4.php</url><note><![CDATA[Demonstrates limiting move and resize to an area using a rev14 feature]]></note></demo>
+  <demo><url>http://cross-browser.com/x/examples/property_viewer.php</url><note><![CDATA[Demonstrates the new rev8 features]]></note></demo>
+</demos>
+
+<tests>
+  <test><date>31May07</date><author>mf</author><url>http://cross-browser.com/x/examples/xfenster2.php</url><note><![CDATA[
+    These were comments regarding Apollo testing. But I need to retest this in Safari/Win.
+    (1) Testing in Apollo revealed that when the iframe exists in html then "client.contentWindow" is undefined but when the iframe is created dynamically then "client.contentWindow" exists. I also noticed that, in Apollo, "client" has type "[object IFRAME]" but in Opera and FF "client" has type "[object HTMLIFrameElement]".
+    (2) Testing in Apollo revealed that xClientWidth returns a correct value but xClientHeight does not.
+  ]]></note></test>
+  <test><date>24May07</date><author>mf</author><url>http://cross-browser.com/forums/viewtopic.php?id=25</url><note><![CDATA[Forum discussion on xFenster.]]></note></test>
+</tests>
+
+<comments>
+  <comment><date>31May07</date><author>mf</author><note><![CDATA[Size and position of tbar and sbar is now done in CSS but IE6 can't handle it (and IE7 can't handle it in quirks mode) so the conditionally compiled code in the "paint" method is for any IE <= 7. Apollo (and in certain cases IE) had problems with the tbar, client and sbar elements when they had padding. So now client has no padding and you should not add any. You can have margin and/or padding on all elements contained by client. The tbar and sbar elements need their padding, so I control their position and size via the 'left' and 'right' CSS properties. IE6 doesn't support 'right' very well so I used the above mentioned cc'd code. This also means that padding on tbar and sbar must be given in 'px' units.]]></note></comment>
+  <comment><date>30May07</date><author>mf</author><note><![CDATA[
+xFenster has three "static" properties:
+[code]
+1. "xFenster.instances" is an object. When an xFenster is created
+   a property is added to the "instances" object which references
+   that xFenster object. The name of the property is the same as
+   the clientId that was passed to the xFenster prototype.
+   So you do not have to maintain your own references to xFenster objects.
+2. "xFenster.nextZ" is the z-index used to "focus" a fenster.
+   Initially it is 100, but you can change this at any time,
+   for example: "xFenster.nextZ = 1000".
+3. "xFenster.focused" is used to focus the appropriate fenster when a fenster is closed.[/code]
+  ]]></note></comment>
+  <comment><date>28May07</date><author>mf</author><note><![CDATA[xFenster is very dependent on the CSS file "xfenster.css". Some positions/sizes are controlled completely by CSS, for example the widths of the title and status bars, and the positions of the buttons.]]></note></comment>
+</comments>
+
+<revisions>
+  <rev><num>15</num><date>10Jul07</date><author>mf</author><note><![CDATA[When the client is an iframe, assign clientId to the iframe's "name" property. This makes the iframe accessible like this: window.frames["MyFensterId"].]]></note></rev>
+  <rev><num>14</num><date>9Jul07</date><author>mf</author><note><![CDATA[Added a window resize listener which resizes the fenster if it is maximized. Made "maximized" property public. Renamed "xFenster.z" to "xFenster.nextZ". The following change may require changes in your application code: All callback functions, if provided, are called before their event occurs and must return true or false to allow or cancel the event's default action. The documentation above has been updated to explain these changes.]]></note></rev>
+  <rev><num>13</num><date>2Jul07</date><author>mf</author><note><![CDATA[CC'd code in paint method now includes IE7 because IE7 needs it in quirks mode. Added the static property "focused" which is used to focus the appropriate fenster when some other fenster closes.]]></note></rev>
+  <rev><num>12</num><date>20Jun07</date><author>mf</author><note><![CDATA[gebura caught some problems: (1) a typo ("me.con.style.display = 'none'" had no terminating semicolon). It was causing errors when compressed. (2) The use of "for...in" conflicted with code such as "json.js" which adds properties to "Object.prototype". I'm now using "hasOwnProperty()" in those loops. Thanks, gebura!]]></note></rev>
+  <rev><num>11</num><date>19Jun07</date><author>mf</author><note><![CDATA[Check the updates to the public properties available. I apologize for the frequent changes - but I anticipate more.]]></note></rev>
+  <rev><num>10</num><date>15Jun07</date><author>mf</author><note><![CDATA[Added 'container' public property. Edit: it is now "con".]]></note></rev>
+  <rev><num>9</num><date>31May07</date><author>mf</author><note><![CDATA[There were quite a few changes based on my testing in Apollo/Scout. xFenster now looks and works the same for me in Opera 9.20 (WinXP), FF 2.0.0.3 (WinXP), Apollo 1.0.Alpha1 (WinXP), IE6 (WinNT) and IE7 (WinXP). The xFenster prototype's interface has changed substantially so be sure to review the above documentation. All the xFenster demos have been updated to work with this revision. Note that the static "xFenster.instances" is no longer an array, it is now an object. The unload listener has now been implemented.]]></note></rev>
+  <rev><num>8</num><date>29May07</date><author>mf</author><note><![CDATA[Added 'en' and 'fn' parameters and implemented those features. Removed 'unload' method and added an unload handler via xAddEventListener - but it needs to be implemented. Started z-index at 100 instead of 0.]]></note></rev>
+  <rev><num>7</num><date>28May07</date><author>mf</author><note><![CDATA[I think it was a bad idea to use "_i" as a local var equivalent for "this" - I'm now using "me". Now a dblclick on the titlebar will maximize/restore (Thanks to Patrick for this suggestion).]]></note></rev>
+  <rev><num>6</num><date>21May07</date><author>mf</author><note><![CDATA[Added close button, dynamic creation of client element and numerous methods. See xfenster3.html demo. This version does not try to add a mousedown or click listener to the iframe's document.]]></note></rev>
+  <rev><num>5</num><date>8May07</date><author>mf</author><note><![CDATA[Found a typo ('ifrm' should be 'client') left over from the r4 changes. It wasn't causing a problem and so I didn't spot it in my r4 testing.]]></note></rev>
+  <rev><num>4</num><date>17Apr07</date><author>mf</author><note><![CDATA[Completely re-implemented. Supports containing a DIV or an IFRAME.]]></note></rev>
+  <rev><num>3</num><date>2Nov06</date><author>mf</author><note><![CDATA[
+    - Now can not be dragged off the left or top edges of the window. (Edit: this feature was removed in later versions).
+    - Fixed a typo in paint() which positioned the max btn using the res btn's width.
+    ]]></note>
+  </rev>
+  <rev><num>2</num><date>8Sep06</date><author>mf</author><note><![CDATA[Added semicolons for XC.]]></note></rev>
+  <rev><num>1</num><date>9May05</date><author>mf</author><note><![CDATA[Put in it's own file for use with XC. Added unload conditional for IE.]]></note></rev>
+</revisions>
+
+</x_symbol>

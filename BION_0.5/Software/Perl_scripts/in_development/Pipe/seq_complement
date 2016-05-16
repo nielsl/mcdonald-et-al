@@ -1,0 +1,45 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Common::Admin;
+use DNA::Seq;
+
+my ( $prog_name, $usage, $signature, $expr, $ifh, $ofh, $seq );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, February 2008.
+
+Complements the sequences in fasta format from STDIN and writes 
+their complements to STDOUT, also in fasta format.
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> COMPLEMENT <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$ifh = &Common::File::get_read_handle();
+$ofh = &Common::File::get_write_handle();
+
+while ( $seq = DNA::Seq->read_seq_fasta( $ifh ) )
+{
+    $seq->complement;
+    $seq->write_fasta( $ofh );
+}
+
+$ifh->close;
+$ofh->close;
+
+__END__

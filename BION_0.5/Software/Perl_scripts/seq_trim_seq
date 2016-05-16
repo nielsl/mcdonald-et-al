@@ -1,0 +1,78 @@
+#!/usr/bin/env perl
+
+# Niels Larsen, January 2010.
+
+# Script for sequence trimming. Contains no functionality, but calls a 
+# library function. 
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, September 2009.
+
+Trims sequence ends/beginnings by match with a given sequence probe. 
+The probe slides into the sequence and the best match position is used
+for clipping. Command line arguments are (defaults in parantheses),
+
+   --iformat   Input format (detected if file is given)
+     --oseqs   Output sequence file (<STDOUT>)
+
+       --seq   Probe sequence to trim by 
+      --dist   Maximum distance to search from end (all)
+    --minpct   Minimum match percentage within overlap (80)
+    --minlen   Minimum overlap length (1)
+      --begs   Trim beginnings (off)
+      --ends   Trim ends (on)
+
+    --dryrun   Prints the number of matches instead of output (off)
+   --clobber   Overwrites previous output (off)
+    --append   Appends to existing files (off)
+    --silent   Prints no progress messages (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => undef,
+        "oseqs=s" => undef,
+        "seq=s" => undef,
+        "dist=i" => undef,
+        "minpct=f" => undef,
+        "minlen=i" => undef,
+        "begs!" => 0,
+        "ends!" => 0,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->iseqs( $ARGV[0] );
+
+&Seq::Clean::trim_seq( $args );
+
+__END__

@@ -1,0 +1,55 @@
+
+BION version 0.5
+----------------
+
+This BION version used for the McDonald et al article is an outdated 
+pre-release that is inferior to the current one. BION 0.5 is licensed
+by the GNU General Public License version 3,
+
+http://www.gnu.org/licenses/gpl.html
+
+To get the current one, please use the contact below, e-mail or skype
+is preferred. The site http://bionsoftware.com will have the latest 
+version, but the site is not built yet, as of May 2016. 
+
+
+Bundled external packages
+-------------------------
+
+The software sources in the Software/Package_sources subdirectory have
+licenses according to their original authors. They are all open source
+(OSI) compatible licenses, most are GNU public license (GPL). 
+
+
+Copyright
+---------
+
+All BION software is copyright their original authors, no other 
+entities "own" the software. 
+
+The external packages are whatever copyright they come with.
+
+
+Warranty
+--------
+
+None. Use at your own risk.
+
+
+Support
+-------
+
+None yet, but good support is planned.
+
+
+Contact
+-------
+
+Niels Larsen
+Danish Genome Institute 
+
+E-mail: niels@genomics.dk
+Skype: niels_larsen_denmark
+Mobile: +45-3091-5426 (GMT+1)
+Web: http://genomics.dk
+

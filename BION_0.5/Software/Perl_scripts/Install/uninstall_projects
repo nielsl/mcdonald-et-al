@@ -1,0 +1,179 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Uninstalls projects.
+#
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Install::Data;
+
+my ( $prog_name, $usage, $args, $msg, $count );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$prog_name =~ s/\.[^.]+$//;
+
+$usage = &usage( $prog_name );
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "download!" => 0,
+        "install!" => 1,
+        "export!" => 1,
+        "all!" => 0,
+        "confirm!" => 1,
+        "update!" => 0,
+        "force!" => 0,
+        "verbose!" => 1,
+        "silent!" => 0,
+        "list!" => 0,
+        "debug!" => 0,
+    });
+
+if ( not @ARGV and not $args->all and not $args->list ) 
+{
+    $msg = "Please specify which project(s) to uninstall";
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+$Common::Messages::silent = 1 if $args->silent;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> UNINSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# The following are default options. Routines may or may not use them, 
+# and they may copy + override them.
+
+$count = &Install::Data::uninstall_projects(
+    \@ARGV,
+    {
+        "download" => $args->download,
+        "install" => $args->install,
+        "all" => $args->all,
+        "force" => $args->force,
+        "verbose" => $args->verbose,
+        "silent" => $args->silent,
+        "list" => $args->list,
+        "confirm" => $args->confirm,
+        "print_header" => 1,
+    }
+    );
+
+if ( $count ) {
+    &echo( "\n" ) if not $args->silent;
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (No projects are installed);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (None of the given projects are installed);
+    } else {
+        $msg = qq (The @ARGV project is not installed);
+    }        
+
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage
+{
+    # Niels Larsen, May 2009.
+
+    # Returns console text that shows available uninstallation options. If the
+    # console supports color, the options that are installed are shown in green.
+
+    my ( $prog_name,    # Invoking program name
+         ) = @_;
+
+    # Returns a string.
+
+    my ( $text, %inst_opts, $opt, @all_opts, @highlights, $onstr );
+
+    require Common::Tables;
+    require Registry::Get;
+    require Registry::Register;
+
+    # Create list of [ name, title ] tuples of uninstall options,
+    # minus perl which will have been installed before getting here,
+
+    @all_opts =  map { [ $_->name, $_->description->title ] }
+                 Registry::Get->projects->options;
+
+    # Create list of highlights,
+
+    %inst_opts = map { $_, 1 } Registry::Register->unregistered_projects();
+
+    foreach $opt ( @all_opts )
+    {
+        if ( not $inst_opts{ $opt->[0] } ) {
+            push @highlights, $opt->[0];
+        }
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT PAGE TEXT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $onstr = &echo_green("ON");
+
+    $text = "";
+    $text .= &echo_bold( "\n$Common::Config::sys_name Project Un-installation\n" );
+
+    $text .= qq (
+The options marked with asterisk (*) can be uninstalled, the 
+rest are installed already:
+
+);
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [
+         @all_opts,
+        ],
+        { "highlights" => \@highlights },
+        );
+
+    $text .= qq (
+Switches:
+
+     --all   Process all projects (off).
+--download   Deletes downloads (off).
+ --install   Removes imported data ($onstr).
+  --export   Deletes exported data ($onstr).
+ --confirm   Ask for confirmation before uninstalling ($onstr).
+   --force   Ignores recorded install status (off).
+ --verbose   Print more than summary progress messages (off).
+  --silent   Turns off progress messages (off).
+    --list   List projects and does nothing (off).
+
+Examples:
+
+(1) ./$prog_name rnaport
+(2) ./$prog_name uthscsa --force --download
+
+Example 1 uninstalls the rnaport project, without deleting the 
+downloaded source data. Example 2 forces removal of the uthscsa 
+project even if not registered as installed and deletes the 
+download data as well.
+);
+
+    $text =~ s/\n/\n /g;
+    return "$text\n";
+}
+
+__END__

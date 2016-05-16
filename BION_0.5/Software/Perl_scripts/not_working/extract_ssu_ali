@@ -1,0 +1,84 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use RNA::Extract;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $cl_args, $usage, @matches, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, July 2004.
+
+Given a list of SEED organism ids, this program finds corresponding
+small subunit RNAs in a file of aligned (SSU RNA) sequences. Where a
+single aligned sequence cannot be found by name matching, a number of
+candidate sequences are compared with the genome sequence and that 
+with the highest score selected. The output is aligned sequences in 
+fasta format with RNA and SEED ids in the header. A log file contains
+RNA id, match percentage and length, SEED id and name. Command line
+arguments are (bracketed arguments are optional),
+
+   --sids file    ( SEED ids, one id per line )
+   --orgs dir     ( SEED organism directory ) 
+    --ali file    ( Aligned sequences, Genbank format by W. Ludwig )
+
+  [ --out file ]  ( Default = screen; output fasta file )
+  [ --log file ]  ( Default = none; log file )
+ [ --temp dir ]   ( Default = /tmp; existing scratch directory )
+   [ --silent ]   ( Default = off; suppress screen messages )
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, more may be added.
+
+$cl_args->{"temp"} = "/tmp";
+$cl_args->{"silent"} = 0;
+$cl_args->{"out"} = "";
+
+if ( not &GetOptions (
+                      "sids=s" => \$cl_args->{"sids"},
+                      "orgs=s" => \$cl_args->{"orgs"},
+                      "ali=s" => \$cl_args->{"ali"},
+                      "out:s" => \$cl_args->{"out"},
+                      "log=s" => \$cl_args->{"log"},
+                      "temp=s" => \$cl_args->{"temp"},
+                      "silent!" => \$cl_args->{"silent"},
+                     ) )
+{
+    exit;
+}
+
+# This routine checks the input arguments are valid and stops 
+# the program with error messages if not,
+
+$cl_args = &RNA::Extract::check_arguments( $cl_args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo_bold( "Extract aligned SSU RNAs : \n" ) if not $cl_args->{"silent"};
+
+&RNA::Extract::extract_ssu_ali( $cl_args );
+
+&echo_bold( "Finished\n" ) if not $cl_args->{"silent"};
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

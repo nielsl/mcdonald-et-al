@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2012.
+
+Cleans and/or extracts sequences by length, quality and patterns. 
+Input is a sequence file or stream and output is new sequence file 
+or stream in the same format, but possibly with fewer and smaller 
+entries. Command line arguments are (defaults in parantheses),
+
+    --recipe   Recipe file (none)
+    --seqfmt   Sequence format (detected if file is given)
+     --oseqs   Output sequence file (STDOUT)
+     --stats   Statistics file with counts (none)
+
+    --dryrun   Runs but creates no outputs (off)
+   --clobber   Overwrites previous output (off)
+    --append   Appends to existing files (off)
+    --silent   Prints no progress messages (off)
+
+      --help   Prints various $prog_name help (off)
+
+Usage example,
+
+1\) $prog_name reads.fq --recipe clean.recipe
+2\) cat reads.fq | $prog_name --seqfmt fastq --recipe clean.recipe
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "iseqs=s" => undef,
+        "seqfmt=s" => undef,
+        "oseqs=s" => undef,
+        "stats=s" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+        "help:s" => undef,
+    });
+
+$args->iseqs( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Clean::clean( $args );
+}
+
+__END__

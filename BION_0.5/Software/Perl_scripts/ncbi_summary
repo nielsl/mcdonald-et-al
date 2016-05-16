@@ -1,0 +1,86 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Remote;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, October 2010.
+
+Fetches summary information for a list of IDs from NCBI via E-utils. Input
+is a list of IDs given as a file argument or taken from STDIN. Output is 
+either a yaml structured output or multi-column table. IDs are submitted 
+in time-delayed batches not to overwhelm the server. Command line 
+arguments are (defaults in parantheses),
+
+   --idtype   ID type, either "acc", "gi", "mmdb" or "tax" ("acc")
+   --dbname   NCBI database name (nucleotide)
+     --yaml   Output YAML file name (STDOUT)
+    --table   Output table file name (STDOUT)
+   --fields   Output field names, comma separated string (all)
+   --titles   First line in the table is titles (on)
+   --misses   Writes IDs not found to this file instead of table (off)
+
+  --uniqify   Uniqify input IDs (on)
+    --batch   Number of IDs per submission (100)
+    --delay   Number of seconds to wait between submissions (0)
+    --tries   Number of times to try again if failure (5)
+  --timeout   Number of seconds before trying again (5)
+
+  --clobber   Overwrites output files (off)
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+
+Different NCBI databases (the --dbname argument) have different summary 
+fields, please ensure output field names match those listed here,
+
+http://eutils.ncbi.nlm.nih.gov/corehtml/query/static/docsum_fields.html
+
+Usage examples,
+
+1\) $prog_name ids.list > summaries.tab
+2\) cat ids.txt | $prog_name --fields 'TaxId,Length' --table summaries.tab
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "idtype=s" => "acc",
+        "dbname=s" => "nucleotide",
+        "yaml:s" => undef,
+        "table:s" => undef,
+	"fields=s" => undef,
+        "titles!" => 1,
+        "uniqify!" => 1,
+        "batch=i" => 100,
+        "delay=i" => 0,
+        "tries=i" => 5,
+        "timeout=i" => 5,
+        "clobber!" => 0,
+	"silent!" => 0,
+	"verbose!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Remote::fetch_summary_ncbi( $ARGV[0], $args );
+
+__END__

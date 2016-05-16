@@ -1,0 +1,95 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Expr::Match;
+use Expr::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, June 2011.
+
+Combines a set of expression tables into one. Each row are expression 
+values for a given annotation such as gene name. Column 1 are names 
+and the following columns are values. Names can be filtered by perl-
+style expression and values can be scaled together. Command line 
+arguments are,
+
+Inputs (see --help inputs):
+  --numcol   Column name or number with expression values ("Sum-wgt")
+  --namcol   Column name or number with annotation name ("Annotation")
+  --names1   Input data set 1 filter (all)
+  --names2   Input data set 2 filter (all)
+  --scanam   Scales, with perl-style filter if given (none = all)
+
+Filters (see --help filters):
+  --minval   Minimum value required in experiments (2)
+  --mindef   Minimum percent of experiments with required value (80)
+  --minavg   Minimum mean for expression pattern values (0)
+  --maxavg   Maximum mean for expression pattern values (any)
+  --minvar   Minimum variation around the dataset mean (0)
+  --maxvar   Maximum variation around the dataset mean (any)
+
+   --ofile   Output file (STDOUT)
+
+ --clobber   Overwrite existing output files (off)
+  --silent   Prints no progress messages (off)
+    --help   Prints more explanation including examples (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "infiles=s" => undef,
+        "numcol=s" => undef,
+        "namcol=s" => undef,
+        "names1=s" => undef,
+        "names2=s" => undef,
+        "scanam:s" => undef,
+
+	"minval=f" => undef,
+        "mindef=f" => undef,
+	"minavg=f" => undef,
+	"maxavg=f" => undef,
+	"minvar=f" => undef,
+	"maxvar=f" => undef,
+        "ofile=s" => undef,
+
+        "help:s" => undef,
+	"silent!" => 0,
+	"clobber!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    &Expr::Help::dispatch( $prog_name, $args->help );
+}
+else
+{
+    $args->delete_field( "help" );
+
+    $args->infiles( \@ARGV );
+
+    &Expr::Match::combine_profiles( $args );
+}
+
+__END__

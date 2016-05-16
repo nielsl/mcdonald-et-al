@@ -1,0 +1,133 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+use Cwd;
+
+use Common::Config;
+use Common::File;
+use Common::Messages;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2005.
+
+Converts sequence alignments between a few formats. Command
+line arguments,
+
+    --infile file    [ Input file ]
+  --informat format  [ D = fasta; input format name, either
+                       fasta or raw ]
+
+     --title string  [ D = none; alignment title ]
+      --type string  [ D = rna; protein or rna or dna ]
+    --ignore expr    [ D = none; regexp of labels to skip ]
+    --colbeg integer [ D = 0; start column ]
+    --colend integer [ D = end; end column ]
+
+   --outfile file    [ Output file, or file prefix ]
+ --outformat format  [ D = raw; output format name, either
+                       fasta or raw ]
+
+Usage example,
+
+$prog_name --infile test.fasta --outfile test.raw
+
+Author: $signature 
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_infile, $cl_outfile, $cl_informat, $cl_outformat, $ali, 
+     $cl_title, $cl_moltype, $cl_ignore, $meta, $cl_colbeg,
+     $cl_colend );
+
+# Defaults,
+
+$cl_informat = "fasta";
+$cl_outformat = "raw";
+$cl_title = "";
+$cl_moltype = "rna";
+$cl_ignore = "";
+$cl_colbeg = undef;
+$cl_colend = undef;
+
+if ( not &GetOptions (
+                      "infile=s" => \$cl_infile,
+                      "informat=s" => \$cl_informat,
+                      "outfile=s" => \$cl_outfile,
+                      "outformat=s" => \$cl_outformat,
+                      "title=s" => \$cl_title,
+                      "type=s" => \$cl_moltype,
+                      "ignore=s" => \$cl_ignore,
+                      "colbeg=i" => \$cl_colbeg,
+                      "colend=i" => \$cl_colend,
+                     ) )
+{
+    exit;
+}
+
+$cl_infile = &Cwd::abs_path( $cl_infile );
+$cl_outfile = &Cwd::abs_path( $cl_outfile );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> CONVERT <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $cl_informat eq "fasta" )
+{
+    if ( $cl_outformat eq "raw" )
+    {
+        $meta = {
+            "title" => $cl_title,
+            "moltype" => $cl_moltype,
+            "ignore" => $cl_ignore,
+            "colbeg" => $cl_colbeg,
+            "colend" => $cl_colend,
+        };
+
+        {
+            local $SIG{__DIE__};
+            require Ali::Common;
+        }
+
+        Ali::Import->write_pdl_from_fasta( $cl_infile, $cl_outfile, $meta );
+    }
+    else {
+        &error( qq (Wrong looking output format -> "$cl_outformat") );
+        exit;
+    }
+}
+elsif ( $cl_informat eq "raw" )
+{
+    {
+        local $SIG{__DIE__};
+        require Ali::Common;
+    }
+
+    if ( $cl_outformat eq "fasta" )
+    {
+        $ali = &Ali::IO::connect_pdl( $cl_infile );
+        &Ali::IO::write_fasta( $ali, $cl_outfile );
+    }
+    else {
+        &error( qq (Wrong looking output format -> "$cl_outformat") );
+        exit;
+    }
+}    
+else {
+    &error( qq (Wrong looking input format -> "$cl_informat") );
+    exit;
+}
+
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<

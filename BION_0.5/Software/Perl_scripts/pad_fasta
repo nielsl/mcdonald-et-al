@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::IO;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $ifh, $ofh, $seq,
+     @lengths, $max_len );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, October 2010.
+
+Reads fasta formatted strings and appends gaps so all lines have the 
+same length. Usage,
+
+$prog_name in.fasta > out.fasta
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$ifh = &Common::File::get_read_handle( $ARGV[0] );
+
+while ( $seq = &Seq::IO::read_seq_fasta( $ifh ) )
+{
+    push @lengths, $seq->seq_len;
+}
+
+$ifh->close;
+
+$max_len = &List::Util::max( @lengths );
+
+$ifh = &Common::File::get_read_handle( $ARGV[0] );
+$ofh = &Common::File::get_write_handle();
+
+while ( $seq = &Seq::IO::read_seq_fasta( $ifh ) )
+{
+    $seq->seq( $seq->seq . ( "-" x ( $max_len - $seq->seq_len ) ) );
+
+    &Seq::IO::write_seq_fasta( $ofh, $seq );
+}
+
+$ifh->close;
+$ofh->close;
+
+
+
+__END__

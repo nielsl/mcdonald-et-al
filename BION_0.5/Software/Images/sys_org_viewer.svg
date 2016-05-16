@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="0.42+devel"
+   sodipodi:docname="sys_org_viewer.svg"
+   sodipodi:version="0.32"
+   version="1.0"
+   viewBox="0 0 550 270"
+   id="svg2"
+   width="210mm"
+   height="297mm"
+   sodipodi:docbase="/home/niels/GOFFICE/Software/Images"
+   inkscape:export-filename="/home/niels/GOFFICE/Software/Images/sys_org_viewer.png"
+   inkscape:export-xdpi="90.000000"
+   inkscape:export-ydpi="90.000000">
+  <sodipodi:namedview
+     inkscape:window-height="1080"
+     inkscape:window-width="1046"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="8.5361149"
+     inkscape:cx="103.19249"
+     inkscape:cy="601.22601"
+     inkscape:window-x="347"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg2" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>keyboard key</dc:title>
+        <dc:description />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>computer</rdf:li>
+            <rdf:li>keyboard</rdf:li>
+            <rdf:li>key</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://www.openclipart.org">
+            <dc:title>Open Clip Art Library</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Yemu</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Yemu</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain" />
+        <dc:language>en</dc:language>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs561">
+    <linearGradient
+       id="linearGradient607">
+      <stop
+         id="stop608"
+         offset="0.000000"
+         style="stop-color:#cfcfcf;stop-opacity:1;" />
+      <stop
+         id="stop609"
+         offset="1.000000"
+         style="stop-color:#efefef;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient565">
+      <stop
+         id="stop566"
+         offset="0.000000"
+         style="stop-color:#9d9d9f;stop-opacity:1;" />
+      <stop
+         id="stop567"
+         offset="1.000000"
+         style="stop-color:#e5e5e5;stop-opacity:1;" />
+    </linearGradient>
+    <radialGradient
+       cx="0.471534"
+       cy="0.492188"
+       fx="0.471534"
+       fy="0.492188"
+       id="radialGradient568"
+       r="1.016146"
+       spreadMethod="repeat"
+       xlink:href="#linearGradient565" />
+    <linearGradient
+       gradientUnits="objectBoundingBox"
+       id="linearGradient569"
+       spreadMethod="pad"
+       x1="-0.08527008"
+       x2="0.72092992"
+       xlink:href="#linearGradient565"
+       y1="0.99253702"
+       y2="-0.03731298" />
+    <linearGradient
+       gradientUnits="objectBoundingBox"
+       id="linearGradient580"
+       spreadMethod="pad"
+       x1="-0.00775294"
+       x2="-0.04651194"
+       xlink:href="#linearGradient565"
+       y1="0.99253708"
+       y2="0.00000002" />
+    <linearGradient
+       id="linearGradient576"
+       xlink:href="#linearGradient565" />
+    <linearGradient
+       gradientUnits="objectBoundingBox"
+       id="linearGradient610"
+       spreadMethod="pad"
+       x1="0.11764701"
+       x2="0.78280514"
+       xlink:href="#linearGradient607"
+       y1="0.86885244"
+       y2="0.12295082" />
+    <linearGradient
+       gradientUnits="objectBoundingBox"
+       id="linearGradient611"
+       spreadMethod="pad"
+       x1="0.10837435"
+       x2="0.76847297"
+       xlink:href="#linearGradient565"
+       y1="0.94531250"
+       y2="0.28125000" />
+    <linearGradient
+       gradientUnits="objectBoundingBox"
+       id="linearGradient613"
+       spreadMethod="pad"
+       x1="0.23529346"
+       x2="0.82805431"
+       xlink:href="#linearGradient607"
+       y1="0.85156250"
+       y2="0.12499999" />
+    <linearGradient
+       gradientUnits="objectBoundingBox"
+       id="linearGradient615"
+       spreadMethod="pad"
+       x1="0.10731713"
+       x2="0.87804890"
+       xlink:href="#linearGradient565"
+       y1="0.82031238"
+       y2="0.07812499" />
+    <linearGradient
+       id="linearGradient620"
+       xlink:href="#linearGradient607" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient607"
+       id="linearGradient1344"
+       gradientUnits="userSpaceOnUse"
+       spreadMethod="pad"
+       x1="88.575258"
+       y1="228.30439"
+       x2="173.60237"
+       y2="124.08444"
+       gradientTransform="matrix(0.176742,0.000000,0.000000,9.918115e-2,45.53127,58.08691)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient607"
+       id="linearGradient1346"
+       gradientTransform="matrix(0.176742,0.000000,0.000000,9.918115e-2,45.53127,58.08691)"
+       x1="54.824171"
+       y1="177.87538"
+       x2="198.26669"
+       y2="177.87538"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient565"
+       id="linearGradient1348"
+       gradientUnits="userSpaceOnUse"
+       spreadMethod="pad"
+       x1="60.856329"
+       y1="230.04285"
+       x2="197.69645"
+       y2="98.270660"
+       gradientTransform="matrix(0.169772,0.000000,0.000000,0.102921,45.65103,58.20251)" />
+  </defs>
+  <rect
+     height="18.110941"
+     id="rect614"
+     ry="1.8950515"
+     style="font-size:12.000000px;fill:url(#linearGradient1348);fill-rule:evenodd;stroke:#acb0b0;stroke-width:0.13218611pt;stroke-opacity:1.0000000"
+     width="29.974075"
+     x="52.831982"
+     y="66.970291"
+     inkscape:export-filename="/home/niels/GOFFICE/Software/Images/sys_org_viewer.png"
+     inkscape:export-xdpi="72.000000"
+     inkscape:export-ydpi="72.000000" />
+  <rect
+     height="13.902039"
+     id="rect612"
+     ry="1.0546381"
+     style="font-size:12.000000px;fill:url(#linearGradient1344);fill-rule:evenodd;stroke:url(#linearGradient1346);stroke-width:0.33099633;stroke-dasharray:none;stroke-opacity:1.0000000"
+     width="25.014885"
+     x="55.389709"
+     y="68.777702"
+     inkscape:export-filename="/home/niels/GOFFICE/Software/Images/sys_org_viewer.png"
+     inkscape:export-xdpi="72.000000"
+     inkscape:export-ydpi="72.000000" />
+  <text
+     id="text628"
+     sodipodi:linespacing="125.00000%"
+     style="font-size:10.491316px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125.00000%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans"
+     x="57.218288"
+     y="79.470474"
+     transform="scale(1.010707,0.989406)"
+     inkscape:export-xdpi="72.000000"
+     inkscape:export-ydpi="72.000000"
+     inkscape:export-filename="/home/niels/GOFFICE/Software/Images/sys_org_viewer.png">
+    <tspan
+       id="tspan583"
+       sodipodi:role="line"
+       x="57.218288"
+       y="79.470474">Org</tspan>
+  </text>
+</svg>

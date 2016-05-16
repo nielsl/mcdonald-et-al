@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use DNA::DB;
+use DNA::Export;
+
+use Common::File;
+use Common::DB;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, July 2003.
+
+This program outputs sequence entries in fasta format, taken
+from a larger indexed fasta file. Use '>' or '>>' to redirect
+the output to file. Command line options are,
+
+     --ids   Comma separated ID\'s or file with ID\'s
+
+The entries are printed to STDOUT, messages to STDERR.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+my $cl_headers = 1;
+my $cl_ids = "";
+
+if ( not &GetOptions (
+                      "headers!" => \$cl_headers,
+                      "ids=s" => \$cl_ids,
+                     ) )
+{
+    exit;
+}
+
+# ID's,
+
+my ( %ids, $content );
+
+if ( -r $cl_ids )
+{
+    %ids = map { $_, 1 } grep /\w/, ( split "\n", ${ &Common::File::read_file( $cl_ids ) } );
+}
+elsif ( $cl_ids )
+{
+    %ids = map { $_, 1 } split /\s*,\s*/, $cl_ids;
+}
+else {
+    &user_error( qq (Please specify ID\'s or a file of ID\'s) );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> PRINT ENTRIES <<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $dbh, $id, $seq );
+
+&echo( "\n" ) if $cl_headers;
+
+&echo_bold( "Print Fasta sequences : \n" ) if $cl_headers;
+
+$dbh = &Common::DB::connect( "DNA" );
+
+foreach $id ( sort keys %ids ) 
+{
+    &echo( "   Fetching sequence from '$id' ... " );
+
+    if ( &DNA::DB::exists_entry( $dbh, $id ) )
+    {
+        $seq = &DNA::DB::get_sequence( $dbh, $id );
+#        print "$seq\n";
+#        &DNA::Export::print_fasta( $id, $seq );
+
+        &echo_green( "done\n" );
+    }
+    else
+    {
+        &echo_yellow( "NOT FOUND\n" );
+    }
+}
+
+&Common::DB::disconnect( $dbh );
+
+&echo_bold( "Finished Printing\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<
+
+__END__

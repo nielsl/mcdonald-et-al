@@ -1,0 +1,102 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Taxonomy::Profile;
+use Taxonomy::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2013.
+
+Maps similarities onto an organism taxonomy and creates binary
+profile files. The org_profile_format script can make tables and 
+figures from that. The sequence file or consensus table used to 
+generate the similarities holds the original read counts and must
+also be given. Command line arguments (defaults in parantheses),
+
+    --recipe   Recipe file (none)
+
+      --seqs   Input sequence file or consensus table
+      --sims   Input similarities table
+    --dbname   Reference dataset name (Green_SSU_all)
+    --titles   Barcode file with headers (from table or file names)
+
+    --minsim   Minimum oligo similarity percentage (50)
+    --minoli   Minimum numer of oligos per query sequence (1)
+    --topsim   Percent range of matches to use (highest only)
+    --simwgt   Down-weighting of weaker matches (1.5)
+    --method   Match mapping method (share_clip)
+    --maxamb   Maximum taxonomic ambiguity depth (1)
+
+    --outdir   Output directory (current directory)
+    --outpre   Output file name prefix (taken from file names)
+     --stats   Output statistics file (--outdir/--outpre.stats)
+   
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+      --help   Prints help
+
+Usage examples,
+
+1\) $prog_name --isims seqs.sims --dbname RDP_SSU_341-1068 --profile seqs.prof
+2\) $prog_name cons.table cons.sims
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+#  --mingrp   Minimum sub-group score percentage (90)
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "sims=s" => undef,
+        "seqs=s" => undef,
+        "titles=s" => undef,
+        "dbname=s" => undef,
+        "minsim=f" => undef,
+        "minoli=i" => undef,
+        "topsim=f" => undef,
+        "simwgt=f" => undef,
+        "method=s" => undef,
+        "maxamb=s" => undef,
+        "mingrp=f" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "stats=s" => undef,
+        "help:s" => undef,
+        "list!" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Taxonomy::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Taxonomy::Profile::org_profile_mapper( $args );
+}
+
+__END__

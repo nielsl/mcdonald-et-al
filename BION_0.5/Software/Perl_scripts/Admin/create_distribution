@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+use Common::Admin;
+
+my ( $prog_name, $signature, $usage, $args );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2010.
+
+Creates compressed tar files with different BION source code
+sub-distributions, from one master collection. The names of the
+distributions are,
+
+      code   Our scripts and modules only
+      soft   Software distribution with all external packages
+   cluster   Cluster distribution
+
+
+ --distrib   Distribution type (default "code")
+  --outdir   Output directory (default current directory)
+
+The --distrib option can have these values,
+
+IMPORTANT: the Common::Admin::create_distribution selects files
+and directories to be included for each option, to not distribute
+a mess. So whenever directories are changed or something added to
+or removed from a distribution, then that routine must be updated
+also. 
+
+Author: $signature 
+
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "distrib=s" => "code",
+        "outdir=s" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>> CREATE DISTRIBUTION <<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Admin::create_distribution( $args );
+
+__END__

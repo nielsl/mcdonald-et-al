@@ -1,0 +1,81 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Remote;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Fetches sequence data from EBI and writes them to STDOUT. Entries are
+given by their accession numbers and a number of formats can be fetched.
+Sub-sequences are not supported, only entire entries are fetched. IDs can
+be piped from STDIN and/or read from a file. The ebi_fetch script from 
+EBI is looped, so that no more than a given number of ids are requested
+at a time. Command line arguments are,
+
+   --dbname   EBI dataset name (uniprot)
+   --format   Output sequence format (fasta)
+   --idfile   Input IDs or IDs file (undef)
+    --batch   Number of ids per request loop (100)
+
+     --help   Lists datasets and formats
+
+Examples,
+
+1\) $prog_name '1433T_RAT,WAP_RAT'
+2\) $prog_name --idfile ids.list --dbname embl >> rat.embl
+3\) $prog_name --idfile ids.list --dbname embl >> rat.embl --help
+
+Example 1 fetches two entries from Uniprot and prints them to screen. In
+example 2 a list of ids is fetched from EMBL and appended to a file. The
+third example is the same, but the added help argument prints a list of 
+databases and formats only.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ids=s" => undef,
+	"dbname=s" => "uniprot",
+        "format=s" => "fasta",
+        "idfile=s" => undef,
+        "batch=i" => 100,
+        "help:s" => undef,
+    });
+
+$args->ids( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Remote::fetch_seqs_ebi( $args, $msgs );
+}
+
+__END__

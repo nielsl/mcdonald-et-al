@@ -1,0 +1,2446 @@
+package Expr::Profile;     #  -*- perl -*-
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DESCRIPTION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#
+# Functions that create and compare expression profiles.
+#
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+use strict;
+use warnings;
+
+use Storable qw ( dclone );
+
+use DBI;
+use IO::File;
+use Math::GSL::Statistics;
+use Tie::IxHash; 
+use YAML::XS;
+use Data::Structure::Util;
+
+use vars qw ( @ISA @EXPORT_OK );
+require Exporter; @ISA = qw ( Exporter );
+
+@EXPORT_OK = qw (
+                 &create_profile
+                 &create_profiles
+                 &default_match_args
+                 &format_groups_table
+                 &format_groups_yaml
+                 &groups_to_tables
+                 &load_classify_hash
+                 &load_match_hash
+                 &match_profiles
+                 &match_profiles_cluster
+                 &match_profiles_compare
+                 &measure_list_variation
+                 &measure_lists_dif
+                 &measure_lists_mean_ratio
+                 &measure_lists_pcc
+                 &process_match_args
+                 &process_profile_args
+                 &process_scale_args
+                 &resize_groups
+                 &resize_match_hash
+                 &scale_file
+                 &scale_files
+                 &scale_lists_mean
+                 &scale_lists_median
+                 &scale_match_hash
+                 &shave_list_max
+                 &sum_file_column
+                 &write_groups
+                );
+
+use Common::Config;
+use Common::Messages;
+use Common::File;
+use Common::Tables;
+use Common::Names;
+use Common::DBM;
+
+use Registry::Args;
+use Registry::Paths;
+
+use Seq::IO;
+use Seq::Info;
+use Seq::Storage;
+
+use Expr::Stats;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GLOBALS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+our ( $Sum_header_wgt, $Sum_header, $Dat_header, $Gen_header );
+
+$Dat_header = "Dataset";
+$Gen_header = "Annotation";
+$Sum_header = "Sum";
+$Sum_header_wgt = "Sum-wgt";
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> AUTOLOAD <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+*AUTOLOAD = \&Common::Obj::AUTOLOAD;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub create_profile
+{
+    # Niels Larsen, March 2010.
+
+    # The classification step creates a table where each cluster seed sequence
+    # is listed with annotation from one or more best matches in known databases.
+    # Here, that table is "inverted" so each row in a distinct annotation, which
+    # may have been matched by many sequences. Cluster sizes are used as 
+    # expression values and weighted sums are calculated. The output gives an
+    # expression value, a number, for each function.
+
+    my ( $args,
+        ) = @_;
+
+    # Returns nothing.
+
+    my ( $cla_file, $exp_file, $clu_size, $count, $line, @line, 
+         $cla_hash, $db, $matches, $len, $trials, $p_best, $p, @table, $match, 
+         $name, $clobber, $seq_ids, $ann, $exp_sum, $clu_count, $i,
+         $ann_count, $mis_count, $stats, $exp_sum_wgt, $seq_sum, $pct_best,
+         $with_ids, @row, @titles, $out_table, $stat_file, $stat_conf );
+
+    local $Common::Messages::indent_plain;
+    local $Common::Messages::silent;
+
+    # >>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS AND VARIABLES <<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $args = &Registry::Args::create( $args );
+    
+    $cla_file = $args->itable;
+    $exp_file = $args->etable;
+    $stat_file = $args->ostats;
+    $stat_conf = $args->statconf;
+
+    $Common::Messages::silent = $args->silent;
+
+    $clobber = $args->clobber;
+    $with_ids = $args->withids;
+
+    if ( not $Common::Messages::silent ) {
+	$Common::Messages::indent_plain = 6;
+	&echo( "\n" );
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>> COLLECT MATCHES BY FUNCTION <<<<<<<<<<<<<<<<<<<<<<
+
+    # First create a hash of 
+    # 
+    #  { database }{ annotation }->[ query id, sim pct ],
+    # 
+    # which is rewritten below and used to sum up expression values.
+
+    &echo( "Loading classifications ... " );
+    $cla_hash = &Expr::Profile::load_classify_hash( $cla_file );
+    &echo_green( "done\n" );
+
+    &echo( "Calculating statistics ... " );
+
+    foreach $db ( keys %{ $cla_hash } )
+    {
+        foreach $ann ( keys %{ $cla_hash->{ $db } } )
+        {
+            if ( $ann =~ /^Unknown_\d+$/ ) {
+                $stats->{"mis_clusters"} += 1;
+            } else {
+                $stats->{"ann_count"} += 1;
+                $stats->{"ann_clusters"} += scalar @{ $cla_hash->{ $db }->{ $ann } };
+            }
+        }
+    }
+
+    $stats->{"clu_count"} = $stats->{"ann_clusters"} + $stats->{"mis_clusters"};
+    
+    &echo_green( "done\n" );
+
+    &echo( "    Matching clusters: ", 9 );
+    &echo_done( "$stats->{'ann_clusters'}\n" );
+    
+    &echo( "Non-matching clusters: ", 9 );
+    &echo_done( "$stats->{'mis_clusters'}\n" );
+    
+    &echo( "  Annotations matched: ", 9 );
+    &echo_green( "$stats->{'ann_count'}\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> TABLE INDICES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # These are indices in the expression profile tables, just to make the code
+    # below easier to read,
+
+    use constant CNT_NDX => 0;        # Sequence counts
+    use constant ID_NDX => 1;         # Sequence id
+    use constant PCT_NDX => 2;        # Similarity pct 
+    use constant WGT_NDX => 3;        # 
+    use constant SUM_NDX => 4;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>> SCALING AND SORTING <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # { target database }{ target function }->[ query id, sim pct ]
+
+    &echo( "Setting match weights ... " );
+
+    foreach $db ( keys %{ $cla_hash } )
+    {
+        foreach $ann ( keys %{ $cla_hash->{ $db } } )
+        {
+            $matches = $cla_hash->{ $db }{ $ann };
+
+            if ( $ann =~ /^Unknown_\d+$/ )
+            {
+                $matches->[0]->[PCT_NDX] = undef;
+                $matches->[0]->[WGT_NDX] = 1;
+            }
+            else
+            {
+                # To weigh down less good matches, calculate a p-value,
+
+                foreach $match ( @{ $matches } )
+                {
+                    $trials = int ( $match->[PCT_NDX] / 2 );   # Half of sim-pct
+                    $match->[WGT_NDX] = &Common::Util::p_bin_selection( $trials, 50, 0.25 );
+                }
+                
+                # Sort by p-value, smallest first,
+
+                @{ $matches } = sort { $a->[WGT_NDX] <=> $b->[WGT_NDX] } @{ $matches };
+
+                # Convert to ratios against best p-value; these are used 
+                # below to scale the cluster sizes with before they are 
+                # summed up,
+
+                $p_best = $matches->[0]->[WGT_NDX];
+
+                for ( $i = 0; $i <= $#{ $matches }; $i++ )
+                {
+                    $matches->[$i]->[WGT_NDX] = $p_best / $matches->[$i]->[WGT_NDX];
+                }
+            }
+        }
+    }
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>> COMPUTE MATCHING VALUES <<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo( "Adding cluster sizes ... " );
+    $count = 0;
+
+    foreach $db ( keys %{ $cla_hash } )
+    {
+        foreach $ann ( keys %{ $cla_hash->{ $db } } )
+        {
+            $matches = $cla_hash->{ $db }{ $ann };
+            
+            foreach $match ( @{ $matches } )
+            {
+                $clu_size = $match->[CNT_NDX];
+
+                # Multiply cluster size with the weight calculated above,
+
+                $match->[WGT_NDX] *= $clu_size;
+
+                # Save un-weighted cluster size for comparison,
+
+                $match->[SUM_NDX] = $clu_size;
+            }
+
+            # Weighted and un-weighted sum of cluster sizes,
+
+            $exp_sum_wgt = &List::Util::sum( map { $_->[WGT_NDX] } @{ $matches } );
+            $exp_sum = &List::Util::sum( map { $_->[SUM_NDX] } @{ $matches } );
+
+            # The number of sequences with this annotation,
+
+            $seq_sum = scalar @{ $matches };
+
+            if ( $ann =~ /^Unknown_\d+$/ ) {
+                $pct_best = "";
+            } else {
+                $pct_best = $matches->[0]->[PCT_NDX];
+            }
+
+            @row = ( int $exp_sum_wgt, $exp_sum, $seq_sum, $pct_best, $db, $ann );
+
+            if ( $with_ids )
+            {
+                $seq_ids = join ",", map { $_->[ID_NDX] } @{ $matches };
+                push @row, $seq_ids;
+            } 
+
+            push @table, &Storable::dclone( \@row );
+
+            $count += 1;
+        }
+    }
+
+    # Sort by weighted expression value,
+
+    @table = sort { $b->[0] <=> $a->[0] } @table;
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WRITE OUTPUT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $clobber ) {
+        &Common::File::delete_file_if_exists( $exp_file );
+    }
+
+    &echo( "Writing expression table ... " );
+
+    @titles = ( $Sum_header_wgt, $Sum_header, "Matches", "Max %", $Dat_header, $Gen_header );
+
+    if ( $with_ids ) {
+        push @titles, "Seq IDs";
+    }
+
+    $out_table = &Common::Table::new(
+        \@table,
+        {
+            "col_headers" => \@titles,
+        });
+
+    &Common::Table::write_table( $out_table, $exp_file );
+
+    &echo_green( "done\n" );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> UPDATE STATISTICS <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $stat_file )
+    {
+        $name = &File::Basename::basename( $stat_file );
+
+        if ( -r $stat_file ) {
+            &echo( "Updating $name ... " );
+        } else {
+            &echo( "Creating $name ... " );
+        }
+
+        &Expr::Stats::create_stats(
+             {
+                 "itables" => [ $exp_file ],
+                 "config" => $stat_conf,
+                 "stats" => $stat_file,
+                 "ilabel" => &Common::File::full_file_path( $cla_file ),
+                 "olabel" => &Common::File::full_file_path( $exp_file ),
+                 "silent" => 1,
+             });
+
+        &echo_done( "done\n" );
+    }
+
+    return;
+}
+
+sub create_profiles
+{
+    # Niels Larsen, May 2010.
+
+    # Produces a profile table from each of the given classification tables.
+    # Sequence files must exist with the same name as the classification files,
+    # but without the .cla suffix. 
+
+    my ( $args,
+        ) = @_;
+
+    # Returns nothing.
+
+    my ( $defs, $conf, $silent, $silent2, $i, $j, $cla_tables, $exp_tables, 
+         $indent, $name, $seq_files, $table, @max_sums, @table, $max_sum, 
+         $tmp_file, @header, $grand_avg, $ratio, $values, $exp_file, 
+         $stat_file, $new_stats );
+
+    local $Common::Messages::silent;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $defs = {
+        "itables" => [],
+        "otable" => undef,
+        "osuffix" => ".expr",
+        "stats" => undef,
+        "newstats" => undef,
+        "statconf" => undef,
+        "withids" => 0,
+	"silent" => 0,
+	"verbose" => 0,
+	"clobber" => 0,
+        "help" => 0,
+    };
+
+    $args = &Registry::Args::create( $args, $defs );
+    $conf = &Expr::Profile::process_profile_args( $args );
+    
+    $new_stats = $args->newstats;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $silent = $args->silent )
+    {
+        $Common::Messages::silent = $silent;
+        $silent2 = $silent;        
+    }
+    else {
+	$silent2 = $args->verbose ? 0 : 1;
+    }
+
+    $indent = $args->verbose ? 3 : 0;
+    
+    &echo_bold( qq (\nCreate expression profile:\n) );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>> EXPRESSION FILES <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $cla_tables = $conf->itables;
+    $exp_tables = $conf->otables;
+
+    for ( $i = 0; $i <= $#{ $cla_tables }; $i++ )
+    {
+        # Create profile,
+
+        $name = &File::Basename::basename( $exp_tables->[$i] );
+        &echo( "   Creating $name ... " );
+        
+        $stat_file = $conf->ostats->[$i];
+
+        if ( defined $new_stats and defined $stat_file ) {
+            &Common::File::delete_file_if_exists( $stat_file );
+        }
+        
+        &Expr::Profile::create_profile(
+            {
+                "itable" => $cla_tables->[$i],
+                "etable" => $exp_tables->[$i],
+                "ostats" => $stat_file,
+                "statconf" => $conf->statconf,
+                "withids" => $args->withids,
+                "silent" => $silent2,
+                "verbose" => $args->verbose,
+                "clobber" => $args->clobber,
+                "indent" => $indent,
+            });
+        
+        &echo_green( "done\n", $indent );
+    }
+
+    &echo_bold("Done\n\n");
+
+    return;
+}
+
+sub default_match_args
+{
+    my ( $defs );
+
+    $defs = bless {
+        "title" => "Profile comparison",
+        "author" => &Common::Config::get_signature(),
+        "labels" => undef,
+        "numcol" => $Sum_header_wgt,
+        "datcol" => $Dat_header,
+        "namcol" => $Gen_header,
+        "names1" => undef,
+        "names2" => undef,
+        "scanam" => "",
+        "suppow" => undef,
+        "sorder" => "sum",
+	"minval" => 2,
+        "mindef" => 80,
+	"minavg" => undef,
+	"maxavg" => undef,
+	"minvar" => 0.0,
+	"maxvar" => undef,
+	"minrat" => 1.0,
+	"maxrat" => undef,
+        "method" => "dif",
+	"minsco" => undef,
+	"maxsco" => undef,
+        "dispct" => 0,
+        "scale" => "median",
+	"mingrp" => 2,
+	"maxgrp" => undef,
+	"table" => undef,
+        "yaml" => undef,
+	"silent" => 0,
+	"clobber" => 0,
+    };
+
+    return wantarray ? %{ $defs } : $defs;
+}
+    
+sub format_groups_table
+{
+    # Niels Larsen, June 2011.
+
+    # Formats a tab-separated table from a given list of groups.
+    # Returns the table as a text string.
+
+    my ( $list,   # List of groups
+         $args,   # Arguments hash
+        ) = @_;
+    
+    # Returns string.
+
+    my ( $gnum, $text, $table, $group_name, $name, $i, $c_hdrs, $r_hdrs, $values );
+
+    $gnum = 0;
+
+    $text = "# Group\tGene\t". (join "\t", @{ $list->[0]->col_headers }) ."\n";
+
+    foreach $table ( @{ $list } )
+    {
+        $group_name = "Group". ++$gnum;
+
+        $r_hdrs = $table->row_headers;
+        $values = $table->values;
+
+        for ( $i = 0; $i <= $#{ $values }; $i++ )
+        {
+            $text .= "$group_name\t$r_hdrs->[$i]\t". ( join "\t", @{ $values->[$i] } ) ."\n";
+        }
+    }
+
+    return $text;
+}
+
+sub format_groups_yaml
+{
+    # Niels Larsen, June 2011.
+
+    # Creates a YAML formatted string from a given list of groups.
+
+    my ( $list,   # List of group tables
+         $args,   # Arguments hash
+        ) = @_;
+    
+    # Returns string.
+
+    my ( $struct, $text );
+    
+    $struct = {
+        "type" => "expr_groups",
+        "date" => $args->{"date"},
+        "author" => $args->{"author"},
+        "title" => $args->{"title"},
+        "tables" => $list,
+    };
+
+    $text = &YAML::XS::Dump( &Data::Structure::Util::unbless( $struct ) );
+
+    return $text;
+}
+
+sub groups_to_tables
+{
+    # Niels Larsen, June 2011. 
+
+    # Helper routine for match_profiles that converts group structure to a list 
+    # of Common::Table objects, for which we have printing routines. 
+
+    my ( $groups,
+         $labels,
+        ) = @_;
+
+    # 
+
+    my ( $i, $group, $name, @values, $row, @tables, $table, $names, $scores, 
+         $values, $ratios, %titles, $title, $method );
+
+    %titles = (
+        "pcc" => "PCC",
+        "dif" => "Dif",
+    );
+
+    $i = 0;
+
+    foreach $group ( @{ $groups } )
+    {
+        $method = $group->method;
+        
+        $names = $group->names;
+        $scores = $group->scores;
+        $ratios = $group->ratios;
+        $values = $group->values;
+
+        if ( not $title = $titles{ $method } ) {
+            &error( qq (Wrong looking method -> "$method") );
+        }
+
+        @values = ();
+
+        for ( $row = 0; $row <= $#{ $names }; $row++)
+        {
+#            push @values, [ $ratios->[$row], $scores->[$row], @{ $values->[$row] } ];
+            push @values, [ $scores->[$row], @{ $values->[$row] } ];
+        }
+
+        $table = &Common::Table::new( 
+            \@values, 
+            {
+                "title" => "Group ". ++$i,
+                "col_headers" => [ $title, @{ $labels } ],
+                "row_headers" => $names,
+            });
+        
+        push @tables, &Storable::dclone( $table );
+    }
+
+    return wantarray ? @tables : \@tables;
+}
+
+sub load_classify_hash
+{
+    # Niels Larsen, May 2010.
+
+    # Loads a classification output into a hash, where keys and values are
+    #  { target database }{ target function }->[ query id, sim pct ]
+
+    my ( $file,            # File path 
+        ) = @_;
+
+    # Returns a hash.
+
+    my ( $fh, @line, $line, %table, $mis_count, $cnt_ndx, $id_ndx, $sim_ndx,
+         $db_ndx, $ann_ndx );
+
+    $fh = &Common::File::get_read_handle( $file );
+    
+    # Get table indices from header; these header names must match with 
+    # those written by the Seq::Classify::write_cla_table routine,
+
+    $line = <$fh>;
+    $line =~ s/^\s*#\s*//;
+    chomp $line;
+
+    ( $cnt_ndx, $id_ndx, $sim_ndx, $db_ndx, $ann_ndx ) = 
+        &Common::Table::names_to_indices(
+            [ qw (Q-count Q-ID Sim% T-DB T-annotation ) ], 
+            [ split "\t", $line ],
+        );
+
+    $mis_count = 0;
+
+    while ( defined ( $line = <$fh> ) )
+    {
+        chomp $line;
+        @line = split "\t", $line;
+
+        if ( $line[$sim_ndx] )
+        {
+            push @{ $table{ $line[$db_ndx] }{ $line[$ann_ndx] } }, [ $line[$cnt_ndx], $line[$id_ndx], $line[$sim_ndx] ];
+        }
+        else
+        {
+            push @{ $table{"Nomatch"}{ "Unknown_". ++$mis_count } }, [ $line[$cnt_ndx], $line[$id_ndx], undef ];
+        }
+    }
+
+    &Common::File::close_handle( $fh );
+
+    return wantarray ? %table : \%table;
+}
+
+sub load_match_hash
+{
+    # Niels Larsen, June 2011.
+
+    # Loads profile tables into a hash of lists, where keys are names, 
+    # and values are expression counts. List indices correspond to experiments.
+    # We read through all input files to get the values, possibly filtered by 
+    # list expressions.
+
+    my ( $args,
+         $msgs,
+        ) = @_;
+
+    # Returns a hash.
+
+    my ( $files, $i, $rows, $table, $ndcs, $row, $namndx, $numndx, $name, 
+         $maxndx, %data, $filter, $regexp, $mindef, $def, $minval, $val );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> READ TABLES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    # Read tables and all data into a hash of lists,
+
+    $files = $args->tables;
+
+    if ( @{ $args->filter } )
+    {
+        $filter = &Common::Util::uniqify( $args->filter );
+        $regexp = "(". (join ")|(", @{ $filter }) .")";
+    }
+
+    for ( $i = 0; $i <= $#{ $files }; $i++ )
+    {
+        # Read entire table,
+
+        $table = &Common::Table::read_table( $files->[$i] );
+
+        # Set indices for names and numbers,
+
+        if ( $args->namcol =~ /^\d$/ ) {
+            $namndx = $args->namcol - 1;
+        } else {
+            $namndx = &Common::Table::names_to_indices( [ $args->namcol ], $table->col_headers )->[0];
+        }
+
+        if ( $args->numcol =~ /^\d$/ ) {
+            $numndx = $args->numcol - 1;
+        } else {
+            $numndx = &Common::Table::names_to_indices( [ $args->numcol ], $table->col_headers )->[0];
+        }
+
+        # Create hash where keys are names and values are ists of numbers. If 
+        # a name expression filter is given, use only the names that match,
+
+        if ( $filter ) 
+        {
+            foreach $row ( @{ $table->values } ) {
+                $data{ $row->[$namndx] }->[$i] = $row->[$numndx] if $row->[$namndx] =~ /$regexp/io;
+            }
+        }
+        else
+        {
+            foreach $row ( @{ $table->values } ) {
+                $data{ $row->[$namndx] }->[$i] = $row->[$numndx];
+            }
+        }
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> FILTER HASH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # Delete the data lists where less than mindef % have defined values. Those 
+    # that remain have undefined values converted to zero. 
+    
+    # Count defined values and delete if less than required,
+
+    $mindef = $args->mindef * ( $maxndx + 1 ) / 100;
+    $minval = $args->minval;
+
+    foreach $name ( keys %data )
+    {
+        $def = 0;
+
+        for ( $i = 0; $i <= $maxndx; $i++ )
+        {
+            $val = $data{ $name }->[$i];
+            $def += 1 if defined $val and $val >= $minval;
+        }
+    
+        delete $data{ $name } if $def < $mindef;
+    }
+
+    # Replace undefined values in the lists with 0's and make all lists have 
+    # same length,
+
+    foreach $name ( keys %data )
+    {
+        for ( $i = 0; $i <= $maxndx; $i++ )
+        {
+            $data{ $name }->[$i] //= 0;
+        }
+    }
+
+    return wantarray ? %data : \%data;
+}
+
+sub match_profiles
+{
+    # Niels Larsen, June 2011.
+
+    # Creates groups of sets of expression values that tend to correlate,
+    # positively or negatively.
+    
+    my ( $args,
+        ) = @_;
+
+    # Returns nothing.
+
+    my ( $defs, $conf, $regexp, $data, @filter, $minvar, $maxvar, $file,
+         $count, $name, $var, $filter, @msgs, @all_names, @names1, @names2,
+         $string, $name1, $name2, $groups, $group, $gen_count, $mingrp,
+         $maxgrp, $grp_count, $minavg, $maxavg, $val, $vars, $routine, 
+         $clobber, $minrat, $maxrat, $minsco, $maxsco, $rat, $sco, $sums,
+         $tables, $ungrouped, $power );
+
+    local $Common::Messages::silent;
+    local $Common::Messages::indent_plain;
+    local $Common::Messages::indent_info;
+    
+    bless $args;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $defs = &Expr::Profile::default_match_args();
+    $conf = &Expr::Profile::process_match_args( $args, $defs );
+
+    $Common::Messages::silent = $args->silent;
+    $Common::Messages::indent_plain = 3;
+    $Common::Messages::indent_info = 3;
+
+    &echo_bold( qq (\nMatch profiles:\n) );
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> CREATE HASH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # First load each profile table into a hash of lists where keys are names, 
+    # and values are expression counts. List indices correspond to experiments.
+    # We read through all input files to get the values, possibly filtered by 
+    # list expressions.
+    
+    if ( @{ $conf->names1 } and @{ $conf->names2 } )
+    {
+        push @filter, @{ $conf->names1 };
+        push @filter, @{ $conf->names2 };
+    }
+
+    &echo("Loading tables ... ");
+
+    $data = &Expr::Profile::load_match_hash(
+        bless {
+            "tables" => $conf->infiles,
+            "numcol" => $conf->numcol,
+            "namcol" => $conf->namcol,
+            "minval" => $conf->minval,
+            "mindef" => $conf->mindef,
+            "filter" => \@filter,
+        });
+
+    if ( %{ $data } ) 
+    {
+        @all_names = keys %{ $data };
+        &echo_done( (scalar @{ $data->{ $all_names[0] } }) ." file[s], ". (scalar @all_names) ." gene[s]\n");
+    }
+    else 
+    {
+        push @msgs, ["ERROR", qq (No matches with this gene-name constraint -> "). (join "\" or \"", @filter) ."\"" ];
+        &echo("\n");
+        &append_or_exit( \@msgs );
+    }
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>> FILTER BY VALUE SIZES <<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    # This removes datasets with values that are uninterestingly low or high,
+
+    $minavg = $conf->minavg;
+    $maxavg = $conf->maxavg;
+
+    if ( $minavg > 1 )
+    {
+        &echo("Skipping sets with mean < $minavg ... ");
+
+        $count = 0;
+
+        foreach $name ( keys %{ $data } )
+        {
+            $val = &Math::GSL::Statistics::gsl_stats_mean( $data->{ $name }, 1, scalar @{ $data->{ $name } } );
+
+            if ( $val < $minavg )
+            {
+                delete $data->{ $name };
+                $count += 1;
+            }
+        }
+
+        &echo_done("$count skipped\n");
+    }
+
+    if ( defined $maxavg )
+    {
+        &echo("Skipping sets with mean > $maxavg ... ");
+
+        $count = 0;
+
+        foreach $name ( keys %{ $data } )
+        {
+            $val = &Math::GSL::Statistics::gsl_stats_mean( $data->{ $name }, 1, scalar @{ $data->{ $name } } );
+
+            if ( $val > $maxavg )
+            {
+                delete $data->{ $name };
+                $count += 1;
+            }
+        }
+
+        &echo_done("$count skipped\n");
+    }
+    
+    if ( not %{ $data } ) 
+    {
+        push @msgs, ["ERROR", qq (All gene sets removed by value criteria, please relax them.) ];
+        undef $Common::Messages::indent_plain;
+        &append_or_exit( \@msgs );
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>> CALCULATE VARIABILITY <<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # This is used for sorting the comparison order below, and optionally for 
+    # filtering away datasets,
+
+    &echo("Measuring sums and variations ... ");
+
+    foreach $name ( keys %{ $data } )
+    {
+        $sums->{ $name } = &List::Util::sum( @{ $data->{ $name } } );
+        $vars->{ $name } = &Expr::Profile::measure_list_variation( $data->{ $name } );
+    }
+
+    &echo_done("done\n");
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>> REMOVE BY VARIABILITY <<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # This removes datasets where the variability is too high and/or low,
+
+    $minvar = $conf->minvar;
+    $maxvar = $conf->maxvar;
+
+    if ( $minvar > 0 )
+    {
+        &echo("Skipping sets with variability < $minvar ... ");
+
+        $count = 0;
+
+        foreach $name ( keys %{ $data } )
+        {
+            if ( $vars->{ $name } < $minvar )
+            {
+                delete $data->{ $name };
+                delete $sums->{ $name };
+                delete $vars->{ $name };
+
+                $count += 1;
+            }
+        }
+
+        &echo_done("$count skipped\n");
+    }
+
+    if ( defined $maxvar )
+    {
+        &echo("Skipping sets with variability > $maxvar ... ");
+
+        $count = 0;
+
+        foreach $name ( keys %{ $data } )
+        {
+            if ( $vars->{ $name } > $maxvar )
+            {
+                delete $data->{ $name };
+                delete $sums->{ $name };
+                delete $vars->{ $name };
+
+                $count += 1;
+            }
+        }
+
+        &echo_done("$count skipped\n");
+    }
+
+    if ( not %{ $data } ) 
+    {
+        push @msgs, ["ERROR", qq (All gene sets removed by variability criteria, please relax them.) ];
+        undef $Common::Messages::indent_plain;
+        &append_or_exit( \@msgs );
+    }
+
+    @all_names = keys %{ $data };
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SCALING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # If the scale argument is "" (empty but defined), then the values across 
+    # all genes are scaled so that the sums for each experiment is the same. If
+    # a scale expression is given, then only the sums for the genes that match 
+    # are used. 
+    
+    if ( @{ $conf->scanam } and not grep /__none__/i, @{ $conf->scanam } )
+    {
+        &echo("Scaling values across files ... "); 
+
+        $data = &Expr::Profile::scale_match_hash( $data, $conf->scanam );
+
+        &echo_done("done\n");
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> MAKE NAME LISTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    # Form regular expressions for gene set 1 and 2 and search the names with 
+    # these expressions. Stop with error if either set does not match. 
+
+    if ( @{ $conf->names1 } )
+    {
+        &echo("Matching names1 names ... ");
+
+        $regexp = "(". (join ")|(", @{ $conf->names1 }) .")";
+        @names1 = grep /$regexp/io, @all_names;
+        
+        if ( not @names1 )
+        {
+            $string = "'". (join "' or '", @{ $conf->names1 }) ."'";
+            push @msgs, ["ERROR", qq (No matches with these names1 expressions -> $string) ];
+        }
+
+        &echo_done( scalar @names1 ." match[es]\n" );
+    }
+    else {
+        @names1 = @all_names;
+    }
+
+    if ( @{ $conf->names2 } )
+    {
+        &echo("Matching names2 names ... ");
+
+        $regexp = "(". (join ")|(", @{ $conf->names2 }) .")";
+        @names2 = grep /$regexp/io, @all_names;
+        
+        if ( not @names2 )
+        {
+            $string = "'". (join "' or '", @{ $conf->names2 }) ."'";
+            push @msgs, ["ERROR", qq (No matches with these names2 expressions -> $string) ];
+        }
+
+        &echo_done( scalar @names2 ." match[es]\n" );
+    }
+    else {
+        @names2 = @all_names;
+    }
+
+    if ( @msgs )
+    {
+        &echo("\n");
+        &append_or_exit( \@msgs );
+    }
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>>> SORT BY VARIABILITY <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $conf->sorder eq "var" )
+    {
+        &echo("Sorting by descending variations ... ");
+
+        @names1 = sort { $vars->{ $b } <=> $vars->{ $a } } @names1;
+        @names2 = sort { $vars->{ $b } <=> $vars->{ $a } } @names2;
+    }
+    elsif ( $conf->sorder eq "sum" )
+    {
+        &echo("Sorting by descending sums ... ");
+
+        @names1 = sort { $sums->{ $b } <=> $sums->{ $a } } @names1;
+        @names2 = sort { $sums->{ $b } <=> $sums->{ $a } } @names2;
+    }
+    else {
+        &error( qq (Wrong looking sort order -> "). $conf->sorder ."\"" );
+    }
+
+    &echo_done("done\n");
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>> RESIZE BY POWER <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    if ( defined ( $power = $conf->suppow ) )
+    {
+        &echo("Down-sizing data by power $power ... ");
+        $data = &Expr::Profile::resize_match_hash( $data, 1.0 / $power );
+        &echo_done("done\n");
+    }
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GROUPING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # Compare @names1 against @names2, all against all but not twice. Identical 
+    # names are not compared, and names put in one group will not be put into 
+    # another. 
+    
+    &echo("Grouping patterns ... ");
+    
+    ( $groups, $ungrouped ) = &Expr::Profile::match_profiles_compare(
+        $data,
+        bless {
+            "names1" => \@names1,
+            "names2" => \@names2,
+            "routine" => $conf->match_routine,
+            "method" => $conf->method,
+            "minrat" => $conf->minrat,
+            "maxrat" => $conf->maxrat,
+            "minsco" => $conf->minsco,
+            "maxsco" => $conf->maxsco,
+            "dispct" => $conf->dispct,
+            "scale" => $conf->scale,
+        });
+
+    if ( @{ $groups } )
+    {
+        $count = scalar @{ $groups };
+        
+        $gen_count = 0;
+        map { $gen_count += scalar @{ $_->names } } @{ $groups };
+
+        &echo_done( qq ($count group[s], $gen_count gene[s]\n) );
+    }
+    else
+    {
+        &echo_yellow( qq (No groups\n) );
+        &echo_info( "Try adjust parameters, see --help\n" );
+    }
+
+    if ( @{ $groups } )
+    {
+        # >>>>>>>>>>>>>>>>>>>>>> EXCLUDE BY GROUP SIZE <<<<<<<<<<<<<<<<<<<<<<<<
+        
+        # This simply filters by size of the output groups,
+        
+        $mingrp = $conf->mingrp;
+        $maxgrp = $conf->maxgrp;
+
+        if ( $mingrp >= 2 )
+        {
+            &echo("Skipping groups smaller than $mingrp ... ");
+            $count = scalar @{ $groups };
+            
+            @{ $groups } = grep { scalar @{ $_->names } >= $mingrp } @{ $groups };
+            
+            $count = $count - scalar @{ $groups };
+            &echo_done( "$count skipped\n" );
+        }
+        
+        if ( defined $maxgrp )
+        {
+            &echo("Skipping groups larger than $maxgrp ... ");
+            $count = scalar @{ $groups };
+            
+            @{ $groups } = grep { scalar @{ $_->names } <= $maxgrp } @{ $groups };
+            
+            $count = $count - scalar @{ $groups };
+            &echo_done( "$count skipped\n" );
+        }
+        
+        if ( not @{ $groups } )
+        {
+            &echo_yellow( qq (   No groups) ); &echo(".\n", 0);
+            &echo_info( "Try adjust parameters, see --help\n" );
+        }
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OUTPUTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( @{ $groups } )
+    {
+        if ( defined ( $power = $conf->suppow ) )
+        {
+            &echo("Up-sizing data by power $power ... ");
+            $groups = &Expr::Profile::resize_groups( $groups, $power );
+            &echo_done("done\n");
+        }
+        
+        # Convert from a list of hashes to a Common::Table object. Then group 
+        # insertion order is preserved (IxHash) and table rendering routines can 
+        # then be used,
+        
+        $tables = &Expr::Profile::groups_to_tables( $groups, $conf->labels );
+
+        # Write tables in tabular or YAML formats,
+
+        &Expr::Profile::write_groups(
+            $tables,
+            bless {
+                "title" => $conf->title,
+                "author" => $conf->author,
+                "table" => $conf->table,
+                "yaml" => $conf->yaml,
+                "clobber" => $args->clobber,
+                "silent" => $args->silent,
+            });
+    }
+
+    &echo_bold( "Finished\n\n" );
+
+    return;
+}
+
+sub match_profiles_cluster
+{
+    # Niels Larsen, June 2011. 
+
+    # Forms groups of lists of numbers that satisfy constraints. All names are 
+    # compared against all, but not twice and not identical names. Datasets can
+    # only be part of one group. It is not a real clustering method, as all are
+    # put into the first group even if there is a better fit in another group.
+    # The match_profiles_cluster routine is an attempt at that. Returns a list 
+    # of groups.
+
+    my ( $data,
+         $conf,
+        ) = @_;
+
+    # Returns a list.
+
+    my ( $minrat, $maxrat, $minsco, $maxsco, $name1, $name2, $routine, $rat, $sco,
+         $done, @groups, $group, $method, $rats, $scos, $ndx, $best_ndx,
+         $best_sco, @ungrouped, $gname1, $scale, $dispct );
+
+    $routine = $conf->routine;
+    $method = $conf->method;
+    
+    $minrat = $conf->minrat;
+    $maxrat = $conf->maxrat // 999_999_999;
+    $minsco = $conf->minsco;
+    $maxsco = $conf->maxsco;
+    $scale = $conf->scale;
+    $dispct = $conf->dispct;
+
+    $done = {};
+
+    foreach $name1 ( @{ $conf->names1 } )
+    {
+        next if $done->{ $name1 };
+
+        # Seed a potential new group, but it will only become a group if other
+        # sets match,
+
+        {
+            no strict "refs";
+
+            push @groups, bless {
+                "method" => $method,
+                "names" => [ $name1 ],
+                "values" => [ $data->{ $name1 } ],
+                "ratios" => [ 1.0 ],
+                "scores" => [ $routine->( $data->{ $name1 }, $data->{ $name1 }, $scale, $dispct ) ],
+            };
+        }
+
+        foreach $name2 ( @{ $conf->names2 } )
+        {
+            next if $done->{ $name2 } or $name1 eq $name2;
+
+            # Go through all groups to find best fit with seed dataset,
+
+            undef $best_ndx;
+            undef $best_sco;
+
+            for ( $ndx = 0; $ndx <= $#groups; $ndx++ )
+            {
+                $gname1 = $groups[$ndx]->names->[0];
+
+                next if $gname1 eq $name2;
+
+                # Skip if ratio out of bounds (keeps cache),
+
+                if ( not defined ( $rat = $rats->{ $gname1 }->{ $name2 } ) )
+                {
+                    $rat = &Expr::Profile::measure_lists_mean_ratio( $data->{ $gname1 }, $data->{ $name2 } );
+                    $rats->{ $gname1 }->{ $name2 } = $rat;
+                }
+                
+                next if $rat < $minrat or $rat > $maxrat;
+                
+                # Skip if score out of bounds (keeps cache),
+                
+                if ( not defined ( $sco = $scos->{ $gname1 }->{ $name2 } ) )
+                {
+                    no strict "refs";
+
+                    $sco = $routine->( $data->{ $gname1 }, $data->{ $name2 }, $scale, $dispct );
+                    $scos->{ $gname1 }->{ $name2 } = $sco;
+                }
+                
+                next if $sco < $minsco or $sco > $maxsco;
+
+                # Remember best score and its group index,
+
+                if ( not defined $best_sco or $sco < $best_sco )
+                {
+                    $best_sco = $sco;
+                    $best_ndx = $ndx;
+                }
+            }
+
+            if ( defined $best_ndx )
+            {
+                # Add to group,
+                
+                push @{ $groups[$best_ndx]->names }, $name2;
+                push @{ $groups[$best_ndx]->values }, $data->{ $name2 };
+                push @{ $groups[$best_ndx]->ratios }, 1 / $rat;
+                push @{ $groups[$best_ndx]->scores }, $best_sco;
+
+                $done->{ $name2 } = 1;
+            }
+            else {
+                push @ungrouped, $name2;
+            }
+        }
+    }
+
+    return ( \@groups, \@ungrouped );
+}
+    
+sub match_profiles_compare
+{
+    # Niels Larsen, June 2011. 
+
+    # Forms groups of lists of numbers that satisfy constraints. All names are 
+    # compared against all, but not twice and not identical names. Datasets can
+    # only be part of one group. It is not a real clustering method, as all are
+    # put into the first group even if there is a better fit in another group.
+    # The match_profiles_cluster routine is an attempt at that. Returns a list 
+    # of groups.
+
+    my ( $data,
+         $conf,
+        ) = @_;
+
+    # Returns a list.
+
+    my ( $minrat, $maxrat, $minsco, $maxsco, $name1, $name2, $routine, $rat, $sco,
+         $done, $count, @groups, $group, $method, $scale, $dispct );
+
+    $routine = $conf->routine;
+    $method = $conf->method;
+    
+    $minrat = $conf->minrat;
+    $maxrat = $conf->maxrat;
+    $minsco = $conf->minsco;
+    $maxsco = $conf->maxsco;
+    $dispct = $conf->dispct;
+    $scale = $conf->scale;
+
+    $done = {};
+
+    foreach $name1 ( @{ $conf->names1 } )
+    {
+        next if $done->{ $name1 };
+
+        # Seed a potential new group, but it will only become a group if other
+        # sets match,
+
+        undef $group;
+
+        {
+            no strict "refs";
+            
+            $group = bless {
+                "method" => $method,
+                "names" => [ $name1 ],
+                "values" => [ $data->{ $name1 } ],
+                "ratios" => [ 1.0 ],
+                "scores" => [ $routine->( $data->{ $name1 }, $data->{ $name1 }, $scale, $dispct ) ],
+            };
+        }
+
+        $count = 1;
+
+        foreach $name2 ( @{ $conf->names2 } )
+        {
+            if ( not $done->{ $name2 } and $name1 ne $name2 )
+            {
+                # Skip if ratio between means is out of bounds,
+
+                $rat = &Expr::Profile::measure_lists_mean_ratio( $data->{ $name1 }, $data->{ $name2 } );
+                
+                if ( $minrat > 1.0 or defined $maxrat ) {
+                    next if $rat < $minrat or ( defined $maxrat and $rat > $maxrat );
+                }
+                
+                # Skip if difference or correlation is out of bounds,
+                
+                {
+                    no strict "refs";
+                    $sco = $routine->( $data->{ $name1 }, $data->{ $name2 }, $scale, $dispct );
+                }
+                
+                next if $sco < $minsco or $sco > $maxsco;
+                
+                # Add to group,
+                
+                push @{ $group->names }, $name2;
+                push @{ $group->values }, $data->{ $name2 };
+                push @{ $group->ratios }, 1 / $rat;
+                push @{ $group->scores }, $sco;
+                
+                $count += 1;
+            }
+        }
+
+        # Add the group to the list and prevent these members from being part
+        # of other groups,
+
+        push @groups, &Storable::dclone( $group );
+        map { $done->{ $_ } = 1 } @{ $group->names };
+    }                                                    
+
+    return ( \@groups, undef );
+}
+    
+sub measure_lists_pcc
+{
+    # Niels Larsen, June 2011.
+
+    # Uses the Pearson correlation coefficient to measure the similarity in 
+    # variation between two given sets of numbers. The returned score ranges
+    # between -1.0 (opposite, or negative, correlation) and 1.0 (positive
+    # correlation). The two given lists must have the same length and may 
+    # contain no undefined or non-numeric elements.
+
+    my ( $list1,
+         $list2,
+        ) = @_;
+
+    # Returns a number.
+
+    my ( $cor, $len1, $len2, $c_list1, $c_list2 );
+
+    ( $c_list1, $c_list2, undef ) = &Expr::Profile::scale_lists_median( $list1, $list2 );
+
+    if ( ( $len1 = scalar @{ $c_list1 } ) == ( $len2 = scalar @{ $c_list2 } ) ) 
+    {
+        $cor = &Math::GSL::Statistics::gsl_stats_correlation( $c_list1, 1, $c_list2, 1, $len1 );
+    }
+    else {
+        &error( qq (First given list length is $len1, but the second has $len2 elements) );
+    }
+
+    return $cor;
+}
+
+sub measure_lists_dif
+{
+    # Niels Larsen, June 2011. 
+    
+    # Measures the average percentage-wise difference between two lists of numbers,
+    # scaled by mean or median (default). Then a list of difference-ratios are created
+    # and the average mean is taken and the corresponding ratio is returned. Optionally
+    # the highest $dispct percent differences between the scaled lists are ignored. 
+    # Returned values range between 0 (perfect match) to 1 (very different).     
+
+    my ( $list1,    # List of numbers
+         $list2,    # List of numbers
+         $scale,    # "mean" or "median" - OPTIONAL, default "median"
+         $dispct,   # Discard percentage - OPTIONAL, default none
+        ) = @_;
+
+    # Returns a number.
+
+    my ( $i_max, $i, $sum, $ratsum, $val1, $val2, $mval, $routine, $rats );
+
+    $scale //= "median";
+    $dispct //= 0;
+
+    # Scaling, by mean or median,
+
+    { 
+        no strict "refs";
+
+        $routine = "Expr::Profile::scale_lists_". $scale;
+        ( $list1, $list2, $mval ) = $routine->( $list1, $list2 );
+    }
+
+    # Create a list of all absolute differences divided by their sum,
+
+    for ( $i = 0; $i <= &List::Util::min( $#{ $list1 }, $#{ $list2 } ); $i++ )
+    {
+        $val1 = $list1->[$i];
+        $val2 = $list2->[$i];
+        
+        $sum = $val1 + $val2;
+
+        if ( $sum > 0 ) {
+            push @{ $rats }, abs ( $val1 - $val2 ) / $sum;
+        } else {
+            push @{ $rats }, 0;
+        }
+    }
+
+    # Remove a given percentage of the highest differences if asked for,
+
+    if ( $dispct ) {
+        $rats = &Expr::Profile::shave_list_max( $rats, $dispct );
+    }
+    
+    return &List::Util::sum( @{ $rats } ) / scalar @{ $rats };
+}
+    
+sub measure_lists_mean_ratio
+{
+    # Niels Larsen, June 2011.
+
+    # Returns the number of times that the highest mean of two given number
+    # lists are higher than the lowest mean. If the lowest mean is zero, then 
+    # the highest mean is returned. If it is less than zero, then the highest
+    # plus the absolute of the lowest is returned.
+    
+    my ( $list1,
+         $list2,
+        ) = @_;
+
+    # Returns a number.
+
+    my ( $ratio, $mean1, $mean2, $min, $max );
+
+    $mean1 = &Math::GSL::Statistics::gsl_stats_mean( $list1, 1, scalar @{ $list1 } );
+    $mean2 = &Math::GSL::Statistics::gsl_stats_mean( $list2, 1, scalar @{ $list2 } );
+
+    $min = &List::Util::min( $mean1, $mean2 );
+    $max = &List::Util::max( $mean1, $mean2 );
+
+    if ( $min == 0 )
+    {
+        $ratio = $max;
+    }
+    elsif ( $min < 0 )
+    {
+        $ratio = $max - $min;
+    }
+    else {
+        $ratio = $max / $min;
+    }
+
+    return $ratio;
+}
+
+sub measure_list_variation
+{
+    # Niels Larsen, June 2011.
+
+    # Returns a number that reflects how much a given list of values vary
+    # around their mean. It is calculated as the sum of the absolute differences
+    # to the mean, divided by the average absolute value of the given list.
+    # It is a relative measure that is independent of values, and it typically
+    # ranges from 0.0 (no variation) to 1.5+ (high variation).
+
+    my ( $list,
+        ) = @_;
+
+    # Returns a number. 
+
+    my ( $sum, $var );
+
+    $sum = &List::Util::sum( map { abs $_ } @{ $list } ) / scalar @{ $list };
+
+    $var = &Math::GSL::Statistics::gsl_stats_absdev( $list, 1, scalar @{ $list } ) / $sum;
+
+    return $var;
+}
+
+sub process_match_args
+{
+    # Niels Larsen, June 2011.
+
+    # Checks and expands config file and user arguments for the expr_match
+    # script. Command line arguments override those in the config file.
+
+    my ( $args,      # Arguments
+         $defs,      # Outgoing messages
+	) = @_;
+
+    # Returns hash or nothing.
+
+    my ( @msgs, $otype, $ofile, $conf, $file, $path, $name, $min, $max, $count,
+         @fields, %fields, $value, $key, $lbool, $choices, $string, @list, 
+         @numbers, $tuple, $minfld, $maxfld, $lower, $upper, $method, $i, $j,
+         $sorder );
+
+    @msgs = ();
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> CONFIG FILE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $args->config )
+    {
+	&Common::File::check_files( [ $args->config ], "efr", \@msgs );
+        &append_or_exit( \@msgs );
+        
+        $conf = &Common::Config::read_config_general( $args->config );
+        &append_or_exit( \@msgs );
+    }
+    else {
+        $conf = {};
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> CHECK KEYS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # List allowed fields, and whether they should be lists or not. The user 
+    # may duplicate the wrong field by mistake, but Config::General is not 
+    # consistent either.
+
+    push @fields, qw ( title author infiles labels sorder );
+    push @fields, qw ( numcol datcol namcol names1 names2 scanam suppow );
+    push @fields, qw ( mindef minval minavg maxavg minvar maxvar );
+    push @fields, qw ( minrat maxrat method minsco maxsco dispct scale );
+    push @fields, qw ( mingrp maxgrp );
+        
+    # Check that there are no wrong fields in the config file,
+
+    %fields = map { $_, 1 } @fields;
+
+    foreach $key ( keys %{ $conf } )
+    {
+        if ( not exists $fields{ $key } )
+        {
+            push @msgs, ["ERROR", qq (Wrong looking configuration file key -> "$key") ];
+        }
+    }
+
+    if ( @msgs )
+    {
+        $choices = join ", ", map { $_ } @fields;
+        push @msgs, ["TIP", qq (Choices are: "$choices") ];
+        &append_or_exit( \@msgs );
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>> INPUT FILES AND LABELS <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $conf->{"infiles"} = $args->infiles if @{ $args->infiles };
+    $conf->{"infiles"} //= [];
+
+    if ( not ref $conf->{"infiles"} ) {
+        $conf->{"infiles"} = [ $conf->{"infiles"} ];
+    }
+
+    if ( @{ $conf->{"infiles"} } )
+    {
+        $conf->{"infiles"} = &Common::File::full_file_paths( $conf->{"infiles"}, \@msgs );
+	$conf->{"infiles"} = &Common::File::check_files( $conf->{"infiles"}, "efr", \@msgs );
+    }
+    else {
+        push @msgs, ["ERROR", qq (No input expression files given) ];
+    }
+
+    $key = "labels";
+
+    if ( $string = $args->labels ) {
+        $conf->{ $key } = [ split /\s*,\s*/, $string ];
+    } elsif ( not defined $conf->{ $key } ) {
+        $conf->{ $key } = [ 1 ... scalar @{ $conf->{"infiles"} } ];
+    } elsif ( not ref $conf->{ $key } ) {
+        $conf->{ $key } = [ $conf->{ $key } ];
+    }
+    
+    if ( @{ $conf->{ $key } } )
+    {
+        $i = scalar @{ $conf->{ $key } };
+        $j = scalar @{ $conf->{"infiles"} };
+
+        if ( $i != $j ) {
+            push @msgs, ["ERROR", qq (There are $j profiles, but $i labels) ];
+        }
+    }
+
+    &append_or_exit( \@msgs );
+
+    # >>>>>>>>>>>>>>>>>>>>>>> GENE LISTS AND SCALE <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    # These are optional and values cannot be checked until files are read,
+
+    foreach $key ( "names1", "names2", "scanam" )
+    {
+        if ( $string = $args->$key ) {
+            $conf->{ $key } = [ split /\s*,\s*/, $string ];
+        } elsif ( not defined $conf->{ $key } ) {
+            $conf->{ $key } = [];
+        } elsif ( not ref $conf->{ $key } ) {
+            $conf->{ $key } = [ $conf->{ $key } ];
+        }
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> SORT ORDER <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( ( $conf->{"sorder"} = $args->sorder || $conf->{"sorder"} || $defs->sorder ) !~ /^sum|var$/ )
+    {
+        push @msgs, ["ERROR", qq (Wrong looking sort order -> "$conf->{'sorder'}") ];
+        push @msgs, ["TIP", qq (Choices are: sum or var) ];
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SCALING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( ( $conf->{"scale"} = $args->scale || $conf->{"scale"} || $defs->scale ) !~ /^mean|median$/ )
+    {
+        push @msgs, ["ERROR", qq (Wrong looking scaling argument -> "$conf->{'scale'}") ];
+        push @msgs, ["TIP", qq (Choices are: mean or median) ];
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> OUTPUT FILES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $count = 0;
+
+    foreach $otype ( qw ( table yaml ) )
+    {
+        $ofile = $args->$otype;
+
+        if ( defined $ofile and not $args->clobber ) {
+            &Common::File::check_files( [ $ofile ], "!e", \@msgs );
+        }
+
+        $conf->{ $otype } = $ofile;
+        $count += 1 if defined $ofile;
+    }
+
+    if ( $count == 0 ) {
+        push @msgs, ["ERROR", qq (Please specify at least one output type) ];
+        push @msgs, ["TIP", qq (Choices are: --table, --yaml) ];
+    }
+
+    &append_or_exit( \@msgs );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>> FILL IN THE REST <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    # Fill in command line values that override. The result is a hash where all
+    # keys are set and where some or all have values. Then below we check their
+    # values,
+
+    @fields = grep { $_ !~ /names|infiles|labels|scanam|minsco|maxsco/ } @fields;
+    
+    foreach $key ( @fields )
+    {
+        if ( defined $args->$key )
+        {
+            $conf->{ $key } = $args->$key;
+        }
+        elsif ( not defined $conf->{ $key } )
+        {
+            $conf->{ $key } = $defs->$key;
+        }
+        elsif ( ref $conf->{ $key } ) {
+            push @msgs, ["ERROR", qq (The field $key is duplicated but should be a simple value -> "$key") ];
+        }
+    }
+
+    bless $conf;
+
+    &append_or_exit( \@msgs );
+    
+    # >>>>>>>>>>>>>>>>>>>> CHECK NUMBERS AND SET ROUTINE <<<<<<<<<<<<<<<<<<<<<<
+
+    # Minimum value at a given percent of data points,
+
+    &Registry::Args::check_number( $conf->minval, 1, undef, \@msgs );
+    &Registry::Args::check_number( $conf->mindef, 1, 100, \@msgs );
+
+    # Check resize option,
+
+    if ( defined $conf->suppow ) {
+        &Registry::Args::check_number( $conf->suppow, 1, 10, \@msgs );
+    }
+    
+    # Check method and number pairs,
+
+    @numbers = (
+        [ "minavg", 1, undef, "maxavg", 1, undef ],
+        [ "minvar", 0.0, undef, "maxvar", 0.0, undef ],
+        [ "minrat", 1.0, undef, "maxrat", 1.0, undef ],
+        [ "mingrp", 1, undef, "maxgrp", 1, undef ],
+        );
+
+    $method = $conf->method;
+
+    if ( $method eq "dif" ) 
+    {
+        push @numbers, [ "minsco", 0.0, 1.0, "maxsco", 0.0, 1.0 ];
+        
+        ( $min, $max ) = ( 0.0, 0.2 );
+
+        $conf->{"minsco"} = $args->{"minsco"} // $conf->{"minsco"} // $min;
+        $conf->{"maxsco"} = $args->{"maxsco"} // $conf->{"maxsco"} // $max;
+
+        $conf->{"match_routine"} = "Expr::Profile::measure_lists_dif";
+    }
+    elsif ( $method eq "pcc" )
+    {
+        push @numbers, [ "minsco", -1.0, 1.0, "maxsco", -1.0, 1.0 ];
+
+        ( $min, $max ) = ( 0.95, 1.0 );
+
+        $conf->{"minsco"} = $args->{"minsco"} // $conf->{"minsco"} // $min;
+        $conf->{"maxsco"} = $args->{"maxsco"} // $conf->{"maxsco"} // $max;
+
+        $conf->{"match_routine"} = "Expr::Profile::measure_lists_pcc";
+    }
+    else
+    {
+        push @msgs, ["ERROR", qq (Wrong looking method -> "$method") ];
+        push @msgs, ["TIP", qq (Choices are: "dif" or "pcc" (see --help)) ];
+
+        &append_or_exit( \@msgs );
+    }
+
+    $conf->{"dispct"} = $args->{"dispct"} // $conf->{"dispct"};
+    $conf->{"scale"} = $args->{"scale"} // $conf->{"scale"};
+
+    foreach $tuple ( @numbers )
+    {
+        ( $minfld, $lower, $upper ) = @{ $tuple }[0..2];
+        $min = $conf->$minfld;
+        
+        &Registry::Args::check_number( $min, $lower, $upper, \@msgs );
+
+        ( $maxfld, $lower, $upper ) = @{ $tuple }[3..5];
+        $max = $conf->$maxfld;
+
+        if ( defined $max )
+        {
+            &Registry::Args::check_number( $max, $lower, $upper, \@msgs );
+        
+            if ( $min > $max ) {
+                push @msgs, [ "ERROR", qq (The $minfld argument is higher than $maxfld: $min > $max) ];
+            }
+        }
+    }
+    
+    &append_or_exit( \@msgs );
+
+    return wantarray ? %{ $conf } : $conf;
+}
+
+sub process_profile_args
+{
+    # Niels Larsen, March 2010.
+
+    # Checks and expands the classify routine parameters and does one of 
+    # two: 1) if there are errors, these are printed in void context and
+    # pushed onto a given message list in non-void context, 2) if no 
+    # errors, returns a hash of expanded arguments.
+
+    my ( $args,      # Arguments
+         $msgs,      # Outgoing messages
+	) = @_;
+
+    # Returns hash or nothing.
+
+    my ( @msgs, $isuffix, $conf, @files, $file, $path, $name, $type, $stats_file );
+
+    @msgs = ();
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> INPUT FILES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $args->itables and @{ $args->itables } ) {
+	$conf->{"itables"} = &Common::File::check_files( $args->itables, "efr", \@msgs );
+    } else {
+        push @msgs, ["ERROR", qq (No input classification tables given) ];
+    }
+
+    &append_or_exit( \@msgs );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> OUTPUT FILES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $args->otable ) {
+        $conf->{"otables"} = [ $args->otable ];
+    } else {
+        $conf->{"otables"} = [ map { $_. $args->osuffix } @{ $args->itables } ];
+    }
+
+    if ( not $args->clobber ) {
+        &Common::File::check_files( $conf->{"otables"}, "!e", \@msgs );
+    }
+
+    &append_or_exit( \@msgs );
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> STATISTICS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( defined $args->newstats or defined $args->stats )
+    {
+        $stats_file = $args->newstats || $args->stats;
+
+        if ( scalar @{ $args->itables } == 1 and $stats_file ) {
+            $conf->{"ostats"} = [ $stats_file ];
+        } else {
+            $conf->{"ostats"} = [ map { $_ . ".stats" } @{ $args->itables } ];
+        }
+        
+        if ( $file = $args->statconf )
+        {
+            if ( -r $file ) {
+                $conf->{"statconf"} = $file;
+            } else {
+                push @msgs, ["ERROR", qq (Configuration file not readable -> "$file") ];
+            }
+        }
+        else {
+            push @msgs, ["ERROR", qq (No configuration file given) ];
+        }
+    }
+    else {
+        $conf->{"ostats"} = [];
+        $conf->{"statconf"} = undef;
+    }
+
+    &append_or_exit( \@msgs, $msgs );
+
+    bless $conf;
+
+    return wantarray ? %{ $conf } : $conf;
+}
+
+sub process_scale_args
+{
+    # Niels Larsen, March 2010.
+
+    # Checks and expands the classify routine parameters and does one of 
+    # two: 1) if there are errors, these are printed in void context and
+    # pushed onto a given message list in non-void context, 2) if no 
+    # errors, returns a hash of expanded arguments.
+
+    my ( $args,      # Arguments
+         $msgs,      # Outgoing messages
+	) = @_;
+
+    # Returns hash or nothing.
+
+    my ( @msgs, $isuffix, $conf, @files, $file, $path, $name, $type, $regexp,
+         $filter );
+
+    @msgs = ();
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> INPUT FILES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $args->itables and @{ $args->itables } ) {
+	$conf->{"itables"} = &Common::File::check_files( $args->itables, "efr", \@msgs );
+    } else {
+        push @msgs, ["ERROR", qq (No input expression files given) ];
+    }
+
+    &append_or_exit( \@msgs );
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>> WHICH NUMBERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $args->weighted ) {
+        $conf->{"sum_hdr"} = $Sum_header_wgt;
+    } else {
+        $conf->{"sum_hdr"} = $Sum_header;
+    }        
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>> OUTPUT FILES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    if ( $args->otable ) {
+        $conf->{"otables"} = [ $args->otable ];
+    } else {
+        $conf->{"otables"} = [ map { $_. $args->osuffix } @{ $args->itables } ];
+    }
+
+    if ( not $args->clobber ) {
+        &Common::File::check_files( $conf->{"otables"}, "!e", \@msgs );
+    }
+
+    &append_or_exit( \@msgs );
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FILTERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    foreach $filter ( qw ( dbfilter molfilter ) )
+    {
+        if ( $regexp = $args->$filter )
+        {
+            eval { "" =~ /$regexp/ };
+
+            if ( $@ ) {
+                push @msgs, ["ERROR", qq (Wrong looking expression -> "$regexp") ];
+            } else {
+                $conf->{ $filter } = $regexp;
+            }
+        }
+        else {
+            $conf->{ $filter } = undef;
+        }
+    }
+
+    if ( @msgs )
+    {
+        $msgs[-1][1] .= "\n";
+        push @msgs, ["INFO", qq (This program uses Perl-style regular expressions, here is a) ];
+        push @msgs, ["INFO", qq (guide: http://www.zytrax.com/tech/web/regex.htm\n) ];
+        push @msgs, ["TIP", qq (Enclose expressions in single quotes) ];
+    }
+    
+    &append_or_exit( \@msgs, $msgs );
+
+    bless $conf;
+
+    return wantarray ? %{ $conf } : $conf;
+}
+
+sub resize_groups
+{
+    my ( $groups,
+         $power,
+        ) = @_;
+
+    my ( $group, $key, $list );
+
+    foreach $group ( @{ $groups } )
+    {
+        foreach $list ( @{ $group->values } )
+        {
+            $list = [ map { int $_ ** $power } @{ $list } ];
+        }
+    }
+
+    return wantarray ? %{ $groups } : $groups;
+}
+
+sub resize_match_hash
+{
+    my ( $data,
+         $power,
+        ) = @_;
+
+    my ( $name );
+
+    foreach $name ( keys %{ $data } )
+    {
+        $data->{ $name } = [ map { $_ ** $power } @{ $data->{ $name } } ];
+    }
+
+    return wantarray ? %{ $data } : $data;
+}
+    
+sub scale_file
+{
+    # Niels Larsen, May 2011.
+
+    my ( $ifile,
+         $ofile,
+         $ratio,
+        ) = @_;
+
+    my ( $table, $name, $i, $vals, $ndcs, $ndx );
+
+    $table = &Common::Table::read_table( $ifile );
+    
+    $ndcs = &Common::Table::names_to_indices( [ qw (Sum-wgt Sum ) ], $table->col_headers );
+    $vals = $table->values;
+
+    foreach $ndx ( @{ $ndcs } )
+    {
+        for ( $i = 0; $i <= $#{ $vals }; $i++ )
+        {
+            $vals->[$i]->[$ndx] = int ( $vals->[$i]->[$ndx] * $ratio );
+        }
+    }
+    
+    $table->values( $vals );
+
+    if ( defined wantarray ) {
+        return $table;
+    }
+
+    &Common::Table::write_table( $table, $ofile );
+
+    return;
+}
+    
+sub scale_files
+{
+    # Niels Larsen, May 2011.
+
+    my ( $args,
+        ) = @_;
+
+    my ( $defs, $conf, $itables, $i, @sums, $grand_avg, $ifile, $clobber,
+         $name, $ratio, $sum, @msgs, $otables, $ofile );
+
+    local $Common::Messages::silent;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $defs = {
+        "itables" => [],
+        "otable" => undef,
+	"dbfilter" => undef,
+	"molfilter" => undef,
+        "weighted" => 1,
+        "osuffix" => ".sca",
+	"silent" => 0,
+	"clobber" => 0,
+    };
+
+    $args = &Registry::Args::create( $args, $defs );
+    $conf = &Expr::Profile::process_scale_args( $args );
+
+    $itables = $conf->itables;
+    $otables = $conf->otables;
+
+    $clobber = $args->clobber;
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SCALING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    &echo_bold( qq (\nScaling:\n) );
+
+    # Find the average of all expression sums,
+    
+    &echo( "   Calculating scale factor ... " );
+    
+    for ( $i = 0; $i <= $#{ $itables }; $i++ )
+    {
+        $ifile = $itables->[$i];
+
+        $sum = &Expr::Profile::sum_file_column( $ifile, $conf );
+        
+        if ( $sum > 0 ) {
+            push @sums, $sum;
+        } else {
+            push @msgs, ["ERROR", qq (No filter matches in -> "$ifile") ];
+        }
+    }
+
+    if ( @msgs ) {
+        &echo( "\n" );
+        &append_or_exit( \@msgs );
+    }
+
+    $grand_avg = &List::Util::sum( @sums ) / scalar @sums;
+    
+    &echo_green( "done\n" );
+
+    # Use this average to scale all counts,
+    
+    for ( $i = 0; $i <= $#{ $itables }; $i++ )
+    {
+        $ifile = $itables->[$i];
+        $ofile = $otables->[$i];
+        
+        $name = &File::Basename::basename( $ofile );
+        &echo( "   Writing $name ... " );
+        
+        $ratio = $grand_avg / $sums[$i];
+
+        if ( $clobber ) {
+            &Common::File::delete_file_if_exists( $ofile );
+        }
+        
+        &Expr::Profile::scale_file( $ifile, $ofile, $ratio );
+        
+        &echo_green( "done\n" );
+    }
+
+    &echo_bold( "Finished\n\n" );
+    
+    return;
+}
+
+sub scale_lists_mean
+{
+    # Niels Larsen, June 2011.
+
+    # Scales two lists so the means become the same. The list with the lowest
+    # mean is scaled up. Returns a list with references to copies of the given
+    # lists and their mean.
+
+    my ( $list1,
+         $list2,
+        ) = @_;
+    
+    # Returns a list.
+
+    my ( $mean1, $mean2, $ratio );
+
+    $mean1 = &Math::GSL::Statistics::gsl_stats_mean( $list1, 1, scalar @{ $list1 } );
+    $mean2 = &Math::GSL::Statistics::gsl_stats_mean( $list2, 1, scalar @{ $list2 } );
+
+    # If the mean of list1 is higher, then scale list2 up, and vice versa. Make
+    # copies to avoid changing the given lists,
+
+    if ( $mean1 > $mean2 )
+    {
+        $ratio = $mean1 / $mean2;
+
+        return ( $list1, [ map { $_ * $ratio } @{ $list2 } ], $mean1 );
+    }
+    else 
+    {
+        $ratio = $mean2 / $mean1;
+
+        return ( $list2, [ map { $_ * $ratio } @{ $list1 } ], $mean2 );
+    }
+
+    return;
+}
+    
+sub scale_lists_median
+{
+    # Niels Larsen, June 2011.
+
+    # Scales two lists so their means become the same. Returns a list with 
+    # references to copies of the given lists and their mean.
+
+    my ( $list1,
+         $list2,
+        ) = @_;
+    
+    # Returns a list.
+
+    my ( $median1, $median2, @list1, @list2, $ratio );
+
+    @list1 = sort { $a <=> $b } @{ $list1 };
+    @list2 = sort { $a <=> $b } @{ $list2 };
+
+    $median1 = &Math::GSL::Statistics::gsl_stats_median_from_sorted_data( \@list1, 1, scalar @list1 );
+    $median2 = &Math::GSL::Statistics::gsl_stats_median_from_sorted_data( \@list2, 1, scalar @list2 );
+
+    # If the mean of list1 is higher, then scale list2 up, and vice versa. Make
+    # copies to avoid changing the given lists,
+
+    if ( $median1 > $median2 )
+    {
+        $ratio = $median1 / $median2;
+
+        return ( $list1, [ map { $_ * $ratio } @{ $list2 } ], $median1 );
+    }
+    else 
+    {
+        $ratio = $median2 / $median1;
+
+        return ( $list2, [ map { $_ * $ratio } @{ $list1 } ], $median2 );
+    }
+
+    return;
+}
+    
+sub shave_list_max
+{
+    # Niels Larsen, June 2011. 
+
+    # Removes the highest n percent of values from a given list.
+
+    my ( $list,
+         $dispct,
+        ) = @_;
+
+    my ( @ndcs, $pops );
+
+    @ndcs = sort{ $list->[ $a ] <=> $list->[ $b ] } 0 .. $#{ $list };
+
+    $pops = int ( scalar @ndcs * ( $dispct / 100 ) );
+
+    if ( $pops > 0 )
+    {
+        splice @ndcs, - $pops;
+        $list = [ @{ $list }[ sort { $a <=> $b } @ndcs ] ];
+    }
+    
+    return wantarray ? @{ $list } : $list;
+}
+
+sub sum_file_column
+{
+    # Niels Larsen, June 2010.
+
+    # Sums the values in a given table on a given column index. If a filter 
+    # is given, then only rows are included that match these fields.
+   
+    my ( $file,         # Table file
+         $conf,         # Configuration
+        ) = @_;
+
+    # Returns integer. 
+
+    my ( $sum, $sumndx, $datndx, $namndx, $regexp, $table, $values );
+
+    $table = &Common::Table::read_table( $file );
+    
+    ( $sumndx, $datndx, $namndx ) = 
+        @{ &Common::Table::names_to_indices(
+                [ $conf->sum_hdr, $Dat_header, $Gen_header ],
+                $table->col_headers ) };
+
+    $values = $table->values;
+
+    if ( $regexp = $conf->dbfilter )
+    {
+        $values = [ grep { $_->[$datndx] =~ /$regexp/ } @{ $values } ];
+    }
+
+    if ( $regexp = $conf->molfilter )
+    {
+        $values = [ grep { $_->[$namndx] =~ /$regexp/ } @{ $values } ];
+    }
+
+    if ( @{ $values } ) {
+        $sum = &List::Util::sum( map { $_->[$sumndx] } @{ $values } );
+    } else {
+        $sum = 0;
+    }
+    
+    return $sum;
+}
+
+sub write_groups
+{
+    # Niels Larsen, June 2011.
+
+    # Writes outputs in YAML or TSV format. Invokes format_groups_$format 
+    # routines. Returns nothing.
+
+    my ( $list,    # List of tables
+         $args,    # Arguments hash
+        ) = @_;
+
+    # Returns nothing.
+    
+    my ( $file, $fh, $clobber, $silent, $format, $text, $name, $routine );
+
+    $clobber = $args->clobber // 0;
+    $silent = $args->silent // 0;
+
+    foreach $format ( "table", "yaml" )
+    {
+        if ( defined ( $file = $args->{ $format } ) )
+        {
+            if ( not $silent )
+            {
+                if ( $file ) {
+                    $name = &File::Basename::basename( $file );
+                    &echo("Writing $format to $name ... ");
+                } else {
+                    &echo("Writing $format to STDOUT ... "); 
+                }
+            }
+
+            &Common::File::delete_file_if_exists( $file ) if $file and $clobber;
+            
+            $fh = &Common::File::get_write_handle( $file );
+            
+            $routine = "Expr::Profile::format_groups_". $format;
+
+            {
+                no strict "refs";
+
+                $text = $routine->(
+                    $list,
+                    bless {
+                        "title" => $args->title,
+                        "author" => $args->author,
+                        "date" => &Common::Util::time_string_to_epoch(),
+                    });
+            }
+            
+            $fh->print( $text );
+            
+            &Common::File::close_handle( $fh );
+
+            &echo_done( scalar @{ $list } ." written\n") if not $silent;
+        }
+    }
+
+    return;
+}
+
+1;
+
+__END__
+
+# sub measure_lists_difpct_old
+# {
+#     # Niels Larsen, June 2011. 
+    
+#     # Measures the average percentage-wise difference between two lists of numbers,
+#     # scaled by mean or median (default). The a list of difference-ratios are created.
+#     # The optionally this list is sorted and up to $skips of the highest ratios 
+#     # discarded. Finially the average mean is taken and the corresponding percentage
+#     # returned. 
+
+#     my ( $list1,     # List of numbers 
+#          $list2,     # List of numbers
+#          $scale,     # Scaling option, either "mean" or "median", OPTIONAL, default "median"
+#          $dispct,    # Percent of highest differences to ignore - OPTIONAL, default 0
+#         ) = @_;
+
+#     # Returns a number.
+
+#     my ( $routine, $min, $max, $c_list1, $c_list2, $i, $i_max, $pops, $mid_difpct, 
+#          @dif_rats );
+
+#     $scale //= "median";
+#     $dispct //= 0;
+
+#     # Scale by mean or median,
+
+#     { 
+#         no strict "refs";
+
+#         $routine = "Expr::Profile::scale_lists_". $scale;
+#         ( $c_list1, $c_list2, undef ) = $routine->( $list1, $list2 );
+#     }
+
+#     # Create a list of ratios of difference between the scaled versions,
+
+#     $i_max = &List::Util::min( $#{ $c_list1 }, $#{ $c_list2 } );
+
+#     for ( $i = 0; $i <= $i_max; $i++ )
+#     {
+#         ( $min, $max ) = &Math::GSL::Statistics::gsl_stats_minmax( [ $c_list1->[$i], $c_list2->[$i] ], 1, 2 );
+        
+#         if ( $max > 0 ) {
+#             push @dif_rats, 1.0 - $min / $max;
+#         } else {
+#             push @dif_rats, 0;
+#         }
+#     }
+
+#     # This can ignore the highest deviations so that the mean difference is taken
+#     # from the rest,
+
+#     if ( $dispct )
+#     {
+#         @dif_rats = sort { $a <=> $b } @dif_rats;
+
+#         $pops = int ( scalar @dif_rats * ( $dispct / 100 ) );
+
+#         if ( $pops > 0 ) {
+#             splice @dif_rats, - $pops;
+#         }
+#     }
+
+#     # Get the ratio between that average and the overall mean and convert to %,
+    
+#     $mid_difpct = 100 * &List::Util::sum( @dif_rats ) / scalar @dif_rats;
+
+#     return $mid_difpct;
+# }
+
+# sub measure_lists_dif
+# {
+#     # Niels Larsen, June 2011. 
+    
+#     # Measures the difference between two lists of numbers. The two number lists are 
+#     # first scaled, so their means are the same; then the mean of differences at each
+#     # point is calculated; then the ratio between the difference-mean and the value 
+#     # mean is returned. The measure ranges between zero (no difference) to 2 or 3 at
+#     # most (high difference). 
+
+#     my ( $list1,   # List of numbers 
+#          $list2,   # List of numbers 
+#          $scale,   # Scaling option, either "mean" or "median", OPTIONAL, default "median"
+#         ) = @_;
+
+#     # Returns a number.
+
+#     my ( $routine, $c_list1, $c_list2, $mid_dif, $dif_sum, $i, $i_max, $mid_val, 
+#          @difs, $dif, $max );
+
+#     $scale //= "median";
+
+#     # Scale by mean or median,
+
+#     { 
+#         no strict "refs";
+
+#         $routine = "Expr::Profile::scale_lists_". $scale;
+#         ( $c_list1, $c_list2, $mid_val ) = $routine->( $list1, $list2 );
+#     }
+
+#     # Calculate the absolute differences between the scaled versions,
+
+#     $i_max = &List::Util::min( $#{ $c_list1 }, $#{ $c_list2 } );
+
+#     for ( $i = 0; $i <= $i_max; $i++ )
+#     {
+#         $dif = abs ( $c_list1->[$i] - $c_list2->[$i] );
+#         push @difs, $dif;
+#     }
+
+#     $dif_sum = &List::Util::sum( @difs );
+
+#     # Take the average,
+    
+#     $mid_dif = $dif_sum / scalar @difs;
+
+#     # Return the ratio between that average and the overall mean,
+
+#     return $mid_dif / $mid_val;
+# }
+

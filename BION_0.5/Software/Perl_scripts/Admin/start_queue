@@ -1,0 +1,82 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Admin;
+use Common::Batch;
+
+use Common::Config;
+use Common::Messages;
+
+&echo( "\n" );
+
+&Common::Admin::start_queue();
+
+&echo( "\n" );
+
+__END__
+
+
+
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2003.
+
+Starts the batch queue. This queue is a never-ending perl
+script which once every second checks if a given process 
+is running. If none, it looks into a database of queued 
+requests and launches the oldest one. So there are never 
+more than one batch job running on the same machine. The
+command line options are,
+
+   --start      [ D = off; do it ]
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_start = 0;
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "start!" => \$cl_start,
+                    "headers!" => \$cl_headers,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> LAUNCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+&echo_bold( "Batch queue launch : \n" ) if $cl_headers;
+
+&Common::Batch::start_queue( "batch_queue", 0 );
+
+&echo_bold( "Launch finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<
+
+
+__END__

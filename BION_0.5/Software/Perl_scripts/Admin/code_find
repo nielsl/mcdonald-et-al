@@ -1,0 +1,58 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use File::Find;
+use English;
+
+use Common::Config;
+use Common::Messages;
+use Common::Names;
+
+my ( $prog_name, $usage, @dirs, $output, $signature );
+our ( $expr );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+This program simply locates all Perl source code files
+and directories that match the string or expression you 
+give it as argument. It prints the file paths as they 
+are found. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<
+
+our $expr = quotemeta $ARGV[0];
+
+@dirs = &Common::Config::get_code_dirs();
+
+&File::Find::find( \&for_each_file, @dirs );
+
+sub for_each_file
+{
+    my ( $file, $path, $line, $dir );
+
+    $file = $_;
+    $path = $File::Find::name;
+
+    return if -l $path or not -f $path or $file !~ /^\w.*\w$/;
+
+    if ( $path =~ /$expr/i )
+    {
+        $line = $PREMATCH . &echo_info( $MATCH ) . $POSTMATCH;
+        &echo( "$line\n" );
+    }
+}
+
+__END__

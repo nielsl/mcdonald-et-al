@@ -1,0 +1,85 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, December 2011.
+
+Filters sequence files by the sequences. Input is a sequence file or
+stream and output is new sequence file or stream in the same format, 
+but possibly with fewer entries. See also seq_extract_pats, which does
+more flexible pattern matching and extraction. Command line arguments
+are (defaults in parantheses),
+
+  --iformat   Input format (detected if file is given)
+    --oseqs   Output sequence file (STDOUT)
+
+   --patstr   Pattern string (none)
+  --forward   Match in forward direction (on)
+  --reverse   Match the complement (off)
+  --nomatch   Returns non-matches (off)
+
+    --mingc   Minimum GC percentage (none)
+    --maxgc   Maximum GC percentage (none)
+   --minlen   Minimum sequence length (none)
+   --maxlen   Maximum sequence length (none)
+
+   --dryrun   Prints the number of matches instead of output (off)
+  --clobber   Overwrites previous output (off)
+   --append   Appends to existing files (off)
+   --silent   Prints no progress messages (off)
+
+Usage examples,
+
+1\) $prog_name reads.fastq --patstr 'GGGGCCACCACATT[1,1,1]'
+2\) $prog_name reads.fastq --gcmin 60 --minlen 30
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => undef,
+        "oseqs=s" => undef,
+        "patstr=s" => undef,
+        "nomatch!" => 0,
+        "forward!" => 0,
+        "reverse!" => 0,
+        "mingc=i" => undef,
+        "maxgc=i" => undef,
+        "minlen=i" => undef,
+        "maxlen=i" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->iseqs( $ARGV[0] );
+
+&Seq::Clean::filter_seq( $args );
+
+__END__

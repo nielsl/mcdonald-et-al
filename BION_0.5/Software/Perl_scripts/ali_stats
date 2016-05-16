@@ -1,0 +1,48 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::IO;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2011.
+
+Shows alignment and sequence counts on the console for a given file of 
+alignments. Input formats are auto-detected, and supported are fasta,
+uclust and stockholm. Command line arguments are (default in 
+parantheses),
+
+ --origseqs   Include original sequence counts (off)
+   --silent   Prints no progress messages (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+{
+    "origseqs!" => 0,
+    "silent!" => 0,
+});
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RUN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Ali::IO::count_alis( $ARGV[0], $args );
+
+__END__

@@ -1,0 +1,52 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+
+use Install::Data;
+
+my ( $prog_name, $dump_file, $word_list, $usage, $args, @msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$dump_file = "$Common::Config::dat_dir/Wikipedia/Downloads/xml.dump";
+$word_list = "$Common::Config::word_dir/Edict/Installs/common_words.storable";
+
+$usage = qq (
+Program $prog_name, May 2009
+
+Installs wikipedia. The command line arguments are, 
+with defaults in parantheses,
+
+   --xmldump   Path to XML dump ($dump_file)
+  --wordlist   Path to Word list ($word_list)
+
+Outputs will be in $Common::Config::word_dir
+
+Usage example,
+
+$prog_name all                 (Does the default)
+
+Author: Niels Larsen
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "xmldump=s" => $dump_file,
+        "wordlist=s" => $word_list,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>> CALL MODULE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@msgs = &Install::Data::install_wikipedia( $args );
+

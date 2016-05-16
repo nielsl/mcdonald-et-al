@@ -1,0 +1,8 @@
+#!/usr/bin/env perl
+
+$/ = undef;
+
+$content = <>;
+$content =~ s/\r/\n/g;
+
+print $content;

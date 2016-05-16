@@ -1,0 +1,56 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Admin;
+
+my ( $prog_name, $args, $usage, $signature, $note, $port );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$note = &echo_info("NOTE");
+$port = $Common::Config::db_port;
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Starts MySQL database server. Command line options:
+
+      --port   port number (default $port)
+
+Examples,
+
+1\) $prog_name --port=3369
+2\) $prog_name   blabla 
+
+Example 1 starts MySQL on a given port. In 2, the server is 
+started with the default port; the 'blabla' argument only 
+means anything can be typed, to avoid this help message.
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>> GET COMMAND LINE <<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "port=s" => $port,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>> START <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" );
+&Common::Admin::start_mysql( $args );
+&echo( "\n" );
+
+__END__

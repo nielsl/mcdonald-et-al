@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xHttpRequest2'>
+
+<sources>
+  <src><sym>xHttpRequest2</sym><file>xhttprequest2.js</file><note><![CDATA[Uses a 'data island' for IE.]]></note></src>
+  <src><sym>xHttpRequest</sym><file>xhttprequest.js</file><note><![CDATA[The default implementation.]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Michael Foster (Cross-Browser.com)</copyright>
+
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Event</grp>
+</groups>
+
+<type>Object</type>
+
+<description><![CDATA[An asynchronous HTTP request object. At first I could not get IE to return responseXML as an XML document. I thought I was setting headers correctly, but it wouldn't work. This implementation creates an IE-specific XML element (a 'data island') which parses responseText into an XML document. I eventually did get it working in IE without the data island. See xHttpRequest.]]></description>
+
+<syntax>var req = new xHttpRequest2();</syntax>
+
+<parameters>
+</parameters>
+
+<properties>
+  <prop><name>xmlDoc</name><note><![CDATA[Cross-browser version of responseXML.]]></note></prop>
+  <prop><name>busy</name><note><![CDATA[True if a response is pending.]]></note></prop>
+  <prop><name>err</name><note><![CDATA[An object with two properties: 'name' and 'message'.]]></note></prop>
+</properties>
+
+<methods>
+  <meth><name>ret = req.send(sMethod, sUrl, sData, uTimeout, sRndVar, bXml, fnCallback);</name><note><![CDATA[
+[code]  ret        - True if the request was sent, else false and 'req.err' will be set. 
+  req        - An xHttpRequest object.
+  sMethod    - Case-insensitive string: 'GET', 'POST' etc.
+  sUrl       - String. URL to which the request will be sent.
+  sData      - String. The data sent in the request. It should be in the form
+               "name1=value1&name2=value2&etc..." and values be encoded.
+  uTimeout   - Unsigned integer. If a response is not received within
+               uTimeout milliseconds the request will be aborted and the
+               callback function will be called with the second argument == null.
+               If (!uTimeout) there will be no timeout.
+  sRndVar    - If (sRndVar) the following will be appended to sData:
+               '&' + sRndVar + '=' + a_random_number.
+  bXml       - Boolean. If true the response is expected to be XML and for IE
+               an XML data island will be used for the xmlDoc property.
+  fnCallback - A reference to the function which will be called when a response
+               is received or when the timeout period has elapsed. The callback
+               function will receive two arguments:
+               fnCallback(req, rsp);
+               req - The xHttpRequest object. 
+               rsp - The XMLHttpRequest object. If the request timed out
+                     this argument will be null and 'req.err' will be set.[/code]
+  ]]></note></meth>
+</methods>
+
+<dependencies>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/x/examples/xhttprequest.html</url><note><![CDATA[Simple experiments with the object.]]></note></demo>
+</demos>
+
+<tests>
+</tests>
+
+<comments>
+</comments>
+
+<revisions>
+  <rev><num>2</num><date>10Feb07</date><author>mf</author><note><![CDATA[Changed format of first conditional compilation statement. XC was giving this: /*@cc_onvar _x=null;@*/]]></note></rev>
+  <rev><num>1</num><date>12Nov06</date><author>mf</author><note><![CDATA[Initial implementation based loosely on XHConn (http://xkr.us/code/javascript/XHConn/).]]></note></rev>
+</revisions>
+
+</x_symbol>

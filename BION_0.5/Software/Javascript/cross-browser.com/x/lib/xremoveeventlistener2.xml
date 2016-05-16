@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xRemoveEventListener2'>
+
+<sources>
+  <src><sym>xRemoveEventListener2</sym><file>xremoveeventlistener2.js</file><note><![CDATA[Use this if you use xAddEventListener2 or xAddEventListener3.]]></note></src>
+  <src><sym>xRemoveEventListener</sym><file>xremoveeventlistener.js</file><note><![CDATA[The default implementation.]]></note></src>
+</sources>
+
+<copyright>Copyright 2001-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Event</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Unregister an event listener previously registered with xAddEventListener2 or xAddEventListener3.]]></description>
+
+<syntax>xRemoveEventListener2(ele, sEventType, fnEventListener[, bCapture])</syntax>
+
+<parameters>
+  <par>
+    <name>ele</name>
+    <note><![CDATA[id string or object reference]]></note>
+  </par>
+  <par>
+    <name>sEventType</name>
+    <note><![CDATA[string event type ('mousemove', 'click', 'resize', etc.)]]></note>
+  </par>
+  <par>
+    <name>fnEventListener</name>
+    <note><![CDATA[reference to the listener function]]></note>
+  </par>
+  <par>
+    <name>bCapture</name>
+    <note><![CDATA[boolean capture event flag]]></note>
+  </par>
+</parameters>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/toys/</url>
+    <note><![CDATA[Index of all X demos.]]></note>
+  </demo>
+</demos>
+
+<comments>
+  <comment>
+    <date>21Nov06</date><author>mf</author>
+    <note><![CDATA[If you use xAddEventListener 2 or 3 then use xRemoveEventListener2.]]></note>
+  </comment>
+</comments>
+
+<revisions>
+  <rev>
+    <num>6</num><date>21Nov06</date><author>mf</author>
+    <note><![CDATA[
+    Removed the simulated events (window resize and scroll). xRemoveEventListener2.js is now the original implementation.
+    ]]></note>
+  </rev>
+  <rev>
+    <num>5</num><date>3Oct06</date><author>mf</author>
+    <note><![CDATA[
+    Removed sniffers xIE4Up and xOp7Up. Accomplished same logic but without the sniffers. Also reduced size by 18 bytes.
+    ]]></note>
+  </rev>
+  <rev>
+    <num>4</num>
+    <date>15Sep06</date>
+    <author>mf</author>
+    <note><![CDATA[Replace eval(eh) with e['on'+eT]=null.]]></note>
+  </rev>
+  <rev>
+    <num>3</num>
+    <date>25Apr05</date>
+    <author>mf</author>
+    <note><![CDATA[use xOp7Up instead of xOp7]]></note>
+  </rev>
+  <rev>
+    <num>2</num>
+    <date>14Mar05</date>
+    <author>mf</author>
+    <note><![CDATA[reduced 103 bytes with shorter parameter names]]></note>
+  </rev>
+  <rev>
+    <num>1</num>
+    <date>31Mar04</date>
+    <author>mf</author>
+    <note><![CDATA[put in it's own file for use with XC]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

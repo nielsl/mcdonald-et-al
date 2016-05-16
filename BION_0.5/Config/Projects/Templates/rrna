@@ -1,0 +1,50 @@
+
+<description>
+    title = Ribosomal RNA alignments
+    keywords = rRNA, Bioinformatics, GNU
+</description>
+
+<header>
+    title = Ribosomal RNA alignments
+    header_style = header_bar_blue
+    footer_style = footer_bar_blue
+    logo_image = 
+    logo_text = 
+    logo_link = 
+    home_link = 1
+</header>
+
+<style>
+</style>
+
+projpath = RRNA
+
+# datasets = rna_ali_ssu_greengenes
+datasets = rna_seq_silva
+
+datasets_other = orgs_taxa_ncbi
+datasets_other = prot_seq_ncbi
+datasets_other = prot_seq_refseq
+datasets_other = rna_ali_rfam
+
+# hide_methods = mir_blast
+
+<defaults>
+    def_menu_1 = ssu
+    def_menu_2 = current_prokMSA_aligned
+    def_menu_3 = 
+    def_request = 
+    def_input = rna_ali_ssu_greengenes:current_prokMSA_aligned
+    def_viewer = array_viewer
+</defaults>
+
+<navigation>
+    name = orgs
+    label = Organisms
+    dbnames = orgs_taxa_ncbi
+</navigation>
+<navigation>
+    name = ssu
+    label = SSU
+    dbnames = rna_ali_ssu_greengenes
+</navigation>

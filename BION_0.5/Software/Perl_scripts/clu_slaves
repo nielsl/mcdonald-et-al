@@ -1,0 +1,77 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Cluster;
+
+my ( $prog_name, $usage, $signature, $args, $acctfile, $acctpath, @msgs );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$acctpath = &Common::Cluster::accts_file;
+$acctfile = File::Basename::basename( $acctpath );
+
+$usage = qq (
+Program $prog_name, January 2009.
+
+Lists summary information about the capacity of each slave machine,
+including CPU, RAM and free disk space. Command line arguments,
+
+   [ --capacities ]   Lists the machine capacities - OPTIONAL (off)
+        [ --loads ]   Lists the machine loads - OPTIONAL (off)
+         [ --list ]   Merely lists the accounts - OPTIONAL (off)
+
+  [ --slaves name ]   Slave configuration file - OPTIONAL ($acctfile)
+  [ --filter expr ]   Slave name filter expression - OPTIONAL (none)
+ [ --timeout secs ]   Connection timeouts - OPTIONAL (5 seconds)
+       [ --silent ]   Suppress progress messages - OPTIONAL (on)
+
+Usage examples:
+
+1\) $prog_name --timeout 15 --slaves ../remote.hosts
+2\) $prog_name --loads 
+
+Example 1 lists the capacities (system type, CPU strength and cores, 
+RAM size and free disk space) with a connection timeout of 15 seconds.
+Example 2 lists current load, i.e. how busy the machines are, perhaps
+with something unrelated to cluster jobs. 
+
+$signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET AND VALIDATE INPUT <<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "capacities!" => 0,
+        "loads!" => 0,
+        "list!" => 0,
+        "slaves=s" => $acctpath,
+        "filter=s" => undef,
+        "timeout=i" => 5,
+        "silent!" => 1,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PROCESS EACH NODE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Cluster::slave_nodes( 
+    undef,
+    {
+        "capacities" => $args->capacities,
+        "loads" => $args->loads,
+        "list" => $args->list,
+        "acctfile" => $args->slaves,
+        "acctexpr" => $args->filter,
+        "timeout" => $args->timeout,
+        "silent" => $args->silent,
+    });
+
+__END__

@@ -1,0 +1,170 @@
+# This file lists software and data directories, relative to the 
+# main install directory. Edits have immediate effect, except when 
+# Apache runs in mod_perl mode. 
+#
+# In the perl code, keys below become variables in the Common::Config 
+# name space that holds fully expanded paths. For example, the 
+# $Common::Config::img_dir will typically become 
+# "/home/user/BION/Software/Images".
+
+# System information
+# ------------------
+
+  sys_name = BION
+  sys_title = BION Software 
+
+  sys_license = GNU public license v3
+  sys_license_url = http://www.gnu.org/licenses/gpl.html
+
+  sys_copyright = (C) 2008-2012 Danish Genome Institute
+
+# Configuration
+# -------------
+
+# A set of files define the data and methods installed, the formats
+# and types, and more. 
+
+  conf_dir = Config
+  conf_cont_dir = Config/Contacts
+  conf_serv_dir = Config/Servers
+  conf_clu_dir = Config/Cluster
+  conf_prof_dir = Config/Profile
+  conf_proj_dir = Config/Projects
+  conf_projd_dir = Config/Projects/Templates
+
+# Recipes
+# -------
+
+  recp_dir = Recipes
+
+# Versions
+# --------
+
+  perl_min = 5.010000
+
+# Software paths
+# --------------
+
+# Main software directories. File names are in the code. In addition
+# to the variables below, a corresponding url set will be made, for 
+# example: tmp_dir defined as "Scratch" will cause tmp_url to be 
+# defined as "/Scratch". See the routines in Common::Config.
+
+ soft_reg_dir = Software/Registry
+
+ soft_dir = Software
+  bin_dir = Software/bin
+ sbin_dir = Software/sbin
+  inc_dir = Software/include
+  lib_dir = Software/lib
+  man_dir = Software/man
+
+  adm_dir = Software/Admin
+  bat_dir = Software/Admin/Batch
+  adm_inst_dir = Software/Admin/Install
+
+  img_dir = Software/Images
+  css_dir = Software/CSS
+ font_dir = Software/Fonts
+  jvs_dir = Software/Javascript
+  plm_dir = Software/Perl_modules
+  pls_dir = Software/Perl_scripts
+ plsa_dir = Software/Perl_scripts/Admin
+ plsi_dir = Software/Perl_scripts/Install
+ plss_dir = Software/Perl_scripts/System
+  pks_dir = Software/Package_sources
+ pems_dir = Software/Package_sources/Perl_modules
+ pyms_dir = Software/Package_sources/Python_modules
+  uts_dir = Software/Package_sources/Utilities
+  ans_dir = Software/Package_sources/Analysis
+  pki_dir = Software/Package_installs
+ pemi_dir = Software/Package_installs/Perl_modules
+ pymi_dir = Software/Package_installs/Python_modules
+  uti_dir = Software/Package_installs/Utilities
+  ani_dir = Software/Package_installs/Analysis
+shell_dir = Software/Shell
+  tst_dir = Software/Test
+
+  tmp_dir = Scratch
+
+  log_dir = Logs
+ logi_dir = Logs/Install
+ logi_anal_dir = Logs/Install/Analysis
+ logi_util_dir = Logs/Install/Utilities
+ logi_pems_dir = Logs/Install/Perl_modules
+ logi_pyms_dir = Logs/Install/Python_modules
+
+  www_dir = WWW-root
+
+  cgi_url = 
+  img_url = Software/Images
+  css_url = Software/CSS
+ font_url = Software/Fonts
+  jvs_url = Software/Javascript
+
+# Sessions
+# --------
+
+# Directory names for sessions. A session is a directory named with
+# long unique names like '11c56c23a2df9982c413d841f785028e' within 
+# which there are files needed for viewers and other software. There
+# are two types: permanent and temporary. Permanent ones (accounts)
+# are given to users that have registered with a user name and
+# password, so their settings and uploads stay until next login; the
+# temporary ones are created when users just connect and browse and
+# they go away after a while.
+
+  ses_dir = Sessions
+
+# Main data paths
+# ---------------
+
+# Main file system data paths. Datasets are listed in Datasets.pm 
+# in this directory. 
+
+  dat_dir = Data
+  dbs_dir = Data/MySQL
+  dat_reg_dir = Data/Registry
+
+# Documentation
+# -------------
+
+  doc_dir = Docs
+
+# Flags
+# -----
+
+# Settings that determine error and logging behaviour. Scripts may
+# modify these variables and thereby switch screen and log messages
+# on and off.
+
+#  with_error_log = 1
+#  with_warning_log = 1
+  with_stack_trace = 1
+  with_warnings = 1
+  with_console_messages = 1
+  with_contact_info = 0
+
+# Apache
+# ------
+# 
+# Default port number. Can be changed by restarting Apache.
+
+  http_port = 8001
+
+# Database names and passwords
+# ----------------------------
+
+# If you change these, do it after uninstalling and before 
+# installing. However the port can be changed by restarting MySQL.
+
+  db_master = BION
+  db_port = 3807
+
+  db_sock_file = Software/Admin/MySQL/mysql.sock
+  db_pid_file = Software/Admin/MySQL/mysql.pid
+
+  db_user = mysql
+  db_pass = mysql
+
+  db_root_pass = root

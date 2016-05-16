@@ -1,0 +1,5 @@
+This directory contains modules that operate on alignments. The
+alignments can have any type, like RNA, DNA, Protein, genomes.
+The routines here are typically invoked from routines in the 
+RNA, DNA, Protein and genomes directories. 
+

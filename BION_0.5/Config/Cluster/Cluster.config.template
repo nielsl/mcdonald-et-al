@@ -1,0 +1,14 @@
+#
+# List of accounts in one of these formats:
+#
+# user@machine
+# user@machine:port
+# user:password@machine
+# user:password@machine:port
+#
+# Examples:
+#
+# test1@genomics.dk
+# test2:2ez24get@biobase.com
+#
+

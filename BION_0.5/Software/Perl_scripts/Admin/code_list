@@ -1,0 +1,62 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use Common::Config;
+use Common::Messages;
+use Common::Admin;
+
+my ( $prog_name, $usage, $args, $signature, @list );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Lists perl source code files and directories in different 
+ways and formats. Command line options are:
+
+   --scripts    Lists perl scripts (off)
+   --modules    Lists perl modules (on)
+   --numbers    Adds routine and line counts (on)
+      --dirs    Lists directories only (off)
+     --total    Produces a grand total
+      --expr    Expression that filters the output
+    --format    "dump", "text" (default) or "xhtml"
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>> GET COMMAND LINE <<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "scripts!" => 0,
+        "modules!" => 0,
+        "numbers!" => 1,
+        "total!" => 0,
+        "dirs!" => 0,
+        "expr:s" => "",
+        "format:s" => "text",
+    });
+
+if ( not $args->scripts and not $args->modules ) {
+    $args->modules( 1 );
+}
+
+if ( $args->dirs and $args->total ) {
+    $args->total( 0 );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<<<<
+
+Common::Admin->code_list( $args );
+
+__END__
+

@@ -1,0 +1,82 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+use File::Basename;
+
+use Common::Messages;
+use Common::Names;
+
+use Registry::Register;
+use Seq::Run;
+
+my ( $prog_name, $usage, $signature, $list, @seq_dbs, $seq_dbstr,
+     $args );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$list = Registry::Register->registered_datasets();
+@seq_dbs = Registry::Get->seq_data( $list )->options;
+
+if ( @seq_dbs ) {
+    $seq_dbstr = join ", ", map { $_->name } @seq_dbs;
+} else {
+    $seq_dbstr = "NONE INSTALLED";
+}
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Searches fasta files or databanks for one or more patterns. The 
+pattern(s) can be given either as a single pattern file or as a
+list of pattern files. Each pattern is compared against each of
+the datasets. Patterns are in patscan format, and sequence in 
+fasta format. Command line arguments,
+
+  --patfiles     Pattern file path or paths
+   --patlist     File of pattern file paths
+
+  --seqfiles     Sequence file path or paths
+   --seqlist     File of sequence file paths
+    --seqdbs     File of sequence database names
+
+   --protein     Pattern(s) and sequence is protein (on)
+    --strand     Strand(s) to search for DNA/RNA (both)
+
+   --outfile     Output file with concatenated outputs
+    --outdir     Output directory with one file per search
+
+Database names recognized:
+$seq_dbstr 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "patfiles=s" => "",
+        "patlist=s" => "",
+        "seqfiles=s" => "",
+        "seqlist=s" => "",
+        "seqdbs=s" => "",
+        "protein!" => 1,
+        "strand=s" => "+-",
+        "outfile=s" => "",
+        "outdir=s" => ".",
+        "headers!" => 1,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>> GET AND VALIDATE INPUTS <<<<<<<<<<<<<<<<<<
+
+&Seq::Run::run_pat_searches( $args );
+
+__END__

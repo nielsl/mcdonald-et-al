@@ -1,0 +1,78 @@
+#!/usr/bin/env perl
+
+# Writes a file with the aptamer sequences (between primers)
+# where primers match.
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::IO;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, June 2010.
+
+Splits sequences longer than a given maximum into sub-sequences. Output files
+are named as the input files but with a suffix added (default .split), or they
+can replace the originals. Outputs may include all sequences or only the split
+ones. Sub-sequences are named as their "parents" but with the original starting 
+position appended, separated from the ID by a period. In addition the split 
+header lines also contains "sub_beg=1532" fields to indicate the zero-based 
+index in the parent sequence that it comes from.
+
+    --maxlen   Maximum sequence length (10 Mb)
+    --suffix   Split-suffix to append to input file names (.split)
+    --single   Indicates single-line sequences which is faster (on)
+     --index   Index the split files for plain access (on)
+    
+    --allout   Writes all sequences, split or not (on)
+   --replace   Replaces the input with split version (off)
+   --clobber   Overwrites previous output versions if any (off)
+    --silent   Prints no progress messages (off)
+
+Usage examples,
+
+1\) $prog_name *.fasta
+2\) $prog_name chr1.fa --replace --maxlen 100mb
+
+Example 1 processes a set of files with all defaults. Example 2 replaces a
+given file with a version where all entries longer than 100 mbases are split.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifiles=s" => undef,
+        "maxlen=s" => 10_000_000,
+        "suffix=s" => ".split",
+        "single!" => 1,
+        "index!" => 1,
+        "allout!" => 1,
+        "replace!" => 0,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RUN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::IO::split_seqs_fasta( $args );
+
+__END__

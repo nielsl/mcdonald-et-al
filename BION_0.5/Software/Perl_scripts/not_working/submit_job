@@ -1,0 +1,71 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::DB;
+use Common::Batch;
+use Common::Accounts;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2003.
+
+This program submits a job to the batch queue. 
+
+  --command    [ Command to be submitted ]
+   --status    [ D = on; reports queue status ]
+     --user    [ D = current user; owner of the job ]
+     --type    [ D = job type, e.g. Blast ]
+
+Authors: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_status = 1;
+my $cl_command = "";
+my $cl_user = "";
+my $cl_headers = 1;
+
+if ( not GetOptions(
+                    "status!" => \$cl_status,
+                    "user=s" =>  \$cl_user,
+                    "command=s" =>  \$cl_command,
+                    "headers!" => \$cl_headers,
+                    ) )
+{
+    exit;
+}
+
+my ( $dbh, $type, $sid );
+
+$dbh = &Common::DB::connect;
+
+$type = ( split "/", $cl_command )[-1];
+
+$sid = &Common::Accounts::get_session_id( $cl_user );
+
+&Common::Batch::submit_job( $dbh, $type, $sid, $cl_command );
+sleep 1;
+
+&Common::DB::disconnect( $dbh );
+
+
+__END__

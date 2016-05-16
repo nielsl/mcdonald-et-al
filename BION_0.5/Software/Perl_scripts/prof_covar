@@ -1,0 +1,150 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Expr::Match;
+use Expr::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, June 2011.
+
+Creates groups of expression patterns that correlate, positively or 
+negatively, across a given set of conditions. The program can work with
+any table format and can be used to picture the variations of any set of
+names, whether or not their expression patterns are correlated. Inputs 
+are tables written by the expr_profile script, or any table with names 
+and values in them. For spotting correlated expression value sets, the 
+common Pearson correlation coefficient is used. The input arguments can 
+all be given in a configuration file or on the command line, and the 
+latter override. Arguments are (defaults in parantheses),
+
+    --config   Input configuration file (none)
+
+Inputs (see --help inputs):
+     --numcol   Column name or number with expression values ("Sum-wgt")
+     --namcol   Column name or number with annotation name ("Annotation")
+     --names1   Input data set 1 filter (all)
+     --names2   Input data set 2 filter (all)
+     --scanam   Scales, with perl-style filter if given (none = all)
+     --suppow   Suppresses few large deviances (none)
+     --sorder   Pre-match sort order by sums or variability (sum)
+
+Filters (see --help filters):
+     --minval   Minimum value required in experiments (2)
+     --mindef   Minimum percent of experiments with required value (80)
+     --minavg   Minimum mean for expression pattern values (0)
+     --maxavg   Maximum mean for expression pattern values (any)
+     --minvar   Minimum variation around the dataset mean (0)
+     --maxvar   Maximum variation around the dataset mean (any)
+
+Distance matrix (see --help distance):
+     --minrat   Minimum fold difference in value averages (1.0)
+     --maxrat   Maximum fold difference in value averages (undef)
+     --method   Pattern comparison method (dif)
+     --minsco   Minimum pattern comparison score (none)
+     --maxsco   Maximum pattern comparison score (none)
+     --dispct   Discard this amount of peak differences (0)
+      --scale   Scale data-points by mean or median (median)
+
+Grouping (see --help grouping)
+ --grp_maxsco   Maximum distance to be included (all)
+ --grp_maxdif   Maximum distance within groups (any)
+ --clu_maxpct   Maximum percentage clusters relative to elements (10)
+ --clu_maxdif   Maximum distance within clusters (any)
+
+Outputs (see --help outputs):
+     --mingrp   Minimum output group size (2)
+     --maxgrp   Maximum output group size (any)
+      --table   Tab-separated table output file (none)
+       --yaml   Language-neutral structured YAML format (none)
+     --author   Author name in quotes
+      --title   Title string in quotes
+
+    --clobber   Overwrite existing output files (off)
+     --silent   Prints no progress messages (off)
+
+       --help   Prints more explanation including examples (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "infiles=s" => undef,
+        "labels=s" => undef,
+        "config=s" => undef,
+        "numcol=s" => undef,
+        "datcol=s" => undef,
+        "namcol=s" => undef,
+        "names1=s" => undef,
+        "names2=s" => undef,
+        "scanam:s" => undef,
+        "suppow=f" => undef,
+
+	"minval=f" => undef,
+        "mindef=f" => undef,
+	"minavg=f" => undef,
+	"maxavg=f" => undef,
+	"minvar=f" => undef,
+	"maxvar=f" => undef,
+
+	"minrat=f" => undef,
+	"maxrat=f" => undef,
+        "method=s" => undef,
+	"minsco=f" => undef,
+	"maxsco=f" => undef,
+        "dispct=f" => undef,
+        "scale=s" => undef,
+
+        "grp_maxsco=f" => undef,
+        "grp_maxdif=f" => undef,
+        "clu_maxpct=f" => undef,
+        "clu_maxdif=f" => undef,
+        "clu_method=s" => undef,
+
+        "mingrp=i" => undef,
+        "maxgrp=i" => undef,
+        "sorder=s" => undef,
+	"table:s" => undef,
+        "author=s" => undef,
+        "title=s" => undef,
+        "yaml:s" => undef,
+
+        "help:s" => undef,
+	"silent!" => 0,
+	"clobber!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    &Expr::Help::dispatch( $prog_name, $args->help );
+}
+else
+{
+    $args->delete_field( "help" );
+
+    $args->infiles( \@ARGV );
+
+    &Expr::Match::match_profiles( $args );
+}
+
+__END__

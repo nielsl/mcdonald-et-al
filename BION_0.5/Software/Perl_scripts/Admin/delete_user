@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Data::Dumper;
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+
+use Common::DB;
+use Common::Accounts;
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2004.
+
+Deletes a user from the user database. The following 
+command line options are recognized,
+
+  --username
+  --password
+  --project
+
+All three are mandatory. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<
+
+my $username = "";
+my $password = "";
+my $project = "";
+
+if ( not &GetOptions (
+         "username=s" => \$username,
+         "password=s" => \$password,
+         "project=s" => \$project,
+                      ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>> DELETE THE USER <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( @errors, $str, $error );
+
+&echo( qq (Deleting ($username, $password, $project) from the user database ... ) );
+
+if ( &Common::Accounts::delete_user( $username, $password, $project, \@errors ) )
+{
+    &echo_green( "done\n" );
+}
+else
+{
+    &echo_red( "FAILED\n" );
+    &echo( "\n" );
+
+    foreach $error ( @errors )
+    {
+        $str = &echo_red( "ERROR" );
+        &echo( "$str: $error\n" );
+    }
+
+    &echo( "\n" );
+}    
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

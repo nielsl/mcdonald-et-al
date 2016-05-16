@@ -1,0 +1,15 @@
+Here is supposed to be all installation routines. But not yet:
+
+Data installation is in a bad state: because of the diversity of 
+data and their different organisation and formats, at first routines were
+written to for each dataset, because that was the quickest. These routines
+are in {RNA,DNA,Protein}::Download and {RNA,DNA,Protein}::Import. Instead
+all data install code should be in this module, and the routines should be
+able to handle install directives made in the registry entry for a given
+dataset. Software install works this way, but data diversity is greater.
+
+So this is in flux.
+
+Niels
+
+

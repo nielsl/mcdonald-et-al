@@ -1,0 +1,89 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use English;
+
+use File::Find;
+use File::Basename;
+use Data::Dumper;
+
+use Common::Config;
+use Common::Tables;
+use Common::Names;
+use Common::Messages;
+
+my ( $prog_name, $usage, @dirs, $output, $signature );
+our ( $expr, @matches );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2003.
+
+Substitutes all tab characters in all Perl scripts
+and modules with 8 blanks. Usage,
+
+$prog_name all
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$expr = quotemeta $ARGV[0];
+
+@dirs = &Common::Config::get_code_dirs();
+
+&File::Find::find( \&for_each_file, @dirs );
+
+if ( @matches )
+{
+    $output = &Common::Tables::render_ascii( \@matches );
+    &echo( "$output\n" );
+}
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<
+
+sub for_each_file
+{
+    my ( $name, $path, $line, $matches, @new_lines );
+
+    $name = $_;
+    $path = $File::Find::name;
+    
+    return if -l $path or not -f $path or $path =~ /Inline_C/i;
+
+    open FILE, "< $path" or &error( qq (Could not read-open file "$path") );
+
+    $matches = 0;
+    @new_lines = ();
+    
+    while ( defined ( $line = <FILE> ) )
+    {
+        $matches += $line =~ s/\t/        /g;
+
+        push @new_lines, $line;
+    }
+
+    if ( $matches > 0 )
+    {
+        &Common::File::write_file( $path, \@new_lines );
+        
+        &echo_green( "De-tabbed" );
+        &echo( " -> $path\n" );
+    }        
+    
+    close FILE;
+}
+
+__END__

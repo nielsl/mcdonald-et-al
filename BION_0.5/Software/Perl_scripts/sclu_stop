@@ -1,0 +1,91 @@
+#!/usr/bin/env perl
+
+#  -*- perl -*-
+
+# This is a no-dependcy script that stops jobs.
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use File::Path;
+
+use Common::Config;
+use Common::Cluster_slave;
+
+my ( $prog_name, $usage, $job_path, $delete, @success, @failure, $msg,
+     $proc, $job_id, $pid, @stats, $count );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+
+$usage = qq (
+Program $prog_name, February 2009.
+
+Stops the processes that belong to a given job ID path. If a 
+second "delete" argument is given then the job directory is 
+deleted.
+
+Usage example:
+
+$prog_name ~/Cluster_node/Jobs/18-FEB-2009-21:33:09 delete
+
+This example stops the job "18-FEB-2009-21:33:09" and deletes 
+its corresponding directory.
+
+Author: Niels Larsen
+);
+
+$usage =~ s/\n/\n /g;
+print "$usage\n" and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+( $job_path, $delete ) = @ARGV;
+
+$job_id = ( split "/", $job_path )[-1];
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( not -d $job_path )
+{
+    print qq (Error\tNo such job: "$job_id"\n);
+}
+elsif ( -r "$job_path/pid" and -s "$job_path/pid" )
+{
+    $pid = &Common::Cluster_slave::read_pid( "$job_path/pid" );
+
+    @stats = &Common::Cluster_slave::kill_procs( $pid );
+
+    @success = grep { $_->[1] == 1 } @stats;
+    @failure = grep { $_->[1] == 0 } @stats;
+
+    if ( @success )
+    {
+        $msg = "OK\t". (scalar @success) ." processes killed";
+        print "$msg\n";
+    }
+    
+    foreach $proc ( @failure )
+    {
+        print "Error\tProcess $proc->[0]: $proc->[2]\n";
+    }
+}
+else
+{
+    print qq (Warning\tJob is not running: "$job_id"\n);
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DELETE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $delete and -d $job_path )
+{
+    $count = &File::Path::rmtree( $job_path ) || 0;
+
+    print "OK\t$count job files deleted\n";
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ROUTINES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__
+

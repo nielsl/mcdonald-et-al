@@ -1,0 +1,65 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Storage;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2011.
+
+Creates blast indices for one or many sequence files. Command line 
+arguments are (defaults in parantheses),
+
+   --protein   Switch for protein sequence (off)
+    --ndxdir   All index files to this directory (inputs + suffixes)
+       --log   Write log files with .log suffix (off)
+   --clobber   Overwrites old indices (off)
+    --silent   Prints no progress messages (off)
+
+Examples,
+
+1\) $prog_name seqdir*/*.fa
+3\) $prog_name proteins/*.fa --protein --ndxdir indices --clobber
+
+Example 1 indexes a set of fasta files assumed to be DNA/RNA sequence;
+index files are named as the inputs, with blast-index suffixes added.
+Example 2 creates indices for protein files and puts indices in a 
+different directory, while overwriting existing index files there. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifiles=s" => undef,
+        "protein!" => 0,
+        "ndxdir=s" => undef,
+        "log!" => 0,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Storage::create_indices_blast( $args );
+
+__END__

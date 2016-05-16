@@ -1,0 +1,123 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+# use Bio::Perl;
+
+use Common::Messages;
+
+use RNA::Import;
+
+my ( $prog_name, $usage, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, May 2005.
+
+This program reads different RNA sequences or alignment sources,
+writes corresponding native formats, and adds records to the RNA
+molecule and features database where relevant. Command line 
+options are,
+
+    --ssu_seq    [ D = off; SSU sequences from EMBL ]
+    --ssu_ldw    [ D = off; Ludwig/ARB SSU alignment ]    
+    --ssu_gen    [ D = off; GreenGenes SSU alignment ]
+    --ssu_rdp    [ D = off; RDP SSU alignment ]
+    --mirbase    [ D = off; miRBase sequences at Sanger ]
+       --rfam    [ D = off; the Sanger Rfam release ]
+        --srp    [ D = off; SRP alignment (Texas) ]
+      --tmrnp    [ D = off; tmRNA alignment (Texas) ]
+
+        --all    [ D = off; all of the above ]
+
+   --readonly    [ D = on; messages, but nothing written ]
+
+The last options are negatable by putting 'no' in front, e.g. 
+--readonly. Using --replace will erase all database records
+of the given type (but leave other rna\'s untouched).
+
+Author: $signature
+
+);
+
+#       --keep    [ D = on; keep all flatfile sources ]
+#    --replace    [ D = off; replaces existing records ]
+#     --delete    [ D = off; deletes entire database ]
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_data, $cl_args );
+
+# Defaults, 
+
+$cl_data->{"SSU_EMBL"} = 0;
+$cl_data->{"SSU_Ludwig"} = 0;
+$cl_data->{"SSU_GreenGenes"} = 0;
+$cl_data->{"SSU_RDP"} = 0;
+$cl_data->{"miRBase"} = 0;
+$cl_data->{"Rfam"} = 0;
+$cl_data->{"SRP"} = 0;
+$cl_data->{"tmRNP"} = 0;
+$cl_data->{"all"} = 0;
+
+$cl_args->{"readonly"} = 1;
+$cl_args->{"headers"} = 1;
+
+if ( not &GetOptions (
+                      "ssu_seq!" => \$cl_data->{"SSU_EMBL"},
+                      "ssu_ldw!" => \$cl_data->{"SSU_Ludwig"},
+                      "ssu_gen!" => \$cl_data->{"SSU_GreenGenes"},
+                      "ssu_rdp!" => \$cl_data->{"SSU_RDP"},
+                      "mirbase!" => \$cl_data->{"miRBase"},
+                      "rfam!" => \$cl_data->{"Rfam"},
+                      "srp!" => \$cl_data->{"SRP"},
+                      "tmrnp!" => \$cl_data->{"tmRNP"},
+                      "all" => \$cl_data->{"all"},
+
+#                      "delete!" => \$cl_data->{"delete"},
+#                      "replace!" => \$cl_data->{"replace"},
+#                      "keep!" => \$cl_data->{"keep"},
+
+                      "headers!" => \$cl_args->{"headers"},
+                      "readonly!" => \$cl_args->{"readonly"},
+                      ) )
+{
+    exit;
+}
+
+if ( not grep { $_ } values %{ $cl_data } )
+{
+    &user_error( qq (Please specify at least one RNA to import.) );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> IMPORT + LOAD RNA <<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+if ( $cl_args->{"readonly"} ) {
+    &echo_bold( "Import RNAs (readonly): \n" ) if $cl_args->{"headers"};
+} else {
+    &echo_bold( "Import RNAs: \n" ) if $cl_args->{"headers"};
+}
+
+&RNA::Import::import_all( $cl_data, $cl_args );
+
+&echo_bold( "Finished\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+# >>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

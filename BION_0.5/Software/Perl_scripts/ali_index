@@ -1,0 +1,112 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Storage;
+use Ali::Help;
+
+my ( $prog_name, $signature, $suffix, $usage, $args, $msgs, $formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$formats = join ", ", @{ &Ali::Storage::key_types_info( "ali_ents", "formats" ) };
+
+$usage = qq (
+Program $prog_name, March 2011.
+
+Creates an index for each given file with multiple alignments. Indices
+are used by ali_fetch to get alignments, and optionally header annotation
+and sequences. For single-alignment files it is easiest to use seq_index, 
+which will take embedded gaps, but see --help for more. Command lines 
+arguments are (defaults in parantheses),
+
+  --seqents   Index sequence entries (off)
+  --seqstrs   Index sequence strings for sub-sequence access (off)
+   --regexp   Header parsing expression (none, for experts, see --help)
+   --suffix   Index file suffix (.fetch)
+
+   --alimax   Upper estimate of number of alignments (measured)
+   --aidlen   Upper estimate of average alignment id length (measured)
+   --seqmax   Upper estimate of number of sequences (measured)
+   --sidlen   Upper estimate of average sequence id length (measured)
+
+  --clobber   Force creation of new indices (off)
+   --silent   Prints no progress messages (off)
+
+    --about   Prints index information and exits (off)
+     --help   Prints various $prog_name help (off)
+
+Supported input formats: $formats
+
+Quick examples ('$prog_name --help examples' gives more),
+
+1\) $prog_name alidir*/*.stockholm
+2\) $prog_name alidir*/*.fasta --seqndx --suffix .try6
+3\) $prog_name alidir*/*.uclust --alimax 100k --aidlen 10 --clobber
+4\) $prog_name --about seqs.fa.fetch
+
+Example 1 indexes a set of stockholm formatted files, one index per file.
+Each alignment can then be fetched by its id, but sequences cannot. The
+second example does the same for fasta files with single-line sequences
+and with a given index file suffix. Here individual sequences can be 
+fetched. Example 3 overwrites an older uclust index and the number of 
+alignment- and sequence-keys are set manually (they are measured if not
+given). Example 4 prints information for a single index file and then 
+exits. To delete indices use ali_unindex. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "seqents!" => 0,
+        "seqstrs!" => 0,
+        "regexp=s" => undef,
+        "suffix=s" => undef,
+        "alimax=s" => undef,
+        "aidlen=i" => undef,
+        "seqmax=s" => undef,
+        "sidlen=i" => undef,
+        "clobber!" => 0,
+        "silent!" => 0,
+        "about=s" => undef,
+        "help:s" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Ali::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+elsif ( defined $args->about )
+{
+    &Ali::Storage::about_storage( $args->about );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    $args->delete_field( "about" );
+
+    $args->add_field("ifiles");
+    $args->ifiles( \@ARGV );
+
+    &Ali::Storage::create_indices( $args );
+}
+
+__END__

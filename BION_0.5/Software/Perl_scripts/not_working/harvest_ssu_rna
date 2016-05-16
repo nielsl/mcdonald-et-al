@@ -1,0 +1,156 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use PDL::Lite;
+use RNA::Harvest;
+
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $cl_args, $usage, $rna_type, $signature );
+
+$rna_type = "rRNA_18S";   # Taken from Sequence Ontology
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, 2004.
+
+This program extracts SSU RNA from EMBL distribution flatfiles
+and saves the extracted sequences and/or features. Sequences are
+first extracted by EMBL annotations, then by similarity against 
+a set of known SSU RNAs. The script uses, by default only new 
+EMBL files, i.e. those downloaded since last time this program 
+was run. It can also be restarted without losing everything if 
+something goes wrong. Output formats options are: database ready
+tables, ARB-loadable EMBL flatfiles, GFF3 feature format and 
+fasta sequence format. To load the SSU RNAs into database use 
+the import_rna script. Directories and switches are:
+
+  --reldir [dir]   ( D = see below; EMBL release directory )
+  --daydir [dir]   ( D = see below; EMBL daily updates directory )
+  --rnadir [dir]   ( D = none; directory where script may write )
+  --avoid [file]   ( D = none; format: ID<tab>beg<tab>end )
+
+        --ann      ( D = on; search by annotation )
+        --sim      ( D = off; search by similarity )
+    --newonly      ( D = on; process only new EMBL flatfiles )
+   --readonly      ( D = on; parsing only, no output written )
+  --filecheck      ( D = off; check for file corruption )
+   --anncheck      ( D = on; verify against known RNAs )
+     --silent      ( D = off; progress messages or not )
+
+     --tables      ( D = on; save tab-separated tables (.tab))
+        --arb      ( D = off; save ARB-ready EMBL file (.embl))
+        --gff      ( D = off; save features as GFF3 (.gff3))
+      --fasta      ( D = off; save sequences as fasta (.fasta))
+
+The --readonly option will print screen messages and parse the 
+files, but will not write tables or update the databases; you 
+may use this option as a "test-run". 
+
+Default input and output file locations are,
+
+ --reldir: $Common::Config::embl_dir/Release
+ --daydir: $Common::Config::embl_dir/Updates
+ --rnadir: $Common::Config::rna_dir/$rna_type
+ --tables: $Common::Config::rna_dir/$rna_type/Database_tables/*.tab
+  --fasta: $Common::Config::rna_dir/$rna_type/Database_tables/rRNA_18S.fasta
+
+Author: $signature
+
+);
+
+#    --arb: $Common::Config::rna_dir/$rna_type/Outputs/Harvest.embl
+#    --gff: $Common::Config::rna_dir/$rna_type/Outputs/Harvest.gff
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> SET DEFAULTS <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$cl_args->{"headers"} = 1;
+$cl_args->{"avoid"} = "";
+
+$cl_args->{"ann"} = 1;
+$cl_args->{"sim"} = 0;
+$cl_args->{"newonly"} = 1;
+$cl_args->{"readonly"} = 1;
+$cl_args->{"filecheck"} = 0;
+$cl_args->{"anncheck"} = 1;
+$cl_args->{"silent"} = 0;
+
+$cl_args->{"tables"} = 0;
+$cl_args->{"arb"} = 0;
+$cl_args->{"gff"} = 0;
+$cl_args->{"fasta"} = 0;
+
+# >>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( not &GetOptions (
+                      "headers!" => \$cl_args->{"headers"},
+
+                      "reldir:s" => \$cl_args->{"reldir"},
+                      "daydir:s" => \$cl_args->{"daydir"},
+                      "rnadir:s" => \$cl_args->{"rnadir"},
+                      "avoid=s" => \$cl_args->{"avoid"},
+
+                      "ann!" => \$cl_args->{"ann"},
+                      "sim!" => \$cl_args->{"sim"},
+                      "newonly!" => \$cl_args->{"newonly"},
+                      "readonly!" => \$cl_args->{"readonly"},
+                      "filecheck!" => \$cl_args->{"filecheck"},
+                      "anncheck!" => \$cl_args->{"anncheck"},
+                      "silent!" => \$cl_args->{"silent"},
+
+                      "tables!" => \$cl_args->{"tables"},
+                      "arb!" => \$cl_args->{"arb"},
+                      "gff!" => \$cl_args->{"gff"},
+                      "fasta!" => \$cl_args->{"fasta"},
+                      ) )
+{
+    exit;
+}
+
+# This routine checks the input arguments, fills in defaults,
+# expands file names to full paths and stops the program with
+# error messages if something obvious wrong,
+
+$cl_args->{"rna_type"} = $rna_type;
+$cl_args = &RNA::Harvest::approve_and_pad_arguments( $cl_args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> RUN MAIN ROUTINE <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+if ( &RNA::Harvest::is_locked )
+{
+    &user_error( qq (SSU RNA harvest is running already.) );
+    exit;
+}
+else
+{
+    if ( $cl_args->{"readonly"} ) {
+        &echo_bold( "Harvest SSU RNA from EMBL (readonly) : \n" ) if $cl_args->{"headers"};
+    } else {
+        &echo_bold( "Harvest SSU RNA from EMBL: \n" ) if $cl_args->{"headers"};
+    }
+
+    &RNA::Harvest::harvest_ssu_rnas( $cl_args );
+    
+    &echo_bold( "Finished Harvest\n" ) if $cl_args->{"headers"};
+}
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+# >>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

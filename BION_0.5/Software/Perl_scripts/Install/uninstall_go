@@ -1,0 +1,80 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Config;
+
+use Registry::Get;
+use Install::Data;
+
+my ( $prog_name, $signature, $usage, $db, $cl_args, $msgs );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, July 2007.
+
+Uninstalls the Gene Ontology. 
+
+  --downloads   [ D = off; deletes downloads too ]
+   --readonly   [ D = off; messages, but no download ]
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+$cl_args = {
+    "headers" => 1,
+    "readonly" => 0,
+    "downloads" => 0,
+};
+
+if ( not GetOptions(
+         "headers!" => \$cl_args->{"headers"},
+         "readonly!" => \$cl_args->{"readonly"},
+         "downloads!" => \$cl_args->{"downloads"},
+     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+$db = Registry::Get->dataset("funcs_go");
+
+&echo_bold( "Un-installing ". $db->label .":\n" ) if $cl_args->{"headers"};
+
+&echo( "   Deleting installs ... " );
+&Install::Data::uninstall_dataset( $db );
+&echo_green( "done\n" );
+
+if ( $cl_args->{"downloads"} )
+{
+    &echo( "   Deleting downloads ... " );
+    &Common::Data::uninstall_dataset_downloads( $db );
+    &echo_green( "done\n" );
+}
+ 
+&echo_bold( "Done\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

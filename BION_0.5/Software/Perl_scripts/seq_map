@@ -1,0 +1,87 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Consensus;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, November 2011.
+
+Maps a set of consensus fasta target against a pool of all those 
+sequences combined. The output is a table of matches: rows are the
+sequences and their IDs, and there is one column per given consensus
+file. The values are the original reads that match each sequence. 
+The matching is either done by matching with simscan or by simple 
+identity. Scaling is optional, done so differences in the total 
+number of reads in each sample are averaged out. Command line 
+arguments are (defaults in parantheses),
+
+    --recipe   Recipe file (none)
+      --pool   Input pool file with all sequences 
+    --method   Matching method, "match" or "exact" (exact)
+    --colids   Column IDs, as comma-separated string 
+    --colpat   Column pattern that makes IDs from file names
+    --simpct   Match percent for "match" method (95)
+     --scale   Scale counts to number of original reads (on)
+    --otable   Output table file (<stdout>)
+
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+   --verbose   Prints more messages (off)
+
+Examples,
+
+1\) $prog_name seq*/*.confa --pool cons_pool.fasta 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "ifiles=s" => undef,
+        "pool=s" => undef,
+        "method=s" => undef,
+        "simpct=s" => undef,
+        "scale!" => undef,
+        "colids=s" => undef,
+        "colpat=s" => undef,
+        "otable:s" => undef,
+        "clobber!" => 0,
+        "silent!" => 0,
+        "verbose!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Consensus::match_pool( $args );
+}
+
+__END__

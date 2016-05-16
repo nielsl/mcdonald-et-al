@@ -1,0 +1,61 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Admin;
+
+my ( $prog_name, $args, $usage, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Stops all running servers: Apache web server, MySQL database, 
+and a batch queue. Downtime display notices are put in all project,
+either coming from a message given on the command line, or from a 
+given file. Command line options:
+
+ --message    Text message to be shown to visitors
+    --file    Text file content to be shown to visitors
+
+Examples,
+
+1\) $prog_name --message 'Site should be working in one hour'
+2\) $prog_name --file onehour.txt
+3\) $prog_name --halt
+
+Example 1 puts an HTML file in all project directories and shuts
+down all servers except Apache (which is needed to display the 
+notices). In 2, the same is done, but message comes from a plain
+text file. In 3, all servers including Apache is shut down and 
+connections to the site will return an error. 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>> GET COMMAND LINE <<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "message:s" => "",
+        "file:s" => "",
+        "halt!" => "",
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>> SHUTDOWN <<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" );
+&Common::Admin::stop_servers( $args );
+
+__END__

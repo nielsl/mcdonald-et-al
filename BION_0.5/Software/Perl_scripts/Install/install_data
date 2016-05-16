@@ -1,0 +1,142 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Installs data packages.
+#
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::File;
+use Common::Tables;
+
+use Install::Data;
+
+#use Registry::Get;
+#use Registry::Register;
+#use Registry::Args;
+
+my ( $prog_name, $usage, $signature, @msgs, $args, $msg, $count,
+     $onstr );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$onstr = &echo_green("ON");
+
+$usage = qq (
+Program $prog_name, May 2009.
+
+Installs the datasets named on the command line, or them all.
+Switches:
+
+  --download   Downloads new source files if needed ($onstr).
+   --install   Imports downloads to native formats ($onstr).
+    --export   Export derived data from the imports ($onstr).
+       --all   Process all datasets (off).
+    --update   Create only outdated or missing files ($onstr).
+     --force   Recreate all files no matter what (off).
+   --verbose   Print many progress messages (on).
+    --silent   Print no messages (off).
+      --list   List uninstalled datasets and does nothing (off).
+   --listall   List all datasets and does nothing (off).
+
+Examples:
+
+1\) $prog_name --list 
+2\) $prog_name --listall
+3\) $prog_name prot_ali_srpdb --force
+4\) $prog_name rna_ali_rfam --update
+5\) $prog_name --all 
+
+Example 1 prints a table of the uninstalled datasets. Example 2
+prints the same table, but with all packages, installed or not. 
+Example 3 installs the SRP proteins dataset, removing previous
+installations if any. Example 4 updates a current Rfam install;
+perhaps a new method was included that requires more data files,
+and --update ignores the install status in the registry. Example
+5 installs all uninstalled datasets. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "download!" => 1,
+        "install!" => 1,
+        "export!" => 1,
+        "all!" => 0,
+        "update!" => 0,
+        "force!" => 0,
+        "verbose!" => 1,
+        "silent!" => 0,
+        "list!" => 0,
+        "listall!" => 0,
+        "debug!" => 0,
+    });
+
+if ( not @ARGV and not $args->listall and not $args->list ) 
+{
+    $msg = "Please specify which dataset(s) to install";
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# The following are default install options. Routines may or may not use 
+# them, and they may copy + override them.
+
+$count = &Install::Data::install_data(
+    \@ARGV,
+    {
+        "download" => $args->download,
+        "install" => $args->install,
+        "export" => $args->export,
+        "all" => $args->all,
+        "force" => $args->force,
+        "update" => $args->update,
+        "verbose" => $args->verbose,
+        "silent" => $args->silent,
+        "list" => $args->list,
+        "listall" => $args->listall,
+        "print_header" => 1,
+    }
+    );
+
+exit if $args->silent;
+
+if ( $count )
+{
+    &echo( "\n" );
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (All datasets are installed);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (All of the given datasets are installed);
+    } else {
+        $msg = qq (The @ARGV dataset is installed);
+    }        
+
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+__END__

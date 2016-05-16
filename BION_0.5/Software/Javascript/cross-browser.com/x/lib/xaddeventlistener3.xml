@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xAddEventListener3'>
+
+<sources>
+  <src><sym>xAddEventListener3</sym><file>xaddeventlistener3.js</file><note><![CDATA[Has Ivan's enhancements. See the notes for rev 7.]]></note></src>
+  <src><sym>xAddEventListener</sym><file>xaddeventlistener.js</file><note><![CDATA[The default implementation.]]></note></src>
+  <src><sym>xAddEventListener2</sym><file>xaddeventlistener2.js</file><note><![CDATA[The original implementation of xAddEventListener.]]></note></src>
+</sources>
+
+<copyright>Copyright 2001-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Event</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Register an event listener on the element. For some browsers the window.onscroll and window.onresize events are simulated. This version supports multiple scroll and resize listeners and multiple DOM0 listeners.]]></description>
+
+<syntax>xAddEventListener3(ele, sEventType, fnEventListener, bCapture)</syntax>
+
+<parameters>
+  <par>
+    <name>ele</name>
+    <note><![CDATA[ID string or object reference.]]></note>
+  </par>
+  <par>
+    <name>sEventType</name>
+    <note><![CDATA[String event type: 'mousemove', 'click', 'resize', etc.]]></note>
+  </par>
+  <par>
+    <name>fnEventListener</name>
+    <note><![CDATA[Reference to the listener function.]]></note>
+  </par>
+  <par>
+    <name>bCapture</name>
+    <note><![CDATA[Boolean capture event flag.]]></note>
+  </par>
+</parameters>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+  <dep>xClientWidth</dep>
+  <dep>xClientHeight</dep>
+  <dep>xScrollLeft</dep>
+  <dep>xScrollTop</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/x/examples/drag2.php</url>
+    <note><![CDATA[Many of the demos use xAddEventListener.]]></note>
+  </demo>
+</demos>
+
+<comments>
+  <comment>
+    <date>21Nov06</date><author>mf</author>
+    <note><![CDATA[If you use xAddEventListener 2 or 3 then use xRemoveEventListener2.]]></note>
+  </comment>
+</comments>
+
+<revisions>
+  <rev>
+    <num>7</num><date>21Nov06</date><author>mf</author>
+    <note><![CDATA[
+    Removed the simulated events (window resize and scroll) for xAddEventListener. xAddEventListener2.js is now the original implementation. Also added xAddEventListener3 which has Ivan Pepelnjak's enhancements for multiple scroll and resize listeners and multiple DOM0 listeners. Thanks Ivan!
+    ]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

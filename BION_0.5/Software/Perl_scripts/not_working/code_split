@@ -1,0 +1,84 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use File::Find;
+use File::Path;
+use Getopt::Long;
+use English;
+
+use Common::Config;
+use Common::Messages;
+use Common::Admin;
+
+my ( $prog_name, $usage, $signature, $cl_args, $count );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2007.
+
+Auto-splits all Perl source code modules into a tree of individual
+files that Perl's autoloader knows how to use. This saves module 
+loading time, but also means module code changes will not have 
+effect until this tool has been run. So probably it should only 
+be run on "production" sites, as opposed to development versions.
+
+Files that end with ".pm" are split if they contain these two 
+kinds of lines,
+
+# use AutoLoader 'AUTOLOAD';
+# __END__   # AUTOLOAD
+
+For "safety" he splitting is done on a copy of the source tree; 
+then if all all files were split without error, the copy is put 
+in place of the original. Options are,
+
+     --keep    Does not delete original source tree
+---readonly    Does nothing but print affected files 
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+$cl_args = {
+    "keep" => 0,
+    "readonly" => 0,
+    "headers" => 1,
+};
+
+if ( not GetOptions(
+         "keep!" => \$cl_args->{"keep"},
+         "readonly!" => \$cl_args->{"readonly"},
+         "headers!" => \$cl_args->{"headers"},
+     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>> CREATE SHADOW FILES <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+&echo_bold( "Splitting perl modules:\n" ) if $cl_args->{"headers"};
+
+$count = &Common::Admin::code_split({
+    "keep" => $cl_args->{"keep"},
+    "readonly" => $cl_args->{"readonly"},
+});
+
+&echo_bold( "Done\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+__END__

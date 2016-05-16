@@ -1,0 +1,67 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Pipe::Lists;
+
+my ( $prog_name, $usage, $signature, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Does logical operations between two lists of ids. Reads from a 
+named input file or STDIN if absent. Prints to a named output
+file or STDOUT if absent. Command line options are,
+
+   --inlist1  Input list of ids - or STDIN if not given
+   --inlist2  Input list of ids
+      --oper  Operator, either AND, OR, XOR, NOT
+   --outlist  Output list of ids - or STDOUT if not given
+
+Example:
+
+cat list1.txt | $prog_name --oper AND --inlist2 list2.txt 
+
+This reads a list from STDIN, and a second one from a named 
+file, and then writes to STDOUT the elements that are in both
+input lists. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>> GET AND CHECK ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "inlist1:s" => "",
+        "inlist2:s" => "",
+        "oper=s" => "",
+        "outlist:s" => "",
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> READ / WRITE <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Pipe::Lists->compare( $args, $msgs );
+
+if ( $msgs )
+{
+    &echo_messages( $msgs );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<
+
+__END__

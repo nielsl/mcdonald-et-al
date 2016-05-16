@@ -1,0 +1,111 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Messages;
+use Registry::List;
+
+my ( $prog_name, $usage, $signature, @fields, $fields, $filter, $args,
+     @table, $msg );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+@fields = Registry::Get->data_fields();
+$fields = join ", ", sort @fields;
+
+$usage = qq (
+Program $prog_name, April 2008.
+
+Lists all datasets as a table with selectable columns. Command 
+line options are (defaults in parantheses),
+
+      --fields    Fields ("name,owner,tiptext")
+        --sort    Field to sort on ("owner")
+   --installed    Lists installed datasets only (off)
+ --uninstalled    Lists uninstalled datasets only (off)
+
+Accepted fields are,
+
+$fields
+
+Examples: 
+
+1\) $prog_name --installed 
+2\) $prog_name --fields="name,datatype,datapath"
+
+Example 1 returns the installed datasets with the default fields
+name, owner and tiptext. Example 2 returns all datasets with the
+fields name, datatype and datapath.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "fields=s" => "name,datatype,title",
+        "sort:s" => "name",
+        "installed!" => 0,
+        "uninstalled!" => 0,
+        "header!" => 1,
+        "colsep=s" => "   ",
+        "indent=i" => 2,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $args->installed ) {
+    $filter = "installed";
+} elsif ( $args->uninstalled ) {
+    $filter = "uninstalled";
+} else {
+    $filter = "";
+}
+
+@table = Registry::List->list_datasets( 
+    {
+        "fields" => $args->fields,
+        "sort" => $args->sort,
+        "filter" => $filter,
+    });
+
+if ( not @table ) {
+    &error( qq (No datasets) );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( @table )
+{
+    print "\n";
+    
+    Common::Tables->render_list(
+        \@table,
+        {
+            "fields" => $args->fields,
+            "header" => $args->header,
+            "colsep" => $args->colsep,
+            "indent" => $args->indent,
+        });
+    
+    print "\n\n";
+}
+else
+{
+    if ( $filter ) {
+        $msg = "No $filter datasets";
+    } else {
+        $msg = "No datasets";
+    }
+
+    &echo_messages( [["OK", $msg ]] );
+}
+
+__END__

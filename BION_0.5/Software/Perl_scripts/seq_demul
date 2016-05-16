@@ -1,0 +1,112 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Help;
+use Seq::Demul;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2013.
+
+Separates sequences into files based on barcodes and primers, or 
+if no primer file is given, on barcodes only. Input can be read 
+in single or paired mode, and forward and reverse outputs can be 
+merged. Primer matching allows mismatches/indels, and position 
+and quality criteria can be applied to barcode matching. Inputs
+may be regular files, compressed files or STDIN. Command line 
+arguments are, defaults in parantheses,
+
+   --recipe   Recipe file (none)
+
+   --format   Sequence format (detected unless piped input)
+  --barfile   Input barcode table file 
+  --prifile   Input primer pattern file (none)
+ --pairfile   Input table of paired sequence file names (none)
+   --files1   Shell expression that lists files for pair 1
+   --files2   Shell expression that lists files for pair 2
+  --singles   Write singlet forward/reverse reads also (on)
+   --barbeg   Max. barcode distance from beginning (2)
+   --bargap   Max. spacing between primer and barcode (0)
+  --barqual   Min. quality for all barcode bases (99%)
+ --qualtype   Query quality encoding (Illumina_1.8 / Sanger)
+   --outdir   Output directory (current directory)
+   --outpre   Output file name prefix (taken from file names)
+   --failed   Write failed reads into files (on)
+    --merge   Write all reads into combined .FR files (on)
+    --stats   Statistics output file ($prog_name.stats)
+
+  --readbuf   Sequences read-buffer size (10,000)
+   --dryrun   Prints counts without creating outputs (off)
+  --clobber   Overwrites output files (off)
+   --silent   Prints no progress messages (off)
+
+     --help   Prints various $prog_name help (off)
+    
+Examples,
+
+1\) $prog_name seqs.fq --patfile primers.txt --barfile bars.tab 
+2\) zcat *.fq.gz | $prog_name --barf bars.tab --patf primers.txt
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "format=s" => undef,
+        "seqfiles=s" => undef,
+        "barfile=s" => undef,
+        "prifile=s" => undef,
+        "pairfile=s" => undef,
+        "files1=s" => undef,
+        "files2=s" => undef,
+        "singles!" => undef,
+        "barbeg=i" => undef,
+        "bargap=i" => undef,
+        "barqual=f" => undef,
+        "qualtype=s" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "failed!" => undef,
+        "stats=s" => undef,
+        "readbuf=i" => undef,
+        "merge!" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+	"silent!" => 0,
+        "help:s" => undef,
+    });
+
+$args->seqfiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Demul::demul( $args );
+}
+
+__END__

@@ -1,0 +1,184 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Installs the projects given on the command line.
+#
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Tables;
+use Install::Data;
+
+#use Registry::Get;
+#use Registry::Register;
+
+my ( $prog_name, $usage, $args, $msg, $count );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+
+$usage = &usage( $prog_name );
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "download!" => 1,
+        "install!" => 1,
+        "export!" => 1,
+        "all!" => 0,
+        "confirm!" => 1,
+        "askdata!" => 0,
+        "update!" => 0,
+        "force!" => 0,
+        "verbose!" => 1,
+        "silent!" => 0,
+        "list!" => 0,
+        "debug!" => 0,
+    });
+
+if ( not @ARGV and not $args->all and not $args->list ) 
+{
+    $msg = "Please specify which project(s) to install";
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+$Common::Messages::silent = 1 if $args->silent;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# The following are default install options. Routines may or may not use 
+# them, and they may copy + override them.
+
+$count = &Install::Data::install_projects(
+    \@ARGV,
+    {
+        "download" => $args->download,
+        "install" => $args->install,
+        "export" => $args->export,
+        "all" => $args->all,
+        "update" => $args->update,
+        "force" => $args->force,
+        "verbose" => $args->verbose,
+        "silent" => $args->silent,
+        "list" => $args->list,
+        "confirm" => $args->confirm,
+        "print_header" => 1,
+    }
+    );
+
+if ( $count )
+{
+    &echo( "\n" ) if not $args->silent;
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (All project packages are installed);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (All of the given projects are installed);
+    } else {
+        $msg = qq (The @ARGV project is installed);
+    }
+
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sub usage
+{
+    # Niels Larsen, May 2009.
+
+    # Returns console text that shows available installation options. If the
+    # console supports color, the options that have not been installed are
+    # shown in green.
+
+    my ( $prog_name,    # Invoking program name
+         ) = @_;
+
+    # Returns a string.
+
+    my ( $text, %inst_opts, $opt, @all_opts, @highlights, $onstr );
+
+    # Create lidt of [ name, title ] tuples of install options,
+    # minus perl which will have been installed before getting here,
+
+    @all_opts =  map { [ $_->name, $_->description->title ] }
+                 Registry::Get->projects->options;
+
+    # Create list of highlights,
+
+    %inst_opts = map { $_, 1 } Registry::Register->registered_projects();
+
+    foreach $opt ( @all_opts )
+    {
+        if ( not $inst_opts{ $opt->[0] } ) {
+            push @highlights, $opt->[0];
+        }
+    }
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>> FORMAT PAGE TEXT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    $onstr = &echo_green("ON");
+
+    $text = "";
+    $text .= &echo_bold( "\n$Common::Config::sys_name Project Installation\n" );
+
+    $text .= qq (
+The options marked with asterisk (*) can be installed, the 
+rest are installed already:
+
+);
+
+    $text .= &Common::Tables::render_ascii_usage(
+        [
+         @all_opts,
+        ],
+        { "highlights" => \@highlights },
+        );
+
+#  --askdata   Prompt for confirmation of datasets (off).
+
+    $text .= qq (
+Switches:
+
+--download   Download new sources ($onstr).
+ --install   Install the downloads ($onstr).
+  --export   Export derived data from the imports ($onstr).
+     --all   Process all projects (off).
+ --confirm   Pause for confirmation of projects ($onstr).
+  --update   Download and install only if needed (off).
+   --force   Ignores recorded install status (off).
+ --verbose   Print more than summary progress messages (off).
+  --silent   Turns off progress messages (off).
+    --list   List projects and does nothing (off).
+
+Examples:
+
+(1) ./$prog_name rnaport
+(2) ./$prog_name uthscsa --force --nodownload
+
+Example 1 installs the uthscsa project, downloading data if needed.
+Example 2 forces removal of the old uthscsa package and 
+re-installation, without downloading new data. 
+);
+
+    return $text;
+}
+
+__END__

@@ -1,0 +1,163 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings  FATAL => qw ( all );
+
+use Time::HiRes;
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Align;
+use Seq::Common;
+use Registry::Args;
+
+use constant Q_BEG => 0;
+use constant Q_END => 1;
+use constant S_BEG => 2;
+use constant S_END => 3;
+use constant LENGTH => 4;
+use constant SCORE => 5;
+
+my ( $seq1, $seq2, $seq, $seq_str, $gap_str, $ali_str, $gap_sum, $gap_locs,
+     $obj, $ali, $start, $stop, $diff, $matrix, $aseq1, $gaps, $aseq2, $pos2,
+     $str1, $str2, $astr1, $astr2, $format, $file, $blanks );
+
+$seq1 = &Seq::IO::read_seqs_file( $ARGV[0] )->[0];
+$seq2 = &Seq::IO::read_seqs_file( $ARGV[1] )->[0];
+
+$ali = &Seq::Align::align_two_nuc_seqs( \$seq1->{"seq"}, \$seq2->{"seq"}, undef, {"seedmin" => 15, "max_score" => 0.001 } );
+
+( $astr1, $gaps, $astr2 ) = &Seq::Align::stringify_matches( $ali, \$seq1->{"seq"}, \$seq2->{"seq"} );
+
+$blanks = " " x length $seq1->{"id"};
+
+print $seq1->{"id"} ." ". ${ $astr1 }."\n";
+print "$blanks ". ${ $gaps }."\n";
+print $seq2->{"id"} ." ". ${ $astr2 }."\n";
+
+# &dump( $ali );
+# &dump( $pos2 );
+
+__END__
+
+__END__
+
+$seq1 = {"id" => 1, "seq" => "agagtttgatcatggctcaggacgaacgctggcggcgtgcctaacacatgcaagtcgtacgcggtggcttgccaccgagtggcgaacgggtgcgtaacacgtgaggaacccaccccgacgtgggggataacaccgggaaaccggtgctaataccgcatgtgctcccctgaccgcatggtcgagggagcaaagccttcgggcgcgacgggacggcctcgcggcctatcagcttgttggtggggtaacggcccaccaaggcgacacgggtagctggtctgagaggacgatcagccacactgggactgagacacggcccagactcctacgggaggcagcagtggggaatattgcgcaatgggcgaaagcctgacgcaggaacgccgcgtggaggacgaaggccttcgggttgtaaactcctttcagcagggacgaaactgacggtacctgcagaagaagccccggctaactacgtgccagcaaccgcggtaagacgtagggggcgagcgttgtccggatttactgggcgtaaagagctcgtaggcggcttggcaagtcggatgtgaaatcaccaggctcaacctggtgtcgccatccgatactccatggcttgagtccggtagaggatcgtggaattcctggtgtagcggtgaaatgcgcagatatcaggaggaacaccaatgtcgaaggcagcgatctgggccggtactgacgctgaggagcgaaagcgtggggagcgaacaggattagataccctggtagtccacgccctaaacgttgggcactaggtgtggggcctcattcgacgggctccgtgccgacgctaacgcattaagtccccgcctggggagtacggccgcaaggctaaaactcaaaggaattgacgggggcccgcacaaacggcggagcatcggcttaattcgatgcaacgcgaagaacctcacctgggcttgacatggagggaaaagccgcagagatgcggtgtccttcgggtcccttgcacaggtggtgcatggctgtcgtcagctcgagtcgtgagatgttgggtaagtcccgcaacgagcgcaacccttgccctatgttgccacgggtcatgccggggactcgtaggggactgccggagttaattcggaggaagg" };
+$seq2 = {"id" => 2, "seq" => "agagtttgatcatggctcaggacgaacgctggcggcgtgcctaacacatgcaagtcgtaccggtggcttgccaccgagtggcgaacgggtgcgtaacacgtgaggaacccaccccgacgtgggggataacaccgggaaaccggtgctaataccgcatgtgctcccctgaccgcatggtcgagggagcaaagccttcgggcgcgacgggacggcctcgcggcctatcagcttgttggtggggtaacggcccaccaaggcgacacgggtagctggtctgagaggacgatcagccacactgggactgagacacggcccagactcctacgggaggcagcagtggggaatattgcgcaatgggcgaaagcctgacgcaggaacgccgcgtggaggacgaaggccttcgggttgtaaactcctttcagcagggacgaaactgacggtacctgcagaagaagccccggctaactacgtgccagcaaccgcggtaagacgtagggggcgagcgttgtccggatttactgggcgtaaagagctcgtaggcggcttggcaagtcggatgtgaaatcaccaggctcaacctggtgtcgccatccgatactccatggcttgagtccggtagaggatcgtggaattcctggtgtagcggtgaaatgcgcagatatcaggaggaacaccaatgtcgaaggcagcgatctgggccggtactgacgctgaggagcgaaagcgtggggagcgaacaggattagataccctggtagtccacgccctaaacgttgggcactaggtgtggggcctcattcgacgggctccgtgccgacgctaacgcattaagtccccgcctggggagtacggccgcaaggctaaaactcaaaggaattgacgggggcccgcacaaacggcggagcatcggcttaattcgatgcaacgcgaagaacctcacctgggcttgacatggagggaaaagccgcagagatgcggtgtccttcgggtcccttgcacaggtggtgcatggctgtcgtcagctcgagtcgtgagatgttgggtaagtcccgcaacgagcgcaacccttgccctatgttgccacgggtcatgccggggactcgtaggggactgccggagttaattcggaggaaggtggg" };
+
+#$seq1 = {"id" => 1, "seq" => "agagtttgatcatggctcaggacgaacgctggcggcgtgcctaacacatgcaagtcgtacgcg" };
+#$seq2 = {"id" => 2, "seq" => "agagtttgatcatggctcaggacgaacgctggcggcgtgcctaacacatgcaagtcgtacgcggtgg" };
+
+$ali = &Seq::Align::align_two_nuc_seqs( \$seq1->{"seq"}, \$seq2->{"seq"}, undef, {"seedmin" => 20, "max_score" => 0.0000001 } );
+
+
+
+&dump( $ali );
+
+
+__END__
+
+$seq = Seq::Common->new({ "id" => "id", "seq" => "---AGG-TCTTAG--" });
+
+$seq->splice_gaps;
+
+&dump( $seq );
+
+__END__
+
+
+#           01234567890123456
+$seq_str = "AGGCTTCGAGTCTTAGC";
+$gap_str = "1<1-,4<2~,8<3.";
+$ali_str = "";
+
+$gap_locs = &Seq::Common::gapstr_to_gaplocs( $gap_str );
+
+# $gap_sum = &Seq::Align::_add_gaps_to_string( \$seq_str, 0, 16, $gap_locs, \$ali_str );
+$gap_sum = &_add_gaps_to_string( \$seq_str, $gap_locs, \$ali_str );
+
+&dump( $ali_str );
+&dump( $gap_sum );
+
+sub _add_gaps_to_string
+{
+    # Niels Larsen, October 2010.
+
+    # Creates a copy of the input string but with gaps added at the locations
+    # given in the second argument. Returns the number of gaps added. 
+
+    my ( $i_str,    # Input string
+         $gaps,     # Gap locations
+         $o_str,    # Output string
+        ) = @_;
+
+    # Returns integer. 
+
+    my ( $i_str_pos, $str_len, $loc, $gap_pos, $gap_len, $gap_ch, $gap_sum );
+
+    $gap_sum = 0;
+    $i_str_pos = 0;
+
+    # First pairs of sub-sequence, then a gap,
+
+    foreach $loc ( @{ $gaps } )
+    {
+        ( $gap_pos, $gap_len, $gap_ch ) = @{ $loc };
+
+        # Sequence up to and including the position where gap starts,
+
+        $str_len = $gap_pos - $i_str_pos + 1;
+        ${ $o_str } .= substr ${ $i_str }, $i_str_pos, $str_len; 
+
+        # Add gaps,
+
+        ${ $o_str } .= $gap_ch x $gap_len;
+
+        # Advance sequence position,
+
+        $i_str_pos = $gap_pos + 1;
+
+        # Increment gap count,
+        
+        $gap_sum += $gap_len;
+    }
+    
+    # Finally add whatever sequence follows, if any, the last gap in the region,
+    
+    if ( $i_str_pos <= length $i_str )
+    {
+        $str_len = ( length $i_str ) - $i_str_pos + 1;
+        ${ $o_str } .= substr ${ $i_str }, $i_str_pos, $str_len;
+    }
+
+    return $gap_sum;
+}
+
+
+__END__
+
+$dbfile = "/home/niels/GOFFICE/Data/RNAs/Sequences/miRBase/Installs/mature.ssc.rna_seq.fasta";
+$infile = "/home/niels/gris/E115.cleaned.fa.cluf";
+
+$obj = Seq::IO->get_read_handle( $infile );
+
+$seq = Seq::IO->get_seq( "5_1kHdNEW2tN1/1", $obj );
+#                         5_1kHdNEW2tN1/1
+
+$seq1 = $seq->seq;
+$seq2 = "TCACAGTGAACCGGTCTCTTT";
+
+$start = [ &Time::HiRes::gettimeofday() ]; 
+
+$ali = &RNA::Ali::align_two_seqs( $seq1, $seq2, undef, { "max_score" => 0.4 } );
+
+$obj = &Seq::Align::format_alignment( $ali, \$seq1, \$seq2 );
+
+$stop = [ &Time::HiRes::gettimeofday() ]; 
+$diff = &Time::HiRes::tv_interval( $start, $stop );
+
+&dump( $obj );
+&dump( $diff );
+
+

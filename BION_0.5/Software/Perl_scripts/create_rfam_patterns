@@ -1,0 +1,158 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Util;
+use Common::Tables;
+
+use Ali::Patterns;
+
+my ( $prog_name, $cl_args, $cl_indir, $cl_inexpr, $cl_outdir, $usage, 
+     $signature, @table, $row, $params_text, @files, $args, $cl_infile,
+     $indir, $outdir, $format, $inexpr, $infile );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+@table = map { [ "--".$_->[0], $_->[1], $_->[2] ] } &Ali::Patterns::default_params_list();
+
+foreach $row ( @table )
+{
+    $row->[0] = &Common::Tables::ascii_style( $row->[0], {"align" => "right"} );
+}
+
+$params_text = &Common::Tables::render_ascii( \@table, {"COLSEP" => "  ", "INDENT" => 1} );
+
+$usage = qq (
+Program $prog_name, May 2008.
+
+This program generates a set of scan_for_matches RNA patterns 
+from a given set of alignments. The routines are sensitive to 
+degree of alignment conservation and may return an over-relaxed
+pattern that matches everything, or an absurdly strict pattern
+that matches nearly nothing. It is not very robust at all, use
+with caution, turn the knobs below, and/or edit the outputs by
+hand. 
+
+     --indir path   ( Input alignment directory path )
+    --inexpr expr   ( File name filter expression )
+    --outdir path   ( Output pattern directory path )
+    --format name   ( D = "pdl"; or "fasta" or "stockholm")
+      --mask name   ( D = "SS_cons"; pairing mask id )
+    --cols string   ( D = all; column ranges "100..140,160..200" )
+         --silent   ( D = off; screen messages )
+
+The program has settings, that affect how the pattern is derived 
+and how much pattern relaxation is built in. They are:
+
+$params_text
+
+A tutorial will be written after more testing. Good luck man.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+$cl_indir = "";
+$cl_infile = "";
+$cl_inexpr = "";
+$cl_outdir = "";
+
+$cl_args = &Ali::Patterns::default_params();
+$cl_args->{"format"} = "pdl";
+$cl_args->{"mask"} = "SS_cons";
+$cl_args->{"cols"} = "";
+$cl_args->{"silent"} = 1;
+
+$args = &Common::Config::get_commandline(
+    {
+        "indir=s" => $cl_indir,
+        "infile=s" => $cl_infile,
+        "inexpr:s" => $cl_inexpr,
+        "outdir=s" => $cl_outdir,
+        
+        "format:s" => $cl_args->{"format"},
+        "mask:s" => $cl_args->{"mask"},
+        "cols:s" => $cl_args->{"cols"},
+        
+        "min_seqs:s" => $cl_args->{"min_seqs"},
+        "len_relax:s" => $cl_args->{"len_relax"},
+        "mis_relax:s" => $cl_args->{"mis_relax"},
+        "ins_relax:s" => $cl_args->{"ins_relax"},
+        "del_relax:s" => $cl_args->{"del_relax"},
+        "max_relax:s" => $cl_args->{"max_relax"},
+        "use_observed!" => $cl_args->{"use_observed"},
+        "split_pair_rules!" => $cl_args->{"split_pair_rules"},
+        "low_cons_ends!" => $cl_args->{"use_cons_ends"},
+        "unpaired_ends!" => $cl_args->{"unpaired_ends"},
+        
+        "silent!" => $Common::Messages::silent,
+    });
+
+$infile = $args->infile;
+$format = $args->format;
+$indir = $args->indir;
+$outdir = $args->outdir;
+$inexpr = $args->inexpr;
+
+if ( $args->infile )
+{
+    if ( not -f $args->infile ) {
+        &user_error( qq (Wrong looking input file -> "$infile") );
+        exit;
+    }
+
+    @files = &Common::File::get_stats( $args->infile );
+}
+else
+{
+    if ( not $args->indir or not -d $args->indir ) {
+        &user_error( qq (Wrong looking input directory -> "$indir") );
+        exit;
+    }
+    
+    if ( not $args->outdir or not -d $args->outdir ) {
+        &user_error( qq (Wrong looking output directory -> "$outdir") );
+        exit;
+    }
+
+    @files = &Common::File::list_all( $args->indir, "\.$format\$" );
+
+    if ( not @files ) {
+        &user_error( qq (No $format files found in "$indir") );
+        exit;
+    }
+}
+
+@files = grep { $_->{"name"} =~ $args->inexpr } @files;
+
+if ( not @files ) {
+    &user_error( qq (No $format files matched "$inexpr") );
+    exit;
+}
+
+if ( $format ne "pdl" ) {
+    &error( qq (Sorry, only PDL format supported at the moment) );
+}
+
+$Common::Messages::silent = $args->silent;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo_bold( "Create Patterns : \n" );
+
+&Ali::Patterns::create_pattern_files( \@files, $args->outdir, $args );
+
+&echo_bold( "Done\n" );
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

@@ -1,0 +1,37 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Admin;
+use Common::Config;
+use Common::Messages;
+
+my ( $prog_name, $usage, $signature, @dirs );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, March 2007.
+
+This program removes all files in the data directories
+whose names start or end with a non-word-character. Usage,
+
+$prog_name all
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Common::Admin::data_clean();
+
+

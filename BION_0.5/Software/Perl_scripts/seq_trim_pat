@@ -1,0 +1,74 @@
+#!/usr/bin/env perl
+
+# Niels Larsen, January 2010.
+
+# Script for sequence trimming. Contains no functionality, but calls a 
+# library function. 
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2012.
+
+Truncates sequence ends/beginnings by match with a given pattern. The
+pattern can be anchored to the end or not. Command line arguments are 
+(defaults in parantheses),
+
+   --iformat   Input format (detected if file is given)
+     --oseqs   Output sequence file (<STDOUT>)
+
+    --patstr   Pattern string
+      --dist   Maximum distance to search from end (all)
+      --begs   Trim beginnings (off)
+      --ends   Trim ends (on)
+
+    --dryrun   Prints the number of matches instead of output (off)
+   --clobber   Overwrites previous output (off)
+    --append   Appends to existing files (off)
+    --silent   Prints no progress messages (off)
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "iseqs=s" => undef,
+        "iformat=s" => undef,
+        "oseqs=s" => undef,
+        "patstr=s" => undef,
+        "dist=i" => undef,
+        "begs!" => 0,
+        "ends!" => 0,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->iseqs( $ARGV[0] );
+
+&Seq::Clean::clip_pat( $args );
+
+__END__

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xDisableDrag'>
+
+<sources>
+  <src><file>xdisabledrag.js</file><note><![CDATA[Default]]></note></src>
+</sources>
+
+<copyright>Copyright 2005-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Event</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Disable dragging for an element previously passed to xEnableDrag.]]></description>
+
+<syntax>function xDisableDrag(id)</syntax>
+
+<parameters>
+  <par>
+    <name>id</name>
+    <note><![CDATA[id string or element reference]]></note>
+  </par>
+</parameters>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/x/examples/xfenster.php</url>
+    <note><![CDATA[xFenster demos.]]></note>
+  </demo>
+  <demo>
+    <url>http://cross-browser.com/x/examples/drag4.html</url>
+    <note><![CDATA[A test page for xEnableDrag and xEnableDrop.]]></note>
+  </demo>
+</demos>
+
+<revisions>
+  <rev>
+    <num>3</num><date>9Jul07</date><author>mf</author>
+    <note><![CDATA[This function is no longer needed because of reimplementation of xEnableDrag (rev 7).]]></note>
+  </rev>
+  <rev>
+    <num>2</num><date>16Mar05</date><author>mf</author>
+    <note><![CDATA[Renamed variables according to rev2 of xEnableDrag.]]></note>
+  </rev>
+  <rev>
+    <num>1</num>
+    <date>7Mar05</date>
+    <author>mf</author>
+    <note><![CDATA[initial implementation (suggested by Daniel FAIVRE).]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

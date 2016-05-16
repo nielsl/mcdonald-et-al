@@ -1,0 +1,99 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+
+use Protein::Import;
+
+my ( $prog_name, $usage, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, May 2005.
+
+This program reads from different Protein sequence or alignment 
+sources, writes corresponding native formats, and adds records 
+to the molecule and features database where relevant. Command 
+line options are,
+
+        --srp    [ D = off; SRP alignments (Texas) ]
+      --tmrnp    [ D = off; tmRNP alignments (Texas) ]
+
+   --readonly    [ D = on; messages, but no import ]
+
+Messages are written to the console, if run from the console. 
+
+Author: $signature
+
+);
+
+#       --pfam    [ D = off; Pfam project (EBI/Wustl) ]
+#    --uniprot    [ D = off; UniProt database (EBI/PIR) ]
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $cl_args, $cl_readonly, $cl_headers );
+
+# Defaults, 
+
+$cl_readonly = 1;
+$cl_headers = 1;
+
+$cl_args->{"Pfam"} = 0;
+$cl_args->{"SRP"} = 0;
+$cl_args->{"tmRNP"} = 0;
+$cl_args->{"UniProt"} = 0;
+$cl_args->{"all"} = 0;
+
+if ( not GetOptions(
+                    "pfam!" => \$cl_args->{"Pfam"},
+                    "srp!" => \$cl_args->{"SRP"},
+                    "tmrnp!" => \$cl_args->{"tmRNP"},
+                    "uniprot!" => \$cl_args->{"UniProt"},
+                    "all" => \$cl_args->{"all"},
+
+                    "headers!" => \$cl_headers,
+                    "readonly!" => \$cl_readonly,
+                    ) )
+{
+    exit;
+}
+
+if ( not grep { $_ } values %{ $cl_args } )
+{
+    &user_error( qq (Please specify at least one RNA to import.) );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> IMPORT + LOAD RNA <<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Import Proteins (readonly): \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Import Proteins: \n" ) if $cl_headers;
+}
+
+&Protein::Import::import_all( $cl_args, $cl_readonly );
+
+&echo_bold( "Finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

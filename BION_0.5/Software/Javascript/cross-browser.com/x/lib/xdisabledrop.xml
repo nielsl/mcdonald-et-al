@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xDisableDrop'>
+
+<sources>
+  <src><file>xdisabledrop.js</file><note><![CDATA[Default]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Event</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Remove drop event support from the element.]]></description>
+
+<syntax>xDisableDrop(ele)</syntax>
+
+<parameters>
+  <par>
+    <name>ele</name>
+    <note><![CDATA[id string or element reference]]></note>
+  </par>
+</parameters>
+
+<dependencies>
+  <dep>xGetElementById</dep>
+</dependencies>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/x/examples/drag4.html</url>
+    <note><![CDATA[A test page for xEnableDrag and xEnableDrop.]]></note>
+  </demo>
+</demos>
+
+<revisions>
+  <rev>
+    <num>2</num><date>9Jul07</date><author>mf</author>
+    <note><![CDATA[This function is no longer needed because of reimplementation of xEnableDrop (rev 3).]]></note>
+  </rev>
+  <rev>
+    <num>1</num><date>24Nov06</date><author>mf</author>
+    <note><![CDATA[Initial release.]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

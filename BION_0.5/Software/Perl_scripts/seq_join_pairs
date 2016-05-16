@@ -1,0 +1,99 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Help;
+use Seq::Demul;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2013.
+
+Joins sequence pair mates, usually the next step for paired-end 
+reads after de-multiplexing. Input files are sets of forward and 
+reverse reads, in separate files, and outputs are half as many 
+new files, with joined sequences in them. The join allows no 
+gaps, only mismatches, and the highest quality base will prevail
+in the output. When there are no overlap matches, the two reads
+are concatenated (see --help for details). Command line options 
+are, defaults in parantheses,
+
+   --recipe   Recipe file (none)
+
+   --format   Sequence format (detected)
+   --fwdsuf   Forward read file suffix (.F)
+   --revsuf   Reverse read file suffix (.R)
+  --joinsuf   Joined reads file suffix (.join)
+   --minsim   Min. sequence similarity (80%)
+   --minovl   Min. sequence overlap (20)
+   --misses   Include non-overlapping pairs (off)
+   --delete   Deletes input files progressively (off)
+    --stats   Statistics output file ($prog_name.stats)
+   --outdir   Output directory (current directory)
+
+  --readbuf   Sequences read-ahead buffer (10,000)
+   --dryrun   Prints counts without creating outputs (off)
+  --clobber   Overwrites output files (off)
+   --silent   Prints no progress messages (off)
+
+     --help   Prints various $prog_name help (off)
+    
+Examples,
+
+1\) $prog_name Results/*.F Results/*.R --outdir Results
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "format=s" => undef,
+        "seqfiles=s" => undef,
+        "fwdsuf=s" => undef,
+        "revsuf=s" => undef,
+        "minsim=f" => undef,
+        "minovl=i" => undef,
+        "misses!" => undef,
+        "delete!" => undef,
+        "stats=s" => undef,
+        "outdir=s" => undef,
+        "readbuf=i" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+	"silent!" => 0,
+        "help:s" => undef,
+    });
+
+$args->seqfiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Demul::join_pairs( $args );
+}
+
+__END__

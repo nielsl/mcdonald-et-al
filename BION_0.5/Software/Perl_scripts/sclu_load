@@ -1,0 +1,25 @@
+#!/usr/bin/env perl
+
+#  -*- perl -*-
+
+# This is a no-dependency script that prints partial top output.
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Cluster_slave;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> PROGRAM BEGINS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $list, $line );
+
+$list = &Common::Cluster_slave::list_load();
+
+foreach $line ( @{ $list } )
+{
+    print join "\t", @{ $line };
+    print "\n";
+}
+
+__END__

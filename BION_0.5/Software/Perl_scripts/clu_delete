@@ -1,0 +1,123 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Cluster;
+
+my ( $prog_name, $usage, $signature, $args, $acctfile, $acctpath, $basedir, 
+     $count, @msgs );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$acctpath = &Common::Cluster::accts_file();
+$acctfile = File::Basename::basename( $acctpath );
+$basedir = &Common::Cluster::config_slave_paths->{"base_dir"};
+
+$usage = qq (
+Program $prog_name, January 2009.
+
+Deletes files and/or directories from all slave machines. Usage and 
+command line arguments:
+
+$prog_name path [ arguments ]
+
+    [ --recursive ]   Includes all sub-directories - OPTIONAL (off)
+
+  [ --slaves name ]   Slave configuration file - OPTIONAL ($acctfile)
+  [ --filter expr ]   Slave name filter expression - OPTIONAL (none)
+ [ --timeout secs ]   Connection timeouts - OPTIONAL (5 seconds)
+       [ --silent ]   Suppress progress messages - OPTIONAL (on)
+
+The path may be specified with shell syntax that all slave machines support,
+such as asterisks as wildcards. Deletions will only happen within the top 
+directory created by this system ($basedir). Usage examples:
+
+1\) $prog_name 'Data/Humgen/*.fasta'
+2\) $prog_name Data --recursive
+3\) $prog_name '*'
+
+Example 1 deletes all fasta files in a given human genome data directory.
+The single quotes ensures that the '*' is not expanded by the local shell.
+In example 2 the whole data directory file tree is deleted. In example 3 
+all regular files in the top node directory ($basedir) are deleted; only
+regular files are deleted, directories return an error. Again, single 
+quotes must be used to avoid wildcard expansion by the shell. 
+
+WARNING: Wrong deletions can do big damage, and here they happen on many 
+         machines at the same time, and there is no way to stop it once 
+         started. Once started, it is goodbye files. Use with care. 
+
+$signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "slaves=s" => $acctpath,
+        "filter=s" => undef,
+        "recursive!" => 0,
+        "timeout=i" => undef,
+        "silent!" => 1,
+    });
+
+if ( not @ARGV )
+{
+    @msgs = (
+        ["ERROR", qq (Please specify a path of files to delete) ],
+        );
+}
+elsif ( ($count = scalar @ARGV) > 1 )
+{
+    @msgs = (
+        ["ERROR", qq ($count paths given, please give only one.) ],
+        "",
+        ["Advice", qq (Deletions on many machines are dangerous, so we have disallowed) ],
+        ["Advice", qq (multiple paths, because the local shell may expand them with) ],
+        ["Advice", qq (unintended consequences. However if the single path is put in) ],
+        ["Advice", qq (quotes, then the delete command will reach the slave machines.) ],
+        );
+}
+elsif ( $ARGV[0] =~ /^([\.~\/])/ )
+{
+    @msgs = (
+        ["ERROR", qq (Please avoid starting with "$1") ],
+        ["Advice", qq (Use instead characters, integers or '*') ],
+        );
+}
+
+if ( @msgs ) {
+    &echo_messages( \@msgs );
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DELETE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+local $Common::Messages::silent = $args->silent;
+
+&echo_bold( qq (\nDeleting:\n) );
+
+&Common::Cluster::delete_files(
+    undef,
+    {
+        "message" => "Deleting $ARGV[0]",
+        "paths" => [ $ARGV[0] ],
+        "acctfile" => $args->slaves,
+        "acctexpr" => $args->filter,
+        "recursive" => $args->recursive,
+        "timeout" => $args->timeout,
+        "silent" => $args->silent,
+        "format" => "ascii",
+    });
+
+&echo_bold( qq (done\n\n) );
+
+__END__

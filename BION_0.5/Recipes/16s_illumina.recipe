@@ -1,0 +1,144 @@
+<recipe>
+
+    # This recipe can be run with the run_recipe command. 
+
+    title = 16S amplicon pipeline
+    
+    author = Danish Genome Institute
+    email = niels@genomics.dk
+    
+    # ------------------------------------------------------------------------
+    #                             DE-MULTIPLEXING
+    # ------------------------------------------------------------------------
+
+    <sequence-demultiplex-pattern>
+        title = Pattern de-multiplexing
+        tag-file = barcodes.table
+    	primer-file = primers.config
+        output-mismatches = yes
+        output-tag-names = yes
+    </sequence-demultiplex-pattern>
+
+    # ------------------------------------------------------------------------
+    #                                CLEANING
+    # ------------------------------------------------------------------------
+
+    <sequence-cleaning>
+
+        title = Sequence cleaning
+        quality-type = Illumina_1.3
+
+        <sequence-filter>
+            title = Poly-A removal
+            pattern-string-nomatch = AAAAAAAAAAAAAAAAAA[1,0,0]
+            forward = yes
+        </sequence-filter>
+
+        <sequence-filter>
+            title = Poly-C removal
+            pattern-string-nomatch = CCCCCCCCCCCCCCCCCC[1,0,0]
+            forward = yes
+        </sequence-filter>
+
+        <sequence-quality-trim>
+            title = 3-quality trim
+            trim-end = yes
+            window-length = 10
+            window-match = 10
+            minimum-quality = 96%
+        </sequence-quality-trim>
+
+        <sequence-quality-trim>
+            title = 5-quality trim
+            trim-start = yes
+            window-length = 10
+            window-match = 10
+            minimum-quality = 96%
+        </sequence-quality-trim>
+
+        <sequence-filter>
+            title = Length filter
+            minimum-length = 20
+        </sequence-filter>
+
+        <sequence-quality-filter>
+            title = Quality filter
+            minimum-quality = 96%
+            minimum-strict = 100%
+        </sequence-quality-filter>
+
+    </sequence-cleaning>
+
+    # -------------------------------------------------------------------------
+    #                              DE-REPLICATION
+    # -------------------------------------------------------------------------
+
+    <sequence-dereplication>
+        title = Sequence uniqification
+    </sequence-dereplication>
+    
+    # -------------------------------------------------------------------------
+    #                               CLUSTERING
+    # -------------------------------------------------------------------------
+
+    <sequence-clustering>
+        title = Sequence clustering
+        minimum-seed-similarity = 100%
+        minimum-cluster-size = 1
+        maximum-ram = 20%
+        chimera-reclustering = yes
+        chimera-alignment-size = 3
+        chimera-off-sequences = 80%
+        chimera-off-percent = 70%
+        chimera-off-proportion = 10%
+        chimera-orig-counts = yes
+    </sequence-clustering>
+
+    # -------------------------------------------------------------------------
+    #                          CONSENSUS EXTRACTION
+    # -------------------------------------------------------------------------
+
+    <alignment-consensus>
+        title = Alignment consensus
+        quality-type = Illumina_1.3
+        consensus-method = most_frequent
+        minimum-sequences = 1
+        minimum-non-gaps = 5%
+        minimum-base-quality = 99.8%
+        minimum-quality-conservation = 50%
+        maximum-columns-fail = 5%
+        maximum-columns-quality-fail = 5%
+        trim-start = yes
+        trim-end = yes
+        minimum-length = 15
+    </alignment-consensus>
+
+    # -------------------------------------------------------------------------
+    #                           CONSENSUS MAP TABLE
+    # -------------------------------------------------------------------------
+
+    <consensus-table>
+        title = Consensus table
+        pool-method = exact
+        seq-minimum-reads = 1
+        seq-minimum-length = 20
+        pool-minimum-reads = 5
+        pool-minimum-length = 20
+        map-method = exact
+        map-scale-reads = yes
+        table-column-id-pattern = ([^\.]+\.(F|R))
+    </consensus-table>
+
+    # -------------------------------------------------------------------------
+    #                        CONSENSUS TABLE CLUSTERING
+    # -------------------------------------------------------------------------
+
+    <consensus-table-clustering>
+        title = Consensus clustering
+        minimum-ambiguity-coverage = 90%
+        minimum-similarity = 90%
+        minimum-nongaps = 5%
+        output-suffix = .90_90
+    </consensus-table-clustering>
+
+</recipe>

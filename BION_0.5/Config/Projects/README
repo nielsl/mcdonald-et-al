@@ -1,0 +1,81 @@
+# 
+# Projects
+# --------
+#
+# A project is a customized mixture of methods and data, with its own
+# navigation menus, URL and style. Projects allow quick assembly of 
+# highly dynamic customized pages fit for a special purpose, but only
+# from methods and data that are known to the system. The files in 
+# this directory named with all lowercase letters define projects, 
+# and below is help with how to create them.
+# 
+# 
+# Keys and values
+# ---------------
+#
+# 
+This directory contains 
+# To make a new project, 
+#
+# 1. Copy this file to a new file with a name of your choice, except the 
+#    name must consist of all lower case letters. 
+#
+# 2. 
+# Title appears as large bold text in the main title bar,
+
+title = RNP Databases at Univ. Texas (San Antonio)
+
+# Keywords are invisible but go into the web-page, 
+
+keywords = RNP, Bioinformatics, SRP, tmRNP, free download
+
+# Datadirectory that also works as URL extension. For example if the
+# URL of an installation is http://genomics.dk:8001, and datadir is 
+# set to "myproject", then http://genomics.dk:8001/myproject will 
+# show the page.
+
+datadir = 
+
+# Datasets "owned" by the project. These are data for which download
+# and import routines must exist (see README). The lines may be 
+# duplicated, and should contain dataset ids; see available ids with
+# the command "list_datasets".
+
+datasets = 
+datasets = 
+
+# Also datasets, but "owned" by other projects. These lines may also
+# be duplicated. 
+
+datasets_other = 
+datasets_other = 
+
+# Navigation menus that defined the top navigation bar: the <menus>
+# section may be duplicated, and the label value will show. The labels
+# need not be unique, but the name values must be - they are used for
+# composing the URLs that are clicked on. The dbnames field, which 
+# may be duplicated, defines the datasets that will show in the sub-
+# navigation menu bar. 
+
+<menus> 
+    name = 
+    label = 
+    dbnames =    
+</menus>
+
+# Default settings. This is very sparse and may change. Should not 
+# be duplicated. It defines which viewer and 
+
+<defaults>
+    def_menu_1 = 
+    def_menu_2 = 
+    def_menu_3 = 
+    def_request = 
+    def_logo_image = 
+    def_logo_text = UTHSCSA
+    def_input = RNAs/Alignments/SRPDB/Installs/srprna
+    def_viewer = array_viewer
+    def_logo_link = 
+</defaults>
+
+# 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xParentNode'>
+
+<sources>
+  <src><file>xparentnode.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2005-2007 Olivier Spinelli</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>DOM</grp>
+</groups>
+
+<type>Function</type>
+
+<description><![CDATA[Returns 'ele' when n == 0, ele.parentNode when n == 1, ele.parentNode.parentNode when n == 2, etc.]]></description>
+
+<syntax>xParentNode( ele, n )</syntax>
+
+<parameters>
+  <par><name>ele</name><note><![CDATA[]]></note></par>
+  <par><name>n</name><note><![CDATA[]]></note></par>
+</parameters>
+
+<return><![CDATA[Returns the indicated parent node.]]></return>
+
+<dependencies>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/toys/</url><note><![CDATA[Index of all X demos.]]></note></demo>
+</demos>
+
+<tests>
+</tests>
+
+<comments>
+  <comment><date>9Oct06</date><author>mf</author><note><![CDATA[Thanks very much to Olivier!]]></note></comment>
+</comments>
+
+<revisions>
+  <rev><num>1</num><date>2005</date><author>mf</author><note><![CDATA[Initial release.]]></note></rev>
+</revisions>
+
+</x_symbol>

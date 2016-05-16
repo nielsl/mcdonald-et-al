@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xEach'>
+
+<sources>
+  <src><file>xeach.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Daniel Frechette</copyright>
+
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Iteration</grp>
+</groups>
+
+<type>Function</type>
+
+<description><![CDATA[Access each element of a collection sequentially (by its numeric index) and do something with it.]]></description>
+
+<syntax>xEach(c, f, s)</syntax>
+
+<parameters>
+  <par><name>c</name><note><![CDATA[Array/Obj - A collection of elements]]></note></par>
+  <par><name>f</name><note><![CDATA[Func      - Function to execute for each element. Arguments: item, index, number of items]]></note></par>
+  <par><name>s</name><note><![CDATA[Start index. A number between 0 and collection size - 1. (optional)]]></note></par>
+</parameters>
+
+<return><![CDATA[Nothing]]></return>
+
+<dependencies>
+  <dep></dep>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/toys/</url><note><![CDATA[Index of all X demos.]]></note></demo>
+</demos>
+
+<revisions>
+  <rev><num>1</num><date>8Sep2006</date><author>df</author><note><![CDATA[Initial release.]]></note></rev>
+</revisions>
+
+</x_symbol>

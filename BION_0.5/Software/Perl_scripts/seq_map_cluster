@@ -1,0 +1,82 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Consensus;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, November 2011.
+
+Clusters a given table of consensus matches while summing the values.
+The output is a table with the same columns, but with fewer rows. 
+
+    --recipe   Recipe file (none)
+
+    --method   Consensus method, "mfreq" or "ambig" (ambig)
+    --minlen   Minimum length of consenses (20)
+   --minseqs   Minimum total read count (1)
+    --minsim   Minimum percent similarity with seeds (95)
+    --minres   Ignore columns with lower residue (non-gap) percentage (5)
+  --ambcover   Minimum percent ambiguity code residue coverage (90)
+
+    --otable   Output table file (none)
+   --osuffix   Output table file suffix (.clu)
+    --ofasta   Output consensus sequences in fasta format (none)
+    --ostats   Output statistics file (none)
+
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+     --clean   Removes temporary files (on)
+
+where --ambcover only applies to the ambig method. Usage examples,
+
+1\) $prog_name match.table --minsim 100 --otable match.table.100
+2\) $prog_name match.table --method mfreq --otable match.table.95
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "itable=s" => undef,
+        "method=s" => undef,
+        "minlen=i" => undef,
+        "minseqs=i" => undef,
+        "minsim=f" => undef,
+        "minres=f" => undef,
+        "ambcover=f" => undef,
+        "otable=s" => undef,
+        "osuffix=s" => undef,
+        "ofasta:s" => undef,
+        "ostats=s" => undef,
+        "sort!" => 1,
+        "clobber!" => 0,
+        "silent!" => 0,
+        "clean!" => 1,
+    });
+
+$args->itable( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Consensus::cluster_table( $args );
+
+__END__

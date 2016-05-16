@@ -1,0 +1,79 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Help;
+use Seq::Demul;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2013.
+
+Reads two paired-end sequence files and writes two new ones 
+where the sequences have identical barcodes is present in both
+directions. Command line options,
+
+   --recipe   Recipe file (none)
+
+  --barfile   Input table file with barcodes (undef)
+   --maxbeg   Max. starting position (3)
+   --mates1   Named forward mates output file (none)
+   --mates2   Named reverse mates output file (none)
+   --outdir   Output directory (current directory)
+   --outpre   Output file name prefix (taken from file names)
+   --suffix   Output file suffix (.paired)
+    --stats   Output statistics file (none)
+
+   --append   Appends to output files (off)
+  --clobber   Overwrites output files (off)
+   --silent   Prints no progress messages (off)
+
+Example,
+
+1\) $prog_name seqs1.fq seqs2.fq --barfile seqs.bars
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "seqs1=s" => undef,
+        "seqs2=s" => undef,
+        "barfile=s" => undef,
+        "maxbeg=i" => undef,
+        "mates1=s" => undef,
+        "mates2=s" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "suffix=s" => undef,
+        "stats=s" => undef,
+        "append!" => 0,
+        "clobber!" => 0,
+	"silent!" => 0,
+    });
+
+$args->seqs1( $ARGV[0] );
+$args->seqs2( $ARGV[1] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Demul::filter_mates( $args );
+
+__END__

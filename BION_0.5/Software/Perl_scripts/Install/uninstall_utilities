@@ -1,0 +1,112 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Un-installs the utility programs named on the command line.
+#
+# Author: Niels Larsen, May 2009.
+# 
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Registry::Get;
+use Install::Software;
+
+my ( $prog_name, $signature, $usage, $args, $count, $msg );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2009.
+
+Un-installs utility programs named on the command line. Switches:
+
+     --all   Uninstalls all packages (off)
+  --source   Removes source packages (off).
+   --force   Uninstalls even if not installed (off)
+ --verbose   Prints more screen messages (off)
+  --silent   Prints no screen messages (off)
+    --list   List all available installs (off)
+
+Examples: 
+
+1\) $prog_name --list
+2\) $prog_name --list --all
+3\) $prog_name make tree --force
+4\) $prog_name --all 
+
+Example 1 prints a table of the installed packages. Example 2
+prints the same table, but with all packages, installed or not. 
+Example 3 uninstalls two named packages, even if they are not 
+installed, according to the registry; this can be used to remove
+traces of failed installs. Example 4 uninstalls all installed 
+packages. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "all!" => 0,
+        "force!" => 0,
+        "source!" => 0,
+        "verbose!" => 1,
+        "silent!" => 0,
+        "list!" => 0,
+    });
+
+if ( not @ARGV and not $args->all and not $args->list ) 
+{
+    $msg = "Please specify which package(s) to uninstall";
+    &echo_messages( [["ERROR", $msg ]] );
+    exit 0;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$count = &Install::Software::uninstall_utilities(
+    \@ARGV,
+    {
+        "all" => $args->all,
+        "force" => $args->force,
+        "source" => $args->source,
+        "verbose" => $args->verbose,
+        "silent" => $args->silent,
+        "list" => $args->list,
+        "print_header" => 1,
+    });
+
+if ( $count ) {
+    &echo( "\n" ) if not $args->silent;
+}
+else
+{
+    if ( $args->all ) {
+        $msg = qq (No utility packages are installed);
+    } elsif ( scalar @ARGV > 1 ) {
+        $msg = qq (None of the given packages are installed);
+    } else {
+        $msg = qq (The @ARGV package is not installed);
+    }        
+
+    &echo_messages( 
+        [["OK", $msg ]],
+        { "linewid" => 60, "linech" => "-" },
+        );
+}
+
+__END__

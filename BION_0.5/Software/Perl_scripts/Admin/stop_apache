@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Common::Admin;
+
+my ( $prog_name, $usage, $signature );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, August 2008.
+
+Stops the apache server. Does not erase the configuration file, which 
+can be manually edited and the effect tried with 'apachectl restart'.
+To run it, give the script a bogus argument, it will be ignored. Like
+so for example,
+
+$prog_name doit
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>> STOP <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" );
+
+&Common::Admin::stop_apache( {"headers" => 1} );
+
+&echo( "\n" );

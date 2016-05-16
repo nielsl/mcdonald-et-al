@@ -1,0 +1,28 @@
+#!/usr/bin/env perl
+
+#  -*- perl -*-
+
+# This script calls no-dependency functions that generate basic system 
+# capacity information. 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Cluster_slave;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> PROGRAM BEGINS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+my ( $bin_dir, @cols ); 
+
+# This is the path to the portable "di" utility which returns disk 
+# mounts information,
+
+$bin_dir = (shift @ARGV) || ".";
+
+@cols = &Common::Cluster_slave::list_capacity( $bin_dir );
+
+print join "\t", @cols;
+print "\n";
+
+__END__

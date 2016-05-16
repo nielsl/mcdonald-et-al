@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Sims;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2013.
+
+Converts an oligo-similarity table from simrank to one with sequence 
+similarities. All query sequences are aligned against all matching
+sequences and new similarities calculated from the alignments. It is
+a rather slow routine. 
+
+    --recipe   Recipe file (none)
+
+     --isims   Input similarity file
+     --iseqs   Input sequence file 
+    --dbseqs   Reference sequence file path (none)
+     --osims   Output similarity file
+     --stats   Output statistics file (--outdir/--outpre.stats)
+   
+    --topsim   Percent best matches to save (1.0)
+   --clobber   Overwrites existing output (off)
+    --silent   Prints no progress messages (off)
+      --help   Prints help
+
+Usage examples,
+
+1\) $prog_name *.clean
+
+Author: $signature
+);
+
+#   --forward   Matches sequences in the forward direction (on)
+#   --reverse   Matches sequences in the reverse direction (off)
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "isims=s" => undef,
+        "iseqs=s" => undef,
+        "dbseqs=s" => undef,
+        "osims=s" => undef,
+        "topsim=f" => undef,
+        "stats=s" => undef,
+        "help:s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help ) 
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Sims::seq_sims( $args );
+}
+
+__END__

@@ -1,0 +1,5 @@
+
+This directory contains modules with functions to extract and manipulate
+the register information in BION/Registry. There is a small description
+section near the top of each module.
+

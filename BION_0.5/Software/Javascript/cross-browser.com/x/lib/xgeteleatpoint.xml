@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xGetEleAtPoint'>
+
+<sources>
+  <src><sym>xGetEleAtPoint</sym><file>xgeteleatpoint.js</file><note><![CDATA[The default implementation.]]></note></src>
+</sources>
+
+<copyright>Copyright 2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Position</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Returns a reference to the element with the highest z-index which contains the given absolute point.]]></description>
+
+<syntax>function xGetEleAtPoint(x, y)</syntax>
+
+<parameters>
+  <par>
+    <name>x</name><note><![CDATA[integer]]></note>
+  </par>
+  <par>
+    <name>y</name><note><![CDATA[integer]]></note>
+  </par>
+</parameters>
+
+<return>
+  <note><![CDATA[Returns an element reference, or null if no element is at the given point.]]></note>
+</return>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/toys/</url><note><![CDATA[Index of all X demos.]]></note>
+  </demo>
+</demos>
+
+<revisions>
+  <rev>
+    <num>2</num><date>5Jun07</date><author>mf</author>
+    <note><![CDATA[Removed use of xZIndex.]]></note>
+  </rev>
+  <rev>
+    <num>1</num><date>21Jan07</date><author>mf</author>
+    <note><![CDATA[Initial release.]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

@@ -1,0 +1,67 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Recipe::Stats;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $file, $msg );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2011.
+
+Writes self-contained HTML from statistics files. Many input files
+may be given, and output will be named as the inputs but with ".html"
+appended. Command line switches,
+
+    --header   Includes header bar (on)
+    --footer   Includes footer bar (on)
+     --level   The number of directory parents in linke (0)
+     --lhead   Text to appear in left part of header (none)
+     --rhead   Text to appear in right part of header (none)
+
+   --clobber   Overwrites previous output (off)
+    --silent   Prints no progress messages (off)
+   --verbose   Prints more progress messages (off)
+
+Example,
+
+1\) $prog_name recipe.stats  --clobber --silent
+2\) $prog_name seqdir*/*.stats --author "Firstname Lastname"
+
+Example 1 creates the file "recipe.stats.html" whether it exists or 
+not, and with no console output. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "header!" => 1,
+        "footer!" => 1,
+        "level=i" => undef,
+        "lhead=s" => undef,
+        "rhead=s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Recipe::Stats::htmlify_stats( \@ARGV, $args );
+
+__END__

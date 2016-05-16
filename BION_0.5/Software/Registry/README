@@ -1,0 +1,13 @@
+
+These are files that describe software. The files
+
+Methods.pm
+Viewers.pm
+Params.pm
+
+describe methods, viewers and their parameters. The file
+
+Commands.pm
+
+is a list of available user commands. 
+

@@ -1,0 +1,114 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Config;
+use Common::Messages;
+use Common::Cluster;
+
+my ( $prog_name, $usage, $signature, @msgs, $acctfile, $acctpath, 
+     $args, $count, $topath );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$acctpath = &Common::Cluster::accts_file;
+$acctfile = File::Basename::basename( $acctpath );
+
+$usage = qq (
+Program $prog_name, January 2009.
+
+Copies files or directories to all slave machines. Usage:
+
+$prog_name from-path(s) to-path [ arguments ]
+
+One or more from-paths specify the source files and a single target path 
+the destination. From-paths may be given as patterns in shell syntax, as
+for example using asterisks as wildcards, whereas the to-path may not. If 
+the destination (to-path) is an existing directory, then the files will 
+be put there. If not, and there are multiple source files or the to-path 
+ends with a "/",  then a directory will be created; otherwise the to-path
+will be a regular file. Arguments:
+
+    [ --split key ]   Split by size or content - OPTIONAL (off)
+   [ --format key ]   Format of file(s) to be split - OPTIONAL (none)
+    [ --recursive ]   Includes all sub-directories - OPTIONAL (off)
+       [ --verify ]   Verify correct file sizes - OPTIONAL (off)
+       [ --delete ]   Deletes local temporary file tree - OPTIONAL (on)
+
+  [ --slaves name ]   Slave configuration file - OPTIONAL ($acctfile)
+  [ --filter expr ]   Slave name filter expression - OPTIONAL (none)
+ [ --timeout secs ]   Connection timeouts - OPTIONAL (5 seconds)
+       [ --silent ]   Suppress progress messages - OPTIONAL (on)
+
+Usage examples:
+
+1\) $prog_name ../*.pat         Datasets/SRP/Patterns
+2\) $prog_name ~/GenBank/*.gb   Datasets/GenBank --split size 
+3\) $prog_name SSU/seqs.fasta   Datasets/SSU/seqs.fasta --split content \ 
+       --format fasta 
+
+Example 1 copies all text files in the parent directory (relative to where 
+this script is invoked) to the existing "Datasets/SRP/Patterns" directories. 
+Example 2 bundles all genbank files in a local Genbank directory in equally 
+sized groups and copies each to a remote "Datasets/GenBank" data directory 
+created on the fly. Example 3 splits a single fasta file by content and 
+copies each part to each slave machine.
+
+$signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "split=s" => undef,
+        "format=s" => undef,
+        "recursive!" => 0,
+        "verify!" => 0,
+        "delete!" => 1,
+        "slaves=s" => $acctpath,
+        "filter=s" => undef,
+        "timeout=i" => undef,
+        "silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> PROCESS EACH NODE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+local $Common::Messages::silent = $args->silent;
+
+&echo_bold( qq (\nDistributing files:\n) );
+
+@msgs = ();
+
+$topath = pop @ARGV;
+
+&Common::Cluster::put_files(
+    undef,
+    {
+        "from" => [ @ARGV ],
+        "to" => $topath,
+        "split" => $args->split,
+        "format" => $args->format,
+        "recursive" => $args->recursive,
+        "verify" => $args->verify,
+        "delete" => $args->delete,
+        "acctfile" => $args->slaves,
+        "acctexpr" => $args->filter,
+        "timeout" => $args->timeout,
+        "silent" => $args->silent,
+    }, \@msgs );
+
+if ( @msgs ) {
+    &echo_messages( \@msgs );
+    exit;
+}
+
+&echo_bold( qq (done\n\n) );
+
+__END__

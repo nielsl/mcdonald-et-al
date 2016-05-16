@@ -1,0 +1,87 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Clean;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, December 2011.
+
+Filters and extracts sub-sequences by pattern(s). The patterns are 
+very flexible, they are good for primer matching, for example. Input
+is a sequence file or input stream and output is new sequence file or
+stream in the same format. There may be fewer entries in the output 
+and it may include just sub-sequences. See also the simpler and less 
+flexible seq_filter_seq, which can also filter by pattern but not 
+extract. Command line arguments are (defaults in parantheses),
+
+   --patfile   Pattern configuration file
+    --seqfmt   Sequence format (detected unless piped input)
+   --seqtype   Sequence type (nuc)
+     --oseqs   Output sequence file (STDOUT)
+
+    --dryrun   Prints the number of matches instead of output (off)
+   --clobber   Overwrites previous output (off)
+    --append   Appends to existing files (off)
+    --silent   Prints no progress messages (off)
+ 
+      --help   Prints help with configuration (off)
+
+Usage examples,
+
+1\) $prog_name reads.fastq --patfile pat.config
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "patfile=s" => undef,
+        "iseqs=s" => undef,
+        "seqfmt=s" => undef,
+        "seqtype=s" => undef,
+        "oseqs=s" => undef,
+        "dryrun!" => 0,
+        "clobber!" => 0,
+        "append!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+        "help:s" => undef,
+    });
+
+$args->iseqs( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    
+    &Seq::Clean::extract_pats( $args );
+}
+    
+
+__END__

@@ -1,0 +1,68 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Storage;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $types );
+
+$types = join ", ", ( sort keys %{ &Seq::Storage::index_types_all() }, "all" );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, January 2011.
+
+Deletes indices created with seq_index. This script takes sequence files
+as input, but deletes only the corresponding indices where they exist. 
+Command line arguments are (defaults in parantheses),
+
+    --types   Deletes indices of the given type or types (undef)
+   --suffix   Index suffix (undef)
+   --silent   Prints no progress messages (off)
+
+Supported index types are,
+
+$types
+
+Examples,
+
+1\) $prog_name *.fa --suffix .proj3
+2\) $prog_name *.fa --types all
+3\) $prog_name seqdir*/*.fq --types simrank,blastp
+
+Example 1 deletes a set of index files with a given suffix for a set of 
+fasta files. Example 2 deletes all types of indices. Example 3 removes 
+only simrank and protein blast indices for a set of fastq files.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "paths=s" => undef,
+        "types=s" => undef,
+        "suffix=s" => undef,
+        "silent!" => 0,
+    });
+
+$args->paths( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Storage::delete_indices( $args );
+
+__END__

@@ -1,0 +1,76 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Expr::Profile;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, March 2010.
+
+Creates an expression profile for each of the given seq_classify table 
+outputs. A profile is a list of annotations with corresponding cluster 
+sizes. In essense, this is the classification output turned around, so 
+that annotation becomes the unique key. Single output files can be 
+named, for multiple files only a suffix can be given. Command line 
+arguments are (defaults in parantheses),
+
+   --otable   Output table file path (<stdout>)
+  --osuffix   Output suffix for multiple input files (.expr)
+    --stats   Statistics outputs (none)
+ --newstats   New statistics outputs, overwrites old (none)
+ --statconf   Statistics configuration file (undef)
+  --withids   Include ID's from classification in table (off)
+
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+  --clobber   Overwrite existing output files (off)
+
+Examples,
+
+$prog_name gris1.cla --ofile test.expr
+$prog_name gris*.cla --osuffix .test 
+$prog_name gris*.cla --withids
+
+Author: $signature
+);
+
+#     --help   Prints more explanation (off)
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+	"itables=s" => undef,
+	"otable=s" => undef,
+        "osuffix=s" => ".expr",
+        "stats:s" => undef,
+        "newstats:s" => undef,
+        "statconf=s" => undef,
+        "withids!" => 0,
+	"silent!" => 0,
+	"verbose!" => 1,
+	"clobber!" => 0,
+    });
+
+$args->itables( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Expr::Profile::create_profiles( $args );
+
+__END__

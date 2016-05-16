@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Ali::Storage;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2011.
+
+Deletes indices created with ali_index. This script takes alignment 
+files as input, but deletes only the corresponding indices where they 
+exist. Command line arguments are (defaults in parantheses),
+
+   --suffix   Index suffix (undef)
+   --silent   Prints no progress messages (off)
+
+Examples,
+
+1\) $prog_name *.fasta --suffix .proj3
+2\) $prog_name alidir*/*.stockholm 
+
+Example 1 deletes a set of index files with a given suffix for a set of 
+fasta files. Example 2 removes all indices for a set of stockholm files.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "paths=s" => undef,
+        "suffix=s" => undef,
+        "silent!" => 0,
+    });
+
+$args->paths( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Ali::Storage::delete_indices( $args );
+
+__END__

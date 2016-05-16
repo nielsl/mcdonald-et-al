@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+
+#  -*- perl -*-
+
+# This is a no-dependcy script that collects status information about jobs.
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use File::Basename;
+use Data::Dumper;
+
+use Common::Config;
+use Common::Cluster_slave;
+
+my ( $prog_name, $usage, $job, $all_fields, $dirpath, $fields, 
+     @fields, $field, @jobs );
+
+$all_fields = "jobid,status,program,outsize,time,cpu,pcpu,pmem,swap";
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+
+$usage = qq (
+Program $prog_name, February 2009.
+
+Prints information about one or more jobs. The first argument is a 
+path to the directory where the job files are. The second argument 
+is a comma-separated string of fields to be included in the output,
+and in that order. Allowed fields are:
+
+$all_fields
+
+Usage example:
+
+$prog_name dirpath jobid,status,time
+
+Author: Niels Larsen
+);
+
+$usage =~ s/\n/\n /g;
+print "$usage\n" and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+( $dirpath, $fields ) = @ARGV;
+
+$dirpath =~ s/\/$//;
+
+if ( not $fields ) {
+    $fields = $all_fields;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> LIST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@jobs = &Common::Cluster_slave::list_jobs( $dirpath, $fields );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PRINT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@fields = split ",", $fields;
+
+foreach $job ( @jobs )
+{
+    if ( defined $job->{ $fields[0] } ) {
+        print $job->{ $fields[0] };
+    } else {
+        print "-";
+    }
+    
+    foreach $field ( @fields[ 1...$#fields ] )
+    {
+        if ( defined $job->{ $field } ) {
+            print "\t". $job->{ $field };
+        } else {
+            print "\t-";
+        }
+    }
+    
+    print "\n";
+}
+
+__END__

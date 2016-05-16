@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xTimer'>
+
+<sources>
+  <src><file>xtimer.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2003-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Event</grp>
+</groups>
+<type>Object</type>
+
+<description><![CDATA[Register an object method to receive a timeout or interval event. The event listener will receive a reference to it's xTimerObj which has methods: start, stop, and reset; and properties: elapsed and data. xTimer is a global object created when x_timer.js is included. Multiple timers can be set.]]></description>
+
+<syntax>xTimer.set(sTmrType, obj, sMethod, uTime, data)</syntax>
+
+<parameters>
+  <par>
+    <name>sTmrType</name><note><![CDATA['timeout' or 'interval']]></note>
+  </par>
+  <par>
+    <name>obj</name><note><![CDATA[object to receive event]]></note>
+  </par>
+  <par>
+    <name>sMethod</name><note><![CDATA[string: name of one of obj's methods]]></note>
+  </par>
+  <par>
+    <name>uTime</name><note><![CDATA[time in ms]]></note>
+  </par>
+  <par>
+    <name>data</name><note><![CDATA[available to listener at event]]></note>
+  </par>
+</parameters>
+
+<return><![CDATA[xTimerObj object]]></return>
+
+<properties>
+  <prop>
+    <name>xTimerObj.data</name><note><![CDATA[A way to pass data to sMethod.]]></note>
+  </prop>
+  <prop>
+    <name>xTimerObj.elapsed</name><note><![CDATA[sMethod should consider this read-only.]]></note>
+  </prop>
+</properties>
+
+<methods>
+  <meth><name>xTimer.set()</name><note><![CDATA[See info above.]]></note></meth>
+  <meth><name>xTimer.tick(t)</name><note><![CDATA[Sets the timers' resolution. By default it is 25ms.]]></note></meth>
+  <meth><name>xTimerObj.start()</name><note><![CDATA[Continue after a stop.]]></note></meth>
+  <meth><name>xTimerObj.stop()</name><note><![CDATA[Pause timer.]]></note></meth>
+  <meth><name>xTimerObj.reset()</name><note><![CDATA[Reset parameters and restart timer.]]></note></meth>
+</methods>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/x/examples/popup.php</url>
+    <note><![CDATA[popup using xTimer]]></note>
+  </demo>
+</demos>
+
+<revisions>
+  <rev>
+    <num>3</num><date>8Nov06</date><author>mf</author>
+    <note><![CDATA[Added xTimer.tick() for setting the timing resolution. Changed default resolution to 25 (it was 250). Thanks for the great suggestion by Dmitry!]]></note>
+  </rev>
+  <rev>
+    <num>2</num><date>17May04</date><author>mf</author>
+    <note><![CDATA[removed unneccessary closures]]></note>
+  </rev>
+  <rev>
+    <num>1</num>
+    <date>31Mar04</date>
+    <author>mf</author>
+    <note><![CDATA[put in it's own file for use with XC]]></note>
+  </rev>
+</revisions>
+
+</x_symbol>

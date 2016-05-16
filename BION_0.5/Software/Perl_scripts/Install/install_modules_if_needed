@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+# -----------------------------------------------------------------------
+#
+# Installs all present perl modules that have not been installed.
+#
+# Author: Niels Larsen, March 2009.
+#
+# -----------------------------------------------------------------------
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Registry::Register;
+
+use Common::Config;
+use Common::Messages;
+
+my ( $args );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "apache_port=i" => undef,
+        "mysql_port=i" => undef,
+        "confirm!" => 1,
+        "all!" => 0,
+        "force!" => 0,
+        "verbose!" => 0,
+        "silent!" => 0,
+        "debug!" => 0,
+    });
+
+local $Common::Messages::silent;
+
+if ( $args->silent ) {
+    $Common::Messages::silent = 1;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( not Registry::Register->registered_syssoft("perl_modules") )
+{
+    &Common::Config::set_env_variables();
+
+    require Install::Software;
+
+    &Install::Software::install_perl_modules( undef,
+                                              {
+                                                  "existing_only" => 1,
+                                                  "print_header" => 1,
+                                              });
+
+    Registry::Register->register_syssoft("perl_modules");
+}

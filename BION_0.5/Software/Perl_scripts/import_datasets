@@ -1,0 +1,63 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Install::Data;
+use Install::Import;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, July 2012.
+
+A collection of hacks that creates dataset extracts by running 
+routines that are in no way general. Command line arguments,
+
+   --indir   Input directory
+  --outdir   Output directory 
+  --recipe   Recipe file (default)
+
+ --clobber   Overwrites existing output files (off)
+  --silent   Prints no progress messages (off)
+
+Dataset names can be "rdp", "silva", "green" with more to come.
+
+Usage example:
+
+$prog_name rdp --indir RDP/Installs --outdir RDP/Exports
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "dataset=s" => undef,
+        "indir=s" => undef,
+        "outdir=s" => undef,
+        "recipe=s" => undef,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+$args->dataset( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Install::Data::import_datasets( $args );
+
+__END__

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xName'>
+
+<sources>
+  <src><file>xname.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2001-2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+<groups>
+  <grp>Debug</grp>
+</groups>
+<type>Function</type>
+
+<description><![CDATA[Debugging utility.]]></description>
+
+<syntax>xName(e)</syntax>
+
+<parameters>
+  <par>
+    <name>e</name>
+    <note><![CDATA[]]></note>
+  </par>
+</parameters>
+
+<return>string</return>
+
+<demos>
+  <demo>
+    <url>http://cross-browser.com/toys/</url>
+    <note><![CDATA[Index of all X demos.]]></note>
+  </demo>
+</demos>
+
+</x_symbol>

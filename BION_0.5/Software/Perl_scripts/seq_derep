@@ -1,0 +1,119 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Storage;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $formats, $suffix,
+     @ifiles );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$formats = join ", ", @{ &Seq::Storage::index_info("derep_seq","formats") };
+$suffix = &Seq::Storage::index_info("derep_seq","suffixes")->[0];
+
+$usage = qq (
+Program $prog_name, February 2011.
+
+Uniqifies identical sequences and their qualities. The best quality is 
+kept for each position in the identical sequences. Input is one or more
+sequence files, with or without qualities. It can be used as a fast and 
+crude pre-clustering step that often greatly saves computer resources. 
+The de-replicated data and their counts and qualities are written to a 
+key/value storage. Sequence files can be generated with seq_derep_dump
+and the output options below. Command line arguments are (defaults in 
+parantheses),
+
+    --ndxadd   Index files to be added to (undef)
+    --ndxsuf   Index suffix ($suffix)
+
+    --outfmt   Output dump format (none)
+    --outids   With identical-ids written in header (off)
+    --outdir   Output directory (same as input)
+   --outfile   Output file, only for single input (none)
+    --outsuf   Output file suffix (period plus format name)
+     --stats   Statistics output files (none)
+  --newstats   New statistics output files, overwrites old (none)
+
+     --count   Count input sequences for exact numbers (on)
+   --clobber   Force creation of new indices (off)
+    --silent   Prints no progress messages (off)
+
+      --help   Prints various $prog_name help (off)
+
+Supported input formats: $formats
+Wrapped fasta sequence lines are not accepted, use seq_convert to 
+convert into single-line form.
+
+Examples,
+
+1\) $prog_name seqdir*/*.fq 
+2\) $prog_name seqdir*/*.fq --outsuf .proj5
+3\) $prog_name seqdir*/*.new.fa --ndxadd 'seqdir*/*.proj5' --outfmt fasta
+
+Example 1 creates one output per input file, named seqdir*/*.fq$suffix.
+Example 2 does the same, but the outputs are named seqdir*/*.fq.proj5. 
+Example 3 appends a new set of sequence files to existing sets of 
+de-replicated sequence indices. The index files must be given in quotes
+and there must be the same number of index and input files.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "help:s" => undef,
+        "ndxadd=s" => undef,
+        "ndxsuf=s" => undef,
+        "outfmt=s" => undef,
+        "outids!" => 0,
+        "outdir=s" => undef,
+        "outfile=s" => undef,
+        "outsuf=s" => undef,
+        "stats:s" => undef,
+        "newstats:s" => undef,
+        "count!" => 1,
+        "clobber!" => 0,
+        "silent!" => 0,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+
+    $args->add_field("ifiles");
+
+    if ( @ifiles = grep { -s $_ } @ARGV ) {
+        $args->ifiles( \@ifiles );
+    } else {
+        exit;
+    }
+    
+    $args->add_field("progtype");
+    $args->progtype("derep");
+    
+    &Seq::Storage::create_indices( $args );
+}
+
+__END__

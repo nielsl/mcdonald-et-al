@@ -1,0 +1,99 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Help;
+use Seq::Demul;
+
+my ( $prog_name, $signature, $usage, $args, $seqs, $out_formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, April 2012.
+
+Separates sequences by N barcodes and M primers, so that the result
+is N x M output files, as done by the Fluidigm technology. Outputs 
+from each primer is in separate directories each with one file per 
+barcode. Sequences can be given as single file or read from STDIN. 
+Construct outline, barcodes and primers are read from a single 
+config file. Command line arguments are, with defaults in 
+parantheses,
+
+   --recipe   Recipe file (none)
+   --seqfmt   Sequence format (detected unless piped input)
+  --confile   Input file with construct pattern
+  --barfile   Input table file with barcodes 
+  --prifile   Input table file with primers 
+   --outdir   Output directory (current directory)
+   --outpre   Output file name prefix (taken from file names)
+  --combine   Append reverse files to forward .F files (off)
+ --barnames   Output file names include barcodes (off)
+  --misfile   Create (input).NOMATCH file with non-matches (off)
+    --stats   Statistics output file ($prog_name.stats)
+
+   --dryrun   Prints counts without creating outputs (off)
+   --append   Appends to output files (off)
+  --clobber   Overwrites output files (off)
+   --silent   Prints no progress messages (off)
+
+     --help   Prints various $prog_name help (off)
+    
+Examples,
+
+1\) $prog_name seqs.fq --config fluid.conf --dry
+2\) cat *.fq | $prog_name --config fluid.conf --outdir=Results 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "recipe=s" => undef,
+        "seqfile=s" => undef,
+        "seqfmt=s" => undef,
+        "confile=s" => undef,
+        "barfile=s" => undef,
+        "prifile=s" => undef,
+        "misfile!" => undef,
+        "outdir=s" => undef,
+        "outpre=s" => undef,
+        "stats=s" => undef,
+        "combine!" => undef,
+        "barnames!" => undef,
+        "dryrun!" => 0,
+        "append!" => 0,
+        "clobber!" => 0,
+	"silent!" => 0,
+        "help:s" => undef,
+    });
+
+$args->seqfile( $ARGV[0] );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> GET SEQUENCES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( defined $args->help )
+{
+    print &Seq::Help::dispatch( $prog_name, $args->help );
+    exit;
+}
+else
+{
+    $args->delete_field( "help" );
+    &Seq::Demul::demul_fdm( $args );
+}
+
+__END__

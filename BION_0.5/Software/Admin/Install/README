@@ -1,0 +1,20 @@
+
+All files here have to do with installation. The two Perl modules
+
+Options.pm
+Packages.pm
+
+specify installation options and software packages available for 
+installation. There following files 
+
+registered_datasets             # Datasets
+
+registered_syssoft              # Main system software
+registered_soft_installs        # Software bundle options
+registered_analyses             # Analysis packages
+registered_perl_modules         # Perl modules
+registered_utilities            # Common utilities
+
+keep track of which data and software packages are installed.
+The install scripts use this information.
+

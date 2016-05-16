@@ -1,0 +1,101 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Common::Messages;
+use Common::Config;
+
+use Registry::Get;
+use Registry::Args;
+
+use GO::Download;
+use GO::Import;
+
+my ( $prog_name, $signature, $usage, $db, $cl_args, $args, $msgs );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, July 2007.
+
+Downloads and/or installs Gene Ontology. 
+
+   --download   [ D = on; activates the download part ]
+     --import   [ D = on; activates the import part ]
+   --readonly   [ D = off; messages, but no download ]
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+$cl_args = {
+    "headers" => 1,
+    "readonly" => 0,
+    "download" => 1,
+    "import" => 1,
+};
+
+if ( not GetOptions(
+         "headers!" => \$cl_args->{"headers"},
+         "readonly!" => \$cl_args->{"readonly"},
+         "download!" => \$cl_args->{"download"},
+         "import!" => \$cl_args->{"import"},
+     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>> DOWNLOAD RELEASE <<<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+$db = Registry::Get->dataset("funcs_go");
+
+&echo_bold( "Installing ". $db->label .":\n" ) if $cl_args->{"headers"};
+
+if ( $cl_args->{"download"} )
+{
+    &echo( "   Downloading ... " );
+
+    &GO::Download::download_go( $db, {
+        "src_dir" => $db->datapath_full ."/Downloads",
+    });
+
+    &echo_green( "done\n" );
+}
+ 
+if ( $cl_args->{"import"} )
+{
+    &echo( "   Importing ... " );
+
+    $args = Common::Obj->new({
+        "src_dir" => $db->datapath_full ."/Downloads",
+        "ins_dir" => $db->datapath_full ."/Installs",
+        "tab_dir" => $db->datapath_full ."/Database_tables",
+    });
+
+    &GO::Import::import_go( undef, $db, $args, $msgs );
+
+    &echo_green( "done\n" );
+}
+
+&echo_bold( "Done\n" ) if $cl_args->{"headers"};
+
+&echo( "\n" ) if $cl_args->{"headers"};
+
+# >>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<
+
+__END__

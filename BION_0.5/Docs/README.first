@@ -1,0 +1,55 @@
+
+This is a pre-release of the BION sequence analysis package. Its purpose 
+is to have people check for compile errors on various platforms, check that 
+the demo data run and the outputs look okay. 
+
+Requirements
+------------
+
+A unix or unix-like machine such as Mac's with at least 1 Gigabyte of RAM and 
+20 Gigabytes of free disk space, and with connection to the internet.
+
+Working C and C++ compilers must also be present. Installation of these vary 
+between systems, please ask the systems operator or look on the internet. On a
+Ubuntu Linux system, installing the 'build-essential' package should suffice.
+
+Operation is command-line for now, but software install is with one short 
+command and we have made it easy. See the main README after unpacking.
+
+Software download
+-----------------
+
+Copy the BION_soft.tar.gz file to a regular user account, somewhere. It is 
+good to create a separate account, but not required. Unpack the file with
+
+tar -xzf BION_soft.tar.gz
+
+This creates a BION directory, with a README file. Open or print this file 
+and follow instructions therein. 
+
+If there is a BION_code.tar.gz file also, then get that too, and unpack it 
+in the same place, the same way. It is a small "delta" file to the larger 
+one.
+
+Demo data download
+------------------
+
+Copy the BION_demo.tar.gz file to the same account as the software, but 
+outside of the BION directory. Unpack the tar file with 
+
+tar -xzf BION_demo.tar.gz
+
+This creates a BION_demo directory with only one dummy dataset in. Then cd
+into it and check the README file.
+
+Contact person
+--------------
+
+Niels Larsen
+Danish Genome Institute
+
+E-mail: niels@genomics.dk
+Skype: niels_larsen_denmark
+Mobile: +45-3091-5426 (GMT+1)
+Web: http://genomics.dk
+

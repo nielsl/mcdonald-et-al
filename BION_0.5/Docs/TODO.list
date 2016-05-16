@@ -1,0 +1,113 @@
+<div id="content">
+
+<p>
+Last revision: April 4, 2013.
+</p>
+<p>
+<h3>For sponsors</h3>
+<p>
+BION is a 100% open source package and it will remain that way (see
+<a href="BION.about.html">about</a>). We can implement any desired 
+feature, and do it efficiently. Users with money can thus get what they
+need and can think about the software should be doing, instead of just 
+asking what it can already do. We do custom recipes and can automate 
+any popular workflow, especially if there are open source tools for 
+the steps already. We work at reasonable rates, negotiate fixed prices
+and send no bill until things work as agreed. We will discuss features 
+with anyone without obligation and make a ballpark estimate. Sponsors
+can view this "development aid" as a kind of license fee, except all
+other users will benefit from new features as well. Contact information
+is <a href="BION.about.html">listed here</a>.
+</p>
+<p>
+Below are the improvements we have in mind so far. Be welcome to add 
+and/or prioritize. 
+</p>
+<h3>Functional improvements</h3>
+<ul>
+<li>
+More precise taxonomy mapping. Only similarity ratios are now used,
+yet there are certain sequence positions that are specific for certain
+sub-groups within larger groups. For example, it has been verified by
+<p>
+<a href="http://jcm.asm.org/content/50/6/1968.short">Scholz, Poulsen and Kilian, 2012</a>
+</p>
+that a C at a certain position will uniquely identify Streptococcus
+pneumoniae within the Streptococcus genus. We also know from previous
+work that preserved motifs ("signatures") are good markers at any 
+level. Taking advantage of this should greatly improve accuracy and  
+not hurt run-time too much. No package does this at present. 
+</li>
+<li>
+Proper handling of sequences that are more similar to each other
+than to anything in the database. Clusters of such sequences could be
+visible in the existing tables as taxonomic units with generated 
+names, in addition to the database taxonomic units with annotated 
+names. If the databases included all species and strains that would
+not be needed, but until then it is often interesting to see unknown
+species and how they vary across samples. Users should not need to 
+do anything, except maybe switch on a setting in the recipe, if 
+even that. Qiime and Mothur can do this, but with more work by the
+user. 
+</li>
+<li>
+Taxonomic map enhancements. Taxonomy maps should link to the
+sequences, so users can click and get the data for any taxonomic 
+group. They should show degrees of unique placement and strength of 
+similarities. Taxonomy maps should support sample groups. 
+</li>
+<li> 
+Include popular post-analysis tools, particular statistics. If
+something is missing, or proprietary-only, create it. Until then,
+write BIOM format, which can be imported into Qiime and other tools.
+</li>
+<li>
+Add top quality figures, histograms etc, using the 
+<a href="http://d3js.org">D3 javascript library</a>. Figures should 
+be dynamic and elegant, and act as web-presentations yet be printable
+directly publishable. State-of-the-art is certainly not hard to 
+improve. 
+</li>
+<li>
+Embed method description next to the results, so readers knows how
+all results were made. They should have text for articles and only
+need support if there is data trouble.
+</li>
+</ul>
+
+<h3>Mechanical improvements</h3>
+<ul>
+<li>
+Job queue. Be table to submit many jobs and follow progress.
+</li>
+<li>
+Notifications. E-mail/sms notifications of job completion and
+errors. The phone should ring at home if something goes wrong.
+</li>
+<li>
+Client-pull software updates. Users should be able to list what 
+new software there is, and the caveats, and then upgrade in one 
+simple command. 
+</li>
+<li>
+Documentation. Online and print from same source. Quick sheets,
+template recipes and how-to's.
+</li>
+<li>
+Control interface. First, log onto command line through the web browser
+with the <a href="http://www.liftoffsoftware.com">Gate one</a> package.
+Later, perhaps a web-control interface.
+<li>
+Publication and public home page for the software and its data.
+</li>
+</ul>
+
+<h3>Obvious future directions</h3>
+<ul>
+<li>Expand to other molecules.</li>
+<li>Support whole transcriptomes.</li>
+<li>Motif based dna diagnostics.</li>
+<li>Support genomic shutgun fragments.</li>
+</ul>
+
+</div>

@@ -1,0 +1,53 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use List::Util;
+
+use Common::Config;
+use Common::Messages;
+
+my ( @lines, $msg, $basedir, $linewid );
+
+# Create message,
+
+$basedir = $ENV{'BION_HOME'};
+$basedir =~ s|^$ENV{"HOME"}|~|;
+
+$msg = qq (Set Environment
+
+There are two ways,
+
+1\) Run the set_env file in the $basedir directory (in
+   bash this is done with ". set_env" without quotes, in
+   csh and tsch it is "eval '`cat set_env`'"). 
+
+2\) Run set_env file from the login file, but now with an
+   argument. In Bash, add this line to ~/.bashrc,
+   source $basedir/set_env $basedir
+   and in csh/tcsh,
+   ???
+   Then environment variables are set automatically when 
+   new sessions are started. 
+
+With variables set, the "list_commands" command shows 
+available commands, of different types. 
+
+To unset environment variables, run unset_env". This resets 
+the environment to what it was before set_env was run.
+);
+
+@lines = map { [ "Next", $_ ] } split "\n", $msg;
+$linewid = &List::Util::max( map { length $_->[1] } @lines ) + 8;
+
+&echo_messages(
+    \@lines,
+    { "linewid" => $linewid, "linech" => "-" },
+    );
+
+&echo( "\n" );
+
+__END__

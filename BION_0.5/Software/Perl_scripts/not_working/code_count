@@ -1,0 +1,107 @@
+#!/usr/bin/env perl     
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use English;
+
+use File::Find;
+use File::Basename;
+use Data::Dumper;
+
+use Common::Config;
+use Common::Tables;
+use Common::Names;
+use Common::Messages;
+
+my ( $prog_name, $usage, @dirs, $output, $signature );
+our ( $expr, @matches, $Tot_lines );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2006.
+
+Counts the number of lines in all Perl scripts and modules.
+
+DOESNT QUITE WORK
+
+Author: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> SEARCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$expr = quotemeta $ARGV[0];
+
+@dirs = &Common::Config::get_code_dirs();
+
+$Tot_lines = 0;
+
+&File::Find::find( \&for_each_file, @dirs );
+
+if ( @matches )
+{
+    $output = &Common::Tables::render_ascii( \@matches );
+    &echo( "$output\n" );
+}
+
+&echo( "Total lines: $Tot_lines\n\n" );
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<<
+
+sub for_each_file
+{
+    my ( $name, $path, $line_num, $line, $sw_dir, $sw_dir_q, 
+         @l_dir, $l_path, $col1, $col2, @counts );
+
+    $name = $_;
+    $path = $File::Find::name;
+    
+    return if -l $path or not -f $path;
+
+    foreach $sw_dir ( @dirs )
+    {
+        $sw_dir_q = quotemeta $sw_dir;
+
+        if ( $path =~ /^$sw_dir_q/ )
+        {
+            @l_dir = split "/", $POSTMATCH;
+            shift @l_dir; pop @l_dir;
+
+            if ( @l_dir ) {
+                $l_path = ( join "/", @l_dir ) . "/$name";
+            } else {
+                $l_path = "$name";
+            }
+
+            last;
+        }
+    }
+
+    $col1 = { 
+        "value" => "$l_path: ",
+        "align" => "right",
+        "color" => "bold",
+    };
+
+    $line_num = ( split " ", `wc $path` )[0];
+
+    $Tot_lines += $line_num;
+    
+    $col2 = { 
+        "value" => $line_num,
+        "align" => "left",
+    };
+            
+    push @matches, [ $col1, $col2 ];
+}
+
+__END__

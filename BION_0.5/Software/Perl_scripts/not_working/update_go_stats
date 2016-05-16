@@ -1,0 +1,95 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use GO::Stats;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, October 2003.
+
+This program builds a database of statistics that can be 
+projected onto the Gene Ontology (GO) display. The --go 
+option changes the skeleton statistics and should only be
+givenwhen a new GO version is loaded. The command line 
+options are,
+
+       --go   [ Creates new GO counts ]
+    --genes   [ Creates new gene product counts ]
+     --orgs   [ Creates new genes organism counts ]
+      --all   [ All of the above ]
+
+ --readonly   [ On; extracts, with messages, no load ]
+
+You may use the --readonly as a "test-run" to see if it 
+is safe to start the real update of the databases. The 
+--noreadonly option loads the data into the database.
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_headers = 1;
+my $cl_readonly = 1;
+my $cl_all = 0;
+my $cl_go = 0;
+my $cl_genes = 0;
+my $cl_orgs = 0;
+
+if ( not &GetOptions (
+                      "headers!" => \$cl_headers,
+                      "readonly!" => \$cl_readonly,
+                      "all!" => \$cl_all,
+                      "go!" => \$cl_go,
+                      "genes!" => \$cl_genes,
+                      "orgs!" => \$cl_orgs,
+                      ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>> BUILD STATISTICS <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Update GO Statistics (readonly):\n" ) if $cl_headers;
+} else {
+    &echo_bold( "Update GO Statistics:\n" ) if $cl_headers;
+}
+
+&GO::Stats::update(
+                          { 
+                              "all" => $cl_all,
+                              "go" => $cl_go,
+                              "genes" => $cl_genes,
+                              "orgs" => $cl_orgs,
+                          },
+                          $cl_readonly,
+                          );
+
+&echo_bold( "Finished\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

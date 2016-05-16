@@ -1,0 +1,102 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Convert;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $formats );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$formats = join ", ", sort keys %{ &Seq::Storage::format_fields("valid") };
+
+$usage = qq (
+Program $prog_name, September 2009.
+
+Converts one or more sequence files to another format, while doing 
+complement, T to U conversion and other simple transforms. Input file
+format(s) are auto-detected and known formats are SFF, FASTA, FASTQ 
+and TABLE so far. Not all formats are inter-convertible of course. 
+Command line arguments are (defaults in parantheses),
+
+Input:
+   --readbuf   Number of sequences read before writes (1000)
+   --hdrinfo   Put format-incompatible fields in header/comments (off)
+    --noinfo   Save no info from input (off)
+
+Output:
+   --iformat   Input format (auto detected)
+   --oformat   Output format (fasta)
+   --osuffix   Output suffix ('.fasta')
+      --odir   Output directory for multiple files (current)
+     --ofile   Output file name for single file (input file + suffix)
+   --clobber   Overwrites existing output (off)
+   --replace   Replace original input files (off)
+
+Switches:
+     --degap   Remove sequence gaps (off)
+     --dedup   Ignore duplicate ids (off)
+     --upper   Converts sequence to upper case (off)
+     --lower   Converts sequence to lower case (off)
+      --comp   Complements DNA/RNA sequence and/or qualities (off)
+       --t2u   Substitute all t's to u's (off)
+       --u2t   Substitute all u's to t's (off)
+    --numids   Use integer ids instead of original (off)
+   --qualsub   Do quality based substitution. The value should be a 
+               string like this example "N,0,95,Illumina_1.3", which
+               says "substitute bases with N whose quality percentages
+               are between 0 and 95, in Illumina_1.3 encoding".
+    --silent   Prints no progress messages (off)
+
+To avoid name conflict when converting multi-line fasta to single-line,
+use the --osuffix argument. The --clobber argument will overwrite existing
+output, also when input and output file names are identical.
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "ifiles=s" => undef,
+        "iformat=s" => undef,
+        "oformat=s" => undef,
+        "osuffix=s" => undef,
+        "odir=s" => undef,
+        "ofile=s" => undef,
+        "readbuf=i" => undef,
+        "hdrinfo!" => 0,
+        "noinfo!" => 0,
+        "clobber!" => 0,
+        "replace!" => 0,
+        "numids!" => 0,
+        "degap!" => 0,
+        "dedup!" => 0,
+        "upper!" => 0,
+        "lower!" => 0,
+        "comp!" => 0,
+        "t2u!" => 0,
+        "u2t!" => 0,
+        "qualsub=s" => undef,
+        "silent!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+&Seq::Convert::convert_seqs( $args );
+
+__END__

@@ -1,0 +1,98 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Seq::Classify;
+use Seq::Help;
+
+my ( $prog_name, $signature, $usage, $args, $msgs );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, February 2010.
+
+Classifies sequences against reference datasets and creates a table with 
+scored hits. The input can be one or more fasta files or a stream from STDIN.
+Due to the many possible datasets, programs and settings, the classification
+is configured by given configuration files (see --help config for an example).
+Data sets are searched progressively: only non-matching query sequences 
+are checked against the next set, and so on. The output table contains 
+most likely molecule type, scores, organism hits etc. Command line 
+arguments are (defaults in parentheses),
+
+   --config   Configuration file with datasets and program settings
+              (see --help config for an example)
+
+    --ofile   Output table file path for single input file (<stdout>)
+  --osuffix   Output suffix for multiple input files (.cla)
+    --stats   Statistics outputs (none)
+ --newstats   New statistics outputs, overwrites old (none)
+
+   --minsim   Minimum overall percent similarity required (90)
+   --maxrat   Maximum ratio between best p-value and others (1000)
+   --maxout   Maximum matches listed per query (10)
+
+   --silent   Prints no progress messages (off)
+  --verbose   Prints more progress messages (off)
+  --clobber   Overwrites output files (off)
+
+     --help   Prints further usage details and exits (off)
+
+There are defaults for all but input and dataset type. Examples,
+
+1\) $prog_name 16s.fasta --config ssu.config --ofile 16s.cla
+2\) cat ncrna.fa | $prog_name --config ncrna --minsim 80 --silent
+
+$prog_name --help
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+	"ifiles=s" => undef,
+        "config=s" => undef,
+	"ofile=s" => undef,
+        "osuffix=s" => ".cla",
+        "stats:s" => undef,
+        "newstats:s" => undef,
+	"minsim=i" => undef,
+	"maxrat=i" => undef,
+	"maxout=i" => undef,
+	"silent!" => 0,
+	"verbose!" => 0,
+	"clobber!" => 0,
+        "help!" => 0,
+    });
+
+$args->ifiles( \@ARGV );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> CLASSIFY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if ( $args->help )
+{
+    print &Seq::Help::seq_classify_intro();
+    exit;
+}
+else
+{
+    $args->delete_field("help");
+    &Seq::Classify::classify( $args );
+}
+
+__END__
+

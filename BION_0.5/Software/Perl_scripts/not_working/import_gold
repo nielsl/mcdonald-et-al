@@ -1,0 +1,72 @@
+#!/usr/bin/env perl
+
+# -*- perl -*- 
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use GOLD::Import;
+use Common::Messages;
+use Common::Config;
+
+my ( $prog_name, $signature, $usage );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+# >>>>>>>>>>>>>>>>>>>>>>>> PRINT USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$usage = qq (
+Program $prog_name, August 2003.
+
+This program builds a database from the GOLD source file 
+provided from Nikos Kyrpides. Command line options are,
+
+   --readonly   [ D = on; parsing, no database update ]
+ --noreadonly   [ D = off; starts the database update ]
+     --errors   [ D = off; display errors if any ]
+
+Authors: $signature
+
+);
+
+print $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<
+
+# Defaults, 
+
+my $cl_readonly = 1;
+my $cl_headers = 1;
+my $cl_errors = 0;
+
+if ( not GetOptions(
+                    "readonly!" => \$cl_readonly,
+                    "headers!" => \$cl_headers,
+                    "errors!" => \$cl_errors,
+                    ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>> IMPORT GOLD DATA <<<<<<<<<<<<<<<<<<<<<<<
+
+&echo( "\n" ) if $cl_headers;
+
+if ( $cl_readonly ) {
+    &echo_bold( "Importing GOLD (readonly) : \n" ) if $cl_headers;
+} else {
+    &echo_bold( "Importing GOLD : \n" ) if $cl_headers;
+}
+
+&GOLD::Import::import_all( $cl_readonly, $cl_errors );
+
+&echo_bold( "Finished Import\n" ) if $cl_headers;
+
+&echo( "\n" ) if $cl_headers;
+
+# >>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<<
+
+__END__

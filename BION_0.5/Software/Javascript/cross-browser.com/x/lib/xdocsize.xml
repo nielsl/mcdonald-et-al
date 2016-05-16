@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xDocSize'>
+
+<sources>
+  <src><file>xdocsize.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2007 Michael Foster (Cross-Browser.com)</copyright>
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Size</grp>
+</groups>
+
+<type>Function</type>
+
+<description><![CDATA[Determines the (largest) width and height of the 'document'.]]></description>
+
+<syntax>xDocSize()</syntax>
+
+<return><![CDATA[Returns an object with two properties: 'w' and 'h'.]]></return>
+
+<dependencies>
+</dependencies>
+
+<demos>
+  <demo><url>http://cross-browser.com/x/examples/page_grey.html</url><note><![CDATA[xDocSize is used in this demo.]]></note></demo>
+</demos>
+
+<comments>
+</comments>
+
+<revisions>
+  <rev><num>1</num><date>5Jan07</date><author>mf</author><note><![CDATA[Initial release.]]></note></rev>
+</revisions>
+
+</x_symbol>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<x_symbol id='xGetStyleSheetFromLink'>
+
+<sources>
+  <src><file>xgetstylesheetfromlink.js</file><note><![CDATA[Default.]]></note></src>
+</sources>
+
+<copyright>Copyright 2006-2007 Ivan Pepelnjak (www.zaplana.net)</copyright>
+
+<license>Part of X, a Cross-Browser Javascript Library, Distributed under the terms of the GNU LGPL</license>
+
+<groups>
+  <grp>Style</grp>
+</groups>
+
+<type>Function</type>
+
+<description><![CDATA[Extracts style sheet object from the HTML LINK object (IE vs. DOM CSS level 2).]]></description>
+
+<syntax>xGetStyleSheetFromLink(cl)</syntax>
+
+<parameters>
+  <par><name>cl</name><note><![CDATA[HTML LINK object]]></note></par>
+</parameters>
+
+<return><![CDATA[style sheet object]]></return>
+
+<dependencies>
+</dependencies>
+
+<demos>
+</demos>
+
+<tests>
+</tests>
+
+<revisions>
+  <rev><num>1</num><date>12Aug06</date><author>ip</author><note><![CDATA[Initial release]]></note></rev>
+</revisions>
+
+</x_symbol>

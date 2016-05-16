@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Getopt::Long;
+
+use Ali::Patterns;
+
+use Common::Messages;
+use Common::Util;
+use Common::Config;
+
+my ( $prog_name, $cl_args, $cl_ali, $cl_outfile, $cl_mask,
+     $usage, $signature, $text );
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, May 2005.
+
+This program generates a pattern from a given RNA alignment.
+The pattern is a small piece of text which is understood by 
+the fine scan_for_matches program, written by Ross Overbeek.
+Basic command line arguments,
+
+     --ali file    ( Input alignment file )
+  --format name    ( D = "fasta"; alignment format )
+    --mask name    ( D = "SS_cons"; mask name )
+     --out file    ( D = screen; output file )
+    --cols string  ( D = all; alignment columns e.g. "100..140,160..200" )
+       --silent    ( D = off; screen messages )
+
+The program has seven adjustable settings, that affect how 
+the pattern is derived and how much strictness relaxation
+is built in,
+ 
+     --min_seqs    ( D = 90; pct sequences that must match )
+    --len_relax    ( D = 20; pct extra length allowance )
+    --mis_relax    ( D = 30; pct extra mismatch allowance )
+    --ins_relax    ( D = 15; pct extra insertion allowance )
+    --del_relax    ( D = 15; pct extra deletion allowance )
+ --use_pair_seq    ( D = off; restrict pairings by sequence )
+ --use_observed    ( D = off; let observed guide strictness )
+
+(A tutorial will be written after more testing)
+
+Author: $signature
+
+);
+
+print STDERR $usage and exit if not @ARGV;
+
+# >>>>>>>>>>>>>>>>>>>>> GET ARGUMENTS <<<<<<<<<<<<<<<<<<<<<<<<<
+
+$cl_args = 
+{
+    "format" => "fasta",
+    "min_seqs" => 90,
+    "len_relax" => 30,
+    "mis_relax" => 20,
+    "ins_relax" => 10,
+    "del_relax" => 10,
+    "max_relax" => 40,
+    "use_observed" => 0,
+    "silent" => 1,
+};
+
+if ( not &GetOptions (
+                      "ali=s" => \$cl_ali,
+                      "format=s" => \$cl_args->{"format"},
+                      "mask=s" => \$cl_mask,
+                      "out=s" => \$cl_outfile,
+                      "cols=s" => \$cl_args->{"cols"},
+
+                      "min_seqs" => \$cl_args->{"min_seqs"},
+                      "len_relax" => \$cl_args->{"len_relax"},
+                      "mis_relax" => \$cl_args->{"mis_relax"},
+                      "ins_relax" => \$cl_args->{"ins_relax"},
+                      "del_relax" => \$cl_args->{"del_relax"},
+                      "use_pair_seq" => \$cl_args->{"use_pair_seq"},
+                      "use_observed" => \$cl_args->{"use_observed"},                      
+
+                      "silent!" => \$cl_args->{"silent"},
+                     ) )
+{
+    exit;
+}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# &echo_bold( "Create Pattern : \n" ) if not $cl_args->{"silent"};
+
+# $cl_args = {};
+$text = &Ali::Patterns::create_pattern( $cl_ali, $cl_mask, $cl_args );
+
+if ( $cl_outfile ) {
+    &Common::File::write_file( $cl_outfile, "\n$text\n" );
+} else {
+    print "\n$text\n";
+} 
+
+# &echo_bold( "Done\n" ) if not $cl_args->{"silent"};
+
+# >>>>>>>>>>>>>>>>>>>> END OF MAIN PROGRAM <<<<<<<<<<<<<<<<<<<<
+
+__END__

@@ -1,0 +1,75 @@
+#!/usr/bin/env perl
+
+# -*- perl -*-
+
+use strict;
+use warnings FATAL => qw ( all );
+
+use Common::Config;
+use Common::Messages;
+
+use Expr::Stats;
+
+my ( $prog_name, $signature, $usage, $args, $msgs, $file, $msg );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>> USAGE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$prog_name = ( split "/", $0 )[-1];
+$signature = &Common::Config::get_signature();
+
+$usage = qq (
+Program $prog_name, June 2011.
+
+Writes table- and Google Charts HTML from YAML output written by the 
+expr_covar program. Command line arguments are,
+
+     --table   HTML tables output (off)
+     --chart   Google Charts output (on)
+     
+    --header   Includes header bar (on)
+    --footer   Includes header bar (on)
+
+     --title   Title to appear in header (none)
+    --author   Author to appear in header (none)
+
+   --clobber   Overwrites previous output (off)
+    --silent   Prints no progress messages (off)
+   --verbose   Prints more progress messages (off)
+
+Example,
+
+1\) $prog_name groups.yaml --chart --clobber --silent 
+2\) $prog_name groups.yaml --chart test.html --nofoot --nohead 
+
+Example 1 creates the file "groups.yaml.html" whether it exists or 
+not, and with no console output. Example 2 creates a named file with
+no header or footer. 
+
+Author: $signature
+);
+
+&Common::Messages::print_usage_and_exit( $usage );
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>> GET OPTIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args = &Common::Config::get_commandline(
+    {
+        "table:s" => undef,
+        "chart:s" => "",
+        "header!" => 1,
+        "footer!" => 1,
+        "title=s" => undef,
+        "author=s" => undef,
+        "clobber!" => undef,
+        "silent!" => undef,
+        "verbose!" => undef,
+    });
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MATCH <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$args->add_field("ifile");
+$args->ifile( $ARGV[0] );
+
+&Expr::Stats::render_groups( bless $args );
+
+__END__
