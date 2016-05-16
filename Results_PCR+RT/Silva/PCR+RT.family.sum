@@ -1,0 +1,303 @@
+# PCR	RT	Row max	Taxonomic groups
+# 1219	112013	113232	Input reads with no similarities
+# 172188	225023	397211	Input read totals
+# 702715	413200	1115915	Score sums for mapped reads
+0	6	6	d__Archaea
+0	6	6	d__Archaea; p__Euryarchaeota
+0	2	2	d__Archaea; p__Euryarchaeota; c__Methanobacteria
+0	2	2	d__Archaea; p__Euryarchaeota; c__Methanobacteria; o__Methanobacteriales
+0	2	2	d__Archaea; p__Euryarchaeota; c__Methanobacteria; o__Methanobacteriales; f__Methanobacteriaceae
+0	1	1	d__Archaea; p__Euryarchaeota; c__Methanomicrobia
+0	1	1	d__Archaea; p__Euryarchaeota; c__Methanomicrobia; o__Methanosarcinales
+0	1	1	d__Archaea; p__Euryarchaeota; c__Methanomicrobia; o__Methanosarcinales; f__Methanosarcinaceae
+0	3	3	d__Archaea; p__Euryarchaeota; c__Thermoplasmata
+0	3	3	d__Archaea; p__Euryarchaeota; c__Thermoplasmata; o__Thermoplasmatales
+0	3	3	d__Archaea; p__Euryarchaeota; c__Thermoplasmata; o__Thermoplasmatales; f__Family Incertae Sedis
+140543	82255	140543	d__Bacteria
+9395	2952	9395	d__Bacteria; p__Actinobacteria
+1	0	1	d__Bacteria; p__Actinobacteria; c__Acidimicrobiia
+1	0	1	d__Bacteria; p__Actinobacteria; c__Acidimicrobiia; o__Acidimicrobiales
+1	0	1	d__Bacteria; p__Actinobacteria; c__Acidimicrobiia; o__Acidimicrobiales; f__uncultured
+8889	2694	8889	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+3944	1186	3944	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales
+3944	1186	3944	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae
+0	1	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Bifidobacteriales
+0	1	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Bifidobacteriales; f__Bifidobacteriaceae
+2750	970	2750	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Corynebacteriales
+2749	968	2749	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Corynebacteriales; f__Corynebacteriaceae
+0	1	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Corynebacteriales; f__Mycobacteriaceae
+1	0	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Corynebacteriales; f__Nocardiaceae
+0	1	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Corynebacteriales; f__uncultured
+0	8	8	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Kineosporiales
+0	8	8	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Kineosporiales; f__Kineosporiaceae
+1881	374	1881	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales
+1	0	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__Beutenbergiaceae
+4	4	4	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__Cellulomonadaceae
+2	0	2	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__Dermacoccaceae
+7	0	7	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__Intrasporangiaceae
+1859	368	1859	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__Microbacteriaceae
+6	2	6	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__Micrococcaceae
+2	0	2	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales; f__uncultured
+314	155	314	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Propionibacteriales
+1	0	1	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Propionibacteriales; f__Nocardioidaceae
+313	155	313	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Propionibacteriales; f__Propionibacteriaceae
+0	1	1	d__Bacteria; p__Actinobacteria; c__Coriobacteriia
+0	1	1	d__Bacteria; p__Actinobacteria; c__Coriobacteriia; o__Coriobacteriales
+0	1	1	d__Bacteria; p__Actinobacteria; c__Coriobacteriia; o__Coriobacteriales; f__Coriobacteriaceae
+505	257	505	d__Bacteria; p__Actinobacteria; c__Nitriliruptoria
+505	257	505	d__Bacteria; p__Actinobacteria; c__Nitriliruptoria; o__Euzebyales
+505	257	505	d__Bacteria; p__Actinobacteria; c__Nitriliruptoria; o__Euzebyales; f__Euzebyaceae
+561	101	561	d__Bacteria; p__BD1-5
+561	101	561	d__Bacteria; p__BD1-5; c__Unclassified
+561	101	561	d__Bacteria; p__BD1-5; c__Unclassified; o__Unclassified
+561	101	561	d__Bacteria; p__BD1-5; c__Unclassified; o__Unclassified; f__Unclassified
+83010	21591	83010	d__Bacteria; p__Bacteroidetes
+80902	16674	80902	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+80902	16674	80902	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales
+145	45	145	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__BS11 gut group
+1035	594	1035	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae
+1	0	1	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__LKC2.127-25
+19	4	19	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Marinilabiaceae
+351	2347	2347	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__MgMjR-022
+0	1	1	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__PL-11B8 wastewater-sludge group
+74918	11815	74918	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae
+3410	1596	3410	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae
+1	3	3	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__RF16
+1007	248	1007	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Rikenellaceae
+6	7	7	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__S24-7
+8	3	8	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__gir-aah93h0
+1	11	11	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__p-2534-18B5 gut group
+1	1	1	d__Bacteria; p__Bacteroidetes; c__Cytophagia
+1	1	1	d__Bacteria; p__Bacteroidetes; c__Cytophagia; o__Cytophagales
+1	1	1	d__Bacteria; p__Bacteroidetes; c__Cytophagia; o__Cytophagales; f__Cytophagaceae
+1939	4506	4506	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+1939	4506	4506	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales
+0	2	2	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Cryomorphaceae
+1939	4504	4504	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae
+0	4	4	d__Bacteria; p__Bacteroidetes; c__SB-1
+0	4	4	d__Bacteria; p__Bacteroidetes; c__SB-1; o__Unclassified
+0	4	4	d__Bacteria; p__Bacteroidetes; c__SB-1; o__Unclassified; f__Unclassified
+1	0	1	d__Bacteria; p__Bacteroidetes; c__SB-5
+1	0	1	d__Bacteria; p__Bacteroidetes; c__SB-5; o__Unclassified
+1	0	1	d__Bacteria; p__Bacteroidetes; c__SB-5; o__Unclassified; f__Unclassified
+167	406	406	d__Bacteria; p__Bacteroidetes; c__Sphingobacteriia
+167	406	406	d__Bacteria; p__Bacteroidetes; c__Sphingobacteriia; o__Sphingobacteriales
+167	406	406	d__Bacteria; p__Bacteroidetes; c__Sphingobacteriia; o__Sphingobacteriales; f__WCHB1-69
+10	1	10	d__Bacteria; p__Candidate division OD1
+10	1	10	d__Bacteria; p__Candidate division OD1; c__Unclassified
+10	1	10	d__Bacteria; p__Candidate division OD1; c__Unclassified; o__Unclassified
+10	1	10	d__Bacteria; p__Candidate division OD1; c__Unclassified; o__Unclassified; f__Unclassified
+6387	1224	6387	d__Bacteria; p__Candidate division SR1
+6387	1224	6387	d__Bacteria; p__Candidate division SR1; c__Unclassified
+6387	1224	6387	d__Bacteria; p__Candidate division SR1; c__Unclassified; o__Unclassified
+6387	1224	6387	d__Bacteria; p__Candidate division SR1; c__Unclassified; o__Unclassified; f__Unclassified
+3939	369	3939	d__Bacteria; p__Candidate division TM7
+3939	369	3939	d__Bacteria; p__Candidate division TM7; c__Unclassified
+3939	369	3939	d__Bacteria; p__Candidate division TM7; c__Unclassified; o__Unclassified
+3939	369	3939	d__Bacteria; p__Candidate division TM7; c__Unclassified; o__Unclassified; f__Unclassified
+0	12	12	d__Bacteria; p__Candidate division WS6
+0	12	12	d__Bacteria; p__Candidate division WS6; c__Unclassified
+0	12	12	d__Bacteria; p__Candidate division WS6; c__Unclassified; o__Unclassified
+0	12	12	d__Bacteria; p__Candidate division WS6; c__Unclassified; o__Unclassified; f__Unclassified
+1015	2448	2448	d__Bacteria; p__Chlorobi
+1015	2448	2448	d__Bacteria; p__Chlorobi; c__Chlorobia
+1015	2448	2448	d__Bacteria; p__Chlorobi; c__Chlorobia; o__Chlorobiales
+1015	2448	2448	d__Bacteria; p__Chlorobi; c__Chlorobia; o__Chlorobiales; f__OPB56
+1391	270	1391	d__Bacteria; p__Chloroflexi
+1391	270	1391	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+1391	270	1391	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales
+1391	270	1391	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales; f__Anaerolineaceae
+20	43	43	d__Bacteria; p__Cyanobacteria
+19	28	28	d__Bacteria; p__Cyanobacteria; c__ML635J-21
+19	28	28	d__Bacteria; p__Cyanobacteria; c__ML635J-21; o__Unclassified
+19	28	28	d__Bacteria; p__Cyanobacteria; c__ML635J-21; o__Unclassified; f__Unclassified
+1	15	15	d__Bacteria; p__Cyanobacteria; c__SHA-109
+1	15	15	d__Bacteria; p__Cyanobacteria; c__SHA-109; o__Unclassified
+1	15	15	d__Bacteria; p__Cyanobacteria; c__SHA-109; o__Unclassified; f__Unclassified
+13	44	44	d__Bacteria; p__Elusimicrobia
+13	44	44	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+10	41	41	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia; o__Lineage I (Endomicrobia)
+10	41	41	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia; o__Lineage I (Endomicrobia); f__Unclassified
+3	3	3	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia; o__Lineage IV
+3	3	3	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia; o__Lineage IV; f__Unclassified
+3	1	3	d__Bacteria; p__Fibrobacteres
+3	1	3	d__Bacteria; p__Fibrobacteres; c__Fibrobacteria
+3	1	3	d__Bacteria; p__Fibrobacteres; c__Fibrobacteria; o__Fibrobacterales
+3	1	3	d__Bacteria; p__Fibrobacteres; c__Fibrobacteria; o__Fibrobacterales; f__Fibrobacteraceae
+12896	8903	12896	d__Bacteria; p__Firmicutes
+478	397	478	d__Bacteria; p__Firmicutes; c__Bacilli
+0	7	7	d__Bacteria; p__Firmicutes; c__Bacilli; o__Bacillales
+0	6	6	d__Bacteria; p__Firmicutes; c__Bacilli; o__Bacillales; f__Family XI Incertae Sedis
+0	1	1	d__Bacteria; p__Firmicutes; c__Bacilli; o__Bacillales; f__Staphylococcaceae
+478	390	478	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales
+0	1	1	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__16d63.751
+119	22	119	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae
+357	348	357	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Carnobacteriaceae
+0	2	2	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Enterococcaceae
+2	17	17	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Streptococcaceae
+11459	8189	11459	d__Bacteria; p__Firmicutes; c__Clostridia
+11459	8189	11459	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales
+2287	534	2287	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Christensenellaceae
+3	1	3	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiaceae
+463	595	595	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Family XI Incertae Sedis
+2488	1500	2488	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Family XII Incertae Sedis
+637	197	637	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Family XIII Incertae Sedis
+1	0	1	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Family XIV Incertae Sedis
+1	0	1	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Gracilibacteraceae
+1816	2255	2255	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae
+704	436	704	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae
+2717	2596	2717	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae
+339	55	339	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae
+3	20	20	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__vadinBB60
+1	12	12	d__Bacteria; p__Firmicutes; c__Erysipelotrichi
+1	12	12	d__Bacteria; p__Firmicutes; c__Erysipelotrichi; o__Erysipelotrichales
+1	12	12	d__Bacteria; p__Firmicutes; c__Erysipelotrichi; o__Erysipelotrichales; f__Erysipelotrichaceae
+223	185	223	d__Bacteria; p__Firmicutes; c__Erysipelotrichia
+223	185	223	d__Bacteria; p__Firmicutes; c__Erysipelotrichia; o__Erysipelotrichales
+223	185	223	d__Bacteria; p__Firmicutes; c__Erysipelotrichia; o__Erysipelotrichales; f__Erysipelotrichaceae
+735	120	735	d__Bacteria; p__Firmicutes; c__Negativicutes
+735	120	735	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales
+143	1	143	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Acidaminococcaceae
+592	119	592	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Veillonellaceae
+626	415	626	d__Bacteria; p__Fusobacteria
+626	415	626	d__Bacteria; p__Fusobacteria; c__Fusobacteriia
+626	415	626	d__Bacteria; p__Fusobacteria; c__Fusobacteriia; o__Fusobacteriales
+1	0	1	d__Bacteria; p__Fusobacteria; c__Fusobacteriia; o__Fusobacteriales; f__CFT112H7
+609	385	609	d__Bacteria; p__Fusobacteria; c__Fusobacteriia; o__Fusobacteriales; f__Fusobacteriaceae
+16	28	28	d__Bacteria; p__Fusobacteria; c__Fusobacteriia; o__Fusobacteriales; f__Leptotrichiaceae
+0	2	2	d__Bacteria; p__Fusobacteria; c__Fusobacteriia; o__Fusobacteriales; f__boneC3G7
+20299	34238	34238	d__Bacteria; p__Proteobacteria
+22	48	48	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+12	0	12	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Caulobacterales
+12	0	12	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Caulobacterales; f__Caulobacteraceae
+3	3	3	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhizobiales
+0	2	2	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhizobiales; f__Bradyrhizobiaceae
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhizobiales; f__Hyphomicrobiaceae
+0	1	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhizobiales; f__JG34-KF-361
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhizobiales; f__Methylobacteriaceae
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhizobiales; f__Phyllobacteriaceae
+5	32	32	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhodospirillales
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhodospirillales; f__Acetobacteraceae
+4	32	32	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhodospirillales; f__Rhodospirillaceae
+0	13	13	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rickettsiales
+0	2	2	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rickettsiales; f__Family Incertae Sedis
+0	11	11	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rickettsiales; f__mitochondria
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__S26-47
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__S26-47; f__Unclassified
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Sphingomonadales
+1	0	1	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Sphingomonadales; f__Sphingomonadaceae
+7541	15518	15518	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+5970	12047	12047	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales
+662	344	662	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae
+689	524	689	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Burkholderiaceae
+4614	11172	11172	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae
+5	7	7	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Oxalobacteraceae
+1	4	4	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Hydrogenophilales
+1	4	4	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Hydrogenophilales; f__Hydrogenophilaceae
+1214	3293	3293	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales
+1214	3293	3293	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae
+1	3	3	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Nitrosomonadales
+0	1	1	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Nitrosomonadales; f__Gallionellaceae
+1	2	2	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Nitrosomonadales; f__Nitrosomonadaceae
+354	171	354	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales
+354	171	354	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales; f__Rhodocyclaceae
+1	0	1	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__UCT N117
+1	0	1	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__UCT N117; f__Unclassified
+3663	1621	3663	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+364	167	364	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales
+5	31	31	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bacteriovoracaceae
+359	136	359	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bdellovibrionaceae
+58	14	58	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales
+58	14	58	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales; f__Desulfobulbaceae
+3032	1029	3032	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales
+94	44	94	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfohalobiaceae
+2321	841	2321	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae
+617	144	617	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfovibrionaceae
+170	278	278	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfuromonadales
+170	278	278	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfuromonadales; f__GR-WP33-58
+39	130	130	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales
+1	0	1	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__0319-6G20
+0	2	2	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__Haliangiaceae
+38	128	128	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__Phaselicystidaceae
+0	3	3	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Syntrophobacterales
+0	3	3	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Syntrophobacterales; f__Syntrophaceae
+679	3853	3853	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+679	3853	3853	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales
+232	3464	3464	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae
+447	389	447	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae
+8392	13198	13198	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+0	1	1	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Aeromonadales
+0	1	1	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Aeromonadales; f__Succinivibrionaceae
+1784	722	1784	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales
+1784	722	1784	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae
+603	101	603	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Enterobacteriales
+603	101	603	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Enterobacteriales; f__Enterobacteriaceae
+1	2	2	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Methylococcales
+0	2	2	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Methylococcales; f__Methylococcaceae
+1	0	1	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Methylococcales; f__pLW-20
+1	0	1	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Oceanospirillales
+1	0	1	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Oceanospirillales; f__Oceanospirillaceae
+1833	802	1833	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales
+1833	802	1833	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae
+3353	10367	10367	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales
+3334	10365	10365	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae
+19	2	19	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Pseudomonadaceae
+817	1203	1203	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales
+817	1203	1203	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae
+2	0	2	d__Bacteria; p__Proteobacteria; c__TA18
+2	0	2	d__Bacteria; p__Proteobacteria; c__TA18; o__Unclassified
+2	0	2	d__Bacteria; p__Proteobacteria; c__TA18; o__Unclassified; f__Unclassified
+7	2	7	d__Bacteria; p__RF3
+7	2	7	d__Bacteria; p__RF3; c__Unclassified
+7	2	7	d__Bacteria; p__RF3; c__Unclassified; o__Unclassified
+7	2	7	d__Bacteria; p__RF3; c__Unclassified; o__Unclassified; f__Unclassified
+689	8481	8481	d__Bacteria; p__Spirochaetae
+689	8481	8481	d__Bacteria; p__Spirochaetae; c__Spirochaetes
+689	8481	8481	d__Bacteria; p__Spirochaetae; c__Spirochaetes; o__Spirochaetales
+84	115	115	d__Bacteria; p__Spirochaetae; c__Spirochaetes; o__Spirochaetales; f__PL-11B10
+605	8366	8366	d__Bacteria; p__Spirochaetae; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae
+250	777	777	d__Bacteria; p__Synergistetes
+250	777	777	d__Bacteria; p__Synergistetes; c__Synergistia
+250	777	777	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales
+250	777	777	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae
+31	379	379	d__Bacteria; p__Tenericutes
+31	379	379	d__Bacteria; p__Tenericutes; c__Mollicutes
+14	330	330	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Acholeplasmatales
+14	330	330	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Acholeplasmatales; f__Acholeplasmataceae
+2	1	2	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Mycoplasmatales
+2	1	2	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Mycoplasmatales; f__Mycoplasmataceae
+15	47	47	d__Bacteria; p__Tenericutes; c__Mollicutes; o__RF9
+15	47	47	d__Bacteria; p__Tenericutes; c__Mollicutes; o__RF9; f__Unclassified
+0	1	1	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Unclassified
+0	1	1	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Unclassified; f__Unclassified
+1	4	4	d__Bacteria; p__Verrucomicrobia
+1	4	4	d__Bacteria; p__Verrucomicrobia; c__Opitutae
+1	4	4	d__Bacteria; p__Verrucomicrobia; c__Opitutae; o__vadinHA64
+1	4	4	d__Bacteria; p__Verrucomicrobia; c__Opitutae; o__vadinHA64; f__Unclassified
+0	379	379	d__Eukaryota
+0	2	2	d__Eukaryota; p__Archamoebae
+0	2	2	d__Eukaryota; p__Archamoebae; c__Entamoebida
+0	2	2	d__Eukaryota; p__Archamoebae; c__Entamoebida; o__Unclassified
+0	2	2	d__Eukaryota; p__Archamoebae; c__Entamoebida; o__Unclassified; f__Unclassified
+0	44	44	d__Eukaryota; p__Metazoa
+0	5	5	d__Eukaryota; p__Metazoa; c__Actinopterygii
+0	5	5	d__Eukaryota; p__Metazoa; c__Actinopterygii; o__Cypriniformes
+0	5	5	d__Eukaryota; p__Metazoa; c__Actinopterygii; o__Cypriniformes; f__Cyprinidae
+0	39	39	d__Eukaryota; p__Metazoa; c__Mammalia
+0	3	3	d__Eukaryota; p__Metazoa; c__Mammalia; o__Carnivora
+0	3	3	d__Eukaryota; p__Metazoa; c__Mammalia; o__Carnivora; f__Canidae
+0	12	12	d__Eukaryota; p__Metazoa; c__Mammalia; o__Cetacea
+0	12	12	d__Eukaryota; p__Metazoa; c__Mammalia; o__Cetacea; f__Delphinidae
+0	2	2	d__Eukaryota; p__Metazoa; c__Mammalia; o__Lagomorpha
+0	1	1	d__Eukaryota; p__Metazoa; c__Mammalia; o__Lagomorpha; f__Leporidae
+0	1	1	d__Eukaryota; p__Metazoa; c__Mammalia; o__Lagomorpha; f__Ochotonidae
+0	21	21	d__Eukaryota; p__Metazoa; c__Mammalia; o__Rodentia
+0	4	4	d__Eukaryota; p__Metazoa; c__Mammalia; o__Rodentia; f__Heteromyidae
+0	2	2	d__Eukaryota; p__Metazoa; c__Mammalia; o__Rodentia; f__Muridae
+0	15	15	d__Eukaryota; p__Metazoa; c__Mammalia; o__Rodentia; f__Sciuridae
+0	1	1	d__Eukaryota; p__Metazoa; c__Mammalia; o__Unclassified
+0	1	1	d__Eukaryota; p__Metazoa; c__Mammalia; o__Unclassified; f__Bovidae
+0	333	333	d__Eukaryota; p__Parabasalia
+0	333	333	d__Eukaryota; p__Parabasalia; c__Trichomonadea
+0	333	333	d__Eukaryota; p__Parabasalia; c__Trichomonadea; o__Trichomonadida
+0	333	333	d__Eukaryota; p__Parabasalia; c__Trichomonadea; o__Trichomonadida; f__Trichomonadidae

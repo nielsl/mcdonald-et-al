@@ -1,0 +1,19 @@
+# PCR	RT	Row max	Taxonomic groups
+# 1210	112470	113680	Input reads with no similarities
+# 172188	225023	397211	Input read totals
+# 166191	111010	277201	Score sums for mapped reads
+0	6	6	d__Archaea; p__Euryarchaeota
+10385	3490	10385	d__Bacteria; p__Actinobacteria
+89127	25109	89127	d__Bacteria; p__Bacteroidetes
+1406	270	1406	d__Bacteria; p__Chloroflexi
+13	33	33	d__Bacteria; p__Elusimicrobia
+15475	9938	15475	d__Bacteria; p__Firmicutes
+634	422	634	d__Bacteria; p__Fusobacteria
+34777	56496	56496	d__Bacteria; p__Proteobacteria
+7228	1306	7228	d__Bacteria; p__SR1
+670	9472	9472	d__Bacteria; p__Spirochaetes
+266	836	836	d__Bacteria; p__Synergistetes
+4321	404	4321	d__Bacteria; p__TM7
+16	344	344	d__Bacteria; p__Tenericutes
+1870	2880	2880	d__Bacteria; p__Unclassified
+3	4	4	d__Bacteria; p__Verrucomicrobia

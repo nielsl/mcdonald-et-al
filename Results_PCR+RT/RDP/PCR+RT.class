@@ -1,0 +1,34 @@
+# PCR	RT	Row max	Taxonomic groups
+# 1210	112470	113680	Input reads with no similarities
+# 172188	225023	397211	Input read totals
+# 166191	111010	277201	Score sums for mapped reads
+0	2	2	d__Archaea; p__Euryarchaeota; c__Methanobacteria
+0	1	1	d__Archaea; p__Euryarchaeota; c__Methanomicrobia
+0	3	3	d__Archaea; p__Euryarchaeota; c__Thermoplasmata
+10385	3490	10385	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+86134	18131	86134	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+2666	6426	6426	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+1	1	1	d__Bacteria; p__Bacteroidetes; c__Sphingobacteria
+326	551	551	d__Bacteria; p__Bacteroidetes; c__Unclassified
+1406	270	1406	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+13	33	33	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+478	546	546	d__Bacteria; p__Firmicutes; c__Bacilli
+14116	9158	14116	d__Bacteria; p__Firmicutes; c__Clostridia
+23	7	23	d__Bacteria; p__Firmicutes; c__Erysipelotrichia
+739	111	739	d__Bacteria; p__Firmicutes; c__Negativicutes
+119	116	119	d__Bacteria; p__Firmicutes; c__Unclassified
+634	422	634	d__Bacteria; p__Fusobacteria; c__Fusobacteria
+45	11	45	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+9714	20025	20025	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+3650	1600	3650	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+712	3947	3947	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+20640	30860	30860	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+16	53	53	d__Bacteria; p__Proteobacteria; c__Unclassified
+7228	1306	7228	d__Bacteria; p__SR1; c__SR1_genera
+670	9472	9472	d__Bacteria; p__Spirochaetes; c__Spirochaetes
+266	836	836	d__Bacteria; p__Synergistetes; c__Synergistia
+4321	404	4321	d__Bacteria; p__TM7; c__TM7_genera
+16	344	344	d__Bacteria; p__Tenericutes; c__Mollicutes
+1870	2880	2880	d__Bacteria; p__Unclassified; c__Unclassified
+2	4	4	d__Bacteria; p__Verrucomicrobia; c__Opitutae
+1	0	1	d__Bacteria; p__Verrucomicrobia; c__Verrucomicrobiae

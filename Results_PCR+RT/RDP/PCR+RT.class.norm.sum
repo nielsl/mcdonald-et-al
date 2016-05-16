@@ -1,0 +1,51 @@
+# PCR	RT	Row max	Taxonomic groups
+# 1210	112470	113680	Input reads with no similarities
+# 172188	225023	397211	Input read totals
+# 415778	415777	831555	Score sums for mapped reads
+0	7	7	d__Archaea
+0	7	7	d__Archaea; p__Euryarchaeota
+0	2	2	d__Archaea; p__Euryarchaeota; c__Methanobacteria
+0	1	1	d__Archaea; p__Euryarchaeota; c__Methanomicrobia
+0	3	3	d__Archaea; p__Euryarchaeota; c__Thermoplasmata
+138600	138593	138600	d__Bacteria
+8660	4357	8660	d__Bacteria; p__Actinobacteria
+8660	4357	8660	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+74330	31349	74330	d__Bacteria; p__Bacteroidetes
+71834	22637	71834	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+2223	8023	8023	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+0	1	1	d__Bacteria; p__Bacteroidetes; c__Sphingobacteria
+271	687	687	d__Bacteria; p__Bacteroidetes; c__Unclassified
+1172	337	1172	d__Bacteria; p__Chloroflexi
+1172	337	1172	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+10	41	41	d__Bacteria; p__Elusimicrobia
+10	41	41	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+12905	12407	12905	d__Bacteria; p__Firmicutes
+398	681	681	d__Bacteria; p__Firmicutes; c__Bacilli
+11772	11434	11772	d__Bacteria; p__Firmicutes; c__Clostridia
+19	8	19	d__Bacteria; p__Firmicutes; c__Erysipelotrichia
+616	138	616	d__Bacteria; p__Firmicutes; c__Negativicutes
+99	144	144	d__Bacteria; p__Firmicutes; c__Unclassified
+528	526	528	d__Bacteria; p__Fusobacteria
+528	526	528	d__Bacteria; p__Fusobacteria; c__Fusobacteria
+29003	70537	70537	d__Bacteria; p__Proteobacteria
+37	13	37	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+8101	25002	25002	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+3044	1997	3044	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+593	4927	4927	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+17213	38529	38529	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+13	66	66	d__Bacteria; p__Proteobacteria; c__Unclassified
+6028	1630	6028	d__Bacteria; p__SR1
+6028	1630	6028	d__Bacteria; p__SR1; c__SR1_genera
+558	11826	11826	d__Bacteria; p__Spirochaetes
+558	11826	11826	d__Bacteria; p__Spirochaetes; c__Spirochaetes
+221	1043	1043	d__Bacteria; p__Synergistetes
+221	1043	1043	d__Bacteria; p__Synergistetes; c__Synergistia
+3603	504	3603	d__Bacteria; p__TM7
+3603	504	3603	d__Bacteria; p__TM7; c__TM7_genera
+13	429	429	d__Bacteria; p__Tenericutes
+13	429	429	d__Bacteria; p__Tenericutes; c__Mollicutes
+1559	3595	3595	d__Bacteria; p__Unclassified
+1559	3595	3595	d__Bacteria; p__Unclassified; c__Unclassified
+2	4	4	d__Bacteria; p__Verrucomicrobia
+1	4	4	d__Bacteria; p__Verrucomicrobia; c__Opitutae
+0	0	0	d__Bacteria; p__Verrucomicrobia; c__Verrucomicrobiae

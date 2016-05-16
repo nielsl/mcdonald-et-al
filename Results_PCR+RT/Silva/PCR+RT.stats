@@ -1,0 +1,231 @@
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, sequence level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: sequence
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.sequence
+      file = Original counts	PCR+RT.sequence.html
+      file = Original counts + sums	PCR+RT.sequence.sum
+      file = Original counts + sums	PCR+RT.sequence.sum.html
+      file = Scaled counts	PCR+RT.sequence.norm
+      file = Scaled counts	PCR+RT.sequence.norm.html
+      file = Scaled counts + sums	PCR+RT.sequence.norm.sum
+      file = Scaled counts + sums	PCR+RT.sequence.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 2
+      date = 19-DEC-2013-17:02:16
+      time = 2 seconds
+   </header>
+
+</stats>
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, species level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: species
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.species
+      file = Original counts	PCR+RT.species.html
+      file = Original counts + sums	PCR+RT.species.sum
+      file = Original counts + sums	PCR+RT.species.sum.html
+      file = Scaled counts	PCR+RT.species.norm
+      file = Scaled counts	PCR+RT.species.norm.html
+      file = Scaled counts + sums	PCR+RT.species.norm.sum
+      file = Scaled counts + sums	PCR+RT.species.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 1
+      date = 19-DEC-2013-17:02:17
+      time = 1 second
+   </header>
+
+</stats>
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, genus level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: genus
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.genus
+      file = Original counts	PCR+RT.genus.html
+      file = Original counts + sums	PCR+RT.genus.sum
+      file = Original counts + sums	PCR+RT.genus.sum.html
+      file = Scaled counts	PCR+RT.genus.norm
+      file = Scaled counts	PCR+RT.genus.norm.html
+      file = Scaled counts + sums	PCR+RT.genus.norm.sum
+      file = Scaled counts + sums	PCR+RT.genus.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 0
+      date = 19-DEC-2013-17:02:17
+      time = 0 seconds
+   </header>
+
+</stats>
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, family level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: family
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.family
+      file = Original counts	PCR+RT.family.html
+      file = Original counts + sums	PCR+RT.family.sum
+      file = Original counts + sums	PCR+RT.family.sum.html
+      file = Scaled counts	PCR+RT.family.norm
+      file = Scaled counts	PCR+RT.family.norm.html
+      file = Scaled counts + sums	PCR+RT.family.norm.sum
+      file = Scaled counts + sums	PCR+RT.family.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 0
+      date = 19-DEC-2013-17:02:17
+      time = 0 seconds
+   </header>
+
+</stats>
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, order level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: order
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.order
+      file = Original counts	PCR+RT.order.html
+      file = Original counts + sums	PCR+RT.order.sum
+      file = Original counts + sums	PCR+RT.order.sum.html
+      file = Scaled counts	PCR+RT.order.norm
+      file = Scaled counts	PCR+RT.order.norm.html
+      file = Scaled counts + sums	PCR+RT.order.norm.sum
+      file = Scaled counts + sums	PCR+RT.order.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 1
+      date = 19-DEC-2013-17:02:18
+      time = 1 second
+   </header>
+
+</stats>
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, class level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: class
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.class
+      file = Original counts	PCR+RT.class.html
+      file = Original counts + sums	PCR+RT.class.sum
+      file = Original counts + sums	PCR+RT.class.sum.html
+      file = Scaled counts	PCR+RT.class.norm
+      file = Scaled counts	PCR+RT.class.norm.html
+      file = Scaled counts + sums	PCR+RT.class.norm.sum
+      file = Scaled counts + sums	PCR+RT.class.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 0
+      date = 19-DEC-2013-17:02:18
+      time = 0 seconds
+   </header>
+
+</stats>
+
+<stats>
+
+   title = Merged PCR + RT profiles, Silva, phylum level
+   name = organism-profile-format
+
+   summary =  Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. 
+
+   <header>
+      file = Input profile	Silva.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: phylum
+         item = Minimum row score: 0
+         item = Column name filter: None
+         item = Column totals: Observed average
+      </menu>
+      file = Original counts	PCR+RT.phylum
+      file = Original counts	PCR+RT.phylum.html
+      file = Original counts + sums	PCR+RT.phylum.sum
+      file = Original counts + sums	PCR+RT.phylum.sum.html
+      file = Scaled counts	PCR+RT.phylum.norm
+      file = Scaled counts	PCR+RT.phylum.norm.html
+      file = Scaled counts + sums	PCR+RT.phylum.norm.sum
+      file = Scaled counts + sums	PCR+RT.phylum.norm.sum.html
+      hrow = Input reads total	397211
+      hrow = Mapped reads total	223183
+      secs = 0
+      date = 19-DEC-2013-17:02:18
+      time = 0 seconds
+   </header>
+
+</stats>

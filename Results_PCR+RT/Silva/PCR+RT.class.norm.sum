@@ -1,0 +1,76 @@
+# PCR	RT	Row max	Taxonomic groups
+# 1219	112013	113232	Input reads with no similarities
+# 172188	225023	397211	Input read totals
+# 334746	334743	669489	Score sums for mapped reads
+0	8	8	d__Archaea
+0	8	8	d__Archaea; p__Euryarchaeota
+0	2	2	d__Archaea; p__Euryarchaeota; c__Methanobacteria
+0	1	1	d__Archaea; p__Euryarchaeota; c__Methanomicrobia
+0	4	4	d__Archaea; p__Euryarchaeota; c__Thermoplasmata
+111591	111071	111591	d__Bacteria
+7459	3986	7459	d__Bacteria; p__Actinobacteria
+0	0	0	d__Bacteria; p__Actinobacteria; c__Acidimicrobiia
+7057	3637	7057	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+0	1	1	d__Bacteria; p__Actinobacteria; c__Coriobacteriia
+400	347	400	d__Bacteria; p__Actinobacteria; c__Nitriliruptoria
+445	136	445	d__Bacteria; p__BD1-5
+445	136	445	d__Bacteria; p__BD1-5; c__Unclassified
+65910	29155	65910	d__Bacteria; p__Bacteroidetes
+64236	22515	64236	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+0	1	1	d__Bacteria; p__Bacteroidetes; c__Cytophagia
+1539	6084	6084	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+0	5	5	d__Bacteria; p__Bacteroidetes; c__SB-1
+0	0	0	d__Bacteria; p__Bacteroidetes; c__SB-5
+132	548	548	d__Bacteria; p__Bacteroidetes; c__Sphingobacteriia
+7	1	7	d__Bacteria; p__Candidate division OD1
+7	1	7	d__Bacteria; p__Candidate division OD1; c__Unclassified
+5071	1652	5071	d__Bacteria; p__Candidate division SR1
+5071	1652	5071	d__Bacteria; p__Candidate division SR1; c__Unclassified
+3127	498	3127	d__Bacteria; p__Candidate division TM7
+3127	498	3127	d__Bacteria; p__Candidate division TM7; c__Unclassified
+0	16	16	d__Bacteria; p__Candidate division WS6
+0	16	16	d__Bacteria; p__Candidate division WS6; c__Unclassified
+805	3305	3305	d__Bacteria; p__Chlorobi
+805	3305	3305	d__Bacteria; p__Chlorobi; c__Chlorobia
+1104	364	1104	d__Bacteria; p__Chloroflexi
+1104	364	1104	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+15	58	58	d__Bacteria; p__Cyanobacteria
+15	37	37	d__Bacteria; p__Cyanobacteria; c__ML635J-21
+0	20	20	d__Bacteria; p__Cyanobacteria; c__SHA-109
+10	59	59	d__Bacteria; p__Elusimicrobia
+10	59	59	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+2	1	2	d__Bacteria; p__Fibrobacteres
+2	1	2	d__Bacteria; p__Fibrobacteres; c__Fibrobacteria
+10239	12022	12022	d__Bacteria; p__Firmicutes
+379	536	536	d__Bacteria; p__Firmicutes; c__Bacilli
+9098	11057	11057	d__Bacteria; p__Firmicutes; c__Clostridia
+0	16	16	d__Bacteria; p__Firmicutes; c__Erysipelotrichi
+177	249	249	d__Bacteria; p__Firmicutes; c__Erysipelotrichia
+583	162	583	d__Bacteria; p__Firmicutes; c__Negativicutes
+497	560	560	d__Bacteria; p__Fusobacteria
+497	560	560	d__Bacteria; p__Fusobacteria; c__Fusobacteriia
+16117	46232	46232	d__Bacteria; p__Proteobacteria
+17	64	64	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+5987	20954	20954	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+2908	2188	2908	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+539	5202	5202	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+6663	17821	17821	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+1	0	1	d__Bacteria; p__Proteobacteria; c__TA18
+5	2	5	d__Bacteria; p__RF3
+5	2	5	d__Bacteria; p__RF3; c__Unclassified
+547	11452	11452	d__Bacteria; p__Spirochaetae
+547	11452	11452	d__Bacteria; p__Spirochaetae; c__Spirochaetes
+198	1049	1049	d__Bacteria; p__Synergistetes
+198	1049	1049	d__Bacteria; p__Synergistetes; c__Synergistia
+24	511	511	d__Bacteria; p__Tenericutes
+24	511	511	d__Bacteria; p__Tenericutes; c__Mollicutes
+0	5	5	d__Bacteria; p__Verrucomicrobia
+0	5	5	d__Bacteria; p__Verrucomicrobia; c__Opitutae
+0	511	511	d__Eukaryota
+0	2	2	d__Eukaryota; p__Archamoebae
+0	2	2	d__Eukaryota; p__Archamoebae; c__Entamoebida
+0	59	59	d__Eukaryota; p__Metazoa
+0	6	6	d__Eukaryota; p__Metazoa; c__Actinopterygii
+0	52	52	d__Eukaryota; p__Metazoa; c__Mammalia
+0	449	449	d__Eukaryota; p__Parabasalia
+0	449	449	d__Eukaryota; p__Parabasalia; c__Trichomonadea

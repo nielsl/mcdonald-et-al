@@ -1,0 +1,31 @@
+# PCR	RT	Row max	Taxonomic groups
+# 1219	112013	113232	Input reads with no similarities
+# 172188	225023	397211	Input read totals
+# 223173	223172	446345	Score sums for mapped reads
+0	8	8	d__Archaea
+0	8	8	d__Archaea; p__Euryarchaeota
+111591	111071	111591	d__Bacteria
+7459	3986	7459	d__Bacteria; p__Actinobacteria
+445	136	445	d__Bacteria; p__BD1-5
+65910	29155	65910	d__Bacteria; p__Bacteroidetes
+7	1	7	d__Bacteria; p__Candidate division OD1
+5071	1652	5071	d__Bacteria; p__Candidate division SR1
+3127	498	3127	d__Bacteria; p__Candidate division TM7
+0	16	16	d__Bacteria; p__Candidate division WS6
+805	3305	3305	d__Bacteria; p__Chlorobi
+1104	364	1104	d__Bacteria; p__Chloroflexi
+15	58	58	d__Bacteria; p__Cyanobacteria
+10	59	59	d__Bacteria; p__Elusimicrobia
+2	1	2	d__Bacteria; p__Fibrobacteres
+10239	12022	12022	d__Bacteria; p__Firmicutes
+497	560	560	d__Bacteria; p__Fusobacteria
+16117	46232	46232	d__Bacteria; p__Proteobacteria
+5	2	5	d__Bacteria; p__RF3
+547	11452	11452	d__Bacteria; p__Spirochaetae
+198	1049	1049	d__Bacteria; p__Synergistetes
+24	511	511	d__Bacteria; p__Tenericutes
+0	5	5	d__Bacteria; p__Verrucomicrobia
+0	511	511	d__Eukaryota
+0	2	2	d__Eukaryota; p__Archamoebae
+0	59	59	d__Eukaryota; p__Metazoa
+0	449	449	d__Eukaryota; p__Parabasalia

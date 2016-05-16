@@ -1,0 +1,995 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Merged PCR + RT profiles, Silva, sequence level</title>
+
+<style type="text/css">
+
+/*
+   ----------------------------------------------------------------------------
+   General settings
+   ----------------------------------------------------------------------------
+*/
+
+body {
+    margin: 0em;
+    background-color: #cccccc;
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+#content {
+  background-color: #cccccc;
+  font-size: 1em;
+  padding: 1em 2em 1em 2em;
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: #444444;
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.4em; font-size: 170%; margin-top: 0px; font-variant: small-caps; }
+h2 { font-size: 1.25em; font-size: 140%; margin-top: 0px; }
+h3 { font-size: 1.2em; font-size: 120%; }
+h4 { font-size: 1.1em; font-size: 100%; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+h1 {
+    color: #333333;
+}
+
+/*
+li {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+*/
+
+p {
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    margin-left: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited { color: #000000 }  /* visited link */
+a:hover { color: #000000 }    /* mouse over link */
+a:active { color: #003366 }   /* selected link */
+
+a:link {
+    color: #0000dd;
+    text-align: left;
+    text-decoration: none;
+}
+
+.title {
+    font-size: 150%;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    color: #444444;
+}
+
+.menu {
+    width: 100%;
+    white-space: nowrap;
+}
+
+select {
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+tr {
+    height: 1.3em;
+}
+
+td, th {
+    white-space: nowrap;
+    empty-cells: show;
+}    
+
+th {
+    font-weight: normal;
+}
+    
+/*
+   ----------------------------------------------------------------------------
+   Header and footer
+   ----------------------------------------------------------------------------
+*/
+
+.hdr_bar_green, .ftr_bar_green {
+    width: 100%;
+    float: right;
+    color: #ffffff;
+    background-color: #206060;
+    border-color: #308080 #004040 #004040 #308080;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_purple, .ftr_bar_purple {
+    width: 100%;
+    color: #ffffff;
+    background-color: #382260;
+    border-color: #685590 #000033 #000033 #685590;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_green, .hdr_bar_purple {
+    height: 3em;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.hdr_bar_nav {
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 0.15em 0.25em 0.15em 0.25em;
+    white-space: nowrap;
+    height: 1.2em;
+    width: 100%;
+}
+
+.ftr_bar_green, .ftr_bar_purple {
+    height: 1.3em;
+    width: 100%;
+    margin-top: 3em;
+    position: fixed;
+    bottom: 0;
+}
+
+.ftr_bar_green a:link, .ftr_bar_purple a:link {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+   ----------------------------------------------------------------------------
+    Message panels
+   ----------------------------------------------------------------------------
+*/
+
+.warning_panel, .status_panel, .info_panel {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 2em;
+    padding-bottom: 3em;
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 95%;
+}
+
+.error_panel, .error_message, .login_error_message {
+    background-color: BlanchedAlmond;
+    border-color: LightSalmon;
+}
+
+.warning_message {
+    background-color: LemonChiffon;
+    border-color: Gold;
+}
+
+.empty_message {
+    background-color: #dddddd;
+    border-color: #999999;
+}
+
+.info_panel, .info_message {
+    background-color: LightGrey;
+    border-color: RoyalBlue;
+}
+
+.special_message {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: #eeeecc;
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    border-color: #999999;
+}
+
+.error_message, .warning_message, .info_message, .done_message, .todo_message, .empty_message {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    padding-left: 1.6em;
+    padding-right: 1.6em;
+    margin-top: 0.6em;
+    margin-right: 2em;
+    white-space: normal;
+    width: 95%;
+}
+
+.done_message {
+    background-color: #e6eee6;
+    border-color: SeaGreen;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Standard table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.std_col_title, .std_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.std_col_title
+{
+    color: #ffffff;
+    background-color: DimGray;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    height: 1.8em;
+    min-width: 2em;
+}
+
+.std_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.std_cell, .std_cell_left, .std_cell_right
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    white-space: nowrap;
+    min-width: 1.5em;
+    height: 1.3em;
+}
+
+.std_cell, .std_cell_left, .std_cell_right {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.std_cell_left {
+    text-align: left;
+}
+
+.std_cell_right {
+    text-align: right;
+}
+
+.std_form_text {
+    color: #333333;
+    background-color: #cccccc;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-align: left;
+}
+
+.std_form_key {
+    color: #ffffff;
+    border: 1px solid;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    background-color: DimGrey;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    text-align: right;
+    width: 7em;
+    height: 1.3em;
+}
+
+.std_form_input {
+    background-color: #eeebbb;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+    height: 1.5em;
+    margin-left: 0px;
+    margin-right: 1em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 4px;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Taxonomy table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.tax_col_title, .tax_row_title
+{
+    border: 1px solid;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tax_col_title
+{
+    color: #ffffff;
+    background-color: #555555;
+    border-color: #aaaaaa #000000 #000000 #aaaaaa;
+    height: 1.8em;
+}
+
+.tax_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.tax_cell_name, .mis_cell, .seq_cell, .tot_cell, .tax_cell
+{
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.5em;
+    padding-right: 0.8em;
+    white-space: nowrap;
+    height: 1.3em;
+    text-align: right;
+}
+
+.tax_cell_name
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    padding-left: 0.8em;
+    text-align: left;
+}
+
+.mis_cell {
+    color: #ffffff;
+    background-color: #557755;
+    border-color: #999999 #333333 #333333 #999999;
+}
+
+.mis_cell a:link {
+    color: #ffffff;
+}
+    
+.seq_cell {
+    color: #ffffff;
+    background-color: SeaGreen;
+    border-color: MediumSeaGreen DarkGreen DarkGreen MediumSeaGreen;
+}
+    
+.seq_cell a:link {
+    color: #ffffff;
+}
+    
+.tot_cell {
+    color: #000000;
+    background-color: LightGreen;
+    border-color: #ddffdd MediumSeaGreen MediumSeaGreen #ddffdd;
+}
+
+.tot_cell a:link {
+    color: #000000;
+}
+    
+.tax_cell {
+    color: #000000;
+    background-color: #cccccc;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+}
+
+.tax_cell a:link {
+    color: #000000;
+}
+
+.mis_cell a, .seq_cell a, .tot_cell a, .tax_cell a {
+    cursor: pointer
+}    
+
+
+</style>
+
+<script type="text/javascript" src="DataTables-1.10-dev/media/js/jquery.js"></script>
+<script type="text/javascript" src="DataTables-1.10-dev/media/js/jquery.dataTables.js"></script> 
+<script type="text/javascript" src="DataTables-1.10-dev/extras/FixedHeader.nightly.min.js"></script> 
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+    $('#Stats_table').dataTable(
+      {
+        "bPaginate": false,
+        "bLengthChange": true,
+        "bFilter": false,
+        "bSort": false,
+        "bInfo": false,
+        "bAutoWidth": false,
+        "aoColumnDefs": [
+             { "asSorting": [ "desc", "asc" ], "aTargets": [ "_all" ] }
+        ],
+        "aaSorting": [[ 0, "desc" ]],
+    });
+});
+
+</script>
+
+
+</head>
+<body>
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
+   <table class="hdr_bar_green">
+   <tr><td style="text-align: left">Merged PCR + RT profiles, Silva, sequence level</td><td style="text-align: right; font-size: 90%"></td></tr>
+   </table>
+</td></tr>
+<tr><td>
+   <table class="hdr_bar_nav">
+   <tr>
+       <td style="border-right-width: 0px; padding-left: 1.4em; text-align: left">
+          BION Software by <a href="http://genomics.dk">genomics.dk</a></td>
+       <td style="border-left-width: 0px; padding-right: 1.6em; text-align: right">
+          <a href="BION.about/BION.about.html">About</a></td>
+   </tr>
+   </table>
+</td></tr>
+</table>
+<table cellpadding="0" cellspacing="20" style="margin-bottom: 3em">
+
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, sequence level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: sequence&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence">PCR+RT.sequence</a>&nbsp;(390 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.html">PCR+RT.sequence.html</a>&nbsp;(1.0 M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.sum">PCR+RT.sequence.sum</a>&nbsp;(468 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.sum.html">PCR+RT.sequence.sum.html</a>&nbsp;(1.3 M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.norm">PCR+RT.sequence.norm</a>&nbsp;(390 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.norm.html">PCR+RT.sequence.norm.html</a>&nbsp;(1.0 M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.norm.sum">PCR+RT.sequence.norm.sum</a>&nbsp;(468 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.sequence.norm.sum.html">PCR+RT.sequence.norm.sum.html</a>&nbsp;(1.3 M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,199&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:20&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">1 second&nbsp;</td>
+   </tr>
+</table></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr><td>
+<table id="Stats_table" cellspacing="0" cellpadding="0">
+<thead>
+   <tr></tr>
+</thead>
+<tbody>
+   <tr></tr>
+</tbody>
+</table>
+   </td></tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, species level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: species&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species">PCR+RT.species</a>&nbsp;(55 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.html">PCR+RT.species.html</a>&nbsp;(180 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.sum">PCR+RT.species.sum</a>&nbsp;(104 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.sum.html">PCR+RT.species.sum.html</a>&nbsp;(367 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.norm">PCR+RT.species.norm</a>&nbsp;(55 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.norm.html">PCR+RT.species.norm.html</a>&nbsp;(180 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.norm.sum">PCR+RT.species.norm.sum</a>&nbsp;(104 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.species.norm.sum.html">PCR+RT.species.norm.sum.html</a>&nbsp;(366 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,199&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:21&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">1 second&nbsp;</td>
+   </tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, genus level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: genus&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus">PCR+RT.genus</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.html">PCR+RT.genus.html</a>&nbsp;(120 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.sum">PCR+RT.genus.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.sum.html">PCR+RT.genus.sum.html</a>&nbsp;(199 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.norm">PCR+RT.genus.norm</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.norm.html">PCR+RT.genus.norm.html</a>&nbsp;(119 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.norm.sum">PCR+RT.genus.norm.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.genus.norm.sum.html">PCR+RT.genus.norm.sum.html</a>&nbsp;(198 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,201&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:21&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">0 seconds&nbsp;</td>
+   </tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, family level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: family&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family">PCR+RT.family</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.html">PCR+RT.family.html</a>&nbsp;(53 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.sum">PCR+RT.family.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.sum.html">PCR+RT.family.sum.html</a>&nbsp;(91 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.norm">PCR+RT.family.norm</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.norm.html">PCR+RT.family.norm.html</a>&nbsp;(53 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.norm.sum">PCR+RT.family.norm.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.family.norm.sum.html">PCR+RT.family.norm.sum.html</a>&nbsp;(91 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,201&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:21&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">0 seconds&nbsp;</td>
+   </tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, order level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: order&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order">PCR+RT.order</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.html">PCR+RT.order.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.sum">PCR+RT.order.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.sum.html">PCR+RT.order.sum.html</a>&nbsp;(51 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.norm">PCR+RT.order.norm</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.norm.html">PCR+RT.order.norm.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.norm.sum">PCR+RT.order.norm.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.order.norm.sum.html">PCR+RT.order.norm.sum.html</a>&nbsp;(51 k)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,201&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:22&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">1 second&nbsp;</td>
+   </tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, class level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: class&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class">PCR+RT.class</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.html">PCR+RT.class.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.sum">PCR+RT.class.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.sum.html">PCR+RT.class.sum.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.norm">PCR+RT.class.norm</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.norm.html">PCR+RT.class.norm.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.norm.sum">PCR+RT.class.norm.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.class.norm.sum.html">PCR+RT.class.norm.sum.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,201&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:22&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">0 seconds&nbsp;</td>
+   </tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Merged PCR + RT profiles, Silva, phylum level</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Below are spreadsheet-ready taxonomy table in four variants, each with an HTML version. The first two show scores as is, the second two (.sum and .sum.html) include values for all parent groups. In the third two (.norm and .norm.html) values are adjusted in each column, so their sum equals a fixed value, give or take rounding errors. The last two have both parent sums and are normalized. </div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input profile&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RDP.profile&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Taxonomy levels shown: phylum&nbsp;</option>
+<option>&nbsp;Minimum row score: 0&nbsp;</option>
+<option>&nbsp;Column name filter: None&nbsp;</option>
+<option>&nbsp;Column totals: Observed average&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum">PCR+RT.phylum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.html">PCR+RT.phylum.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.sum">PCR+RT.phylum.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Original counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.sum.html">PCR+RT.phylum.sum.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.norm">PCR+RT.phylum.norm</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.norm.html">PCR+RT.phylum.norm.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.norm.sum">PCR+RT.phylum.norm.sum</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Scaled counts + sums&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR+RT.phylum.norm.sum.html">PCR+RT.phylum.norm.sum.html</a>&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Input reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">397,211&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Mapped reads total&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">277,201&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-17:02:22&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">0 seconds&nbsp;</td>
+   </tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+</table>
+
+
+</body>
+</html>
+
