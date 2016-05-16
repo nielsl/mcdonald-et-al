@@ -22,8 +22,11 @@ use. The current one will soon be available at http://bionsoftware.com
 
 The path to side-by-side comparison of PCR and RT species are,
 
-* Results_PCR+RT/RDP/PCR+RT.species         (RDP, text)
-* Results_PCR+RT/RDP/PCR+RT.species.html    (RDP, html)
-* Results_PCR+RT/Silva/PCR+RT.species       (Silva, text)
-* Results_PCR+RT/Silva/PCR+RT.species.html  (Silva, html)
+* Results_PCR+RT/RDP/PCR+RT.species 
+* Results_PCR+RT/RDP/PCR+RT.species.html
+* Results_PCR+RT/Silva/PCR+RT.species   
+* Results_PCR+RT/Silva/PCR+RT.species.html 
+
+There are also counts for the pre-processing steps, see the .stats
+or .stats.html files in each folder. 
 
