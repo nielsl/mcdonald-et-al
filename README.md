@@ -17,3 +17,16 @@ transparency reason. It is however a now outdated pre-release,
 which is inferior to the current one. BION 0.5 is licensed by 
 the GNU General Public License version 3, but we discourage its 
 use. The current one will soon be available at http://bionsoftware.com
+
+#### Results 
+
+The path to side-by-side comparison of PCR and RT species are,
+
+Results_PCR+RT/RDP/PCR+RT.species      (RDP)
+Results_PCR+RT/Silva/PCR+RT.species    (Silva)
+
+and HTML versions of these files,
+
+Results_PCR+RT/RDP/PCR+RT.species.html    (RDP)
+Results_PCR+RT/Silva/PCR+RT.species.html  (Silva)
+
