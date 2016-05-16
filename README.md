@@ -1,6 +1,4 @@
 
-Title
-=====
+### McDonald et al. canine microbiome study
 
-Test readme 2
 
