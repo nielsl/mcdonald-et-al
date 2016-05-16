@@ -1,0 +1,40 @@
+
+<stats>
+
+   title = Silva simrank similarities
+   name = organism-profile-similarities
+   summary = Creates similarities between query sequences and a reference dataset. To measure similarity between sequences A and B, each are converted to a list of unique "words" (or "k-mers") that are short sub-sequences of a fixed length in the 6-15 range. The similarity is then simply the number of common words divided by the smallest set of words in either. This ratio is then multiplied by 100 to become a percentage. The method is reasonably fast (much faster than blast), and can use all available CPU's and cores. It will return the best similarities even if they are poor and will skip poor quality bases in the query sequence (no other program can do this, yet it clearly improves the final analysis). Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Reference dataset	Silva_SSU_44-534-Paper.rna_seq.fasta
+      file = Similarities table	PCR.sims
+      file = Non-match sequences	PCR.miss
+      hrow = Input total	163026
+      hrow = Match total	158022 (96.93%)
+      hrow = Non-match total	5004 (3.07%)
+      <menu>
+         title = Parameters
+         item = Forward matching: yes
+         item = Reverse matching: yes
+         item = Minimum similarity: 40%
+         item = Oligo word length: 8
+         item = Oligo step length: 1
+         item = Base quality encoding: Sanger
+         item = Minimum base quality: 93%
+         item = Skip ambiguous bases: yes
+         item = Top matches range: 1%
+      </menu>
+      date = 19-DEC-2013-10:32:10
+      secs = 457
+      time = 7 minutes and 37 seconds
+   </header>
+
+   <table>
+      title = Similarity match/mismatch statistics
+      type = table
+      trow = file=PCR.nochim	163026	158022	5004	3.07
+      colh = Target group	Reads	Matches	Misses	Miss %
+   </table>
+
+</stats>
+

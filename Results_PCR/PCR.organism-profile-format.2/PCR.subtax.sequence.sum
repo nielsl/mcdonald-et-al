@@ -1,0 +1,833 @@
+# PCR	Taxonomic groups
+# 1210	Input reads with no similarities
+# 172188	Input read totals
+# 1263097	Score sums for mapped reads
+163782	d__Bacteria
+10160	d__Bacteria; p__Actinobacteria
+10160	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+9642	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales
+4752	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae
+4752	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces
+4427	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified
+379	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__bacterium canine oral taxon 404 5U06
+13	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__sp. 2298/06
+22	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__sp. 4321/06
+17	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__sp. M1429/94/1
+246	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__sp. canine oral taxon 407 5U07
+26	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured Actinomyces sp. 08_4_E07
+98	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium 16slp95-1e12.w2k
+10	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd1073c08c1
+516	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd1073f04c1
+19	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd1321c07c1
+22	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd1323g11c1
+466	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd1324d01c1
+173	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd2802d12c1
+74	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd2804e03c1
+20	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd2809f02c1
+48	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd2810a09c1
+73	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd2811h09c1
+587	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd291e04c1
+105	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd327f12c1
+24	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd541h01c1
+86	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__Unclassified; +__uncultured bacterium ncd950b09c1
+293	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__canis
+293	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__canis; +__(T) CCUG 41706
+32	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__suimastitidis
+32	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Actinomycetaceae; g__Actinomyces; s__suimastitidis; +__(T) CCUG 39276
+2798	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae
+2798	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium
+592	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__Unclassified
+41	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__Unclassified; +__uncultured bacterium nbw786f03c1
+100	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__Unclassified; +__uncultured bacterium ncd1324e05c1
+45	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__Unclassified; +__uncultured bacterium ncd1526c09c1
+75	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__Unclassified; +__uncultured bacterium ncd1778d11c1
+2017	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__canis
+822	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__canis; +__(T) 1170
+877	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__canis; +__OH2010
+133	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__freiburgense
+18	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__freiburgense; +__5U34
+56	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__mustelae
+32	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Corynebacteriaceae; g__Corynebacterium; s__mustelae; +__OH1320
+1815	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae
+1116	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter
+1060	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified
+12	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__Gram-positive bacterium W5P-3
+17	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__sp. F3-P9
+14	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__sp. canine oral taxon 288 ZR011
+37	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__sp. canine oral taxon 292 ZR144
+18	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__uncultured Leucobacter sp. De1196
+144	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__uncultured Leucobacter sp. F2aug.28
+31	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__uncultured bacterium 8817-D4-O-10F
+131	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__uncultured bacterium ncd2016g06c1
+11	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__Unclassified; +__uncultured bacterium ncd88a11c1
+31	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__iarius
+31	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__iarius; +__KH-35
+25	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__komagatae
+25	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Leucobacter; s__komagatae; +__IFO15245T
+34	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Pseudoclavibacter
+34	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Pseudoclavibacter; s__Unclassified
+34	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Pseudoclavibacter; s__Unclassified; +__sp. canine oral taxon 392 ZZ024
+665	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Unclassified
+665	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Unclassified; s__Unclassified
+665	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Microbacteriaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium 16slp95-2b02.p1k
+277	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae
+199	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Propionibacterium
+199	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Propionibacterium; s__Unclassified
+73	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Propionibacterium; s__Unclassified; +__sp. canine oral taxon 296 ZX154
+126	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Propionibacterium; s__Unclassified; +__sp. canine oral taxon 300 ZY058
+67	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Tessaracoccus
+67	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Tessaracoccus; s__Unclassified
+66	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Tessaracoccus; s__Unclassified; +__uncultured bacterium ncd1005d05c1
+11	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Unclassified
+11	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Unclassified; s__Unclassified
+10	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales; f__Propionibacteriaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium LL143-3B16
+518	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales
+518	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae
+518	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae; g__Euzebya
+518	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae; g__Euzebya; s__Unclassified
+29	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae; g__Euzebya; s__Unclassified; +__Actinobacteria bacterium canine oral taxon 406 OH1856B
+36	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae; g__Euzebya; s__Unclassified; +__uncultured bacterium ncd335d02c1
+63	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae; g__Euzebya; s__Unclassified; +__uncultured bacterium ncd997f12c1
+307	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Euzebyales; f__Euzebyaceae; g__Euzebya; s__Unclassified; +__uncultured bacterium ncd999c09c1
+88598	d__Bacteria; p__Bacteroidetes
+85757	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+84411	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales
+1009	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae
+1009	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides
+207	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__Unclassified
+129	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__Unclassified; +__sp. canine oral taxon 040 OD028
+10	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__Unclassified; +__uncultured bacterium AP10K.333
+11	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__Unclassified; +__uncultured bacterium H10
+15	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__Unclassified; +__uncultured organism ELU0095-T26-S-NI_000192
+802	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__heparinolyticus
+53	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__heparinolyticus; +__1A034
+420	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Bacteroidaceae; g__Bacteroides; s__heparinolyticus; +__SEQ209
+13	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Marinilabiaceae
+13	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Marinilabiaceae; g__Unclassified
+13	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Marinilabiaceae; g__Unclassified; s__Unclassified
+13	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Marinilabiaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium N08
+79983	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae
+19	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Odoribacter
+19	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Odoribacter; s__denticanis
+15	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Odoribacter; s__denticanis; +__OC024
+648	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter
+648	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified
+10	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__Porphyromonadaceae bacterium canine oral taxon 184 QC032
+56	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__bacterium enrichment culture clone JXS-02-01
+184	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__sp. canine oral taxon 384 2C058
+14	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__uncultured bacterium 071062_313
+71	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__uncultured bacterium ACS38
+75	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__uncultured bacterium Ll142-5G3
+27	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__uncultured bacterium N1903_83
+75	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Paludibacter; s__Unclassified; +__uncultured eubacterium vadinHA54
+268	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Parabacteroides
+268	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Parabacteroides; s__Unclassified
+12	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Parabacteroides; s__Unclassified; +__bacterium NLAE-zl-C468
+67	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Parabacteroides; s__Unclassified; +__uncultured bacterium N102
+10	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Parabacteroides; s__Unclassified; +__uncultured organism ELU0090-T14-S-NI_000084
+79	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Parabacteroides; s__Unclassified; +__uncultured organism ELU0156-T284-S-NIPCRAMgANa_000550
+36	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Petrimonas
+36	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Petrimonas; s__Unclassified
+36	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Petrimonas; s__Unclassified; +__sp. canine oral taxon 434 OH2958_3
+78335	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas
+65630	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified
+77	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__sp. canine oral taxon 181 QC023
+3296	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__sp. canine oral taxon 239 QF045
+19	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__sp. canine oral taxon 281 ZP022
+553	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__sp. canine oral taxon 290 ZR043
+374	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__sp. canine oral taxon 341 1F031
+170	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__sp. canine oral taxon 366 1Q059
+12	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw773c06c1
+61	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw774e04c1
+21	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw774g04c1
+93	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw785f10c1
+874	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw785h04c1
+1838	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw786b06c1
+36	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium nbw794b11c1
+1079	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1004a11c1
+32	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1005g05c1
+568	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1005h03c1
+25	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1006f11c1
+3094	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1056d03c1
+352	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1056h02c1
+11	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1071b02c1
+747	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1073a06c1
+545	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1073c02c1
+29	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1073d12c1
+12	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1074a05c1
+41	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1074d06c1
+22	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1074e05c1
+175	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1076b03c1
+223	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1076e03c1
+183	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1321h01c1
+357	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1322f03c1
+82	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1322h10c1
+775	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1324c07c1
+15	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1383d01c1
+68	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1439f03c1
+52	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1499d08c1
+365	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1522d04c1
+198	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1584b05c1
+306	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd15e11c1
+1628	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1655b12c1
+750	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1711e03c1
+10	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1712g11c1
+11	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1729d12c1
+11	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1752e09c1
+431	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1761f11c1
+51	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1786b12c2
+314	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1795e06c1
+45	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1799g04c1
+70	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1837a05c1
+139	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1894h06c1
+824	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1896a08c1
+297	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd1951e09c1
+638	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2016h04c1
+58	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2019g09c1
+100	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2021h02c1
+12	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2047e10c1
+626	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2048e02c1
+1601	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2749h07c1
+50	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2797d12c1
+151	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2798h10c1
+206	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2800d12c1
+14	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2805g02c1
+42	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2807c11c1
+534	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2807e07c1
+201	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2808f08c1
+16	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2809g05c1
+33	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd2811f07c1
+93	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd294c03c1
+620	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd322e06c1
+24	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd477d03c1
+3395	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd492a09c1
+1394	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd494c08c1
+180	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd542g04c1
+892	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd547b09c1
+25	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd549f07c1
+64	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd553a02c1
+16	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd556d12c1
+2712	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd943a02c1
+3153	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd945c01c1
+628	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd960c04c1
+215	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd997g03c1
+1161	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__Unclassified; +__uncultured bacterium ncd998f04c1
+3211	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__cangingivalis
+500	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__cangingivalis; +__2A134
+2294	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__cangingivalis; +__QC021
+30	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canis
+30	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canis; +__JCM 10100
+6343	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canoris
+1849	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canoris; +__(T) JCM 16132
+29	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canoris; +__OH032
+105	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canoris; +__QD022
+3101	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canoris; +__QD059
+92	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__canoris; +__VPB 4882
+315	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__cansulci
+235	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__cansulci; +__JCM 13913
+327	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__gingivicanis
+327	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__gingivicanis; +__OB003
+2443	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__gulae
+2443	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__gulae; +__B 243
+36	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__macacae
+10	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__macacae; +__JCM 15984
+25	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Porphyromonas; s__macacae; +__QD016
+85	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Proteiniphilum
+85	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Proteiniphilum; s__Unclassified
+43	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Proteiniphilum; s__Unclassified; +__sp. canine oral taxon 385 2C060
+20	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Proteiniphilum; s__Unclassified; +__uncultured bacterium 03d04
+577	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Tannerella
+577	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Tannerella; s__forsythia
+576	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Tannerella; s__forsythia; +__OB071
+15	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Unclassified
+15	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Porphyromonadaceae; g__Unclassified; s__Unclassified
+3406	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae
+1573	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Paraprevotella
+1573	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Paraprevotella; s__Unclassified
+465	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Paraprevotella; s__Unclassified; +__Prevotella sp. canine oral taxon 226 PW058
+436	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Paraprevotella; s__Unclassified; +__Prevotella sp. canine oral taxon 284 ZP074
+27	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Paraprevotella; s__Unclassified; +__uncultured bacterium CAP_aah98d11
+578	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Paraprevotella; s__Unclassified; +__uncultured bacterium KO2_aai20h05
+80	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Prevotella
+80	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Prevotella; s__Unclassified
+14	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Prevotella; s__Unclassified; +__uncultured bacterium inf17
+20	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Prevotella; s__Unclassified; +__uncultured bacterium ncd2682a09c1
+1753	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified
+1753	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified
+162	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__sp. canine oral taxon 226 2A167
+680	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__sp. canine oral taxon 282 ZP040
+181	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__sp. canine oral taxon 372 2B169
+29	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__uncultured Prevotellaceae bacterium SGYA502
+13	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium KO2_aai18b01
+84	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium nbw683g07c1
+66	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1074g07c1
+295	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1506f08c1
+224	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales; f__Prevotellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2809d02c1
+1346	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified
+1346	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified; f__Unclassified
+1346	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified; f__Unclassified; g__Unclassified
+1346	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+34	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Bacteroides heparinolyticus SEQ218
+351	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Bacteroidia bacterium canine oral taxon 301 1C090
+955	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Bacteroidia bacterium canine oral taxon 387 2C116
+2543	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+2543	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales
+2543	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae
+658	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella
+339	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__Unclassified
+15	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__Unclassified; +__sp. h1890
+144	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__Unclassified; +__uncultured bacterium ncd552f10c1
+43	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__Unclassified; +__uncultured bacterium ncd554g11c1
+32	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__Unclassified; +__uncultured bacterium ncd556g06c1
+319	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__zoohelcum
+135	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__zoohelcum; +__NBRC 16014
+13	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__zoohelcum; +__QC056
+19	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Bergeyella; s__zoohelcum; +__ZR113
+821	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga
+520	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified
+86	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured Capnocytophaga sp.
+313	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured bacterium nbw619h12c1
+24	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured bacterium ncd1075b08c1
+11	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured bacterium ncd1314a08c1
+38	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured bacterium ncd2803h04c1
+17	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured bacterium ncd2809c11c1
+10	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__Unclassified; +__uncultured bacterium ncd523c07c1
+269	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus
+24	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__2A082
+24	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__BD01-00351 01-351
+19	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__BD02-00039 02-39
+13	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__Cc5
+24	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__HP12001
+40	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__HP23001
+16	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__canimorsus; +__KD06025-2
+32	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__cynodegmi
+25	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Capnocytophaga; s__cynodegmi; +__(T) CIP 103937
+1064	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Flavobacterium
+1064	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Flavobacterium; s__Unclassified
+35	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Flavobacterium; s__Unclassified; +__uncultured bacterium ncd2797e02c1
+381	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales; f__Flavobacteriaceae; g__Flavobacterium; s__Unclassified; +__uncultured bacterium ncd2807b05c1
+298	d__Bacteria; p__Bacteroidetes; c__Unclassified
+298	d__Bacteria; p__Bacteroidetes; c__Unclassified; o__Unclassified
+298	d__Bacteria; p__Bacteroidetes; c__Unclassified; o__Unclassified; f__Unclassified
+298	d__Bacteria; p__Bacteroidetes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified
+298	d__Bacteria; p__Bacteroidetes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+157	d__Bacteria; p__Bacteroidetes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2806b10c1
+98	d__Bacteria; p__Bacteroidetes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd554h03c1
+1405	d__Bacteria; p__Chloroflexi
+1405	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+1405	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales
+1405	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales; f__Anaerolineaceae
+1405	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales; f__Anaerolineaceae; g__Unclassified
+1405	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales; f__Anaerolineaceae; g__Unclassified; s__Unclassified
+1113	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales; f__Anaerolineaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 306 ZZ033
+158	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales; f__Anaerolineaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 408 5U24
+15025	d__Bacteria; p__Firmicutes
+457	d__Bacteria; p__Firmicutes; c__Bacilli
+457	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales
+109	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae
+95	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae; g__Globicatella
+95	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae; g__Globicatella; s__Unclassified
+95	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae; g__Globicatella; s__Unclassified; +__sp. canine oral taxon 107 OH001
+14	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae; g__Unclassified
+14	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae; g__Unclassified; s__Unclassified
+12	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Aerococcaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd541f08c1
+348	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Carnobacteriaceae
+348	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Carnobacteriaceae; g__Granulicatella
+348	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Carnobacteriaceae; g__Granulicatella; s__Unclassified
+135	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales; f__Carnobacteriaceae; g__Granulicatella; s__Unclassified; +__sp. canine oral taxon 095 PO044
+13754	d__Bacteria; p__Firmicutes; c__Clostridia
+9595	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales
+3070	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_
+516	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax
+516	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified
+62	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 066 OF005
+56	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 067 OF076
+40	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 097 PO047
+34	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 124 OJ070
+181	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified; +__sp. canine oral taxon 125 OJ076
+47	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Anaerovorax; s__Unclassified; +__uncultured bacterium 1103200831004
+1464	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter
+1464	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified
+77	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 021 OB006
+267	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 034 OD002
+56	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 051 OG052
+406	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 104 OH065
+50	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 105 OH007
+164	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 287 ZR004
+101	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 307 ZZ040
+12	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__uncultured bacterium 16slp95-2h03.p1k
+63	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Fusibacter; s__Unclassified; +__uncultured bacterium ncd2024h01c1
+288	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Helcococcus
+288	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Helcococcus; s__Unclassified
+242	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Helcococcus; s__Unclassified; +__sp. canine oral taxon 069 OF006
+30	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Helcococcus; s__Unclassified; +__sp. canine oral taxon 140 PP020
+11	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Helcococcus; s__Unclassified; +__uncultured bacterium M6
+735	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Peptostreptococcaceae
+735	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Peptostreptococcaceae; s__Unclassified
+547	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Peptostreptococcaceae; s__Unclassified; +__bacterium canine oral taxon 019 OB001
+26	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Peptostreptococcaceae; s__Unclassified; +__bacterium canine oral taxon 019 OB012
+76	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Peptostreptococcaceae; s__Unclassified; +__bacterium canine oral taxon 019 OG085
+16	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Peptostreptococcaceae; s__Unclassified; +__bacterium canine oral taxon 065 OF009
+67	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Tissierella
+67	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Tissierella; s__Unclassified
+30	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Tissierella; s__Unclassified; +__sp. canine oral taxon 029 OB056
+28	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Clostridiales_; g__Tissierella; s__Unclassified; +__sp. canine oral taxon 029 PU017
+2017	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae
+595	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella
+595	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified
+16	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__sp. canine oral taxon 025 OB033
+47	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__sp. canine oral taxon 098 PO001
+84	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__sp. canine oral taxon 158 PS069
+13	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__sp. canine oral taxon 257 ZI059
+30	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__sp. canine oral taxon 257 ZL030
+287	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__uncultured bacterium ncd240c08c1
+46	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Catonella; s__Unclassified; +__uncultured bacterium ncd490a01c1
+198	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Lactonifactor
+198	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Lactonifactor; s__Unclassified
+198	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Lactonifactor; s__Unclassified; +__uncultured bacterium ncd998f08c1
+1224	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified
+1224	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified
+22	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 024 OB020
+39	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 026 OB058
+103	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 099 PO010
+32	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 156 PR052
+17	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 161 PS075
+152	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 371 2B159
+116	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium 071062_113
+13	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium 9q_16
+56	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1008e07c1
+14	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1073d08c1
+143	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1074d11c1
+13	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1321h04c1
+10	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1782h05c1
+13	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd243h03c1
+882	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1
+882	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1; g__Peptococcus
+882	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1; g__Peptococcus; s__Unclassified
+357	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1; g__Peptococcus; s__Unclassified; +__sp. canine oral taxon 044 OD048
+109	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1; g__Peptococcus; s__Unclassified; +__uncultured bacterium DH2-53
+116	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1; g__Peptococcus; s__Unclassified; +__uncultured bacterium H81
+12	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptococcaceae-1; g__Peptococcus; s__Unclassified; +__uncultured bacterium M121
+3281	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae
+2025	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium
+2025	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified
+33	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 004 OB014
+29	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 004 OG039
+90	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 005 OB010
+10	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 006 OB016
+33	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 057 OG058
+151	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 071 OF047
+75	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 086 OC050
+17	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 135 PQ070
+29	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 135 ZL048
+138	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 166 PS043
+36	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 258 ZN034
+49	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__uncultured bacterium ncd1074d04c1
+102	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__uncultured bacterium ncd1074e11c1
+212	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__uncultured bacterium ncd2812d06c1
+61	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Acetoanaerobium; s__Unclassified; +__uncultured bacterium ncd547a10c1
+1080	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor
+427	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__Unclassified
+87	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__Unclassified; +__sp. canine oral taxon 064 OF011
+96	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__Unclassified; +__sp. canine oral taxon 163 PS019
+47	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__Unclassified; +__sp. canine oral taxon 164 PS024
+73	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__Unclassified; +__uncultured bacterium ncd489c12c1
+18	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__alocis
+18	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__alocis; +__OB017
+635	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__villosus
+95	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__villosus; +__(T) DSM1645
+288	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Filifactor; s__villosus; +__OD049
+24	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Peptostreptococcaceae
+24	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Peptostreptococcaceae; s__Unclassified
+24	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Peptostreptococcaceae; s__Unclassified; +__bacterium canine oral taxon 003 OB070
+152	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Proteocatella
+152	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Proteocatella; s__Unclassified
+24	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Proteocatella; s__Unclassified; +__Frigovirgula sp. canine oral taxon 032 ZI057
+69	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Peptostreptococcaceae; g__Proteocatella; s__Unclassified; +__uncultured bacterium ncd1075d04c1
+345	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae
+31	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Saccharofermentans
+31	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Saccharofermentans; s__Unclassified
+25	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Saccharofermentans; s__Unclassified; +__uncultured bacterium DangY52-A21
+314	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified
+314	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified
+51	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 061 OF002
+10	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 216 PU075
+11	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 219 PV085
+155	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 388 1P046
+23	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium BS19
+13	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Ruminococcaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium bdog1_a11_1
+4159	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified
+4159	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified
+4159	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified
+4159	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+622	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Clostridiales bacterium canine oral taxon 027 OB022
+12	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Clostridiales bacterium canine oral taxon 141 PP036
+31	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Clostridiales bacterium canine oral taxon 141 PU008
+22	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 068 OF007
+66	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 077 OC007
+183	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 096 PO049
+47	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 155 PR011
+17	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Peptostreptococcaceae bacterium canine oral taxon 303 ZY090
+1132	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium nbw772b05c1
+51	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1073g08c1
+100	d__Bacteria; p__Firmicutes; c__Clostridia; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2799g09c1
+700	d__Bacteria; p__Firmicutes; c__Negativicutes
+700	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales
+135	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Acidaminococcaceae
+135	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Acidaminococcaceae; g__Phascolarctobacterium
+135	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Acidaminococcaceae; g__Phascolarctobacterium; s__Unclassified
+135	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Acidaminococcaceae; g__Phascolarctobacterium; s__Unclassified; +__sp. canine oral taxon 212 PU081
+565	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Veillonellaceae
+565	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Veillonellaceae; g__Schwartzia
+565	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Veillonellaceae; g__Schwartzia; s__Unclassified
+564	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales; f__Veillonellaceae; g__Schwartzia; s__Unclassified; +__sp. canine oral taxon 063 OF001
+114	d__Bacteria; p__Firmicutes; c__Unclassified
+114	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified
+114	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified
+114	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified
+114	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+12	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Acholeplasmatales bacterium canine oral taxon 316 1B068
+14	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Clostridiales bacterium canine oral taxon 142 PP057
+60	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Firmicutes bacterium canine oral taxon 309 2A014
+23	d__Bacteria; p__Firmicutes; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium 16slp95-1a01.w2k
+570	d__Bacteria; p__Fusobacteria
+570	d__Bacteria; p__Fusobacteria; c__Fusobacteria
+570	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales
+570	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae
+570	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium
+570	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium; s__Unclassified
+16	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium; s__Unclassified; +__uncultured bacterium ncd1076c07c1
+176	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium; s__Unclassified; +__uncultured bacterium ncd1323c05c1
+32	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium; s__Unclassified; +__uncultured bacterium ncd2807d02c1
+27	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium; s__Unclassified; +__uncultured bacterium ncd294d02c1
+43	d__Bacteria; p__Fusobacteria; c__Fusobacteria; o__Fusobacteriales; f__Fusobacteriaceae; g__Fusobacterium; s__Unclassified; +__uncultured bacterium ncd549g12c1
+34133	d__Bacteria; p__Proteobacteria
+9506	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+6202	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales
+695	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae
+46	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Derxia
+46	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Derxia; s__Unclassified
+43	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Derxia; s__Unclassified; +__uncultured bacterium 069082_384
+638	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Pelistega
+638	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Pelistega; s__Unclassified
+638	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Pelistega; s__Unclassified; +__sp. canine oral taxon 267 ZJ025
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Unclassified
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Unclassified; s__Unclassified
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Alcaligenaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium 8817-D4-O-12B
+5507	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae
+1594	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Brachymonas
+1594	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Brachymonas; s__Unclassified
+411	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Brachymonas; s__Unclassified; +__sp. canine oral taxon 015 OB002
+576	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Brachymonas; s__Unclassified; +__sp. canine oral taxon 015 PQ026
+22	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Brachymonas; s__Unclassified; +__uncultured bacterium 1343
+312	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Brachymonas; s__Unclassified; +__uncultured bacterium ncd960f10c1
+1059	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Comamonas
+1059	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Comamonas; s__Unclassified
+1059	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Comamonas; s__Unclassified; +__uncultured bacterium ncd1076a06c1
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Lampropedia
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Lampropedia; s__hyalina
+143	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Ottowia
+143	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Ottowia; s__Unclassified
+92	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Ottowia; s__Unclassified; +__sp. canine oral taxon 014 OB029
+50	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Ottowia; s__Unclassified; +__sp. canine oral taxon 014 OG041
+694	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified
+694	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified
+13	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__bacterium NML790751
+13	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1003a03c1
+70	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1005h10c1
+141	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1073c06c1
+17	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1785h10c2
+46	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2805b09c1
+68	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2809f04c1
+52	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd543b05c1
+207	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd543c10c1
+2006	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Xenophilus
+2006	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Xenophilus; s__Unclassified
+295	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Xenophilus; s__Unclassified; +__sp. canine oral taxon 174 QC083
+1711	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales; f__Comamonadaceae; g__Xenophilus; s__Unclassified; +__sp. canine oral taxon 264 ZN085
+2240	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales
+2240	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae
+517	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Aquaspirillum
+517	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Aquaspirillum; s__Unclassified
+94	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Aquaspirillum; s__Unclassified; +__sp. canine oral taxon 091 OE054
+260	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Aquaspirillum; s__Unclassified; +__uncultured bacterium ncd550f05c1
+68	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Aquaspirillum; s__Unclassified; +__uncultured bacterium ncd941f11c1
+10	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Eikenella
+10	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Eikenella; s__Unclassified
+10	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Eikenella; s__Unclassified; +__sp. canine oral taxon 049 OB066
+1713	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria
+1051	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified
+323	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__sp. 3087
+73	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__sp. VA12063/2006
+21	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__sp. VA252/2008
+170	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__sp. canine oral taxon 268 ZN028
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium 16slp95-2f03.p1k
+67	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium nbw114g12c1
+88	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium ncd1073g12c1
+37	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium ncd1324c06c1
+10	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium ncd1698e02c1
+24	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium ncd490f06c1
+43	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__Unclassified; +__uncultured bacterium ncd990e11c1
+14	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__animaloris
+14	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__animaloris; +__OB021
+53	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__canis
+53	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__canis; +__VA25810gw_03
+523	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__shayeganii
+362	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__shayeganii; +__4722
+159	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__shayeganii; +__CCUG 56380A
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__weaveri
+11	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__weaveri; +__
+61	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__zoodegmatis
+14	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__zoodegmatis; +__(T) LMG 23012
+29	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__zoodegmatis; +__1S040
+12	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales; f__Neisseriaceae; g__Neisseria; s__zoodegmatis; +__N15a
+347	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales
+347	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales; f__Rhodocyclaceae
+347	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales; f__Rhodocyclaceae; g__Propionivibrio
+347	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales; f__Rhodocyclaceae; g__Propionivibrio; s__Unclassified
+81	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales; f__Rhodocyclaceae; g__Propionivibrio; s__Unclassified; +__sp. canine oral taxon 223 PW021
+257	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales; f__Rhodocyclaceae; g__Propionivibrio; s__Unclassified; +__sp. canine oral taxon 223 QE088
+717	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified
+717	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified
+717	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified
+717	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+414	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Lautropia sp. canine oral taxon 175 QC039
+37	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1073h07c1
+43	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2799h11c1
+37	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd493f12c1
+3582	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+359	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales
+359	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bdellovibrionaceae
+359	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bdellovibrionaceae; g__Bdellovibrio
+359	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bdellovibrionaceae; g__Bdellovibrio; s__Unclassified
+171	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bdellovibrionaceae; g__Bdellovibrio; s__Unclassified; +__uncultured bacterium Hyd83
+169	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales; f__Bdellovibrionaceae; g__Bdellovibrio; s__Unclassified; +__uncultured bacterium ncd1587h01c2
+38	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales
+38	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales; f__Desulfobulbaceae
+38	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales; f__Desulfobulbaceae; g__Desulfobulbus
+38	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales; f__Desulfobulbaceae; g__Desulfobulbus; s__Unclassified
+2926	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales
+2317	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae
+2317	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae; g__Desulfomicrobium
+2317	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae; g__Desulfomicrobium; s__orale
+35	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae; g__Desulfomicrobium; s__orale; +__(T) DSM12838
+47	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae; g__Desulfomicrobium; s__orale; +__NY677
+810	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae; g__Desulfomicrobium; s__orale; +__NY679
+1165	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfomicrobiaceae; g__Desulfomicrobium; s__orale; +__OB018
+609	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfovibrionaceae
+609	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfovibrionaceae; g__Desulfovibrio
+609	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfovibrionaceae; g__Desulfovibrio; s__Unclassified
+528	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfovibrionaceae; g__Desulfovibrio; s__Unclassified; +__sp. canine oral taxon 070 OF078
+62	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales; f__Desulfovibrionaceae; g__Desulfovibrio; s__Unclassified; +__uncultured bacterium 4_19
+35	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales
+35	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__Polyangiaceae
+35	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__Polyangiaceae; g__Unclassified
+35	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__Polyangiaceae; g__Unclassified; s__Unclassified
+35	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales; f__Polyangiaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium 62q_24
+224	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Unclassified
+224	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Unclassified; f__Unclassified
+224	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified
+224	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+94	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Desulfovibrionales bacterium canine oral taxon 009 OB028
+95	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd543e05c1
+671	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+671	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales
+238	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae
+77	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Arcobacter
+77	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Arcobacter; s__Unclassified
+77	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Arcobacter; s__Unclassified; +__sp. canine oral taxon 276 ZJ016
+161	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Campylobacter
+145	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Campylobacter; s__Unclassified
+48	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Campylobacter; s__Unclassified; +__sp. canine oral taxon 011 OB019
+16	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Campylobacteraceae; g__Campylobacter; s__rectus
+400	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae
+400	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae; g__Wolinella
+386	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae; g__Wolinella; s__Unclassified
+383	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae; g__Wolinella; s__Unclassified; +__uncultured bacterium ncd294e11c1
+14	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae; g__Wolinella; s__succinogenes
+12	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Helicobacteraceae; g__Wolinella; s__succinogenes; +__SeR-1
+33	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Hydrogenimonaceae
+33	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Hydrogenimonaceae; g__Hydrogenimonas
+33	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Hydrogenimonaceae; g__Hydrogenimonas; s__Unclassified
+33	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales; f__Hydrogenimonaceae; g__Hydrogenimonas; s__Unclassified; +__uncultured epsilon proteobacterium RsC01-014
+20359	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+2242	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales
+2242	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae
+2242	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae; g__Cardiobacterium
+2242	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae; g__Cardiobacterium; s__Unclassified
+1409	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae; g__Cardiobacterium; s__Unclassified; +__sp. canine oral taxon 177 QC030
+731	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae; g__Cardiobacterium; s__Unclassified; +__sp. canine oral taxon 238 QE083
+86	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales; f__Cardiobacteriaceae; g__Cardiobacterium; s__Unclassified; +__sp. canine oral taxon 238 ZL074
+4284	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales
+4284	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae
+1666	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus
+1666	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified
+11	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium nbw826g01c1
+94	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium ncd1323b07c1
+11	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium ncd1658d08c1
+50	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium ncd1743f01c1
+256	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium ncd2801c05c1
+108	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium ncd2807f04c1
+171	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Actinobacillus; s__Unclassified; +__uncultured bacterium ncd490c05c1
+12	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Aggregatibacter
+12	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Aggregatibacter; s__Unclassified
+10	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Aggregatibacter; s__Unclassified; +__uncultured bacterium ncd2311a02c1
+46	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Haemophilus
+46	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Haemophilus; s__Unclassified
+19	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Haemophilus; s__Unclassified; +__Pasteurellaceae bacterium canine oral taxon 272 ZJ029
+21	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Haemophilus; s__Unclassified; +__Pasteurellaceae bacterium canine oral taxon 272 ZR110
+2085	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella
+1545	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__Unclassified
+1224	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__Unclassified; +__sp. 91985
+68	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__Unclassified; +__uncultured bacterium ncd1073h10c1
+35	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__Unclassified; +__uncultured bacterium ncd1530a05c1
+136	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__Unclassified; +__uncultured bacterium ncd542d08c1
+72	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__Unclassified; +__uncultured bacterium ncd951c06c1
+22	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__canis
+22	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__canis; +__ZJ072
+518	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__stomatis
+518	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Pasteurella; s__stomatis; +__(T) CCUG 17979
+475	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Unclassified
+475	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Unclassified; s__Unclassified
+12	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1322a03c1
+18	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales; f__Pasteurellaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1730g03c1
+8913	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales
+8913	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae
+3970	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter
+3970	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter; s__Unclassified
+188	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter; s__Unclassified; +__uncultured bacterium ncd1054d03c1
+208	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter; s__Unclassified; +__uncultured bacterium ncd1074c06c1
+1972	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter; s__Unclassified; +__uncultured bacterium ncd1323g03c1
+10	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter; s__Unclassified; +__uncultured bacterium ncd299a10c1
+10	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Enhydrobacter; s__Unclassified; +__uncultured bacterium ncd322a04c1
+4943	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella
+4943	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified
+50	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__sp. canine oral taxon 396 PO071
+57	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium MA01E04
+334	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium ncd1323c08c1
+75	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium ncd1324c08c1
+28	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium ncd1655g07c1
+13	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium ncd1732d06c1
+34	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium ncd2812h10c1
+2272	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales; f__Moraxellaceae; g__Moraxella; s__Unclassified; +__uncultured bacterium ncd493a09c1
+114	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Unclassified
+114	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Unclassified; f__Unclassified
+114	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified
+114	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+11	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium BANW555
+101	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium OTU46
+4806	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales
+4806	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae
+52	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Luteimonas
+52	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Luteimonas; s__Unclassified
+51	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Luteimonas; s__Unclassified; +__sp. canine oral taxon 275 ZN009
+3102	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Stenotrophomonas
+3102	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Stenotrophomonas; s__Unclassified
+3096	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Stenotrophomonas; s__Unclassified; +__sp. canine oral taxon 224 PW040
+1652	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified
+1652	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified
+369	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__bacterium NML 03-0222
+107	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__uncultured Xanthomonadaceae bacterium T313G1
+26	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium AnDHS-5
+26	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium D17
+404	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium TX1A_25
+57	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2805b12c1
+11	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales; f__Xanthomonadaceae; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd491h07c1
+15	d__Bacteria; p__Proteobacteria; c__Unclassified
+15	d__Bacteria; p__Proteobacteria; c__Unclassified; o__Unclassified
+15	d__Bacteria; p__Proteobacteria; c__Unclassified; o__Unclassified; f__Unclassified
+15	d__Bacteria; p__Proteobacteria; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified
+15	d__Bacteria; p__Proteobacteria; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+15	d__Bacteria; p__Proteobacteria; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium B-94
+7149	d__Bacteria; p__SR1
+7149	d__Bacteria; p__SR1; c__SR1_genera
+7149	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified
+7149	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified
+7149	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified
+7149	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+706	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__SR1 bacterium canine oral taxon 369 2A131
+1938	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__SR1 bacterium canine oral taxon 369 2C165
+748	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__SR1 bacterium canine oral taxon 380 2B037
+443	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__SR1 bacterium canine oral taxon 382 2B176
+49	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium BD07135
+350	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium DH3-39
+292	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1073f01c1
+50	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1074f02c1
+17	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1698f11c1
+47	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2125h10c1
+34	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd326c11c1
+1251	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd541b05c1
+10	d__Bacteria; p__SR1; c__SR1_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured candidate division OP11 bacterium HsW01-043
+559	d__Bacteria; p__Spirochaetes
+559	d__Bacteria; p__Spirochaetes; c__Spirochaetes
+559	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales
+559	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae
+24	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Spirochaeta
+24	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Spirochaeta; s__Unclassified
+22	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Spirochaeta; s__Unclassified; +__sp. canine oral taxon 314 1C052
+535	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema
+484	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__Unclassified
+27	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__Unclassified; +__sp. PT7
+29	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__Unclassified; +__sp. canine oral taxon 233 QA083
+47	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__Unclassified; +__sp. canine oral taxon 356 1Y007
+337	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__Unclassified; +__sp. canine oral taxon 356 1Y140
+11	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__Unclassified; +__sp. canine oral taxon 358 1Z002
+51	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__denticola
+36	d__Bacteria; p__Spirochaetes; c__Spirochaetes; o__Spirochaetales; f__Spirochaetaceae; g__Treponema; s__denticola; +__PZ036
+231	d__Bacteria; p__Synergistetes
+231	d__Bacteria; p__Synergistetes; c__Synergistia
+231	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales
+231	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae
+231	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae; g__Unclassified
+231	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae; g__Unclassified; s__Unclassified
+143	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 138 2C034
+30	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 138 PY001
+12	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales; f__Synergistaceae; g__Unclassified; s__Unclassified; +__bacterium canine oral taxon 180 QC038
+4141	d__Bacteria; p__TM7
+4141	d__Bacteria; p__TM7; c__TM7_genera
+4141	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified
+4141	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified
+4141	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified
+4141	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+671	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__TM7 phylum sp. canine oral taxon 237 QE010
+70	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__TM7 phylum sp. canine oral taxon 250 ZL096
+70	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__TM7 phylum sp. canine oral taxon 322 1C049
+103	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__TM7 phylum sp. canine oral taxon 363 2A026
+12	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium 070054_511
+16	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium 1103200832076
+212	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium 110_BE2_40
+44	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium 75_8
+10	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium Acro292
+26	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium B18-45-B05
+60	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium C20_h17
+37	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium DD10-20
+13	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium PeM47
+53	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium R-6455
+373	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1004f01c1
+57	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1074e02c1
+30	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1664f11c1
+845	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2058d06c1
+145	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd2634b09c1
+20	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured candidate division TM7 bacterium 7BB428
+12	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured candidate division TM7 bacterium S827
+17	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured rumen bacterium BF344
+36	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured rumen bacterium D-B-30
+12	d__Bacteria; p__TM7; c__TM7_genera; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured rumen bacterium MXML-C4
+1811	d__Bacteria; p__Unclassified
+1811	d__Bacteria; p__Unclassified; c__Unclassified
+1811	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified
+1811	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified
+1811	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified
+1811	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified
+242	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Chlorobi bacterium canine oral taxon 046 1F061
+321	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Chlorobi bacterium canine oral taxon 046 OB015
+100	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Chlorobi bacterium canine oral taxon 312 1A063
+182	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Erysipelotrichaceae bacterium canine oral taxon 381 2C011
+24	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Firmicutes bacterium canine oral taxon 309 1A027
+274	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__GN02 bacterium canine oral taxon 291 ZR106
+11	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__GN02 bacterium canine oral taxon 364 2A176
+109	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__GN02 bacterium canine oral taxon 394 2A187
+12	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__Leptospiraceae bacterium canine oral taxon 373 1Z095
+26	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1005b10c1
+61	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd1075b11c1
+11	d__Bacteria; p__Unclassified; c__Unclassified; o__Unclassified; f__Unclassified; g__Unclassified; s__Unclassified; +__uncultured bacterium ncd354d05c1

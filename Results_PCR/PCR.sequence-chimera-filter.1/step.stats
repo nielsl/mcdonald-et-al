@@ -1,0 +1,36 @@
+
+<stats>
+
+   title = Chimera filtering
+   summary = This method measures chimera-potential of single-gene DNA sequences against a well-formed reference dataset without aligning. Outputs are score tables plus a chimera- and non-chimera sequence files. The method runs slightly faster, uses uses slightly less memory and has at least as good sensitivity as the closed-source uchime. Only two-fragment chimeras are detected at present, although triple-fragment usually also receive high scores. By default all available CPU cores are used. Proper method documentation will be written and linked to here.
+
+   <header>
+      <menu>
+         title = Parameters
+         item = Oligo word length: 8
+         item = Oligo step length: 4
+         item = Minimum chimera score: 35
+         item = Minimum fragment length: 80
+         item = Remove sequence gaps: no
+         item = Sequence read buffer: yes
+         item = Remove reference gaps: no
+         item = Reference read buffer: yes
+         item = CPU cores used: 8
+      </menu>
+      file = Reference datafile	RDP_SSU_44-534-C99.rna_seq.fasta
+      hrow = Total input counts	167770 entries, 177407 reads
+      hrow = Total chimera counts	4744 entries (2.8%), 4754 reads (2.7%)
+      date = 19-DEC-2013-10:24:31
+      secs = 415.146784067154
+      time = 6 minutes and 55 seconds
+   </header>
+
+   <table>
+      title = Chimera sequence and reads statistics
+      type = table
+      trow = file=PCR.nochim	167770	4744	2.8	177407	4754	2.7	html=Files:PCR.stats.html
+      colh = Output files	In-seqs	Chimeras	&Delta; %	In-reads	Chimeras	&Delta; %	Files
+   </table>
+
+</stats>
+

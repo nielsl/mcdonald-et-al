@@ -1,0 +1,231 @@
+
+<stats>
+
+   title = RDP profile tables, sequence level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: sequence
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.sequence
+      file = Original counts	PCR.subtax.sequence.html
+      file = Original counts + sums	PCR.subtax.sequence.sum
+      file = Original counts + sums	PCR.subtax.sequence.sum.html
+      file = Scaled counts	PCR.subtax.sequence.norm
+      file = Scaled counts	PCR.subtax.sequence.norm.html
+      file = Scaled counts + sums	PCR.subtax.sequence.norm.sum
+      file = Scaled counts + sums	PCR.subtax.sequence.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	163782
+      secs = 0
+      date = 19-DEC-2013-10:45:18
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, species level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: species
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.species
+      file = Original counts	PCR.subtax.species.html
+      file = Original counts + sums	PCR.subtax.species.sum
+      file = Original counts + sums	PCR.subtax.species.sum.html
+      file = Scaled counts	PCR.subtax.species.norm
+      file = Scaled counts	PCR.subtax.species.norm.html
+      file = Scaled counts + sums	PCR.subtax.species.norm.sum
+      file = Scaled counts + sums	PCR.subtax.species.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	165793
+      secs = 0
+      date = 19-DEC-2013-10:45:18
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, genus level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: genus
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.genus
+      file = Original counts	PCR.subtax.genus.html
+      file = Original counts + sums	PCR.subtax.genus.sum
+      file = Original counts + sums	PCR.subtax.genus.sum.html
+      file = Scaled counts	PCR.subtax.genus.norm
+      file = Scaled counts	PCR.subtax.genus.norm.html
+      file = Scaled counts + sums	PCR.subtax.genus.norm.sum
+      file = Scaled counts + sums	PCR.subtax.genus.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	165906
+      secs = 0
+      date = 19-DEC-2013-10:45:18
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, family level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: family
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.family
+      file = Original counts	PCR.subtax.family.html
+      file = Original counts + sums	PCR.subtax.family.sum
+      file = Original counts + sums	PCR.subtax.family.sum.html
+      file = Scaled counts	PCR.subtax.family.norm
+      file = Scaled counts	PCR.subtax.family.norm.html
+      file = Scaled counts + sums	PCR.subtax.family.norm.sum
+      file = Scaled counts + sums	PCR.subtax.family.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	166073
+      secs = 1
+      date = 19-DEC-2013-10:45:19
+      time = 1 second
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, order level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: order
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.order
+      file = Original counts	PCR.subtax.order.html
+      file = Original counts + sums	PCR.subtax.order.sum
+      file = Original counts + sums	PCR.subtax.order.sum.html
+      file = Scaled counts	PCR.subtax.order.norm
+      file = Scaled counts	PCR.subtax.order.norm.html
+      file = Scaled counts + sums	PCR.subtax.order.norm.sum
+      file = Scaled counts + sums	PCR.subtax.order.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	166144
+      secs = 0
+      date = 19-DEC-2013-10:45:19
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, class level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: class
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.class
+      file = Original counts	PCR.subtax.class.html
+      file = Original counts + sums	PCR.subtax.class.sum
+      file = Original counts + sums	PCR.subtax.class.sum.html
+      file = Scaled counts	PCR.subtax.class.norm
+      file = Scaled counts	PCR.subtax.class.norm.html
+      file = Scaled counts + sums	PCR.subtax.class.norm.sum
+      file = Scaled counts + sums	PCR.subtax.class.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	166187
+      secs = 0
+      date = 19-DEC-2013-10:45:19
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, phylum level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	PCR.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: phylum
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	PCR.subtax.phylum
+      file = Original counts	PCR.subtax.phylum.html
+      file = Original counts + sums	PCR.subtax.phylum.sum
+      file = Original counts + sums	PCR.subtax.phylum.sum.html
+      file = Scaled counts	PCR.subtax.phylum.norm
+      file = Scaled counts	PCR.subtax.phylum.norm.html
+      file = Scaled counts + sums	PCR.subtax.phylum.norm.sum
+      file = Scaled counts + sums	PCR.subtax.phylum.norm.sum.html
+      hrow = Input reads total	172188
+      hrow = Mapped reads total	166188
+      secs = 0
+      date = 19-DEC-2013-10:45:19
+      time = 0 seconds
+   </header>
+
+</stats>
+

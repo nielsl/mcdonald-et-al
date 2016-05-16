@@ -1,0 +1,13 @@
+<organism-profile-format.1>
+    decimal-places = 0
+    id = 5
+    input-step = 4
+    normalized-column-total = 100000
+    output-name = org_profile_silva
+    summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values.
+    table-title-regex = (PCR)
+    taxonomy-minimum-score = 10
+    taxonomy-minimum-sum = 1
+    title = Silva profile tables
+    zip-outputs = no
+</organism-profile-format.1>

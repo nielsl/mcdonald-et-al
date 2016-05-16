@@ -1,0 +1,39 @@
+
+<stats>
+
+    title = About
+    summary = These pages are self-contained and can be viewed by any browser on any system, posted on internet or e-mailed to colleagues. Results include detailed statistics and data file access. Results can  be reproduced by re-running a single recipe with all parameters within. In the interest of full transparency we made the whole BION-meta package  non-proprietary and open-source. There will be good online support.
+
+    <header>
+       hrow = Author	Niels Larsen, James McDonald
+       html = Recipe	PCR.recipe
+       html = Result files	PCR.files
+       html = About BION	BION.about/BION.about
+       html = For sponsors	BION.about/BION.todo
+       hrow = Run time	30 minutes and 1 second
+       hrow = Finished	19-DEC-2013-10:45:19
+    </header>
+
+</stats>
+
+<stats>
+
+    title = Results
+    summary = Steps were run in the order they appear in the recipe  above. Results are listed in the same order below and are accessible via each link. To get back to this page, use the browser back-button.
+
+    <table>
+       colh = Recipe step title&nbsp;	Results	Seconds	Finished
+       align_columns = [[ 0, "right" ], [ -1, "left" ]]
+       trow = Sequence cleaning&nbsp;	html=Results:PCR.sequence-cleaning.1/step.stats.html	126	10:17:25
+       trow = Sequence de-replication&nbsp;	html=Results:PCR.sequence-dereplication.1/step.stats.html	9	10:17:35
+       trow = Chimera filtering&nbsp;	html=Results:PCR.sequence-chimera-filter.1/step.stats.html	417	10:24:32
+       trow = Silva simrank similarities&nbsp;	html=Results:PCR.sequence-similarities-simrank.1/step.stats.html	457	10:32:10
+       trow = Silva taxonomy mapping&nbsp;	html=Results:PCR.organism-taxonomy-profiler.1/step.stats.html	26	10:32:36
+       trow = Silva profile tables&nbsp;	html=Results:PCR.organism-profile-format.1/step.stats.html	1	10:32:38
+       trow = RDP simrank similarities&nbsp;	html=Results:PCR.sequence-similarities-simrank.2/step.stats.html	732	10:44:50
+       trow = RDP taxonomy mapping&nbsp;	html=Results:PCR.organism-taxonomy-profiler.2/step.stats.html	27	10:45:17
+       trow = RDP profile tables&nbsp;	html=Results:PCR.organism-profile-format.2/step.stats.html	1	10:45:19
+    </table>
+
+</stats>
+

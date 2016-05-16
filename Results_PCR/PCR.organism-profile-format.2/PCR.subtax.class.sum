@@ -1,0 +1,42 @@
+# PCR	Taxonomic groups
+# 1210	Input reads with no similarities
+# 172188	Input read totals
+# 498561	Score sums for mapped reads
+166187	d__Bacteria
+10385	d__Bacteria; p__Actinobacteria
+10385	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+89126	d__Bacteria; p__Bacteroidetes
+86134	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+2666	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+326	d__Bacteria; p__Bacteroidetes; c__Unclassified
+1406	d__Bacteria; p__Chloroflexi
+1406	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+13	d__Bacteria; p__Elusimicrobia
+13	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+15475	d__Bacteria; p__Firmicutes
+478	d__Bacteria; p__Firmicutes; c__Bacilli
+14116	d__Bacteria; p__Firmicutes; c__Clostridia
+23	d__Bacteria; p__Firmicutes; c__Erysipelotrichia
+739	d__Bacteria; p__Firmicutes; c__Negativicutes
+119	d__Bacteria; p__Firmicutes; c__Unclassified
+634	d__Bacteria; p__Fusobacteria
+634	d__Bacteria; p__Fusobacteria; c__Fusobacteria
+34777	d__Bacteria; p__Proteobacteria
+45	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+9714	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+3650	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+712	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+20640	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+16	d__Bacteria; p__Proteobacteria; c__Unclassified
+7228	d__Bacteria; p__SR1
+7228	d__Bacteria; p__SR1; c__SR1_genera
+670	d__Bacteria; p__Spirochaetes
+670	d__Bacteria; p__Spirochaetes; c__Spirochaetes
+266	d__Bacteria; p__Synergistetes
+266	d__Bacteria; p__Synergistetes; c__Synergistia
+4321	d__Bacteria; p__TM7
+4321	d__Bacteria; p__TM7; c__TM7_genera
+16	d__Bacteria; p__Tenericutes
+16	d__Bacteria; p__Tenericutes; c__Mollicutes
+1870	d__Bacteria; p__Unclassified
+1870	d__Bacteria; p__Unclassified; c__Unclassified

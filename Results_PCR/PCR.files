@@ -1,0 +1,553 @@
+
+Below is a very simple read-only list of all result files. Each recipe step 
+have their own directory where only its own output files are. The list will 
+be improved and have links.
+Results
+|-- BION.about
+|-- PCR.logs
+|   |-- command_line.args
+|   |-- command_line.conf
+|   |-- recipe_dump
+|   |-- recipe_orig.text
+|   |-- run-commands.log
+|   `-- run_args.conf
+|-- PCR.organism-profile-format.1
+|   |-- PCR.subtax.class
+|   |-- PCR.subtax.class.html
+|   |-- PCR.subtax.class.norm
+|   |-- PCR.subtax.class.norm.html
+|   |-- PCR.subtax.class.norm.sum
+|   |-- PCR.subtax.class.norm.sum.html
+|   |-- PCR.subtax.class.sum
+|   |-- PCR.subtax.class.sum.html
+|   |-- PCR.subtax.family
+|   |-- PCR.subtax.family.html
+|   |-- PCR.subtax.family.norm
+|   |-- PCR.subtax.family.norm.html
+|   |-- PCR.subtax.family.norm.sum
+|   |-- PCR.subtax.family.norm.sum.html
+|   |-- PCR.subtax.family.sum
+|   |-- PCR.subtax.family.sum.html
+|   |-- PCR.subtax.genus
+|   |-- PCR.subtax.genus.html
+|   |-- PCR.subtax.genus.norm
+|   |-- PCR.subtax.genus.norm.html
+|   |-- PCR.subtax.genus.norm.sum
+|   |-- PCR.subtax.genus.norm.sum.html
+|   |-- PCR.subtax.genus.sum
+|   |-- PCR.subtax.genus.sum.html
+|   |-- PCR.subtax.order
+|   |-- PCR.subtax.order.html
+|   |-- PCR.subtax.order.norm
+|   |-- PCR.subtax.order.norm.html
+|   |-- PCR.subtax.order.norm.sum
+|   |-- PCR.subtax.order.norm.sum.html
+|   |-- PCR.subtax.order.sum
+|   |-- PCR.subtax.order.sum.html
+|   |-- PCR.subtax.phylum
+|   |-- PCR.subtax.phylum.html
+|   |-- PCR.subtax.phylum.norm
+|   |-- PCR.subtax.phylum.norm.html
+|   |-- PCR.subtax.phylum.norm.sum
+|   |-- PCR.subtax.phylum.norm.sum.html
+|   |-- PCR.subtax.phylum.sum
+|   |-- PCR.subtax.phylum.sum.html
+|   |-- PCR.subtax.sequence
+|   |-- PCR.subtax.sequence.html
+|   |-- PCR.subtax.sequence.norm
+|   |-- PCR.subtax.sequence.norm.html
+|   |-- PCR.subtax.sequence.norm.sum
+|   |-- PCR.subtax.sequence.norm.sum.html
+|   |-- PCR.subtax.sequence.sum
+|   |-- PCR.subtax.sequence.sum.html
+|   |-- PCR.subtax.species
+|   |-- PCR.subtax.species.html
+|   |-- PCR.subtax.species.norm
+|   |-- PCR.subtax.species.norm.html
+|   |-- PCR.subtax.species.norm.sum
+|   |-- PCR.subtax.species.norm.sum.html
+|   |-- PCR.subtax.species.sum
+|   |-- PCR.subtax.species.sum.html
+|   |-- STATUS
+|   |-- jquery-latest.js
+|   |-- logs
+|   |   |-- cmd
+|   |   |   |-- input-files
+|   |   |   |-- output-files
+|   |   |   |-- run-commands.log
+|   |   |   |-- run-config.dump
+|   |   |   `-- stats-file
+|   |   `-- organism-profile-format.1.recipe
+|   |-- step.stats
+|   `-- tablesorter-master
+|       |-- README.md
+|       |-- addons
+|       |   `-- pager
+|       |       |-- icons
+|       |       |   |-- first.png
+|       |       |   |-- last.png
+|       |       |   |-- loading.gif
+|       |       |   |-- next.png
+|       |       |   `-- prev.png
+|       |       |-- jquery.tablesorter.pager.css
+|       |       |-- jquery.tablesorter.pager.js
+|       |       `-- jquery.tablesorter.pager.min.js
+|       |-- beta-testing
+|       |   |-- example-external-filters-using-select2.html
+|       |   |-- example-pager-custom-controls.html
+|       |   |-- example-widget-column-reorder.html
+|       |   |-- example-widget-sum-columns.html
+|       |   |-- pager-custom-controls.js
+|       |   |-- select2-spinner.gif
+|       |   |-- select2.css
+|       |   |-- select2.png
+|       |   |-- widget-column-math.js
+|       |   `-- widget-reorder.js
+|       |-- changelog.txt
+|       |-- component.json
+|       |-- css
+|       |   |-- filter.formatter.css
+|       |   |-- images
+|       |   |   |-- black-asc.gif
+|       |   |   |-- black-desc.gif
+|       |   |   |-- black-unsorted.gif
+|       |   |   |-- dropbox-asc-hovered.png
+|       |   |   |-- dropbox-asc.png
+|       |   |   |-- dropbox-desc-hovered.png
+|       |   |   |-- dropbox-desc.png
+|       |   |   |-- green-asc.gif
+|       |   |   |-- green-desc.gif
+|       |   |   |-- green-header.gif
+|       |   |   |-- green-unsorted.gif
+|       |   |   |-- ice-asc.gif
+|       |   |   |-- ice-desc.gif
+|       |   |   |-- ice-unsorted.gif
+|       |   |   |-- white-asc.gif
+|       |   |   |-- white-desc.gif
+|       |   |   `-- white-unsorted.gif
+|       |   |-- psd
+|       |   |   |-- green-asc.psd
+|       |   |   |-- green-desc.psd
+|       |   |   `-- green-unsorted.psd
+|       |   |-- theme.black-ice.css
+|       |   |-- theme.blue.css
+|       |   |-- theme.bootstrap.css
+|       |   |-- theme.dark.css
+|       |   |-- theme.default.css
+|       |   |-- theme.dropbox.css
+|       |   |-- theme.green.css
+|       |   |-- theme.grey.css
+|       |   |-- theme.ice.css
+|       |   |-- theme.jui.css
+|       |   `-- theme.less
+|       |-- docs
+|       |   |-- assets
+|       |   |   |-- City0.json
+|       |   |   |-- City1.json
+|       |   |   |-- City2.json
+|       |   |   |-- City3.json
+|       |   |   `-- ajax-content.html
+|       |   |-- css
+|       |   |   |-- bootstrap.min.css
+|       |   |   |-- jq.css
+|       |   |   `-- prettify.css
+|       |   |-- example-add-rows.html
+|       |   |-- example-ajax.html
+|       |   |-- example-apply-widget.html
+|       |   |-- example-child-rows-filtered.html
+|       |   |-- example-child-rows.html
+|       |   |-- example-empty-table.html
+|       |   |-- example-extending-defaults.html
+|       |   |-- example-header-column-span.html
+|       |   |-- example-locale-sort.html
+|       |   |-- example-meta-headers.html
+|       |   |-- example-meta-parsers.html
+|       |   |-- example-meta-sort-list.html
+|       |   |-- example-method-sortreset.html
+|       |   |-- example-multiple-tbodies.html
+|       |   |-- example-option-custom-sort.html
+|       |   |-- example-option-date-format.html
+|       |   |-- example-option-debug.html
+|       |   |-- example-option-digits.html
+|       |   |-- example-option-render-header.html
+|       |   |-- example-option-render-template.html
+|       |   |-- example-option-selectorsort.html
+|       |   |-- example-option-show-processing.html
+|       |   |-- example-option-sort-append.html
+|       |   |-- example-option-sort-empty.html
+|       |   |-- example-option-sort-force.html
+|       |   |-- example-option-sort-key.html
+|       |   |-- example-option-sort-list.html
+|       |   |-- example-option-sort-order.html
+|       |   |-- example-option-sortreset-sortrestart.html
+|       |   |-- example-option-text-extraction.html
+|       |   |-- example-options-headers-digits-strings.html
+|       |   |-- example-options-headers-locked.html
+|       |   |-- example-options-headers-order.html
+|       |   |-- example-options-headers.html
+|       |   |-- example-pager-ajax.html
+|       |   |-- example-pager-filtered.html
+|       |   |-- example-pager.html
+|       |   |-- example-parsers-advanced.html
+|       |   |-- example-parsers-class-name.html
+|       |   |-- example-parsers-dates.html
+|       |   |-- example-parsers-feet-inch-fraction.html
+|       |   |-- example-parsers-ignore-articles.html
+|       |   |-- example-parsers-jquery-data.html
+|       |   |-- example-parsers-metric.html
+|       |   |-- example-parsers.html
+|       |   |-- example-trigger-sort.html
+|       |   |-- example-triggers.html
+|       |   |-- example-update-all.html
+|       |   |-- example-update-cell.html
+|       |   |-- example-widget-bootstrap-theme.html
+|       |   |-- example-widget-columns.html
+|       |   |-- example-widget-editable.html
+|       |   |-- example-widget-filter-custom.html
+|       |   |-- example-widget-filter-formatter-1.html
+|       |   |-- example-widget-filter-formatter-2.html
+|       |   |-- example-widget-filter.html
+|       |   |-- example-widget-grouping.html
+|       |   |-- example-widget-resizable.html
+|       |   |-- example-widget-savesort.html
+|       |   |-- example-widget-scroller.html
+|       |   |-- example-widget-sticky-header.html
+|       |   |-- example-widget-ui-theme.html
+|       |   |-- example-widget-zebra.html
+|       |   |-- example-widgets.html
+|       |   |-- img
+|       |   |   |-- external.png
+|       |   |   |-- glyphicons-halflings-white.png
+|       |   |   `-- glyphicons-halflings.png
+|       |   |-- index.html
+|       |   |-- js
+|       |   |   |-- chili
+|       |   |   |   |-- jquery.chili-2.2.js
+|       |   |   |   `-- recipes.js
+|       |   |   |-- docs.js
+|       |   |   `-- prettify.js
+|       |   `-- themes.html
+|       |-- index.html
+|       |-- js
+|       |   |-- jquery.metadata.js
+|       |   |-- jquery.tablesorter.js
+|       |   |-- jquery.tablesorter.min.js
+|       |   |-- jquery.tablesorter.widgets-filter-formatter.js
+|       |   |-- jquery.tablesorter.widgets-filter-formatter.min.js
+|       |   |-- jquery.tablesorter.widgets.js
+|       |   |-- jquery.tablesorter.widgets.min.js
+|       |   |-- parsers
+|       |   |   |-- parser-date-iso8601.js
+|       |   |   |-- parser-date-month.js
+|       |   |   |-- parser-date-two-digit-year.js
+|       |   |   |-- parser-date-weekday.js
+|       |   |   |-- parser-date.js
+|       |   |   |-- parser-feet-inch-fraction.js
+|       |   |   |-- parser-ignore-articles.js
+|       |   |   |-- parser-input-select.js
+|       |   |   `-- parser-metric.js
+|       |   `-- widgets
+|       |       |-- widget-editable.js
+|       |       |-- widget-grouping.js
+|       |       |-- widget-repeatheaders.js
+|       |       `-- widget-scroller.js
+|       |-- package.json
+|       |-- tablesorter.jquery.json
+|       |-- test.html
+|       `-- testing
+|           |-- jquery-1.8.3.min.js
+|           |-- jshint-r12.js
+|           |-- qunit-1.11.0.css
+|           |-- qunit-1.11.0.js
+|           |-- testing.css
+|           `-- testing.js
+|-- PCR.organism-profile-format.2
+|   |-- PCR.subtax.class
+|   |-- PCR.subtax.class.html
+|   |-- PCR.subtax.class.norm
+|   |-- PCR.subtax.class.norm.html
+|   |-- PCR.subtax.class.norm.sum
+|   |-- PCR.subtax.class.norm.sum.html
+|   |-- PCR.subtax.class.sum
+|   |-- PCR.subtax.class.sum.html
+|   |-- PCR.subtax.family
+|   |-- PCR.subtax.family.html
+|   |-- PCR.subtax.family.norm
+|   |-- PCR.subtax.family.norm.html
+|   |-- PCR.subtax.family.norm.sum
+|   |-- PCR.subtax.family.norm.sum.html
+|   |-- PCR.subtax.family.sum
+|   |-- PCR.subtax.family.sum.html
+|   |-- PCR.subtax.genus
+|   |-- PCR.subtax.genus.html
+|   |-- PCR.subtax.genus.norm
+|   |-- PCR.subtax.genus.norm.html
+|   |-- PCR.subtax.genus.norm.sum
+|   |-- PCR.subtax.genus.norm.sum.html
+|   |-- PCR.subtax.genus.sum
+|   |-- PCR.subtax.genus.sum.html
+|   |-- PCR.subtax.order
+|   |-- PCR.subtax.order.html
+|   |-- PCR.subtax.order.norm
+|   |-- PCR.subtax.order.norm.html
+|   |-- PCR.subtax.order.norm.sum
+|   |-- PCR.subtax.order.norm.sum.html
+|   |-- PCR.subtax.order.sum
+|   |-- PCR.subtax.order.sum.html
+|   |-- PCR.subtax.phylum
+|   |-- PCR.subtax.phylum.html
+|   |-- PCR.subtax.phylum.norm
+|   |-- PCR.subtax.phylum.norm.html
+|   |-- PCR.subtax.phylum.norm.sum
+|   |-- PCR.subtax.phylum.norm.sum.html
+|   |-- PCR.subtax.phylum.sum
+|   |-- PCR.subtax.phylum.sum.html
+|   |-- PCR.subtax.sequence
+|   |-- PCR.subtax.sequence.html
+|   |-- PCR.subtax.sequence.norm
+|   |-- PCR.subtax.sequence.norm.html
+|   |-- PCR.subtax.sequence.norm.sum
+|   |-- PCR.subtax.sequence.norm.sum.html
+|   |-- PCR.subtax.sequence.sum
+|   |-- PCR.subtax.sequence.sum.html
+|   |-- PCR.subtax.species
+|   |-- PCR.subtax.species.html
+|   |-- PCR.subtax.species.norm
+|   |-- PCR.subtax.species.norm.html
+|   |-- PCR.subtax.species.norm.sum
+|   |-- PCR.subtax.species.norm.sum.html
+|   |-- PCR.subtax.species.sum
+|   |-- PCR.subtax.species.sum.html
+|   |-- STATUS
+|   |-- jquery-latest.js
+|   |-- logs
+|   |   |-- cmd
+|   |   |   |-- input-files
+|   |   |   |-- output-files
+|   |   |   |-- run-commands.log
+|   |   |   |-- run-config.dump
+|   |   |   `-- stats-file
+|   |   `-- organism-profile-format.2.recipe
+|   |-- step.stats
+|   `-- tablesorter-master
+|       |-- README.md
+|       |-- addons
+|       |   `-- pager
+|       |       |-- icons
+|       |       |   |-- first.png
+|       |       |   |-- last.png
+|       |       |   |-- loading.gif
+|       |       |   |-- next.png
+|       |       |   `-- prev.png
+|       |       |-- jquery.tablesorter.pager.css
+|       |       |-- jquery.tablesorter.pager.js
+|       |       `-- jquery.tablesorter.pager.min.js
+|       |-- beta-testing
+|       |   |-- example-external-filters-using-select2.html
+|       |   |-- example-pager-custom-controls.html
+|       |   |-- example-widget-column-reorder.html
+|       |   |-- example-widget-sum-columns.html
+|       |   |-- pager-custom-controls.js
+|       |   |-- select2-spinner.gif
+|       |   |-- select2.css
+|       |   |-- select2.png
+|       |   |-- widget-column-math.js
+|       |   `-- widget-reorder.js
+|       |-- changelog.txt
+|       |-- component.json
+|       |-- css
+|       |   |-- filter.formatter.css
+|       |   |-- images
+|       |   |   |-- black-asc.gif
+|       |   |   |-- black-desc.gif
+|       |   |   |-- black-unsorted.gif
+|       |   |   |-- dropbox-asc-hovered.png
+|       |   |   |-- dropbox-asc.png
+|       |   |   |-- dropbox-desc-hovered.png
+|       |   |   |-- dropbox-desc.png
+|       |   |   |-- green-asc.gif
+|       |   |   |-- green-desc.gif
+|       |   |   |-- green-header.gif
+|       |   |   |-- green-unsorted.gif
+|       |   |   |-- ice-asc.gif
+|       |   |   |-- ice-desc.gif
+|       |   |   |-- ice-unsorted.gif
+|       |   |   |-- white-asc.gif
+|       |   |   |-- white-desc.gif
+|       |   |   `-- white-unsorted.gif
+|       |   |-- psd
+|       |   |   |-- green-asc.psd
+|       |   |   |-- green-desc.psd
+|       |   |   `-- green-unsorted.psd
+|       |   |-- theme.black-ice.css
+|       |   |-- theme.blue.css
+|       |   |-- theme.bootstrap.css
+|       |   |-- theme.dark.css
+|       |   |-- theme.default.css
+|       |   |-- theme.dropbox.css
+|       |   |-- theme.green.css
+|       |   |-- theme.grey.css
+|       |   |-- theme.ice.css
+|       |   |-- theme.jui.css
+|       |   `-- theme.less
+|       |-- docs
+|       |   |-- assets
+|       |   |   |-- City0.json
+|       |   |   |-- City1.json
+|       |   |   |-- City2.json
+|       |   |   |-- City3.json
+|       |   |   `-- ajax-content.html
+|       |   |-- css
+|       |   |   |-- bootstrap.min.css
+|       |   |   |-- jq.css
+|       |   |   `-- prettify.css
+|       |   |-- example-add-rows.html
+|       |   |-- example-ajax.html
+|       |   |-- example-apply-widget.html
+|       |   |-- example-child-rows-filtered.html
+|       |   |-- example-child-rows.html
+|       |   |-- example-empty-table.html
+|       |   |-- example-extending-defaults.html
+|       |   |-- example-header-column-span.html
+|       |   |-- example-locale-sort.html
+|       |   |-- example-meta-headers.html
+|       |   |-- example-meta-parsers.html
+|       |   |-- example-meta-sort-list.html
+|       |   |-- example-method-sortreset.html
+|       |   |-- example-multiple-tbodies.html
+|       |   |-- example-option-custom-sort.html
+|       |   |-- example-option-date-format.html
+|       |   |-- example-option-debug.html
+|       |   |-- example-option-digits.html
+|       |   |-- example-option-render-header.html
+|       |   |-- example-option-render-template.html
+|       |   |-- example-option-selectorsort.html
+|       |   |-- example-option-show-processing.html
+|       |   |-- example-option-sort-append.html
+|       |   |-- example-option-sort-empty.html
+|       |   |-- example-option-sort-force.html
+|       |   |-- example-option-sort-key.html
+|       |   |-- example-option-sort-list.html
+|       |   |-- example-option-sort-order.html
+|       |   |-- example-option-sortreset-sortrestart.html
+|       |   |-- example-option-text-extraction.html
+|       |   |-- example-options-headers-digits-strings.html
+|       |   |-- example-options-headers-locked.html
+|       |   |-- example-options-headers-order.html
+|       |   |-- example-options-headers.html
+|       |   |-- example-pager-ajax.html
+|       |   |-- example-pager-filtered.html
+|       |   |-- example-pager.html
+|       |   |-- example-parsers-advanced.html
+|       |   |-- example-parsers-class-name.html
+|       |   |-- example-parsers-dates.html
+|       |   |-- example-parsers-feet-inch-fraction.html
+|       |   |-- example-parsers-ignore-articles.html
+|       |   |-- example-parsers-jquery-data.html
+|       |   |-- example-parsers-metric.html
+|       |   |-- example-parsers.html
+|       |   |-- example-trigger-sort.html
+|       |   |-- example-triggers.html
+|       |   |-- example-update-all.html
+|       |   |-- example-update-cell.html
+|       |   |-- example-widget-bootstrap-theme.html
+|       |   |-- example-widget-columns.html
+|       |   |-- example-widget-editable.html
+|       |   |-- example-widget-filter-custom.html
+|       |   |-- example-widget-filter-formatter-1.html
+|       |   |-- example-widget-filter-formatter-2.html
+|       |   |-- example-widget-filter.html
+|       |   |-- example-widget-grouping.html
+|       |   |-- example-widget-resizable.html
+|       |   |-- example-widget-savesort.html
+|       |   |-- example-widget-scroller.html
+|       |   |-- example-widget-sticky-header.html
+|       |   |-- example-widget-ui-theme.html
+|       |   |-- example-widget-zebra.html
+|       |   |-- example-widgets.html
+|       |   |-- img
+|       |   |   |-- external.png
+|       |   |   |-- glyphicons-halflings-white.png
+|       |   |   `-- glyphicons-halflings.png
+|       |   |-- index.html
+|       |   |-- js
+|       |   |   |-- chili
+|       |   |   |   |-- jquery.chili-2.2.js
+|       |   |   |   `-- recipes.js
+|       |   |   |-- docs.js
+|       |   |   `-- prettify.js
+|       |   `-- themes.html
+|       |-- index.html
+|       |-- js
+|       |   |-- jquery.metadata.js
+|       |   |-- jquery.tablesorter.js
+|       |   |-- jquery.tablesorter.min.js
+|       |   |-- jquery.tablesorter.widgets-filter-formatter.js
+|       |   |-- jquery.tablesorter.widgets-filter-formatter.min.js
+|       |   |-- jquery.tablesorter.widgets.js
+|       |   |-- jquery.tablesorter.widgets.min.js
+|       |   |-- parsers
+|       |   |   |-- parser-date-iso8601.js
+|       |   |   |-- parser-date-month.js
+|       |   |   |-- parser-date-two-digit-year.js
+|       |   |   |-- parser-date-weekday.js
+|       |   |   |-- parser-date.js
+|       |   |   |-- parser-feet-inch-fraction.js
+|       |   |   |-- parser-ignore-articles.js
+|       |   |   |-- parser-input-select.js
+|       |   |   `-- parser-metric.js
+|       |   `-- widgets
+|       |       |-- widget-editable.js
+|       |       |-- widget-grouping.js
+|       |       |-- widget-repeatheaders.js
+|       |       `-- widget-scroller.js
+|       |-- package.json
+|       |-- tablesorter.jquery.json
+|       |-- test.html
+|       `-- testing
+|           |-- jquery-1.8.3.min.js
+|           |-- jshint-r12.js
+|           |-- qunit-1.11.0.css
+|           |-- qunit-1.11.0.js
+|           |-- testing.css
+|           `-- testing.js
+|-- PCR.organism-taxonomy-profiler.1
+|   |-- PCR.profile
+|   |-- STATUS
+|   `-- step.stats
+|-- PCR.organism-taxonomy-profiler.2
+|   |-- PCR.profile
+|   |-- STATUS
+|   `-- step.stats
+|-- PCR.sequence-chimera-filter.1
+|   |-- PCR.chim
+|   |-- PCR.chim.debug
+|   |-- PCR.chimtab
+|   |-- PCR.nochim.debug
+|   |-- PCR.stats
+|   |-- STATUS
+|   `-- step.stats
+|-- PCR.sequence-cleaning.1
+|   |-- PCR.fq.stats
+|   |-- STATUS
+|   `-- step.stats
+|-- PCR.sequence-dereplication.1
+|   |-- PCR.fq.stats
+|   |-- STATUS
+|   `-- step.stats
+|-- PCR.sequence-similarities-simrank.1
+|   |-- PCR.miss
+|   |-- PCR.sims.seqs
+|   |-- PCR.sims.titles
+|   |-- STATUS
+|   `-- step.stats
+`-- PCR.sequence-similarities-simrank.2
+    |-- PCR.miss
+    |-- PCR.sims.seqs
+    |-- PCR.sims.titles
+    |-- STATUS
+    `-- step.stats
+
+51 directories, 493 files
+
+

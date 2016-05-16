@@ -1,0 +1,41 @@
+
+<stats>
+
+   title = Silva taxonomy mapping
+   name = organism-profile-mapper
+   summary = Maps similarities onto a reference organism taxonomy and creates a binary profile. Similarities can be filtered by oligo-totals (=~ sequence length), by minimum value, by top range and a weighting option controls how to treat less good matches relative to the best ones. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input merged sequences	PCR.sims.seqs
+      file = Input sequence similarities	PCR.sims
+      file = Input reference taxonomy	Silva_SSU_all.tax.table.dbm
+      <menu>
+         title = Parameters
+         item = Mapping method: branch_tree
+         item = Unclassified sisters: no
+         item = Minimum oligo total: 180
+         item = Minimum similarity: 40%
+         item = Top matches used: 0%
+         item = Match weight factor: 1
+         item = Maximum ambiguity: 1
+      </menu>
+      file = Binary output profile	PCR.profile
+      date = 19-DEC-2013-10:32:36
+      secs = 26
+      time = 26 seconds
+   </header>
+
+   <table>
+      colh = 	Reads	%
+      type = table
+      trow = Input reads total	172188	100.0
+      trow = No similarities total	1219	0.7
+      trow = Low similarities total	0	0.0
+      trow = Short sequences total	3891	2.3
+      trow = Ambiguous mappings total	0	0.0
+      trow = Profiled reads total	167078	97.0
+      title = Profiling totals
+   </table>
+
+</stats>
+

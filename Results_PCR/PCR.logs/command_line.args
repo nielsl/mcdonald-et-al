@@ -1,0 +1,20 @@
+bless( {
+  "recipe" => "PCR.recipe",
+  "edits" => undef,
+  "single" => 1,
+  "yield" => 1,
+  "ifiles" => [
+    "Inputs/PCR.fq.gz"
+  ],
+  "beg" => undef,
+  "stats" => 0,
+  "clobber" => 1,
+  "outpre" => "PCR",
+  "end" => undef,
+  "batch" => 0,
+  "debug" => 0,
+  "outdir" => "Results",
+  "silent" => 0,
+  "list" => 0,
+  "stop" => 0
+}, 'Registry::Args' )

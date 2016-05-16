@@ -1,0 +1,786 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>PCR vs Silva and RDP</title>
+
+<style>
+
+/*
+   ----------------------------------------------------------------------------
+   General settings
+   ----------------------------------------------------------------------------
+*/
+
+body {
+    margin: 0em;
+    background-color: #cccccc;
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+#content {
+  background-color: #cccccc;
+  font-size: 1.1em;
+  padding: 1em 2em 1em 2em;
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: #444444;
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.4em; font-size: 170%; margin-top: 0px; font-variant: small-caps; }
+h2 { font-size: 1.25em; font-size: 140%; margin-top: 0px; }
+h3 { font-size: 1.2em; font-size: 120%; }
+h4 { font-size: 1.1em; font-size: 100%; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+h1 {
+    color: #333333;
+}
+
+li {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
+p {
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    margin-left: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #000000;
+    text-align: left;
+}
+
+a:visited { color: #000000 }  /* visited link */
+a:hover { color: #000000 }    /* mouse over link */
+a:active { color: #003366 }   /* selected link */
+
+a:link {
+    color: #0000dd;
+    text-align: left;
+    text-decoration: none;
+/*    padding-right: 0.5em;  */
+}
+
+.title {
+    font-size: 150%;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    color: #444444;
+}
+
+.menu {
+    width: 100%;
+    white-space: nowrap;
+}
+
+select {
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+tr {
+    height: 1.3em;
+}
+
+td, th {
+    white-space: nowrap;
+}    
+
+th {
+    font-weight: normal;
+}
+    
+/*
+   ----------------------------------------------------------------------------
+   Header and footer
+   ----------------------------------------------------------------------------
+*/
+
+.hdr_bar_green, .ftr_bar_green {
+    width: 100%;
+    float: right;
+    color: #ffffff;
+    background-color: #206060;
+    border-color: #308080 #004040 #004040 #308080;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_purple, .ftr_bar_purple {
+    width: 100%;
+    color: #ffffff;
+    background-color: #382260;
+    border-color: #685590 #000033 #000033 #685590;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_green, .hdr_bar_purple {
+    height: 3em;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.hdr_bar_nav {
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 0.15em 0.25em 0.15em 0.25em;
+    white-space: nowrap;
+    height: 1.2em;
+    width: 100%;
+}
+
+.ftr_bar_green, .ftr_bar_purple {
+    height: 1.3em;
+    width: 100%;
+    margin-top: 3em;
+    position: fixed;
+    bottom: 0;
+}
+
+.ftr_bar_green a:link, .ftr_bar_purple a:link {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+   ----------------------------------------------------------------------------
+    Message panels
+   ----------------------------------------------------------------------------
+*/
+
+.warning_panel, .status_panel, .info_panel {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 2em;
+    padding-bottom: 3em;
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 95%;
+}
+
+.error_panel, .error_message, .login_error_message {
+    background-color: BlanchedAlmond;
+    border-color: LightSalmon;
+}
+
+.warning_message {
+    background-color: LemonChiffon;
+    border-color: Gold;
+}
+
+.sponsor_message {
+    background-color: #dddddd;
+    border-color: #999999;
+}
+
+.info_panel, .info_message {
+    background-color: LightGrey;
+    border-color: RoyalBlue;
+}
+
+.special_message {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: #eeeecc;
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    border-color: #999999;
+}
+
+.error_message, .warning_message, .info_message, .done_message, .todo_message,
+.sponsor_message {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    padding-left: 1.6em;
+    padding-right: 1.6em;
+    margin-top: 0.6em;
+    margin-right: 2em;
+    white-space: normal;
+    width: 95%;
+}
+
+.done_message {
+    background-color: #e6eee6;
+    border-color: SeaGreen;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Standard table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.std_col_title, .std_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.std_col_title
+{
+    color: #ffffff;
+    background-color: DimGray;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    height: 1.8em;
+    min-width: 2em;
+}
+
+.std_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.std_cell, .std_cell_left, .std_cell_right
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    white-space: nowrap;
+    min-width: 1.5em;
+    height: 1.3em;
+}
+
+.std_cell, .std_cell_left, .std_cell_right {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.std_cell_left {
+    text-align: left;
+}
+
+.std_cell_right {
+    text-align: right;
+}
+
+.std_form_text {
+    color: #333333;
+    background-color: #cccccc;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-align: left;
+}
+
+.std_form_key {
+    color: #ffffff;
+    border: 1px solid;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    background-color: DimGrey;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    text-align: right;
+    width: 7em;
+    height: 1.3em;
+}
+
+.std_form_input {
+    background-color: #eeeddd;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+    height: 100%;
+    margin-left: 0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+
+/* 
+   ----------------------------------------------------------------------------
+   Patterns 
+   ----------------------------------------------------------------------------
+*/
+  
+.bg_yellow {
+    color: #333333;
+    background-color: #ffff00;
+    // font-weight: bold;
+}
+
+.bg_grey {
+    color: #eeeeee;
+    background-color: #4e4e4e;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Taxonomy table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.tax_col_title, .tax_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tax_col_title
+{
+    color: #ffffff;
+    background-color: #555555;
+    border-color: #aaaaaa #000000 #000000 #aaaaaa;
+    height: 1.8em;
+}
+
+.tax_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.tax_cell_name
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+
+.mis_cell {
+    color: #ffffff;
+    background-color: #557755;
+    border-color: #999999 #333333 #333333 #999999;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.seq_cell {
+    color: #ffffff;
+    background-color: SeaGreen;
+    border-color: MediumSeaGreen DarkGreen DarkGreen MediumSeaGreen;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tot_cell {
+    color: #000000;
+    background-color: LightGreen;
+    border-color: #ddffdd MediumSeaGreen MediumSeaGreen #ddffdd;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell {
+    color: #000000;
+    background-color: #cccccc;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell_left {
+    text-align: left;
+}
+
+.tax_cell_right {
+    text-align: right;
+}
+
+
+</style>
+
+<script type="text/javascript" src="jquery-latest.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.tablesorter.min.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.metadata.js"></script> 
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+$(function() 
+    { 
+        $("#TaxonomyTable").tablesorter({
+
+               sortInitialOrder: "desc"
+
+         }); 
+    } 
+); 
+
+</script>
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
+   <table class="hdr_bar_green">
+   <tr><td style="text-align: left">PCR vs Silva and RDP</td><td style="text-align: right; font-size: 90%">BION-meta</td></tr>
+   </table>
+</td></tr>
+<tr><td>
+   <table class="hdr_bar_nav">
+   <tr>
+       <td style="border-right-width: 0px; padding-left: 1.4em; text-align: left">
+          BION Software by <a href="http://genomics.dk">genomics.dk</a></td>
+       <td style="border-left-width: 0px; padding-right: 1.6em; text-align: right">
+          Pure Web 1.0
+       </td>
+   </tr>
+   </table>
+</td></tr>
+</table>
+<table style="margin-top: 1.5em; margin-left: 1.5em; margin-bottom: 2em">
+<tr><td class="title">Silva profile tables, genus level</td></tr>
+<tr><td>
+<table id="TaxonomyTable" class="tablesorter" cellspacing="0" cellpadding="0">
+<thead>
+   <tr><th class="tax_col_title" style="text-align: right">PCR</th><th class="tax_col_title" style="text-align: left">Taxonomic groups</th></tr>
+   <tr><td class="mis_cell" style="text-align: right">1,219</td><td class="mis_cell" style="text-align: left">Input reads with no similarities</td></tr>
+   <tr><td class="seq_cell" style="text-align: right">172,188</td><td class="seq_cell" style="text-align: left">Input read totals</td></tr>
+   <tr><td class="tot_cell" style="text-align: right">841,446</td><td class="tot_cell" style="text-align: left">Score sums for mapped reads</td></tr>
+</thead>
+<tbody>
+   <tr><td class="tax_cell" style="background-color: #FEFEFE; text-align:right">140,241</td><td class="tax_cell_name" style="text-align: left">Bacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CFCFCF; text-align:right">9,341</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CFCFCF; text-align:right">8,836</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,944</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Actinomycetales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,944</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Actinomycetales; Actinomycetaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,944</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Actinomycetales; Actinomycetaceae; Actinomyces</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,749</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Corynebacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,749</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Corynebacteriales; Corynebacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,749</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Corynebacteriales; Corynebacteriaceae; Corynebacterium</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,842</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Micrococcales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,842</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Micrococcales; Microbacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,808</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Micrococcales; Microbacteriaceae; Leucobacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">34</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Micrococcales; Microbacteriaceae; Zimmermannella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">301</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Propionibacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">301</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Propionibacteriales; Propionibacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">67</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Propionibacteriales; Propionibacteriaceae; Propionibacterium</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">135</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Propionibacteriales; Propionibacteriaceae; Propioniciclava</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">99</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Actinobacteria; Propionibacteriales; Propionibacteriaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">505</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Nitriliruptoria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">505</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Nitriliruptoria; Euzebyales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">505</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Nitriliruptoria; Euzebyales; Euzebyaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">505</td><td class="tax_cell_name" style="text-align: left">Bacteria; Actinobacteria; Nitriliruptoria; Euzebyales; Euzebyaceae; Euzebya</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">561</td><td class="tax_cell_name" style="text-align: left">Bacteria; BD1-5</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">561</td><td class="tax_cell_name" style="text-align: left">Bacteria; BD1-5; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">561</td><td class="tax_cell_name" style="text-align: left">Bacteria; BD1-5; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">561</td><td class="tax_cell_name" style="text-align: left">Bacteria; BD1-5; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">561</td><td class="tax_cell_name" style="text-align: left">Bacteria; BD1-5; ----; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #EAEAEA; text-align:right">82,975</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #E9E9E9; text-align:right">80,871</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #E9E9E9; text-align:right">80,871</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">145</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; BS11 gut group</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">145</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; BS11 gut group; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,035</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Bacteroidaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,035</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Bacteroidaceae; Bacteroides</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Marinilabiaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Marinilabiaceae; Alkaliflexus</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">351</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; MgMjR-022</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">351</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; MgMjR-022; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #E7E7E7; text-align:right">74,908</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">20</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Odoribacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">654</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Paludibacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">195</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Parabacteroides</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">65</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Petrimonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #E6E6E6; text-align:right">73,158</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Porphyromonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">29</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Proteiniphilum</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">787</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Porphyromonadaceae; Tannerella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,410</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Prevotellaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,168</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Prevotellaceae; Prevotella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">242</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Prevotellaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,003</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Rikenellaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">17</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Rikenellaceae; Blvii28 wastewater-sludge group</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">986</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Bacteroidia; Bacteroidales; Rikenellaceae; RC9 gut group</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,937</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Flavobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,937</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Flavobacteria; Flavobacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,937</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Flavobacteria; Flavobacteriales; Flavobacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">85</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Flavobacteria; Flavobacteriales; Flavobacteriaceae; Bergeyella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">766</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Flavobacteria; Flavobacteriales; Flavobacteriaceae; Capnocytophaga</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,086</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Flavobacteria; Flavobacteriales; Flavobacteriaceae; Flavobacterium</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">167</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Sphingobacteriia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">167</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Sphingobacteriia; Sphingobacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">167</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Sphingobacteriia; Sphingobacteriales; WCHB1-69</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">167</td><td class="tax_cell_name" style="text-align: left">Bacteria; Bacteroidetes; Sphingobacteriia; Sphingobacteriales; WCHB1-69; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division OD1</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division OD1; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division OD1; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division OD1; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division OD1; ----; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">6,387</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division SR1</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">6,387</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division SR1; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">6,387</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division SR1; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">6,387</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division SR1; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">6,387</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division SR1; ----; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,939</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division TM7</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,939</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division TM7; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,939</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division TM7; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,939</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division TM7; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,939</td><td class="tax_cell_name" style="text-align: left">Bacteria; Candidate division TM7; ----; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,015</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chlorobi</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,015</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chlorobi; Chlorobia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,015</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chlorobi; Chlorobia; Chlorobiales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,015</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chlorobi; Chlorobia; Chlorobiales; OPB56</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,015</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chlorobi; Chlorobia; Chlorobiales; OPB56; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,391</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chloroflexi</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,391</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chloroflexi; Anaerolineae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,391</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chloroflexi; Anaerolineae; Anaerolineales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,391</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chloroflexi; Anaerolineae; Anaerolineales; Anaerolineaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,391</td><td class="tax_cell_name" style="text-align: left">Bacteria; Chloroflexi; Anaerolineae; Anaerolineales; Anaerolineaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Cyanobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Cyanobacteria; ML635J-21</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Cyanobacteria; ML635J-21; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Cyanobacteria; ML635J-21; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">19</td><td class="tax_cell_name" style="text-align: left">Bacteria; Cyanobacteria; ML635J-21; ----; ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Elusimicrobia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Elusimicrobia; Elusimicrobia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Elusimicrobia; Elusimicrobia; Lineage I (Endomicrobia)</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Elusimicrobia; Elusimicrobia; Lineage I (Endomicrobia); ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Elusimicrobia; Elusimicrobia; Lineage I (Endomicrobia); ----; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #D0D0D0; text-align:right">12,805</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">467</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Bacilli</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">467</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Bacilli; Lactobacillales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">110</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Bacilli; Lactobacillales; Aerococcaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">110</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Bacilli; Lactobacillales; Aerococcaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">357</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Bacilli; Lactobacillales; Carnobacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">357</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Bacilli; Lactobacillales; Carnobacteriaceae; Granulicatella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #D0D0D0; text-align:right">11,394</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #D0D0D0; text-align:right">11,394</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,285</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Christensenellaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,285</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Christensenellaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">461</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XI Incertae Sedis</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">90</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XI Incertae Sedis; Finegoldia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">287</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XI Incertae Sedis; Helcococcus</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">16</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XI Incertae Sedis; Parvimonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">68</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XI Incertae Sedis; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,486</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XII Incertae Sedis</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,486</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XII Incertae Sedis; Fusibacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">631</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XIII Incertae Sedis</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">179</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XIII Incertae Sedis; Anaerovorax</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">452</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Family XIII Incertae Sedis; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,792</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Lachnospiraceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">103</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Lachnospiraceae; Acetitomaculum</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">453</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Lachnospiraceae; Catonella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">607</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Lachnospiraceae; Johnsonella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">239</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Lachnospiraceae; Roseburia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">390</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Lachnospiraceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">704</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptococcaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">704</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptococcaceae; Peptococcus</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,702</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptostreptococcaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">960</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptostreptococcaceae; Filifactor</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">34</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptostreptococcaceae; Incertae Sedis</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">169</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptostreptococcaceae; Proteocatella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,539</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Peptostreptococcaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">333</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Ruminococcaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">201</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Ruminococcaceae; Fastidiosipila</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">66</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Ruminococcaceae; Incertae Sedis</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">66</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Clostridia; Clostridiales; Ruminococcaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">220</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Erysipelotrichia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">220</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Erysipelotrichia; Erysipelotrichales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">220</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Erysipelotrichia; Erysipelotrichales; Erysipelotrichaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">15</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Erysipelotrichia; Erysipelotrichales; Erysipelotrichaceae; Allobaculum</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">182</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Erysipelotrichia; Erysipelotrichales; Erysipelotrichaceae; Erysipelothrix</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">23</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Erysipelotrichia; Erysipelotrichales; Erysipelotrichaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">724</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Negativicutes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">724</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Negativicutes; Selenomonadales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">135</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Negativicutes; Selenomonadales; Acidaminococcaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">135</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Negativicutes; Selenomonadales; Acidaminococcaceae; Phascolarctobacterium</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">589</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Negativicutes; Selenomonadales; Veillonellaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">589</td><td class="tax_cell_name" style="text-align: left">Bacteria; Firmicutes; Negativicutes; Selenomonadales; Veillonellaceae; Selenomonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">625</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">625</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria; Fusobacteriia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">625</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria; Fusobacteriia; Fusobacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">609</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria; Fusobacteriia; Fusobacteriales; Fusobacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">609</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria; Fusobacteriia; Fusobacteriales; Fusobacteriaceae; Fusobacterium</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">16</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria; Fusobacteriia; Fusobacteriales; Leptotrichiaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">16</td><td class="tax_cell_name" style="text-align: left">Bacteria; Fusobacteria; Fusobacteriia; Fusobacteriales; Leptotrichiaceae; Leptotrichia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #D3D3D3; text-align:right">20,196</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">7,506</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">5,940</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">650</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Alcaligenaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">639</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Alcaligenaceae; Pelistega</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">11</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Alcaligenaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">687</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Burkholderiaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">687</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Burkholderiaceae; Lautropia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">4,603</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Comamonadaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">26</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Comamonadaceae; Acidovorax</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,319</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Comamonadaceae; Brachymonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,300</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Comamonadaceae; Comamonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,940</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Comamonadaceae; Lampropedia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">18</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Burkholderiales; Comamonadaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,214</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,214</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales; Neisseriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">505</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales; Neisseriaceae; Aquaspirillum</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">95</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales; Neisseriaceae; Conchiformibius</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">10</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales; Neisseriaceae; Eikenella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">339</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales; Neisseriaceae; Neisseria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">265</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Neisseriales; Neisseriaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">352</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Rhodocyclales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">352</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Rhodocyclales; Rhodocyclaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">352</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Betaproteobacteria; Rhodocyclales; Rhodocyclaceae; Propionivibrio</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,657</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">359</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Bdellovibrionales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">359</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Bdellovibrionales; Bdellovibrionaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">359</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Bdellovibrionales; Bdellovibrionaceae; Bdellovibrio</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">58</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfobacterales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">58</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfobacterales; Desulfobulbaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">58</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfobacterales; Desulfobulbaceae; Desulfobulbus</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,032</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">94</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales; Desulfohalobiaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">94</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales; Desulfohalobiaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,321</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales; Desulfomicrobiaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">2,321</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales; Desulfomicrobiaceae; Desulfomicrobium</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">617</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales; Desulfovibrionaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">617</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfovibrionales; Desulfovibrionaceae; Desulfovibrio</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">170</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfuromonadales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">170</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfuromonadales; GR-WP33-58</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">170</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Desulfuromonadales; GR-WP33-58; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">38</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Myxococcales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">38</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Myxococcales; Phaselicystidaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">38</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Deltaproteobacteria; Myxococcales; Phaselicystidaceae; Phaselicystis</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">679</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">679</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">232</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales; Campylobacteraceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">77</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales; Campylobacteraceae; Arcobacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">155</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales; Campylobacteraceae; Campylobacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">447</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales; Helicobacteraceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">37</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales; Helicobacteraceae; Rs-M59 termite group</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">410</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Epsilonproteobacteria; Campylobacterales; Helicobacteraceae; Wolinella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CECECE; text-align:right">8,354</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,778</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Cardiobacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,778</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Cardiobacteriales; Cardiobacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,778</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Cardiobacteriales; Cardiobacteriaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">603</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">603</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales; Enterobacteriaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">603</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales; Enterobacteriaceae; Escherichia-Shigella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,824</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,824</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales; Pasteurellaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">24</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales; Pasteurellaceae; Aggregatibacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">49</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales; Pasteurellaceae; Bibersteinia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">93</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales; Pasteurellaceae; Haemophilus</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">1,596</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales; Pasteurellaceae; Pasteurella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">62</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales; Pasteurellaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,347</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,331</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">15</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CDCDCD; text-align:right">3,316</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Moraxella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">16</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Pseudomonadaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">16</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Pseudomonadaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">802</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">802</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">62</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; Arenimonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">63</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; Luteimonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">11</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; Lysobacter</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">25</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; Stenotrophomonas</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">12</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; Xylella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">629</td><td class="tax_cell_name" style="text-align: left">Bacteria; Proteobacteria; Gammaproteobacteria; Xanthomonadales; Xanthomonadaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">689</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">689</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">689</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">84</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales; PL-11B10</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">84</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales; PL-11B10; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">605</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales; Spirochaetaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">28</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales; Spirochaetaceae; Spirochaeta</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">565</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales; Spirochaetaceae; Treponema</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">12</td><td class="tax_cell_name" style="text-align: left">Bacteria; Spirochaetae; Spirochaetes; Spirochaetales; Spirochaetaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">249</td><td class="tax_cell_name" style="text-align: left">Bacteria; Synergistetes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">249</td><td class="tax_cell_name" style="text-align: left">Bacteria; Synergistetes; Synergistia</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">249</td><td class="tax_cell_name" style="text-align: left">Bacteria; Synergistetes; Synergistia; Synergistales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">249</td><td class="tax_cell_name" style="text-align: left">Bacteria; Synergistetes; Synergistia; Synergistales; Synergistaceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">189</td><td class="tax_cell_name" style="text-align: left">Bacteria; Synergistetes; Synergistia; Synergistales; Synergistaceae; Candidatus Tammella</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">60</td><td class="tax_cell_name" style="text-align: left">Bacteria; Synergistetes; Synergistia; Synergistales; Synergistaceae; uncultured</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">29</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">29</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">14</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes; Acholeplasmatales</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">14</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes; Acholeplasmatales; Acholeplasmataceae</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">14</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes; Acholeplasmatales; Acholeplasmataceae; Acholeplasma</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">15</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes; RF9</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">15</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes; RF9; ----</td></tr>
+   <tr><td class="tax_cell" style="background-color: #CCCCCC; text-align:right">15</td><td class="tax_cell_name" style="text-align: left">Bacteria; Tenericutes; Mollicutes; RF9; ----; ----</td></tr>
+<tbody>
+</table>
+</table>

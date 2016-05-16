@@ -1,0 +1,40 @@
+
+<stats>
+
+   title = Sequence cleaning
+   name = sequence-cleaning.1
+   summary = Cleans, filters and trims sequences in various ways. Ends can be trimmed by complete or partial sequence match, pattern match and quality match. They can be filtered by overall quality and length, and sub-sequences extracted. See under "steps" in the table below for more detailed statistics for each sample. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input file	PCR.fq.gz
+      file = Output file	PCR.fq.clean
+      hrow = Total input reads	248760
+      hrow = Total output reads	177407 (-28.7%)
+      hrow = Total input bases	133012874
+      hrow = Total output bases	58785304 (-55.8%)
+      date = 19-DEC-2013-10:17:25
+      secs = 125.995719909668
+      time = 2 minutes and 5 seconds
+   </header>
+
+   <table>
+      title = Stepwise sequence and reads statistics
+      trow = Start adapter clip	248760	248760	0	0.0	133012874	129530605	-3482269	-2.6
+      trow = 5 primer start	248760	248760	0	0.0	129530605	127202843	-2327762	-1.8
+      trow = 3 primer reverse end	248760	248760	0	0.0	127202843	124413093	-2789750	-2.2
+      trow = 3 primer start	248760	248760	0	0.0	124413093	122597457	-1815636	-1.5
+      trow = 5 primer reverse end	248760	248760	0	0.0	122597457	119968169	-2629288	-2.1
+      trow = Reverse adapter at end	248760	248760	0	0.0	119968169	119544672	-423497	-0.4
+      trow = Reverse adapter fragment	248760	248760	0	0.0	119544672	119407165	-137507	-0.1
+      trow = Reverse adapter fragment	248760	248760	0	0.0	119407165	119360244	-46921	-0.0
+      trow = Reverse adapter end trim	248760	248760	0	0.0	119360244	118854803	-505441	-0.4
+      trow = Start quality trim	248760	248564	-196	-0.1	118854803	117979599	-875204	-0.7
+      trow = End quality trim	248564	246628	-1936	-0.8	117979599	70046923	-47932676	-40.6
+      trow = Length filter	246628	192277	-54351	-22.0	70046923	63885310	-6161613	-8.8
+      trow = Quality filter	192277	177407	-14870	-7.7	63885310	58785304	-5100006	-8.0
+      type = table
+      colh = Method	In-reads	Out-reads	&Delta;	&Delta; %	In-bases	Out-bases	&Delta;	&Delta; %
+   </table>
+
+</stats>
+

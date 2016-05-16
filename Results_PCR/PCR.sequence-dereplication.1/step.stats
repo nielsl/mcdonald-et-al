@@ -1,0 +1,23 @@
+
+<stats>
+
+   title = Sequence de-replication
+   summary = Uniqifies identical sequences and their qualities (if any). The best quality is kept for each position in the identical sequences. It is used as a fast and crude pre-clustering step that often greatly saves computer resources. Proper method documentation will be written and linked to here.
+
+   <header>
+      hrow = Total input reads	177407
+      hrow = Total output reads	167770 (-5.4%)
+      date = 19-DEC-2013-10:17:34
+      secs = 7.5345458984375
+      time = 7 seconds
+   </header>
+
+   <table>
+      colh = Output files	In-reads	Out-seqs	&Delta; %
+      type = table
+      trow = file=PCR.fq.uniq	177407	167770	-5.4
+      title = De-replication counts by file
+   </table>
+
+</stats>
+

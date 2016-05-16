@@ -1,0 +1,589 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>PCR vs Silva and RDP</title>
+
+<style>
+
+/*
+   ----------------------------------------------------------------------------
+   General settings
+   ----------------------------------------------------------------------------
+*/
+
+body {
+    margin: 0em;
+    background-color: #cccccc;
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+#content {
+  background-color: #cccccc;
+  font-size: 1.1em;
+  padding: 1em 2em 1em 2em;
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: #444444;
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.4em; font-size: 170%; margin-top: 0px; font-variant: small-caps; }
+h2 { font-size: 1.25em; font-size: 140%; margin-top: 0px; }
+h3 { font-size: 1.2em; font-size: 120%; }
+h4 { font-size: 1.1em; font-size: 100%; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+h1 {
+    color: #333333;
+}
+
+li {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
+p {
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    margin-left: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #000000;
+    text-align: left;
+}
+
+a:visited { color: #000000 }  /* visited link */
+a:hover { color: #000000 }    /* mouse over link */
+a:active { color: #003366 }   /* selected link */
+
+a:link {
+    color: #0000dd;
+    text-align: left;
+    text-decoration: none;
+/*    padding-right: 0.5em;  */
+}
+
+.title {
+    font-size: 150%;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    color: #444444;
+}
+
+.menu {
+    width: 100%;
+    white-space: nowrap;
+}
+
+select {
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+tr {
+    height: 1.3em;
+}
+
+td, th {
+    white-space: nowrap;
+}    
+
+th {
+    font-weight: normal;
+}
+    
+/*
+   ----------------------------------------------------------------------------
+   Header and footer
+   ----------------------------------------------------------------------------
+*/
+
+.hdr_bar_green, .ftr_bar_green {
+    width: 100%;
+    float: right;
+    color: #ffffff;
+    background-color: #206060;
+    border-color: #308080 #004040 #004040 #308080;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_purple, .ftr_bar_purple {
+    width: 100%;
+    color: #ffffff;
+    background-color: #382260;
+    border-color: #685590 #000033 #000033 #685590;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_green, .hdr_bar_purple {
+    height: 3em;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.hdr_bar_nav {
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 0.15em 0.25em 0.15em 0.25em;
+    white-space: nowrap;
+    height: 1.2em;
+    width: 100%;
+}
+
+.ftr_bar_green, .ftr_bar_purple {
+    height: 1.3em;
+    width: 100%;
+    margin-top: 3em;
+    position: fixed;
+    bottom: 0;
+}
+
+.ftr_bar_green a:link, .ftr_bar_purple a:link {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+   ----------------------------------------------------------------------------
+    Message panels
+   ----------------------------------------------------------------------------
+*/
+
+.warning_panel, .status_panel, .info_panel {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 2em;
+    padding-bottom: 3em;
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 95%;
+}
+
+.error_panel, .error_message, .login_error_message {
+    background-color: BlanchedAlmond;
+    border-color: LightSalmon;
+}
+
+.warning_message {
+    background-color: LemonChiffon;
+    border-color: Gold;
+}
+
+.sponsor_message {
+    background-color: #dddddd;
+    border-color: #999999;
+}
+
+.info_panel, .info_message {
+    background-color: LightGrey;
+    border-color: RoyalBlue;
+}
+
+.special_message {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: #eeeecc;
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    border-color: #999999;
+}
+
+.error_message, .warning_message, .info_message, .done_message, .todo_message,
+.sponsor_message {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    padding-left: 1.6em;
+    padding-right: 1.6em;
+    margin-top: 0.6em;
+    margin-right: 2em;
+    white-space: normal;
+    width: 95%;
+}
+
+.done_message {
+    background-color: #e6eee6;
+    border-color: SeaGreen;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Standard table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.std_col_title, .std_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.std_col_title
+{
+    color: #ffffff;
+    background-color: DimGray;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    height: 1.8em;
+    min-width: 2em;
+}
+
+.std_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.std_cell, .std_cell_left, .std_cell_right
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    white-space: nowrap;
+    min-width: 1.5em;
+    height: 1.3em;
+}
+
+.std_cell, .std_cell_left, .std_cell_right {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.std_cell_left {
+    text-align: left;
+}
+
+.std_cell_right {
+    text-align: right;
+}
+
+.std_form_text {
+    color: #333333;
+    background-color: #cccccc;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-align: left;
+}
+
+.std_form_key {
+    color: #ffffff;
+    border: 1px solid;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    background-color: DimGrey;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    text-align: right;
+    width: 7em;
+    height: 1.3em;
+}
+
+.std_form_input {
+    background-color: #eeeddd;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+    height: 100%;
+    margin-left: 0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+
+/* 
+   ----------------------------------------------------------------------------
+   Patterns 
+   ----------------------------------------------------------------------------
+*/
+  
+.bg_yellow {
+    color: #333333;
+    background-color: #ffff00;
+    // font-weight: bold;
+}
+
+.bg_grey {
+    color: #eeeeee;
+    background-color: #4e4e4e;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Taxonomy table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.tax_col_title, .tax_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tax_col_title
+{
+    color: #ffffff;
+    background-color: #555555;
+    border-color: #aaaaaa #000000 #000000 #aaaaaa;
+    height: 1.8em;
+}
+
+.tax_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.tax_cell_name
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+
+.mis_cell {
+    color: #ffffff;
+    background-color: #557755;
+    border-color: #999999 #333333 #333333 #999999;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.seq_cell {
+    color: #ffffff;
+    background-color: SeaGreen;
+    border-color: MediumSeaGreen DarkGreen DarkGreen MediumSeaGreen;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tot_cell {
+    color: #000000;
+    background-color: LightGreen;
+    border-color: #ddffdd MediumSeaGreen MediumSeaGreen #ddffdd;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell {
+    color: #000000;
+    background-color: #cccccc;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell_left {
+    text-align: left;
+}
+
+.tax_cell_right {
+    text-align: right;
+}
+
+
+</style>
+
+<script type="text/javascript" src="jquery-latest.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.tablesorter.min.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.metadata.js"></script> 
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+$(function() 
+    { 
+        $("#TaxonomyTable").tablesorter({
+
+               sortInitialOrder: "desc"
+
+         }); 
+    } 
+); 
+
+</script>
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
+   <table class="hdr_bar_green">
+   <tr><td style="text-align: left">PCR vs Silva and RDP</td><td style="text-align: right; font-size: 90%">BION-meta</td></tr>
+   </table>
+</td></tr>
+<tr><td>
+   <table class="hdr_bar_nav">
+   <tr>
+       <td style="border-right-width: 0px; padding-left: 1.4em; text-align: left">
+          BION Software by <a href="http://genomics.dk">genomics.dk</a></td>
+       <td style="border-left-width: 0px; padding-right: 1.6em; text-align: right">
+          Pure Web 1.0
+       </td>
+   </tr>
+   </table>
+</td></tr>
+</table>
+<table cellpadding="0" cellspacing="20" style="margin-bottom: 3em">
+
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Chimera filtering</h1></td></tr>
+<tr><td width="95%"><div class="done_message">This method measures chimera-potential of single-gene DNA sequences against a well-formed reference dataset without aligning. Outputs are score tables plus a chimera- and non-chimera sequence files. The method runs slightly faster, uses uses slightly less memory and has at least as good sensitivity as the closed-source uchime. Only two-fragment chimeras are detected at present, although triple-fragment usually also receive high scores. By default all available CPU cores are used. Proper method documentation will be written and linked to here.</div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input file&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">Results/PCR.sequence-dereplication.1/PCR.fq.uniq&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Reference dataset&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">RDP_SSU_44-534-C99.rna_seq.fasta&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Parameters&nbsp;&raquo;</td>
+   <td align="left" class=""><select class="menu"><option>&nbsp;Oligo word length: 8&nbsp;</option>
+<option>&nbsp;Oligo step length: 4&nbsp;</option>
+<option>&nbsp;Minimum chimera score: 35&nbsp;</option>
+<option>&nbsp;Minimum fragment length: 80&nbsp;</option>
+<option>&nbsp;Remove sequence gaps: no&nbsp;</option>
+<option>&nbsp;Sequence read buffer: yes&nbsp;</option>
+<option>&nbsp;Remove reference gaps: no&nbsp;</option>
+<option>&nbsp;Reference read buffer: yes&nbsp;</option>
+<option>&nbsp;CPU cores used: 8&nbsp;</option>
+</select>
+&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Chimeric sequences&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR.chim">PCR.chim</a>&nbsp;(3.7M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Non-chimeric sequences&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">PCR.nochim&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Chimera-score table&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR.chimtab">PCR.chimtab</a>&nbsp;(7.0M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Chimeric debug output&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR.chim.debug">PCR.chim.debug</a>&nbsp;(13M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Non-chimeric debug output&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left"><a href="PCR.nochim.debug">PCR.nochim.debug</a>&nbsp;(764M)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-10:24:31&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">6 minutes and 55 seconds&nbsp;</td>
+   </tr>
+</table></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+<tr><td class="title">Chimera sequence and reads statistics</td></tr>
+   <tr><td>
+<table cellspacing="0" cellpadding="0">
+<tr><td class="std_col_title">Type</td><td class="std_col_title">Seqs</td><td class="std_col_title">&Delta; %</td><td class="std_col_title">Reads</td><td class="std_col_title">&Delta; %</td></tr>
+<tr><td class="std_cell_right">Input counts</td><td class="std_cell_right" style="background-color: #FFFFFF">167,770</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #FFFFFF">177,407</td><td class="std_cell_right" style="background-color: #CFCFCF"></td></tr>
+<tr><td class="std_cell_right">Chimeras</td><td class="std_cell_right" style="background-color: #CFCFCF">4,744</td><td class="std_cell_right" style="background-color: #CFCFCF">2.80</td><td class="std_cell_right" style="background-color: #CFCFCF">4,754</td><td class="std_cell_right" style="background-color: #CFCFCF">2.70</td></tr>
+<tr><td class="std_cell_right">Non-chimeras</td><td class="std_cell_right" style="background-color: #FEFEFE">163,026</td><td class="std_cell_right" style="background-color: #FEFEFE">97.20</td><td class="std_cell_right" style="background-color: #FEFEFE">172,735</td><td class="std_cell_right" style="background-color: #FEFEFE">97.40</td></tr>
+</table>
+   </td></tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+</table>
+

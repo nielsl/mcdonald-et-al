@@ -1,0 +1,855 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>PCR vs Silva and RDP</title>
+
+<style>
+
+/*
+   ----------------------------------------------------------------------------
+   General settings
+   ----------------------------------------------------------------------------
+*/
+
+body {
+    margin: 0em;
+    background-color: #cccccc;
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+#content {
+  background-color: #cccccc;
+  font-size: 1.1em;
+  padding: 1em 2em 1em 2em;
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: #444444;
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.4em; font-size: 170%; margin-top: 0px; font-variant: small-caps; }
+h2 { font-size: 1.25em; font-size: 140%; margin-top: 0px; }
+h3 { font-size: 1.2em; font-size: 120%; }
+h4 { font-size: 1.1em; font-size: 100%; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+h1 {
+    color: #333333;
+}
+
+li {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
+p {
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    margin-left: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #000000;
+    text-align: left;
+}
+
+a:visited { color: #000000 }  /* visited link */
+a:hover { color: #000000 }    /* mouse over link */
+a:active { color: #003366 }   /* selected link */
+
+a:link {
+    color: #0000dd;
+    text-align: left;
+    text-decoration: none;
+/*    padding-right: 0.5em;  */
+}
+
+.title {
+    font-size: 150%;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    color: #444444;
+}
+
+.menu {
+    width: 100%;
+    white-space: nowrap;
+}
+
+select {
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+tr {
+    height: 1.3em;
+}
+
+td, th {
+    white-space: nowrap;
+}    
+
+th {
+    font-weight: normal;
+}
+    
+/*
+   ----------------------------------------------------------------------------
+   Header and footer
+   ----------------------------------------------------------------------------
+*/
+
+.hdr_bar_green, .ftr_bar_green {
+    width: 100%;
+    float: right;
+    color: #ffffff;
+    background-color: #206060;
+    border-color: #308080 #004040 #004040 #308080;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_purple, .ftr_bar_purple {
+    width: 100%;
+    color: #ffffff;
+    background-color: #382260;
+    border-color: #685590 #000033 #000033 #685590;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_green, .hdr_bar_purple {
+    height: 3em;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.hdr_bar_nav {
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 0.15em 0.25em 0.15em 0.25em;
+    white-space: nowrap;
+    height: 1.2em;
+    width: 100%;
+}
+
+.ftr_bar_green, .ftr_bar_purple {
+    height: 1.3em;
+    width: 100%;
+    margin-top: 3em;
+    position: fixed;
+    bottom: 0;
+}
+
+.ftr_bar_green a:link, .ftr_bar_purple a:link {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+   ----------------------------------------------------------------------------
+    Message panels
+   ----------------------------------------------------------------------------
+*/
+
+.warning_panel, .status_panel, .info_panel {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 2em;
+    padding-bottom: 3em;
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 95%;
+}
+
+.error_panel, .error_message, .login_error_message {
+    background-color: BlanchedAlmond;
+    border-color: LightSalmon;
+}
+
+.warning_message {
+    background-color: LemonChiffon;
+    border-color: Gold;
+}
+
+.sponsor_message {
+    background-color: #dddddd;
+    border-color: #999999;
+}
+
+.info_panel, .info_message {
+    background-color: LightGrey;
+    border-color: RoyalBlue;
+}
+
+.special_message {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: #eeeecc;
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    border-color: #999999;
+}
+
+.error_message, .warning_message, .info_message, .done_message, .todo_message,
+.sponsor_message {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    padding-left: 1.6em;
+    padding-right: 1.6em;
+    margin-top: 0.6em;
+    margin-right: 2em;
+    white-space: normal;
+    width: 95%;
+}
+
+.done_message {
+    background-color: #e6eee6;
+    border-color: SeaGreen;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Standard table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.std_col_title, .std_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.std_col_title
+{
+    color: #ffffff;
+    background-color: DimGray;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    height: 1.8em;
+    min-width: 2em;
+}
+
+.std_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.std_cell, .std_cell_left, .std_cell_right
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    white-space: nowrap;
+    min-width: 1.5em;
+    height: 1.3em;
+}
+
+.std_cell, .std_cell_left, .std_cell_right {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.std_cell_left {
+    text-align: left;
+}
+
+.std_cell_right {
+    text-align: right;
+}
+
+.std_form_text {
+    color: #333333;
+    background-color: #cccccc;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-align: left;
+}
+
+.std_form_key {
+    color: #ffffff;
+    border: 1px solid;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    background-color: DimGrey;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    text-align: right;
+    width: 7em;
+    height: 1.3em;
+}
+
+.std_form_input {
+    background-color: #eeeddd;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+    height: 100%;
+    margin-left: 0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+
+/* 
+   ----------------------------------------------------------------------------
+   Patterns 
+   ----------------------------------------------------------------------------
+*/
+  
+.bg_yellow {
+    color: #333333;
+    background-color: #ffff00;
+    // font-weight: bold;
+}
+
+.bg_grey {
+    color: #eeeeee;
+    background-color: #4e4e4e;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Taxonomy table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.tax_col_title, .tax_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tax_col_title
+{
+    color: #ffffff;
+    background-color: #555555;
+    border-color: #aaaaaa #000000 #000000 #aaaaaa;
+    height: 1.8em;
+}
+
+.tax_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.tax_cell_name
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+
+.mis_cell {
+    color: #ffffff;
+    background-color: #557755;
+    border-color: #999999 #333333 #333333 #999999;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.seq_cell {
+    color: #ffffff;
+    background-color: SeaGreen;
+    border-color: MediumSeaGreen DarkGreen DarkGreen MediumSeaGreen;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tot_cell {
+    color: #000000;
+    background-color: LightGreen;
+    border-color: #ddffdd MediumSeaGreen MediumSeaGreen #ddffdd;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell {
+    color: #000000;
+    background-color: #cccccc;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell_left {
+    text-align: left;
+}
+
+.tax_cell_right {
+    text-align: right;
+}
+
+
+</style>
+
+<script type="text/javascript" src="jquery-latest.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.tablesorter.min.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.metadata.js"></script> 
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+$(function() 
+    { 
+        $("#TaxonomyTable").tablesorter({
+
+               sortInitialOrder: "desc"
+
+         }); 
+    } 
+); 
+
+</script>
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
+   <table class="hdr_bar_green">
+   <tr><td style="text-align: left">PCR vs Silva and RDP</td><td style="text-align: right; font-size: 90%">BION-meta</td></tr>
+   </table>
+</td></tr>
+<tr><td>
+   <table class="hdr_bar_nav">
+   <tr>
+       <td style="border-right-width: 0px; padding-left: 1.4em; text-align: left">
+          BION Software by <a href="http://genomics.dk">genomics.dk</a></td>
+       <td style="border-left-width: 0px; padding-right: 1.6em; text-align: right">
+          Pure Web 1.0
+       </td>
+   </tr>
+   </table>
+</td></tr>
+</table>
+<pre>
+   
+   Below is a simple text copy of the recipe that was run. There will be a
+   web-control interface eventually, where recipes can be loaded, changed
+   and re-launched. Doing this has not yet been highest priority, but if 
+   someone thinks that is most important, and wants to fund it, we can 
+   make a very good one.
+   
+   #  -*- html -*-
+   
+   # The recipe below, which is input to the run_recipe command, consists of 
+   # steps that are run in the order given. Each step has parameter keys and 
+   # values that are passed on to the underlying method. Any routine or program 
+   # with a command line interface can be made to appear as a recipe step.
+   
+   &lt;recipe&gt;
+   
+       title = PCR vs Silva and RDP
+   
+       author = Niels Larsen, James McDonald
+       email = niels@genomics.dk
+       site = BION-meta
+   
+       # ------------------------------------------------------------------------
+       #                        SFF FORMAT CONVERSION 
+       # ------------------------------------------------------------------------
+   
+       # Not used, but works. Can convert .sff files to fastq for example, which
+       # BION uses as default exchange format between steps. 
+   
+       # &lt;sequence-conversion&gt;
+       #     title = Conversion to fastq
+       # &lt;/sequence-conversion&gt;
+   
+       # ------------------------------------------------------------------------
+       #                              CLEANING
+       # ------------------------------------------------------------------------
+   
+       &lt;sequence-cleaning&gt;
+   
+           title = Sequence cleaning
+           quality-type = Sanger
+           keep-outputs = no
+   
+           # Clip adapter. Sub-sequence at the start were removed up to the end
+           # of the match. The [1,1,1] means up to one mismatch, deletion and 
+           # insertion in the pattern sequence respectively. Only the first 20 
+           # positions were matched against. 
+           
+           &lt;sequence-clip-pattern-start&gt;
+               title = Start adapter clip
+               pattern-string = ^ TCAGTACTGAGCTA[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 20
+           &lt;/sequence-clip-pattern-start&gt;
+   
+           # 5' primer removal, sequence start. Clip it by deleting all positions
+           # before the end of the primer pattern match below. Only the first 30
+           # positions were considered.
+   
+           &lt;sequence-clip-pattern-start&gt;
+               title = 5 primer start
+               pattern-string = GCCTAACACATGCAAGTC[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 30
+           &lt;/sequence-clip-pattern-start&gt;
+   
+           # 5' primer removal, sequence end. The amplicon was shorter than the 
+           # longest read, so those reads may have a complemented copy of the 
+           # reverse primer. This step removes those, and all sequence that 
+           # follows, by matching the pattern below against the last 350 
+           # positions.
+   
+           &lt;sequence-clip-pattern-end&gt;
+               title = 3 primer reverse end
+               pattern-string = CCAGCAGCCGCGGTAAT[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 350
+           &lt;/sequence-clip-pattern-end&gt;
+   
+           # 3' primer removal, sequence start. Clip it by deleting all positions
+           # before the end of the primer pattern match below. Only the first 30
+           # positions were considered.
+   
+           &lt;sequence-clip-pattern-start&gt;
+               title = 3 primer start
+               pattern-string = ATTACCGCGGCTGCTGG[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 30
+           &lt;/sequence-clip-pattern-start&gt;
+   
+           # 3' primer removal, sequence end. The amplicon was shorter than the 
+           # longest read, so those reads may have a complemented copy of the 
+           # reverse primer. This step removes those, and all sequence that 
+           # follows, by matching the pattern below against the last 350 
+           # positions.
+   
+           &lt;sequence-clip-pattern-end&gt;
+               title = 5 primer reverse end
+               pattern-string = GACTTGCATGTGTTAGGC[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 350
+           &lt;/sequence-clip-pattern-end&gt;
+   
+           # Adapter remnant trimming. We found adapters, and parts of them, 
+           # present at both ends, and frequently repeated two or three times
+           # upstream. These four steps (see PCR.recipe) represent our best 
+           # effort to remove these.
+   
+           &lt;sequence-clip-pattern-end&gt;
+               title = Reverse adapter at end
+               pattern-string = CTGAGACTGCCAAGGCACACAGGGGATAGG[2,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 50
+           &lt;/sequence-clip-pattern-end&gt;
+   
+           &lt;sequence-clip-pattern-end&gt;
+               title = Reverse adapter fragment
+               pattern-string = AAGGCACACAGGGGAT[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 50
+           &lt;/sequence-clip-pattern-end&gt;
+   
+           &lt;sequence-clip-pattern-end&gt;
+               title = Reverse adapter fragment
+               pattern-string = TGAGACTGCCAAAGGCACACA[1,1,1]
+               pattern-orient = forward
+               include-match = no
+               search-distance = 50
+           &lt;/sequence-clip-pattern-end&gt;
+   
+           # Sequence trimming, sequence end. Starting at 50 positions from 
+           # the end, the similarity between the adapter sequence and the query
+           # is measured. If it is 80% or better, then then the window stops 
+           # and the sequence is cut where the match starts. If not 80% or 
+           # better, the sequence slides towards the end and past it, so there
+           # is less and less overlap. The query is cut at the first match of
+           # 80% or better. Most often this causes no bases to be cut, or just
+           # the last one (and the last one is dispensible, as following 
+           # clustering steps usually will recover it).
+   
+           &lt;sequence-trim-end&gt;
+               title = Reverse adapter end trim
+               sequence = CTGAGACTGCCAAGGCACACAGGGGATAGG
+               search-distance = 50
+               minimum-length = 1
+               minimum-strict = 80%
+           &lt;/sequence-trim-end&gt;
+           
+           # Quality trimming, sequence start. A sliding window of length 15
+           # counts the number of bases with a quality of at least 97%. If 14
+           # of 15 bases have 97% or better quality, then the window stops 
+           # and the sequence before the window is cut and the bases are 
+           # finally trimmed one by one for 97% quality.
+   
+           &lt;sequence-trim-quality-start&gt;
+               title = Start quality trim
+               window-length = 15
+               window-match = 14
+               minimum-quality = 97
+           &lt;/sequence-trim-quality-start&gt;
+   
+           # Quality trimming, sequence end. We chose a 35 long window with 
+           # rather high strictness (34 out of 35) but only 96% required, 
+           # because end qualities tail off more gradually.  
+   
+           &lt;sequence-trim-quality-end&gt;
+               title = End quality trim
+               window-length = 35
+               window-match = 34
+               minimum-quality = 96
+           &lt;/sequence-trim-quality-end&gt;
+   
+           # Filter by length, minimum 200 required,
+   
+           &lt;sequence-filter&gt;
+               title = Length filter
+               minimum-length = 200
+           &lt;/sequence-filter&gt;
+   
+           # Filter by overall quality, 90% of all positions must have at least 
+           # 95% quality,
+   
+           &lt;sequence-filter-quality&gt;
+               title = Quality filter
+               minimum-quality = 95
+               minimum-strict = 90
+           &lt;/sequence-filter-quality&gt;
+   
+       &lt;/sequence-cleaning&gt;
+   
+       # -------------------------------------------------------------------------
+       #                       SEQUENCE DEREPLICATION
+       # -------------------------------------------------------------------------
+   
+       # This just collapses multiple identical reads into one, while keeping 
+       # track of the read counts,
+   
+       &lt;sequence-dereplication&gt;
+           title = Sequence de-replication
+           keep-outputs = no
+       &lt;/sequence-dereplication&gt;
+   
+       # -------------------------------------------------------------------------
+       #                          CHIMERA FILTERING
+       # -------------------------------------------------------------------------
+   
+       # The dataset is all RDP sequences (the most sequences at submission time)
+       # that span the E. coli amplicon positions 44-534, but clustered to 99%.
+       # The 99% is arbitrary, but it eliminates two thirds of the sequences and
+       # can probably not detect chimeras below that level anyway. he minimum 
+       # score of 35 is the default, which is neither too stringent or too loose.
+       # The method is summarized in Supplementary Materials.
+   
+       &lt;sequence-chimera-filter&gt;
+           dataset-name = RDP_SSU_44-534-C99
+           title = Chimera filtering
+           word-length = 8
+           step-length = 4
+           minimum-score = 35
+           keep-outputs = no
+       &lt;/sequence-chimera-filter&gt;
+   
+       # -------------------------------------------------------------------------
+       #                              SILVA PROFILE
+       # -------------------------------------------------------------------------
+   
+       # The dataset is all Silva sequences with an assigned species name that 
+       # span the E. coli 44-535 amplicon region. Word length (see Supplementary Materials
+       # for method summary) is 8 and every sequence oligo is used (step length 
+       # is one). Positions with qualities below 93% were ignored. A minimum match
+       # of 40 oligo-percent (85-95 base-percent) was required, only the top 1% 
+       # was requested, and non-canonical bases were skipped over. Sequences were
+       # matched in both directions as we did not know their orientation. 
+   
+       &lt;sequence-similarities-simrank&gt;
+           title = Silva simrank similarities
+           input-step = sequence-chimera-filter
+           output-name = org_seqs_silva
+           dataset-name = Silva_SSU_44-534-Paper
+           match-word-length = 8
+           match-step-length = 1
+           quality-type = Sanger
+           minimum-base-quality = 93%
+           match-minimum = 40%
+           match-top-range = 1%
+           match-agct-only = yes
+           match-forward = yes
+           match-reverse = yes
+           keep-outputs = no
+       &lt;/sequence-similarities-simrank&gt;
+   
+       # The dataset is all Silva sequences with an assigned species name that 
+       # span the E. coli 44-535 amplicon region. Only similarities from sequences with 
+       # at least 180 oligos were mapped to the Silva taxonomy. The similarities
+       # used from the step above must be least 40% and only the highest of these
+       # are used (match-use-range = 0).
+   
+       &lt;organism-taxonomy-profiler&gt;
+           title = Silva taxonomy mapping
+           output-name = org_profile_silva
+           dataset-name = Silva_SSU_44-534-Paper
+           minimum-oligo-count = 180
+           match-minimum = 40%
+           match-use-range = 0%
+       &lt;/organism-taxonomy-profiler&gt;
+       
+       # Format tables, include all rows,
+   
+       &lt;organism-profile-format&gt;
+           title = Silva profile tables
+           output-name = org_profile_silva
+           taxonomy-minimum-score = 10
+           table-title-regex = (PCR)
+       &lt;/organism-profile-format&gt;
+   
+       # -------------------------------------------------------------------------
+       #                                RDP PROFILE
+       # -------------------------------------------------------------------------
+   
+       # The dataset is all RDP sequences with an assigned species name that 
+       # span the E. coli 44-535 amplicon region. Word length (see Supplementary Materials
+       # for method summary) is 8 and every sequence oligo is used (step length 
+       # is one). Positions with qualities below 93% were ignored. A minimum match
+       # of 40 oligo-percent (85-95 base-percent) was required, only the top 1% 
+       # was requested, and non-canonical bases were skipped over. Sequences were
+       # matched in both directions as we did not know their orientation. 
+   
+       &lt;sequence-similarities-simrank&gt;
+           title = RDP simrank similarities
+           input-step = sequence-chimera-filter
+           output-name = org_seqs_rdp
+           dataset-name = RDP_SSU_44-534-Paper
+           match-word-length = 8
+           match-step-length = 1
+           quality-type = Sanger
+           minimum-base-quality = 93%
+           match-minimum = 40%
+           match-top-range = 1%
+           match-agct-only = yes
+           match-forward = yes
+           match-reverse = yes
+           keep-outputs = no
+       &lt;/sequence-similarities-simrank&gt;
+   
+       # The dataset is all RDP sequences with an assigned species name that 
+       # span the 44-535 amplicon region. Only similarities from sequences with 
+       # at least 180 oligos were mapped to the RDP taxonomy. The similarities
+       # used from the step above must be least 40% and only the highest of these
+       # are used (match-use-range = 0).
+   
+       &lt;organism-taxonomy-profiler&gt;
+           title = RDP taxonomy mapping
+           output-name = org_profile_rdp
+           dataset-name = RDP_SSU_44-534-Paper
+           minimum-oligo-count = 180
+           match-minimum = 40%
+           match-use-range = 0%
+       &lt;/organism-taxonomy-profiler&gt;
+   
+       # Format tables, include all rows,
+   
+       &lt;organism-profile-format&gt;
+           title = RDP profile tables
+           output-name = org_profile_rdp
+           taxonomy-minimum-score = 10
+           table-title-regex = (PCR)
+       &lt;/organism-profile-format&gt;
+   
+   &lt;/recipe&gt;
+   
+   
+</pre>
