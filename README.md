@@ -16,6 +16,4 @@ We post here the version (0.5) that was used with the study for
 transparency reason. It is however a now outdated pre-release, 
 which is inferior to the current one. BION 0.5 is licensed by 
 the GNU General Public License version 3, but we discourage its 
-use. 
-
-Instead please get the current one, by contacting 
+use. The current one will soon be available at http://bionsoftware.com
