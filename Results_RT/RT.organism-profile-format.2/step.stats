@@ -1,0 +1,231 @@
+
+<stats>
+
+   title = RDP profile tables, sequence level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: sequence
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.sequence
+      file = Original counts	RT.subtax.sequence.html
+      file = Original counts + sums	RT.subtax.sequence.sum
+      file = Original counts + sums	RT.subtax.sequence.sum.html
+      file = Scaled counts	RT.subtax.sequence.norm
+      file = Scaled counts	RT.subtax.sequence.norm.html
+      file = Scaled counts + sums	RT.subtax.sequence.norm.sum
+      file = Scaled counts + sums	RT.subtax.sequence.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	108145
+      secs = 0
+      date = 19-DEC-2013-11:31:35
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, species level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: species
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.species
+      file = Original counts	RT.subtax.species.html
+      file = Original counts + sums	RT.subtax.species.sum
+      file = Original counts + sums	RT.subtax.species.sum.html
+      file = Scaled counts	RT.subtax.species.norm
+      file = Scaled counts	RT.subtax.species.norm.html
+      file = Scaled counts + sums	RT.subtax.species.norm.sum
+      file = Scaled counts + sums	RT.subtax.species.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	110563
+      secs = 0
+      date = 19-DEC-2013-11:31:35
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, genus level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: genus
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.genus
+      file = Original counts	RT.subtax.genus.html
+      file = Original counts + sums	RT.subtax.genus.sum
+      file = Original counts + sums	RT.subtax.genus.sum.html
+      file = Scaled counts	RT.subtax.genus.norm
+      file = Scaled counts	RT.subtax.genus.norm.html
+      file = Scaled counts + sums	RT.subtax.genus.norm.sum
+      file = Scaled counts + sums	RT.subtax.genus.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	110741
+      secs = 0
+      date = 19-DEC-2013-11:31:35
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, family level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: family
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.family
+      file = Original counts	RT.subtax.family.html
+      file = Original counts + sums	RT.subtax.family.sum
+      file = Original counts + sums	RT.subtax.family.sum.html
+      file = Scaled counts	RT.subtax.family.norm
+      file = Scaled counts	RT.subtax.family.norm.html
+      file = Scaled counts + sums	RT.subtax.family.norm.sum
+      file = Scaled counts + sums	RT.subtax.family.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	110942
+      secs = 0
+      date = 19-DEC-2013-11:31:35
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, order level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: order
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.order
+      file = Original counts	RT.subtax.order.html
+      file = Original counts + sums	RT.subtax.order.sum
+      file = Original counts + sums	RT.subtax.order.sum.html
+      file = Scaled counts	RT.subtax.order.norm
+      file = Scaled counts	RT.subtax.order.norm.html
+      file = Scaled counts + sums	RT.subtax.order.norm.sum
+      file = Scaled counts + sums	RT.subtax.order.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	110981
+      secs = 0
+      date = 19-DEC-2013-11:31:35
+      time = 0 seconds
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, class level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: class
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.class
+      file = Original counts	RT.subtax.class.html
+      file = Original counts + sums	RT.subtax.class.sum
+      file = Original counts + sums	RT.subtax.class.sum.html
+      file = Scaled counts	RT.subtax.class.norm
+      file = Scaled counts	RT.subtax.class.norm.html
+      file = Scaled counts + sums	RT.subtax.class.norm.sum
+      file = Scaled counts + sums	RT.subtax.class.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	110992
+      secs = 1
+      date = 19-DEC-2013-11:31:36
+      time = 1 second
+   </header>
+
+</stats>
+
+
+<stats>
+
+   title = RDP profile tables, phylum level
+   name = organism-profile-format
+   summary = Filters and formats a multi-sample organism taxonomy profile into a set of tables. Outputs are HTML and text tables of scores unmodified, normalized scores, scores summed across all parents, and summed normalized tables. The input profile can be filtered by OTU name expressions, taxonomy level, row score sums and minimum score values. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input profile	RT.profile
+      <menu>
+         title = Parameters
+         item = Taxonomy levels shown: phylum
+         item = Minimum row score: 10
+         item = Column name filter: None
+         item = Column totals: 100000
+      </menu>
+      file = Original counts	RT.subtax.phylum
+      file = Original counts	RT.subtax.phylum.html
+      file = Original counts + sums	RT.subtax.phylum.sum
+      file = Original counts + sums	RT.subtax.phylum.sum.html
+      file = Scaled counts	RT.subtax.phylum.norm
+      file = Scaled counts	RT.subtax.phylum.norm.html
+      file = Scaled counts + sums	RT.subtax.phylum.norm.sum
+      file = Scaled counts + sums	RT.subtax.phylum.norm.sum.html
+      hrow = Input reads total	225023
+      hrow = Mapped reads total	111000
+      secs = 0
+      date = 19-DEC-2013-11:31:36
+      time = 0 seconds
+   </header>
+
+</stats>
+

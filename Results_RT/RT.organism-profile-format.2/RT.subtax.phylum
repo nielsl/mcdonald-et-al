@@ -1,0 +1,17 @@
+# RT	Taxonomic groups
+# 112470	Input reads with no similarities
+# 225023	Input read totals
+# 111000	Score sums for mapped reads
+3490	d__Bacteria; p__Actinobacteria
+25109	d__Bacteria; p__Bacteroidetes
+270	d__Bacteria; p__Chloroflexi
+33	d__Bacteria; p__Elusimicrobia
+9938	d__Bacteria; p__Firmicutes
+422	d__Bacteria; p__Fusobacteria
+56496	d__Bacteria; p__Proteobacteria
+1306	d__Bacteria; p__SR1
+9472	d__Bacteria; p__Spirochaetes
+836	d__Bacteria; p__Synergistetes
+404	d__Bacteria; p__TM7
+344	d__Bacteria; p__Tenericutes
+2880	d__Bacteria; p__Unclassified

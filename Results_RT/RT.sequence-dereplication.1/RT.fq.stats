@@ -1,0 +1,25 @@
+
+<stats>
+
+   title = Sequence de-replication
+   name = sequence-dereplication
+   summary = Uniqifies identical sequences and their qualities (if any). The best quality is kept for each position in the identical sequences. It is used as a fast and crude pre-clustering step that often greatly saves computer resources. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input file	RT.fq.clean
+      file = Output file	RT.fq.uniq
+      date = 19-DEC-2013-10:47:12
+      secs = 9.91494393348694
+      time = 9 seconds
+   </header>
+
+   <table>
+      title = De-replication counts by file
+      trow = Input	225340		
+      trow = Output	221290	-4050	-1.8
+      type = table
+      colh = 	Seqs	&Delta;	&Delta; %
+   </table>
+
+</stats>
+

@@ -1,0 +1,582 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>RT vs Silva and RDP</title>
+
+<style>
+
+/*
+   ----------------------------------------------------------------------------
+   General settings
+   ----------------------------------------------------------------------------
+*/
+
+body {
+    margin: 0em;
+    background-color: #cccccc;
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+#content {
+  background-color: #cccccc;
+  font-size: 1.1em;
+  padding: 1em 2em 1em 2em;
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    text-align: left;
+    color: #444444;
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+h1 { font-size: 1.4em; font-size: 170%; margin-top: 0px; font-variant: small-caps; }
+h2 { font-size: 1.25em; font-size: 140%; margin-top: 0px; }
+h3 { font-size: 1.2em; font-size: 120%; }
+h4 { font-size: 1.1em; font-size: 100%; }
+h5 { font-variant: small-caps; }
+h6 { font-style: italic; }
+
+h1 {
+    color: #333333;
+}
+
+li {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
+p {
+    font-family: "MS sans serif", "Gills Sans", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+    margin-left: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #000000;
+    text-align: left;
+}
+
+a:visited { color: #000000 }  /* visited link */
+a:hover { color: #000000 }    /* mouse over link */
+a:active { color: #003366 }   /* selected link */
+
+a:link {
+    color: #0000dd;
+    text-align: left;
+    text-decoration: none;
+/*    padding-right: 0.5em;  */
+}
+
+.title {
+    font-size: 150%;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    color: #444444;
+}
+
+.menu {
+    width: 100%;
+    white-space: nowrap;
+}
+
+select {
+    font-family: Verdana, "Bitstream Vera Sans", Sans-serif;
+    font-size: 1em;
+    text-align: left;
+    height: 100%;
+}
+
+tr {
+    height: 1.3em;
+}
+
+td, th {
+    white-space: nowrap;
+}    
+
+th {
+    font-weight: normal;
+}
+    
+/*
+   ----------------------------------------------------------------------------
+   Header and footer
+   ----------------------------------------------------------------------------
+*/
+
+.hdr_bar_green, .ftr_bar_green {
+    width: 100%;
+    float: right;
+    color: #ffffff;
+    background-color: #206060;
+    border-color: #308080 #004040 #004040 #308080;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_purple, .ftr_bar_purple {
+    width: 100%;
+    color: #ffffff;
+    background-color: #382260;
+    border-color: #685590 #000033 #000033 #685590;
+    border-style: solid;
+    border-width: 0.2em;
+    white-space: nowrap;
+}
+
+.hdr_bar_green, .hdr_bar_purple {
+    height: 3em;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.hdr_bar_nav {
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 0.15em 0.25em 0.15em 0.25em;
+    white-space: nowrap;
+    height: 1.2em;
+    width: 100%;
+}
+
+.ftr_bar_green, .ftr_bar_purple {
+    height: 1.3em;
+    width: 100%;
+    margin-top: 3em;
+    position: fixed;
+    bottom: 0;
+}
+
+.ftr_bar_green a:link, .ftr_bar_purple a:link {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+   ----------------------------------------------------------------------------
+    Message panels
+   ----------------------------------------------------------------------------
+*/
+
+.warning_panel, .status_panel, .info_panel {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 2em;
+    padding-bottom: 3em;
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 95%;
+}
+
+.error_panel, .error_message, .login_error_message {
+    background-color: BlanchedAlmond;
+    border-color: LightSalmon;
+}
+
+.warning_message {
+    background-color: LemonChiffon;
+    border-color: Gold;
+}
+
+.sponsor_message {
+    background-color: #dddddd;
+    border-color: #999999;
+}
+
+.info_panel, .info_message {
+    background-color: LightGrey;
+    border-color: RoyalBlue;
+}
+
+.special_message {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: #eeeecc;
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    border-color: #999999;
+}
+
+.error_message, .warning_message, .info_message, .done_message, .todo_message,
+.sponsor_message {
+    border-radius: 0.7em;
+    border-width: 0.2em;
+    border-style: solid;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    padding-left: 1.6em;
+    padding-right: 1.6em;
+    margin-top: 0.6em;
+    margin-right: 2em;
+    white-space: normal;
+    width: 95%;
+}
+
+.done_message {
+    background-color: #e6eee6;
+    border-color: SeaGreen;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Standard table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.std_col_title, .std_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.std_col_title
+{
+    color: #ffffff;
+    background-color: DimGray;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    height: 1.8em;
+    min-width: 2em;
+}
+
+.std_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.std_cell, .std_cell_left, .std_cell_right
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    white-space: nowrap;
+    min-width: 1.5em;
+    height: 1.3em;
+}
+
+.std_cell, .std_cell_left, .std_cell_right {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.std_cell_left {
+    text-align: left;
+}
+
+.std_cell_right {
+    text-align: right;
+}
+
+.std_form_text {
+    color: #333333;
+    background-color: #cccccc;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-align: left;
+}
+
+.std_form_key {
+    color: #ffffff;
+    border: 1px solid;
+    border-color: #aaaaaa #333333 #333333 #aaaaaa;
+    background-color: DimGrey;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    text-align: right;
+    width: 7em;
+    height: 1.3em;
+}
+
+.std_form_input {
+    background-color: #eeeddd;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+    height: 100%;
+    margin-left: 0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+
+/* 
+   ----------------------------------------------------------------------------
+   Patterns 
+   ----------------------------------------------------------------------------
+*/
+  
+.bg_yellow {
+    color: #333333;
+    background-color: #ffff00;
+    // font-weight: bold;
+}
+
+.bg_grey {
+    color: #eeeeee;
+    background-color: #4e4e4e;
+}
+
+/*
+   ----------------------------------------------------------------------------
+   Taxonomy table outputs
+   ----------------------------------------------------------------------------
+*/
+
+.tax_col_title, .tax_row_title
+{
+    border: 1px solid;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tax_col_title
+{
+    color: #ffffff;
+    background-color: #555555;
+    border-color: #aaaaaa #000000 #000000 #aaaaaa;
+    height: 1.8em;
+}
+
+.tax_row_title
+{
+    color: #ffffff;
+    background-color: #888888;
+    border-color: #aaaaaa #777777 #777777 #aaaaaa;
+    text-align: right;
+}
+
+.tax_cell_name
+{
+    color: #000000;
+    background-color: #dddddd;
+    border-color: #ffffff #999999 #999999 #ffffff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+
+.mis_cell {
+    color: #ffffff;
+    background-color: #557755;
+    border-color: #999999 #333333 #333333 #999999;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.seq_cell {
+    color: #ffffff;
+    background-color: SeaGreen;
+    border-color: MediumSeaGreen DarkGreen DarkGreen MediumSeaGreen;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tot_cell {
+    color: #000000;
+    background-color: LightGreen;
+    border-color: #ddffdd MediumSeaGreen MediumSeaGreen #ddffdd;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell {
+    color: #000000;
+    background-color: #cccccc;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+    font-weight: normal;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.0em;
+    padding-bottom: 0.0em;
+    white-space: nowrap;
+    height: 1.3em;
+}
+    
+.tax_cell_left {
+    text-align: left;
+}
+
+.tax_cell_right {
+    text-align: right;
+}
+
+
+</style>
+
+<script type="text/javascript" src="jquery-latest.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.tablesorter.min.js"></script> 
+<script type="text/javascript" src="tablesorter-master/js/jquery.metadata.js"></script> 
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+$(function() 
+    { 
+        $("#TaxonomyTable").tablesorter({
+
+               sortInitialOrder: "desc"
+
+         }); 
+    } 
+); 
+
+</script>
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
+   <table class="hdr_bar_green">
+   <tr><td style="text-align: left">RT vs Silva and RDP</td><td style="text-align: right; font-size: 90%">BION-meta</td></tr>
+   </table>
+</td></tr>
+<tr><td>
+   <table class="hdr_bar_nav">
+   <tr>
+       <td style="border-right-width: 0px; padding-left: 1.4em; text-align: left">
+          BION Software by <a href="http://genomics.dk">genomics.dk</a></td>
+       <td style="border-left-width: 0px; padding-right: 1.6em; text-align: right">
+          Pure Web 1.0
+       </td>
+   </tr>
+   </table>
+</td></tr>
+</table>
+<table cellpadding="0" cellspacing="20" style="margin-bottom: 3em">
+
+<tr><td>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0.8em">
+<tr><td><h1>Sequence cleaning</h1></td></tr>
+<tr><td width="95%"><div class="done_message">Cleans, filters and trims sequences in various ways. Ends can be trimmed by complete or partial sequence match, pattern match and quality match. They can be filtered by overall quality and length, and sub-sequences extracted. See under "steps" in the table below for more detailed statistics for each sample. Proper method documentation will be written and linked to here.</div></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+   <tr>
+   <td align="right" class="std_form_key">Input file&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RT.fq.gz&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Output file&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">RT.fq.clean&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Total input reads&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">257,043&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Total output reads&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">225,340 (-12.3%)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Total input bases&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">139,414,914&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Total output bases&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">91,368,409 (-34.5%)&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Finished&nbsp;&raquo;</td>
+   <td align="left" class="std_cell">19-DEC-2013-10:47:01&nbsp;</td>
+   </tr>
+   <tr>
+   <td align="right" class="std_form_key">Run time&nbsp;&raquo;</td>
+   <td align="left" class="std_cell_left">1 minute and 39 seconds&nbsp;</td>
+   </tr>
+</table></td></tr>
+<tr><td><table cellspacing="0" cellpadding="0" style="margin-top: 1.5em">
+<tr><td class="title">Stepwise sequence and reads statistics</td></tr>
+   <tr><td>
+<table cellspacing="0" cellpadding="0">
+<tr><td class="std_col_title">Method</td><td class="std_col_title">In-reads</td><td class="std_col_title">Out-reads</td><td class="std_col_title">&Delta;</td><td class="std_col_title">&Delta; %</td><td class="std_col_title">In-bases</td><td class="std_col_title">Out-bases</td><td class="std_col_title">&Delta;</td><td class="std_col_title">&Delta; %</td></tr>
+<tr><td class="std_cell_right">Start adapter clip 1!</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td></tr>
+<tr><td class="std_cell_right">Start adapter clip 2</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td></tr>
+<tr><td class="std_cell_right">Start adapter clip 3</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td></tr>
+<tr><td class="std_cell_right">Start quality trim</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #FFFFFF">139,414,914</td><td class="std_cell_right" style="background-color: #FFFFFF">139,409,648</td><td class="std_cell_right" style="background-color: #CFCFCF">-5,266</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td></tr>
+<tr><td class="std_cell_right">End quality trim</td><td class="std_cell_right" style="background-color: #FFFFFF">257,043</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #CFCFCF">-2</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td><td class="std_cell_right" style="background-color: #FFFFFF">139,409,648</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #FFFFFF">-33,885,984</td><td class="std_cell_right" style="background-color: #FDFDFD">-24.3</td></tr>
+<tr><td class="std_cell_right">End adapter clip 1</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td></tr>
+<tr><td class="std_cell_right">End adapter clip 2</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td></tr>
+<tr><td class="std_cell_right">End adapter clip 3</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td></tr>
+<tr><td class="std_cell_right">End quality trim</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,664</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,650</td><td class="std_cell_right" style="background-color: #CFCFCF">-14</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td></tr>
+<tr><td class="std_cell_right">End sequence trim</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #CFCFCF"></td><td class="std_cell_right" style="background-color: #CFCFCF">0.00</td><td class="std_cell_right" style="background-color: #DDDDDD">105,523,650</td><td class="std_cell_right" style="background-color: #DBDBDB">103,910,068</td><td class="std_cell_right" style="background-color: #D0D0D0">-1,613,582</td><td class="std_cell_right" style="background-color: #D1D1D1">-1.5</td></tr>
+<tr><td class="std_cell_right">Length filter</td><td class="std_cell_right" style="background-color: #FFFFFF">257,041</td><td class="std_cell_right" style="background-color: #F9F9F9">253,190</td><td class="std_cell_right" style="background-color: #D5D5D5">-3,851</td><td class="std_cell_right" style="background-color: #D4D4D4">-1.5</td><td class="std_cell_right" style="background-color: #DBDBDB">103,910,068</td><td class="std_cell_right" style="background-color: #DADADA">103,324,132</td><td class="std_cell_right" style="background-color: #CFCFCF">-585,936</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.6</td></tr>
+<tr><td class="std_cell_right">Quality filter</td><td class="std_cell_right" style="background-color: #F9F9F9">253,190</td><td class="std_cell_right" style="background-color: #CFCFCF">225,355</td><td class="std_cell_right" style="background-color: #FFFFFF">-27,835</td><td class="std_cell_right" style="background-color: #FBFBFB">-11.0</td><td class="std_cell_right" style="background-color: #DADADA">103,324,132</td><td class="std_cell_right" style="background-color: #CFCFCF">91,375,187</td><td class="std_cell_right" style="background-color: #DFDFDF">-11,948,945</td><td class="std_cell_right" style="background-color: #E4E4E4">-11.6</td></tr>
+<tr><td class="std_cell_right">3-repeat filter</td><td class="std_cell_right" style="background-color: #CFCFCF">225,355</td><td class="std_cell_right" style="background-color: #CFCFCF">225,349</td><td class="std_cell_right" style="background-color: #CFCFCF">-6</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td><td class="std_cell_right" style="background-color: #CFCFCF">91,375,187</td><td class="std_cell_right" style="background-color: #CFCFCF">91,372,499</td><td class="std_cell_right" style="background-color: #CFCFCF">-2,688</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td></tr>
+<tr><td class="std_cell_right">4-repeat filter</td><td class="std_cell_right" style="background-color: #CFCFCF">225,349</td><td class="std_cell_right" style="background-color: #CFCFCF">225,340</td><td class="std_cell_right" style="background-color: #CFCFCF">-9</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td><td class="std_cell_right" style="background-color: #CFCFCF">91,372,499</td><td class="std_cell_right" style="background-color: #CFCFCF">91,368,409</td><td class="std_cell_right" style="background-color: #CFCFCF">-4,090</td><td class="std_cell_right" style="background-color: #CFCFCF">-0.0</td></tr>
+</table>
+   </td></tr>
+</table></td></tr>
+</table>
+
+</td></tr>
+</table>
+

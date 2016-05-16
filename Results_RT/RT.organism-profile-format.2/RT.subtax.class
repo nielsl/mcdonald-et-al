@@ -1,0 +1,27 @@
+# RT	Taxonomic groups
+# 112470	Input reads with no similarities
+# 225023	Input read totals
+# 110992	Score sums for mapped reads
+3490	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+18131	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+6426	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+551	d__Bacteria; p__Bacteroidetes; c__Unclassified
+270	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+33	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+546	d__Bacteria; p__Firmicutes; c__Bacilli
+9158	d__Bacteria; p__Firmicutes; c__Clostridia
+111	d__Bacteria; p__Firmicutes; c__Negativicutes
+116	d__Bacteria; p__Firmicutes; c__Unclassified
+422	d__Bacteria; p__Fusobacteria; c__Fusobacteria
+11	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+20025	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+1600	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+3947	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+30860	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+53	d__Bacteria; p__Proteobacteria; c__Unclassified
+1306	d__Bacteria; p__SR1; c__SR1_genera
+9472	d__Bacteria; p__Spirochaetes; c__Spirochaetes
+836	d__Bacteria; p__Synergistetes; c__Synergistia
+404	d__Bacteria; p__TM7; c__TM7_genera
+344	d__Bacteria; p__Tenericutes; c__Mollicutes
+2880	d__Bacteria; p__Unclassified; c__Unclassified

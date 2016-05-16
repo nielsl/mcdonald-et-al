@@ -1,0 +1,41 @@
+
+<stats>
+
+   title = Sequence cleaning
+   name = sequence-cleaning.1
+   summary = Cleans, filters and trims sequences in various ways. Ends can be trimmed by complete or partial sequence match, pattern match and quality match. They can be filtered by overall quality and length, and sub-sequences extracted. See under "steps" in the table below for more detailed statistics for each sample. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input file	RT.fq.gz
+      file = Output file	RT.fq.clean
+      hrow = Total input reads	257043
+      hrow = Total output reads	225340 (-12.3%)
+      hrow = Total input bases	139414914
+      hrow = Total output bases	91368409 (-34.5%)
+      date = 19-DEC-2013-10:47:01
+      secs = 99.4980800151825
+      time = 1 minute and 39 seconds
+   </header>
+
+   <table>
+      colh = Method	In-reads	Out-reads	&Delta;	&Delta; %	In-bases	Out-bases	&Delta;	&Delta; %
+      type = table
+      trow = Start adapter clip 1!	257043	257043	0	0.0	139414914	139414914	0	0.0
+      trow = Start adapter clip 2	257043	257043	0	0.0	139414914	139414914	0	0.0
+      trow = Start adapter clip 3	257043	257043	0	0.0	139414914	139414914	0	0.0
+      trow = Start quality trim	257043	257043	0	0.0	139414914	139409648	-5266	-0.0
+      trow = End quality trim	257043	257041	-2	-0.0	139409648	105523664	-33885984	-24.3
+      trow = End adapter clip 1	257041	257041	0	0.0	105523664	105523664	0	0.0
+      trow = End adapter clip 2	257041	257041	0	0.0	105523664	105523664	0	0.0
+      trow = End adapter clip 3	257041	257041	0	0.0	105523664	105523664	0	0.0
+      trow = End quality trim	257041	257041	0	0.0	105523664	105523650	-14	-0.0
+      trow = End sequence trim	257041	257041	0	0.0	105523650	103910068	-1613582	-1.5
+      trow = Length filter	257041	253190	-3851	-1.5	103910068	103324132	-585936	-0.6
+      trow = Quality filter	253190	225355	-27835	-11.0	103324132	91375187	-11948945	-11.6
+      trow = 3-repeat filter	225355	225349	-6	-0.0	91375187	91372499	-2688	-0.0
+      trow = 4-repeat filter	225349	225340	-9	-0.0	91372499	91368409	-4090	-0.0
+      title = Stepwise sequence and reads statistics
+   </table>
+
+</stats>
+

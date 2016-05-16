@@ -1,0 +1,54 @@
+# RT	Taxonomic groups
+# 112013	Input reads with no similarities
+# 225023	Input read totals
+# 299976	Score sums for mapped reads
+99549	d__Bacteria
+3572	d__Bacteria; p__Actinobacteria
+3260	d__Bacteria; p__Actinobacteria; c__Actinobacteria
+311	d__Bacteria; p__Actinobacteria; c__Nitriliruptoria
+122	d__Bacteria; p__BD1-5
+122	d__Bacteria; p__BD1-5; c__Unclassified
+26129	d__Bacteria; p__Bacteroidetes
+20183	d__Bacteria; p__Bacteroidetes; c__Bacteroidia
+5454	d__Bacteria; p__Bacteroidetes; c__Flavobacteria
+491	d__Bacteria; p__Bacteroidetes; c__Sphingobacteriia
+1481	d__Bacteria; p__Candidate division SR1
+1481	d__Bacteria; p__Candidate division SR1; c__Unclassified
+446	d__Bacteria; p__Candidate division TM7
+446	d__Bacteria; p__Candidate division TM7; c__Unclassified
+14	d__Bacteria; p__Candidate division WS6
+14	d__Bacteria; p__Candidate division WS6; c__Unclassified
+2963	d__Bacteria; p__Chlorobi
+2963	d__Bacteria; p__Chlorobi; c__Chlorobia
+326	d__Bacteria; p__Chloroflexi
+326	d__Bacteria; p__Chloroflexi; c__Anaerolineae
+52	d__Bacteria; p__Cyanobacteria
+33	d__Bacteria; p__Cyanobacteria; c__ML635J-21
+18	d__Bacteria; p__Cyanobacteria; c__SHA-109
+53	d__Bacteria; p__Elusimicrobia
+53	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia
+10776	d__Bacteria; p__Firmicutes
+480	d__Bacteria; p__Firmicutes; c__Bacilli
+9912	d__Bacteria; p__Firmicutes; c__Clostridia
+14	d__Bacteria; p__Firmicutes; c__Erysipelotrichi
+223	d__Bacteria; p__Firmicutes; c__Erysipelotrichia
+145	d__Bacteria; p__Firmicutes; c__Negativicutes
+502	d__Bacteria; p__Fusobacteria
+502	d__Bacteria; p__Fusobacteria; c__Fusobacteriia
+41443	d__Bacteria; p__Proteobacteria
+58	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria
+18783	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria
+1962	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria
+4663	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria
+15975	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria
+10265	d__Bacteria; p__Spirochaetae
+10265	d__Bacteria; p__Spirochaetae; c__Spirochaetes
+940	d__Bacteria; p__Synergistetes
+940	d__Bacteria; p__Synergistetes; c__Synergistia
+458	d__Bacteria; p__Tenericutes
+458	d__Bacteria; p__Tenericutes; c__Mollicutes
+450	d__Eukaryota
+47	d__Eukaryota; p__Metazoa
+47	d__Eukaryota; p__Metazoa; c__Mammalia
+403	d__Eukaryota; p__Parabasalia
+403	d__Eukaryota; p__Parabasalia; c__Trichomonadea

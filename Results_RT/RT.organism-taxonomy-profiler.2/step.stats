@@ -1,0 +1,41 @@
+
+<stats>
+
+   title = RDP taxonomy mapping
+   name = organism-profile-mapper
+   summary = Maps similarities onto a reference organism taxonomy and creates a binary profile. Similarities can be filtered by oligo-totals (=~ sequence length), by minimum value, by top range and a weighting option controls how to treat less good matches relative to the best ones. Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Input merged sequences	RT.sims.seqs
+      file = Input sequence similarities	RT.sims
+      file = Input reference taxonomy	RDP_SSU_all.tax.table.dbm
+      <menu>
+         title = Parameters
+         item = Mapping method: branch_tree
+         item = Unclassified sisters: no
+         item = Minimum oligo total: 180
+         item = Minimum similarity: 40%
+         item = Top matches used: 0%
+         item = Match weight factor: 1
+         item = Maximum ambiguity: 1
+      </menu>
+      file = Binary output profile	RT.profile
+      date = 19-DEC-2013-11:31:34
+      secs = 20
+      time = 20 seconds
+   </header>
+
+   <table>
+      title = Profiling totals
+      trow = Input reads total	225023	100.0
+      trow = No similarities total	112470	50.0
+      trow = Low similarities total	0	0.0
+      trow = Short sequences total	32	0.0
+      trow = Ambiguous mappings total	0	0.0
+      trow = Profiled reads total	112521	50.0
+      type = table
+      colh = 	Reads	%
+   </table>
+
+</stats>
+

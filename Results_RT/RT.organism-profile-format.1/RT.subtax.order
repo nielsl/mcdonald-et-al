@@ -1,0 +1,50 @@
+# RT	Taxonomic groups
+# 112013	Input reads with no similarities
+# 225023	Input read totals
+# 82570	Score sums for mapped reads
+1186	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Actinomycetales
+970	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Corynebacteriales
+374	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Micrococcales
+155	d__Bacteria; p__Actinobacteria; c__Actinobacteria; o__Propionibacteriales
+257	d__Bacteria; p__Actinobacteria; c__Nitriliruptoria; o__Euzebyales
+101	d__Bacteria; p__BD1-5; c__Unclassified; o__Unclassified
+16674	d__Bacteria; p__Bacteroidetes; c__Bacteroidia; o__Bacteroidales
+4506	d__Bacteria; p__Bacteroidetes; c__Flavobacteria; o__Flavobacteriales
+406	d__Bacteria; p__Bacteroidetes; c__Sphingobacteriia; o__Sphingobacteriales
+1224	d__Bacteria; p__Candidate division SR1; c__Unclassified; o__Unclassified
+369	d__Bacteria; p__Candidate division TM7; c__Unclassified; o__Unclassified
+12	d__Bacteria; p__Candidate division WS6; c__Unclassified; o__Unclassified
+2448	d__Bacteria; p__Chlorobi; c__Chlorobia; o__Chlorobiales
+270	d__Bacteria; p__Chloroflexi; c__Anaerolineae; o__Anaerolineales
+28	d__Bacteria; p__Cyanobacteria; c__ML635J-21; o__Unclassified
+15	d__Bacteria; p__Cyanobacteria; c__SHA-109; o__Unclassified
+41	d__Bacteria; p__Elusimicrobia; c__Elusimicrobia; o__Lineage I (Endomicrobia)
+390	d__Bacteria; p__Firmicutes; c__Bacilli; o__Lactobacillales
+8189	d__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales
+12	d__Bacteria; p__Firmicutes; c__Erysipelotrichi; o__Erysipelotrichales
+185	d__Bacteria; p__Firmicutes; c__Erysipelotrichia; o__Erysipelotrichales
+120	d__Bacteria; p__Firmicutes; c__Negativicutes; o__Selenomonadales
+415	d__Bacteria; p__Fusobacteria; c__Fusobacteriia; o__Fusobacteriales
+32	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rhodospirillales
+13	d__Bacteria; p__Proteobacteria; c__Alphaproteobacteria; o__Rickettsiales
+12047	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Burkholderiales
+3293	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Neisseriales
+171	d__Bacteria; p__Proteobacteria; c__Betaproteobacteria; o__Rhodocyclales
+167	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Bdellovibrionales
+14	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfobacterales
+1029	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfovibrionales
+278	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Desulfuromonadales
+130	d__Bacteria; p__Proteobacteria; c__Deltaproteobacteria; o__Myxococcales
+3853	d__Bacteria; p__Proteobacteria; c__Epsilonproteobacteria; o__Campylobacterales
+722	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Cardiobacteriales
+101	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Enterobacteriales
+802	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pasteurellales
+10367	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Pseudomonadales
+1203	d__Bacteria; p__Proteobacteria; c__Gammaproteobacteria; o__Xanthomonadales
+8481	d__Bacteria; p__Spirochaetae; c__Spirochaetes; o__Spirochaetales
+777	d__Bacteria; p__Synergistetes; c__Synergistia; o__Synergistales
+330	d__Bacteria; p__Tenericutes; c__Mollicutes; o__Acholeplasmatales
+47	d__Bacteria; p__Tenericutes; c__Mollicutes; o__RF9
+12	d__Eukaryota; p__Metazoa; c__Mammalia; o__Cetacea
+21	d__Eukaryota; p__Metazoa; c__Mammalia; o__Rodentia
+333	d__Eukaryota; p__Parabasalia; c__Trichomonadea; o__Trichomonadida

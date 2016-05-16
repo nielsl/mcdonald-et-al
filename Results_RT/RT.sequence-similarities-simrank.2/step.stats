@@ -1,0 +1,40 @@
+
+<stats>
+
+   title = RDP simrank similarities
+   name = organism-profile-similarities
+   summary = Creates similarities between query sequences and a reference dataset. To measure similarity between sequences A and B, each are converted to a list of unique "words" (or "k-mers") that are short sub-sequences of a fixed length in the 6-15 range. The similarity is then simply the number of common words divided by the smallest set of words in either. This ratio is then multiplied by 100 to become a percentage. The method is reasonably fast (much faster than blast), and can use all available CPU's and cores. It will return the best similarities even if they are poor and will skip poor quality bases in the query sequence (no other program can do this, yet it clearly improves the final analysis). Proper method documentation will be written and linked to here.
+
+   <header>
+      file = Reference dataset	RDP_SSU_minlen_1250-Paper.rna_seq.fasta
+      file = Similarities table	RT.sims
+      file = Non-match sequences	RT.miss
+      hrow = Input total	220980
+      hrow = Match total	110400 (49.96%)
+      hrow = Non-match total	110580 (50.04%)
+      <menu>
+         title = Parameters
+         item = Forward matching: yes
+         item = Reverse matching: yes
+         item = Minimum similarity: 40%
+         item = Oligo word length: 8
+         item = Oligo step length: 1
+         item = Base quality encoding: Sanger
+         item = Minimum base quality: 93%
+         item = Skip ambiguous bases: yes
+         item = Top matches range: 1%
+      </menu>
+      date = 19-DEC-2013-11:31:13
+      secs = 1250
+      time = 20 minutes and 50 seconds
+   </header>
+
+   <table>
+      colh = Target group	Reads	Matches	Misses	Miss %
+      type = table
+      title = Similarity match/mismatch statistics
+      trow = file=RT.nochim	220980	110400	110580	50.04
+   </table>
+
+</stats>
+

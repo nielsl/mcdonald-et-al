@@ -1,0 +1,1 @@
+19-DEC-2013-11:31:34	org_profile_format Results/RT.organism-taxonomy-profiler.2/RT.profile --oname Results/RT.organism-profile-format.2/RT.subtax --stats Results/RT.organism-profile-format.2/step.stats --recipe Results/RT.organism-profile-format.2/logs/organism-profile-format.2.recipe --clobber --silent

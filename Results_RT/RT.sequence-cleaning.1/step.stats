@@ -1,0 +1,25 @@
+
+<stats>
+
+   title = Sequence cleaning
+   summary = Cleans, filters and trims sequences in various ways. Ends can be trimmed by complete or partial sequence match, pattern match and quality match. They can be filtered by overall quality and length, and sub-sequences extracted. See under "steps" in the table below for more detailed statistics for each sample. Proper method documentation will be written and linked to here.
+
+   <header>
+      hrow = Total input reads	257043
+      hrow = Total output reads	225340 (-12.3%)
+      hrow = Total input bases	139414914
+      hrow = Total output bases	91368409 (-34.5%)
+      date = 19-DEC-2013-10:47:01
+      secs = 99.4980800151825
+      time = 1 minute and 39 seconds
+   </header>
+
+   <table>
+      colh = Output files	In-reads	Out-reads	&Delta; %	In-bases	Out-bases	&Delta; %	Steps
+      type = table
+      title = Stepwise sequence and reads statistics
+      trow = file=RT.fq.clean	257043	225340	-12.3	139414914	91368409	-34.5	html=Steps:RT.fq.stats.html
+   </table>
+
+</stats>
+
