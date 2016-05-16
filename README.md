@@ -27,6 +27,7 @@ The path to side-by-side comparison of PCR and RT species are,
 * Results_PCR+RT/Silva/PCR+RT.species   
 * Results_PCR+RT/Silva/PCR+RT.species.html 
 
-There are also counts for the pre-processing steps, see the .stats
-or .stats.html files in each folder. 
+Similar outputs are included for sequence, genus, family, order, 
+class and phylum levels. There are counts for the pre-processing 
+steps, see the .stats or .stats.html files in each folder. 
 
